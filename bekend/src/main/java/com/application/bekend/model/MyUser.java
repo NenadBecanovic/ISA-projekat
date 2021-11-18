@@ -1,6 +1,8 @@
 package com.application.bekend.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class MyUser {
@@ -18,6 +20,37 @@ public class MyUser {
     private String password;
     @Column(name = "username", nullable = false, unique = true)
     private String username;
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Boat> boats = new HashSet<Boat>();
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<House> houses = new HashSet<House>();
+    @OneToMany(mappedBy = "instructor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<FishingAdventure> fishingAdventures = new HashSet<FishingAdventure>();
+
+    @ManyToMany
+    @JoinTable(name = "house_reservations", joinColumns = @JoinColumn(name = "guest_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "house_reservation_id", referencedColumnName = "id"))
+    private Set<HouseReservation> houseReservations = new HashSet<HouseReservation>();
+
+    @ManyToMany
+    @JoinTable(name = "boat_reservations", joinColumns = @JoinColumn(name = "guest_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "boat_reservation_id", referencedColumnName = "id"))
+    private Set<BoatReservation> boatReservations = new HashSet<BoatReservation>();
+
+    @ManyToMany
+    @JoinTable(name = "fishing_reservations", joinColumns = @JoinColumn(name = "guest_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "fishing_reservation_id", referencedColumnName = "id"))
+    private Set<AdventureReservation> adventureReservations = new HashSet<AdventureReservation>();
+
+
+
+
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "address_id")
+    private Address address;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "authority_id")
+    private Authority authority;
+
 
     public MyUser(Long id, String firstName, String lastName, String email, String password, String username) {
         this.id = id;
@@ -77,5 +110,13 @@ public class MyUser {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Authority getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(Authority authority) {
+        this.authority = authority;
     }
 }
