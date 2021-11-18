@@ -1,0 +1,26 @@
+<body>
+
+
+<div class="center" style="border-color: #2691d9" >
+  <h1>Login</h1>
+  <form  #loginForm = "ngForm" (ngSubmit)="loginUser()">
+    <div class="txt_field">
+      <input type="email" class="form-control"   name="email"  [(ngModel)]="authUser.email" required #email = "ngModel"
+             [class.is-invalid]="email.invalid && email.touched">
+      <span></span>
+      <label>Email</label>
+    </div>
+    <div class="txt_field">
+      <input type="password" class="form-control"   name="current-password" autocomplete="on" [(ngModel)]="authUser.password" required
+             #password = "ngModel" [class.is-invalid]="password.invalid && password.touched">
+      <span></span>
+      <label>Password</label>
+    </div>
+    <div class="pass">Forgot Password?</div>
+    <input type="submit" value="Login"  (ngSubmit)="loginUser()">
+    <div class="signup_link">
+      Not a member? <a href="#">Signup</a>
+    </div>
+  </form>
+</div>
+</body>

@@ -1,5 +1,6 @@
 package com.application.bekend.service;
 
+import com.application.bekend.DTO.AuthUserDTO;
 import com.application.bekend.model.MyUser;
 import com.application.bekend.repository.MyUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,5 +14,9 @@ public class MyUserService {
 
     public MyUser registerNewUser(MyUser myUser) {
         return myUserRepository.save(myUser);
+    }
+
+    public MyUser loginUser(String username , String password){
+        return myUserRepository.findMyUserByEmailAndPassword(username, password);
     }
 }
