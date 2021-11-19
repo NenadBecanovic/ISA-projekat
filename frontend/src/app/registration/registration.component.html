@@ -1,21 +1,56 @@
 <body>
-<div class="center" style="border-color: #2691d9" >
-  <h1>Login</h1>
-  <form  #loginForm = "ngForm">
-    <div class="txt_field">
-      <input type="email" class="form-control"   name="email">
-      <span></span>
-      <label>Email</label>
+<div class = "container">
+  <div class = "title"> Registration</div>
+  <form  #registrationForm = "ngForm" (ngSubmit)="registerUser()">
+    <div class = "user-details">
+      <div class = "input-box">
+        <span class="details">First name</span>
+        <input type="text" name="firstName" [(ngModel)]="user.firstName" placeholder="Enter your name"   required>
+      </div>
+      <div class = "input-box">
+        <span class="details">Surname</span>
+        <input type="text"  name="lastName"  [(ngModel)]="user.lastName" placeholder="Enter your surname"    required>
+      </div>
+      <div class = "input-box">
+        <span class="details">Email</span>
+        <input type="text"  name="Email"  [(ngModel)]="user.email" placeholder="Enter your email"  required>
+      </div>
+      <div class = "input-box">
+        <span class="details">Username</span>
+        <input type="text"  name="username" [(ngModel)]="user.username" placeholder="Enter your username" required>
+      </div>
+      <div class = "input-box">
+        <span class="details">Password</span>
+        <input type="password"  name="password" [(ngModel)]="user.password" placeholder="Enter your password" required>
+      </div>
+      <div class = "input-box">
+        <span class="details">Confirm password</span>
+        <input type="password"  name="conPassword" [(ngModel)]="passwordCheck" placeholder="Confirm your password" required>
+      </div>
+      <div class = "input-box">
+        <span class="details">Street</span>
+        <input type="text"  name="street"  [(ngModel)]="user.addressDTO.street" placeholder="Enter your street" required>
+      </div>
+      <div class = "input-box">
+        <span class="details">City</span>
+        <input type="text"  name="city" [(ngModel)]="user.addressDTO.city" placeholder="Enter your city" required>
+      </div>
+      <div class = "input-box">
+        <span class="details">State</span>
+        <input type="text"  name="state"  [(ngModel)]="user.addressDTO.state" placeholder="Enter your state" required>
+      </div>
+      <div class = "input-box" style="alignment: left">
+        <span class="details">Type</span>
+        <select  name="type" [(ngModel)]="user.authority" >
+          <option value="USER">USER</option>
+          <option value="saab">ADMINISTRATOR</option>
+          <option value="opel"></option>
+          <option value="audi">Audi</option>
+        </select>
+      </div>
     </div>
-    <div class="txt_field">
-      <input type="password" class="form-control"   name="current-password">
-      <span></span>
-      <label>Password</label>
-    </div>
-    <div class="pass">Forgot Password?</div>
-    <input type="submit" value="Login" >
-    <div class="signup_link">
-      Not a member? <a href="#">Signup</a>
+    <div class = "button">
+      <input type ="submit" value="Register">
     </div>
   </form>
 </div>

@@ -1,0 +1,32 @@
+import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute} from "@angular/router";
+import {AuthService} from "../service/auth.service";
+
+@Component({
+  selector: 'app-email-activation',
+  templateUrl: './email-activation.component.html',
+  styleUrls: ['./email-activation.component.css']
+})
+export class EmailActivationComponent implements OnInit {
+  emailConfirmed: Boolean = false;
+  urlParams: any ={}
+
+  constructor(private route: ActivatedRoute, private authService: AuthService) { }
+
+  ngOnInit(): void {
+    this.urlParams.token = this.route.snapshot.queryParamMap.get('token');
+    this.urlParams.userId = this.route.snapshot.queryParamMap.get('userId')
+    this.confirmEmail();
+  }
+
+  private confirmEmail() {
+    this.authService.confirmEmail(this.urlParams).subscribe(
+      ()=>{
+        this.emailConfirmed = true;
+      },
+      (error) => {
+        this.emailConfirmed = false;
+      }
+    )
+  }
+}

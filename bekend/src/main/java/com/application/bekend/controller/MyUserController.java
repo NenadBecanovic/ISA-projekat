@@ -13,27 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("api/user")
 public class MyUserController {
-    private final MyUserService myUserService;
 
-    @Autowired
-    public MyUserController(MyUserService myUserService) {
-        this.myUserService = myUserService;
-    }
 
-    @PostMapping("/register")
-    public MyUser registerNewUser(@RequestBody MyUser myUser){
-        return myUserService.registerNewUser(myUser);
-    }
-
-    @PostMapping("/login")
-    public MyUser loginUser(@RequestBody AuthUserDTO authUserDTO)
-    {
-        System.out.println(authUserDTO.toString());
-        MyUser user = myUserService.loginUser(authUserDTO.getEmail(), authUserDTO.getPassword());
-        if(user == null){
-            throw new UsernameNotFoundException("User Not found");
-        }
-        return user;
-    }
 
 }

@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {MyUser} from "../model/my-user";
+import {AuthService} from "../service/auth.service";
+import {Address} from "../model/address";
+
 
 @Component({
   selector: 'app-registration',
@@ -7,9 +11,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegistrationComponent implements OnInit {
 
-  constructor() { }
+  address: Address = new Address("","","",0,0)
+  user: MyUser = new MyUser("","","","","","",this.address);
+  passwordCheck: String = "";
+
+  constructor(private authService: AuthService) {
+
+  }
+
 
   ngOnInit(): void {
+  }
+
+
+  registerUser() {
+    console.log(this.user);
+    this.authService.register(this.user).subscribe(
+      (user:MyUser)=>{
+
+      },
+      (error) => {
+
+      }
+    )
+
   }
 
 }

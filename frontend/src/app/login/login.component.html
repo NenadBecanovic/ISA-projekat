@@ -1,7 +1,6 @@
 <body>
-
-
 <div class="center" style="border-color: #2691d9" >
+
   <h1>Login</h1>
   <form  #loginForm = "ngForm" (ngSubmit)="loginUser()">
     <div class="txt_field">
@@ -19,8 +18,10 @@
     <div class="pass">Forgot Password?</div>
     <input type="submit" value="Login"  (ngSubmit)="loginUser()">
     <div class="signup_link">
-      Not a member? <a href="#">Signup</a>
+
+      Not a member? <a href="register" (click)="goToRegisterPage()">Signup</a>
     </div>
   </form>
 </div>
 </body>
+

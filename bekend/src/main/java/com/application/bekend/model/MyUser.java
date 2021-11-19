@@ -41,8 +41,6 @@ public class MyUser {
 
 
 
-
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id")
     private Address address;
@@ -50,6 +48,10 @@ public class MyUser {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "authority_id")
     private Authority authority;
+
+
+    private Boolean isActivated;
+
 
 
     public MyUser(Long id, String firstName, String lastName, String email, String password, String username) {
@@ -112,6 +114,24 @@ public class MyUser {
         this.username = username;
     }
 
+
+   public Boolean getActivated() {
+       return isActivated;
+   }
+
+   public void setActivated(Boolean activated) {
+      isActivated = activated;
+  }
+
+   public Address getAddress() {
+       return address;
+    }
+
+   public void setAddress(Address address) {
+      this.address = address;
+    }
+
+
     public Authority getAuthority() {
         return authority;
     }
@@ -119,4 +139,5 @@ public class MyUser {
     public void setAuthority(Authority authority) {
         this.authority = authority;
     }
+
 }
