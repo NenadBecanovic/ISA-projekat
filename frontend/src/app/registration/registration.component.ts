@@ -3,6 +3,7 @@ import {MyUser} from "../model/my-user";
 import {AuthService} from "../service/auth.service";
 import {Address} from "../model/address";
 
+
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -18,8 +19,10 @@ export class RegistrationComponent implements OnInit {
 
   }
 
+
   ngOnInit(): void {
   }
+
 
   registerUser() {
     console.log(this.user);
@@ -33,4 +36,5 @@ export class RegistrationComponent implements OnInit {
     )
 
   }
+
 }

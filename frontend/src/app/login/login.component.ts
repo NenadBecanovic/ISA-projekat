@@ -4,12 +4,14 @@ import {AuthService} from "../service/auth.service";
 import {MyUser} from "../model/my-user";
 import {Router} from "@angular/router";
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+
 
   constructor(private authService: AuthService, private _router: Router) { }
 
@@ -21,11 +23,14 @@ export class LoginComponent implements OnInit {
   loginUser() {
 
     this.authService.login(this.authUser).subscribe(
+
       (user:MyUser) => {
       console.log(user)
 
       },
-      (error)=> {
+
+      error=> {
+
         console.log('error occuried');
 
       }
@@ -35,4 +40,5 @@ export class LoginComponent implements OnInit {
   goToRegisterPage() {
     this._router.navigate(['register']);
   }
+
 }

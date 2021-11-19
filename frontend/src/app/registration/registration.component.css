@@ -5,6 +5,7 @@
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
+
 body {
   display: flex;
   height: 100vh;
@@ -140,6 +141,5 @@ form .button input:hover {
   }
 
 }
-
 
 
