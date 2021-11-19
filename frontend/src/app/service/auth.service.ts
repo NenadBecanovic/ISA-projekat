@@ -11,11 +11,17 @@ export class AuthService {
 
   constructor(private _http:HttpClient) { }
 
-  private readonly userPath = 'http://localhost:8080/api/user';
+  private readonly userPath = 'http://localhost:8080/api/indentity';
 
   public login(authUser: AuthUserDTO): Observable<MyUser>{
     return this._http.post<MyUser>(`${this.userPath}/login`, authUser)
   }
 
+  public register(myUser: MyUser): Observable<MyUser>{
+    return  this._http.post<MyUser>(`${this.userPath}/register`, myUser);
+  }
 
+  public confirmEmail(urlParams: any) {
+    return this._http.post(this.userPath + 'email/verification', urlParams);
+  }
 }
