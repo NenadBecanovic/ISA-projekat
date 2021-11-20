@@ -27,7 +27,7 @@ import java.sql.Timestamp;
 @RequestMapping("api/indentity")
 public class AuthentificationController {
     private final AuthService authService;
-<
+
     private final MyUserService myUserService;
     private final VerificationTokenService verificationTokenService;
 
@@ -36,13 +36,9 @@ public class AuthentificationController {
         this.authService = authService;
         this.myUserService = myUserService;
         this.verificationTokenService = verificationTokenService;
-
-
-    @Autowired
-    public AuthentificationController(AuthService authService) {
-        this.authService = authService;
-
     }
+
+
 
 
     @PostMapping("/register")
@@ -59,7 +55,7 @@ public class AuthentificationController {
     }
 
     @PostMapping("/login")
-    public MyUser loginUser(@RequestBody AuthUserDTO authUserDTO)
+    public ResponseEntity<MyUser> loginUser(@RequestBody AuthUserDTO authUserDTO)
     {
         System.out.println(authUserDTO.toString());
         MyUser user = authService.loginUser(authUserDTO.getEmail(), authUserDTO.getPassword());
