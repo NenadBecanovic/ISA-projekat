@@ -32,7 +32,7 @@ public class EmailService {
             String token = verificationToken.getToken();
             Context context = new Context();
             context.setVariable("title", "Verify your email address ");
-            context.setVariable("link", "http://localhost:4200/email-activation?token="+token+"?userId="+user.getId());
+            context.setVariable("link", "http://localhost:4200/email-activation?token="+token+"&userId="+user.getId());
 
             String body = templateEngine.process("verification", context);
 

@@ -22,6 +22,6 @@ export class AuthService {
   }
 
   public confirmEmail(urlParams: any) {
-    return this._http.post(this.userPath + 'email/verification', urlParams);
+    return this._http.post(this.userPath + '/email/verification', urlParams);
   }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {MyUser} from "../model/my-user";
 import {AuthService} from "../service/auth.service";
 import {Address} from "../model/address";
+import { AlertService } from 'ngx-alerts';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class RegistrationComponent implements OnInit {
   user: MyUser = new MyUser("","","","","","",this.address);
   passwordCheck: String = "";
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private alertService: AlertService) {
 
   }
 
@@ -28,10 +29,10 @@ export class RegistrationComponent implements OnInit {
     console.log(this.user);
     this.authService.register(this.user).subscribe(
       (user:MyUser)=>{
-
+        this.alertService.success('User created');
       },
       (error) => {
-
+        this.alertService.danger('Something went wrongs');
       }
     )
 
