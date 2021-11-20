@@ -11,8 +11,7 @@ import { RegistrationComponent } from './registration/registration.component';
 import { EmailActivationComponent } from './email-activation/email-activation.component';
 import { AlertModule } from 'ngx-alerts';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import { RegistrationComponent } from './registration/registration.component';
-import { EmailActivationComponent } from './email-activation/email-activation.component';
+
 
 
 
