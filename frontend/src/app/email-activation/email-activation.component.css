@@ -7,6 +7,11 @@
   border: none;
   font-size: 1.2vw;
   font-weight: 300;
+  outline: none;
+  color: #fff;
+  border: none;
+  font-size: 18px;
+  font-weight: 500;
   border-radius: 5px;
   letter-spacing: 1px;
   background:  linear-gradient(120deg,#2980b9, #8e44ad);

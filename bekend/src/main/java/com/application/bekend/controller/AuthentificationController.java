@@ -8,6 +8,7 @@ import com.application.bekend.model.VerificationToken;
 import com.application.bekend.service.AuthService;
 import com.application.bekend.service.MyUserService;
 import com.application.bekend.service.VerificationTokenService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +18,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.sql.Timestamp;
+
 
 @RestController
 @RequestMapping("api/indentity")
 public class AuthentificationController {
     private final AuthService authService;
+<
     private final MyUserService myUserService;
     private final VerificationTokenService verificationTokenService;
 
@@ -32,6 +36,12 @@ public class AuthentificationController {
         this.authService = authService;
         this.myUserService = myUserService;
         this.verificationTokenService = verificationTokenService;
+
+
+    @Autowired
+    public AuthentificationController(AuthService authService) {
+        this.authService = authService;
+
     }
 
 
@@ -49,13 +59,14 @@ public class AuthentificationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<MyUser> loginUser(@RequestBody AuthUserDTO authUserDTO)
+    public MyUser loginUser(@RequestBody AuthUserDTO authUserDTO)
     {
         System.out.println(authUserDTO.toString());
         MyUser user = authService.loginUser(authUserDTO.getEmail(), authUserDTO.getPassword());
         if(user == null){
             throw new UsernameNotFoundException("User Not found");
         }
+
         return new ResponseEntity<>(user,HttpStatus.ACCEPTED);
     }
 
