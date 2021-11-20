@@ -19,4 +19,15 @@ public class MyUserService {
     public MyUser loginUser(String username , String password){
         return myUserRepository.findMyUserByEmailAndPassword(username, password);
     }
+
+    public MyUser findUserById(Long id){
+        return myUserRepository.findMyUserById(id);
+    }
+
+    public void activateUser(Long id){
+        MyUser user = findUserById(id);
+        user.setActivated(true);
+        this.myUserRepository.save(user);
+
+    }
 }
