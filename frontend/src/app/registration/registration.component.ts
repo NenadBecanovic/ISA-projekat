@@ -38,10 +38,8 @@ export class RegistrationComponent implements OnInit {
         this.alertService.danger('Something went wrongs');
 
       },
-      (error) => {
 
-
-      }
+      
     )
 
   }
