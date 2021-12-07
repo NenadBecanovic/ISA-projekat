@@ -11,6 +11,9 @@ import { RegistrationComponent } from './registration/registration.component';
 import { EmailActivationComponent } from './email-activation/email-activation.component';
 import { AlertModule } from 'ngx-alerts';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {HomePageModule} from "./home-page/home-page-module/home-page.module";
+import { HomeDashboardComponent } from './home-page/home-dashboard/home-dashboard.component';
+
 
 
 
@@ -21,8 +24,10 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     LoginComponent,
     RegistrationComponent,
     EmailActivationComponent
+
   ],
   imports: [
+    HomePageModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
