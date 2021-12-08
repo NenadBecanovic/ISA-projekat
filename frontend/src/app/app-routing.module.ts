@@ -5,12 +5,14 @@ import {RegistrationComponent} from "./registration/registration.component";
 import {EmailActivationComponent} from "./email-activation/email-activation.component";
 import {HomePageComponent} from "./home-page/home-page-component/home-page.component";
 import {HomeDashboardComponent} from "./home-page/home-dashboard/home-dashboard.component";
+import { AdventureProfileComponent } from './adventure-profile/adventure-profile.component';
 
 const routes: Routes = [
   {path:'login', component: LoginComponent},
   {path:'register', component: RegistrationComponent},
   {path:'email-activation', component: EmailActivationComponent},
-  { path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}]}
+  { path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}]},
+  {path: 'adventure-profile', component: AdventureProfileComponent}
 ];
 
 @NgModule({
