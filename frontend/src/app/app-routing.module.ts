@@ -7,7 +7,7 @@ import {HomePageComponent} from "./home-page/home-page-component/home-page.compo
 import {HomeDashboardComponent} from "./home-page/home-dashboard/home-dashboard.component";
 
 const routes: Routes = [
-  {path:'halo', component: LoginComponent},
+  {path:'login', component: LoginComponent},
   {path:'register', component: RegistrationComponent},
   {path:'email-activation', component: EmailActivationComponent},
   { path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}]}

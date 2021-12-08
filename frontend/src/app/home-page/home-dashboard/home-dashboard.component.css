@@ -3,13 +3,13 @@ html,body{
   font-family: "Helvetica Neue";
 }
 
-.container5 {
-  position: absolute;
-  width: 100%;
-}
+/*.container5 {*/
+/*  position: absolute;*/
+/*  width: 100%;*/
+/*}*/
 
 /* Make the image responsive */
-.container5 .img5 {
+ .img5 {
   margin-top: 65px;
   height: 50%;
   width: 100%;
@@ -17,10 +17,10 @@ html,body{
 }
 
 /* Style the button and place it in the middle of the container/image */
-.container5 .btn {
+ .btn {
   border-radius: 10px;
   position: absolute;
-  top: 11%;
+  top: 27%;
   left: 13%;
   /*transform: translate(-50%, -50%);*/
   /*-ms-transform: translate(-50%, -50%);*/
@@ -33,10 +33,10 @@ html,body{
   border-radius: 5px;
 }
 
-.container5 .lbl {
+ .lbl {
   position: absolute;
-  top: 7%;
-  left: 10%;
+  top: 18%;
+  left: 11%;
   /*transform: translate(-50%, -50%);*/
   /*-ms-transform: translate(-50%, -50%);*/
   color: white;
@@ -47,7 +47,7 @@ html,body{
   border-radius: 5px;
 }
 
-.container5 .btn:hover {
+ .btn:hover {
   background-color: black;
 }
 
