@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AddActionDialogComponent } from '../add-action-dialog/add-action-dialog/add-action-dialog.component';
 import { AdditionalService } from '../model/additional-service';
 import { Address } from '../model/address';
@@ -29,12 +29,13 @@ export class AdventureProfileComponent implements OnInit {
   service2: AdditionalService= new AdditionalService("STAPOVI", 3000);
   additionalServices: Array<AdditionalService>;
   fishingAdventure: FishingAdventure;
-
+  @ViewChild('addImage') addImage: any; 
+  
   constructor(public dialog: MatDialog) {
     this.additionalServices = new Array<AdditionalService>();
     this.additionalServices.push(this.service1);
     this.additionalServices.push(this.service2);
-    this.fishingAdventure = new FishingAdventure("Ludilo avantura", this.address, "Neverovatna avantura kapetana kuke!", 5, "SVA OPREMA", "Kapetan mora da se slusa", 15000, this.additionalServices,false, 20, this.user);
+    this.fishingAdventure = new FishingAdventure("Ludilo avantura", this.address, "Neverovatna avantura kapetana kuke!", 5, "SVA OPREMA", "Kapetan mora da se slusa", 4000, this.additionalServices,false, 20, this.user);
    }
 
   ngOnInit() {
@@ -55,4 +56,20 @@ export class AdventureProfileComponent implements OnInit {
       alert("RADI");
     });
   }
+/*
+    imageAdded(e){
+      const file = e.target.files[0];
+      this.createBase64Image(file);
+     // this.form.articleImage=URL.createObjectURL(file);
+  },
+  createBase64Image(file){
+      const reader= new FileReader();
+      reader.onload = (e) =>{
+     //   let img = e.target.result;
+        //img.replace("data:image\/(png|jpg|jpeg);base64", "");
+      //  console.log(img);
+       // this.form.backendImage = img;
+      }
+      reader.readAsDataURL(file);
+  }*/
 }

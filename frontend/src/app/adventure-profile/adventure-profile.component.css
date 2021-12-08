@@ -234,3 +234,13 @@
   color:white;
   background-color: #31B4E5;
 }
+
+.add-picture-button{
+  color:white;
+  background-color: #31B4E5;
+  position: absolute;
+  top: 23vw;
+  left: 95%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
