@@ -1,5 +1,4 @@
 package com.application.bekend.controller;
-
 import com.application.bekend.DTO.ActivationDTO;
 import com.application.bekend.DTO.AuthUserDTO;
 import com.application.bekend.DTO.MyUserDTO;
@@ -8,7 +7,6 @@ import com.application.bekend.model.VerificationToken;
 import com.application.bekend.service.AuthService;
 import com.application.bekend.service.MyUserService;
 import com.application.bekend.service.VerificationTokenService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +15,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.sql.Timestamp;
 
 
 @RestController
-@RequestMapping("api/indentity")
+@RequestMapping("api/identity")
 public class AuthentificationController {
     private final AuthService authService;
     private final MyUserService myUserService;
@@ -37,23 +33,30 @@ public class AuthentificationController {
         this.verificationTokenService = verificationTokenService;
     }
 
-
-    @PostMapping("/register")
+    @PostMapping("/registerUser")
     public ResponseEntity<MyUser> registerNewUser(@RequestBody MyUserDTO myUserDTO){
-
         MyUser user = this.authService.findMyUserByEmailOrUsername(myUserDTO.getEmail(), myUserDTO.getUsername());
         if(user != null){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
-
         this.authService.registerNewUser(myUserDTO);
 
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<MyUser> register(@RequestBody MyUserDTO myUserDTO){
+        MyUser user = this.authService.findMyUserByEmailOrUsername(myUserDTO.getEmail(), myUserDTO.getUsername());
+        if(user != null){
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        this.authService.register(myUserDTO);
+
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
     @PostMapping("/login")
-    public ResponseEntity<MyUser> loginUser(@RequestBody AuthUserDTO authUserDTO)
-    {
+    public ResponseEntity<MyUser> loginUser(@RequestBody AuthUserDTO authUserDTO) {
         System.out.println(authUserDTO.toString());
         MyUser user = authService.loginUser(authUserDTO.getEmail(), authUserDTO.getPassword());
         if(user == null){
@@ -78,7 +81,6 @@ public class AuthentificationController {
                 return new ResponseEntity<>(HttpStatus.OK);
             }
         }
-
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

@@ -20,10 +20,15 @@ public class MyUser {
     private String password;
     @Column(name = "username", nullable = false, unique = true)
     private String username;
+    @Column(name = "phoneNumber", nullable = false)
+    private String phoneNumber;
+
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Boat> boats = new HashSet<Boat>();
+
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<House> houses = new HashSet<House>();
+
     @OneToMany(mappedBy = "instructor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<FishingAdventure> fishingAdventures = new HashSet<FishingAdventure>();
 
@@ -39,8 +44,6 @@ public class MyUser {
     @JoinTable(name = "fishing_reservations", joinColumns = @JoinColumn(name = "guest_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "fishing_reservation_id", referencedColumnName = "id"))
     private Set<AdventureReservation> adventureReservations = new HashSet<AdventureReservation>();
 
-
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id")
     private Address address;
@@ -49,10 +52,10 @@ public class MyUser {
     @JoinColumn(name = "authority_id")
     private Authority authority;
 
+    @OneToOne(mappedBy = "user")
+    private VerificationRequest verificationRequest;
 
     private Boolean isActivated;
-
-
 
     public MyUser(Long id, String firstName, String lastName, String email, String password, String username) {
         this.id = id;
@@ -114,23 +117,21 @@ public class MyUser {
         this.username = username;
     }
 
-
-   public Boolean getActivated() {
+    public Boolean getActivated() {
        return isActivated;
    }
 
-   public void setActivated(Boolean activated) {
+    public void setActivated(Boolean activated) {
       isActivated = activated;
   }
 
-   public Address getAddress() {
+    public Address getAddress() {
        return address;
     }
 
-   public void setAddress(Address address) {
+    public void setAddress(Address address) {
       this.address = address;
     }
-
 
     public Authority getAuthority() {
         return authority;
@@ -140,4 +141,7 @@ public class MyUser {
         this.authority = authority;
     }
 
+    public String getPhoneNumber() { return phoneNumber; }
+
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
 }

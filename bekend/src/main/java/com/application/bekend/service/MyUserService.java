@@ -12,14 +12,6 @@ public class MyUserService {
     @Autowired
     private MyUserRepository myUserRepository;
 
-    public MyUser registerNewUser(MyUser myUser) {
-        return myUserRepository.save(myUser);
-    }
-
-    public MyUser loginUser(String username , String password){
-        return myUserRepository.findMyUserByEmailAndPassword(username, password);
-    }
-
     public MyUser findUserById(Long id){
         return myUserRepository.findMyUserById(id);
     }
@@ -28,6 +20,5 @@ public class MyUserService {
         MyUser user = findUserById(id);
         user.setActivated(true);
         this.myUserRepository.save(user);
-
     }
 }

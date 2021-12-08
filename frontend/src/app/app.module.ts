@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {FormsModule} from "@angular/forms";
@@ -14,7 +13,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HomePageModule} from "./home-page/home-page-module/home-page.module";
 import { HomeDashboardComponent } from './home-page/home-dashboard/home-dashboard.component';
 
-
+// app module - kada hocemo da koristimo neki modul iz nekog paketa
 
 
 
