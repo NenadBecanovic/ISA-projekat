@@ -1,24 +1,18 @@
 package com.application.bekend.DTO;
 
-
-
 public class MyUserDTO {
 
     private String firstName;
-
     private String lastName;
-
     private String email;
-
     private String password;
-
     private String username;
-
     private String authority;
-
     private AddressDTO addressDTO;
+    private String phoneNumber;
+    private String reasonForRegistration;
 
-    public MyUserDTO(String firstName, String lastName, String email, String password, String username, String authority, AddressDTO addressDTO) {
+    public MyUserDTO(String firstName, String lastName, String email, String password, String username, String authority, AddressDTO addressDTO, String phoneNumber, String reasonForRegistration) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -26,6 +20,8 @@ public class MyUserDTO {
         this.username = username;
         this.authority = authority;
         this.addressDTO = addressDTO;
+        this.phoneNumber = phoneNumber;
+        this.reasonForRegistration = reasonForRegistration;
     }
 
     public MyUserDTO() {
@@ -87,5 +83,11 @@ public class MyUserDTO {
         this.addressDTO = addressDTO;
     }
 
+    public String getPhoneNumber() { return phoneNumber; }
 
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber;}
+
+    public String getReasonForRegistration() { return reasonForRegistration; }
+
+    public void setReasonForRegistration(String reasonForRegistration) { this.reasonForRegistration = reasonForRegistration; }
 }
