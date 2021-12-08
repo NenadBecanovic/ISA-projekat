@@ -39,6 +39,9 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule} from '@angular/material/select';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTabsModule} from '@angular/material/tabs';
+import { HeaderComponent } from './home-page/shared/header/header.component';
+import { FooterComponent } from './home-page/shared/footer/footer.component';
+import { SharedModule } from './home-page/shared/shared.module';
 
 
 const MaterialComponents = [
@@ -71,12 +74,13 @@ const MaterialComponents = [
     LoginComponent,
     RegistrationComponent,
     EmailActivationComponent,
-      AdventureProfileComponent
+    AdventureProfileComponent
    ],
   imports: [
     HomePageModule,
     BrowserModule,
     AppRoutingModule,
+    SharedModule,
     FormsModule,
     HttpClientModule,
     NgProgressModule,

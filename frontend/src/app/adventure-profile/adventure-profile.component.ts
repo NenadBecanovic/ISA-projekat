@@ -5,7 +5,6 @@ import { Address } from '../model/address';
 import { FishingAdventure } from '../model/fishing-adventure';
 import { MyUser } from '../model/my-user';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-
 @Component({
   selector: 'app-adventure-profile',
   templateUrl: './adventure-profile.component.html',
