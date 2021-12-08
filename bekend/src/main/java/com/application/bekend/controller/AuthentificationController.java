@@ -27,7 +27,6 @@ import java.sql.Timestamp;
 @RequestMapping("api/indentity")
 public class AuthentificationController {
     private final AuthService authService;
-
     private final MyUserService myUserService;
     private final VerificationTokenService verificationTokenService;
 
@@ -37,8 +36,6 @@ public class AuthentificationController {
         this.myUserService = myUserService;
         this.verificationTokenService = verificationTokenService;
     }
-
-
 
 
     @PostMapping("/register")

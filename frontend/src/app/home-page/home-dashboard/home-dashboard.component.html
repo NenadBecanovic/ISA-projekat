@@ -1,0 +1,126 @@
+
+<div>
+    <div fxLayout="column wrap" >
+<!--      <div class="container5">-->
+        <img class = "img5" src="assets/home-image1.jpg" alt="Snow">
+        <button class="btn" >Nađi avanturu</button>
+        <label class="lbl" style="font-size: 30px">Želis na pecanje?</label>
+        <div style="display:inline; margin-top: 30px; margin-left: 30px"  >
+          <div style="float: left; width: 80%;">
+            <label style="font-size: 25px; font-weight: 500; margin-left: 10px" ><strong>Najpopularnije vikendice</strong></label>
+          </div>
+          <div style="float: left; width: 20%;">
+            <button style="font-size: 15px;border: None;background: transparent; font-weight: 500;" >Prikazi sve</button>
+          </div>
+        </div>
+<!--      </div>-->
+
+<!--      vikendice-->
+      <div class="myMatCarousel2" >
+        <mat-carousel timings="400ms ease-in" [autoplay]="false" [maintainAspectRatio]="false" [slides]="2"
+                      [loop]="true" [hideArrows]="false" [hideIndicators]="true" [useKeyboard]="true" [useMouseWheel]="false"
+                      orientation="ltr">
+          <mat-carousel-slide   #matCarouselSlide overlayColor="white">
+            <div class="myMatCarouselSlide2" fxLayout="row wrap" fxLayoutAlign="center center">
+              <ng-container *ngFor="let _ of [1,2,3,4] ; let i = index">
+                <mat-card style="margin-right: 5px; margin-left: 5px" class="myCard" fxFlex="20%" fxFlex.xs="40%" fxLayoutAlign="center center" fxLayout="column wrap">
+                  <img mat-card-image style="width: 100%; height:100%; max-height: 150px; max-width: 150px" src="{{'assets/cottage.jpg'}}">
+                  <a>Card Display {{i+1}}</a>
+                </mat-card>
+              </ng-container>
+            </div>
+          </mat-carousel-slide>
+          <mat-carousel-slide #matCarouselSlide overlayColor="white">
+            <div class="myMatCarouselSlide2" fxLayout="row wrap" fxLayoutAlign="center center">
+              <ng-container *ngFor="let _ of [1,2,3,4] ; let i = index">
+                <mat-card class="myCard" fxFlex="20%" fxFlex.xs="40%" fxLayoutAlign="center center" fxLayout="column wrap">
+                  <img mat-card-image style="width: 80px; height: 80px" src="{{'assets/cottage.jpg'}}">
+                  <a>Card Display {{i+5}}</a>
+                </mat-card>
+              </ng-container>
+            </div>
+          </mat-carousel-slide>
+        </mat-carousel>
+      </div>
+
+<!--      brodovi-->
+      <div style="display:inline; margin-top: 30px; margin-left: 30px"  >
+        <div style="float: left; width: 80%;">
+          <label style="font-size: 25px; font-weight: 500; margin-left: 10px" ><strong>Najpopularniji brodovi</strong></label>
+        </div>
+        <div style="float: left; width: 20%;">
+          <button style="font-size: 15px;border: None;background: transparent; font-weight: 500;" >Prikazi sve</button>
+        </div>
+      </div>
+      <div class="myMatCarousel2">
+        <mat-carousel timings="250ms ease-in" [autoplay]="false" [maintainAspectRatio]="false" [slides]="2" color="accent"
+                      [loop]="true" [hideArrows]="false" [hideIndicators]="true" [useKeyboard]="true" [useMouseWheel]="false"
+                      orientation="ltr">
+          <mat-carousel-slide #matCarouselSlide overlayColor="white">
+            <div class="myMatCarouselSlide2" fxLayout="row wrap" fxLayoutAlign="center center">
+              <ng-container *ngFor="let _ of [1,2,3,4] ; let i = index">
+                <mat-card style="margin-right: 5px; margin-left: 5px" class="myCard" fxFlex="20%" fxFlex.xs="40%" fxLayoutAlign="center center" fxLayout="column wrap">
+                  <img mat-card-image style="width: 80px; height: 80px" src="{{'assets/yacht.jpg'}}">
+                  <a>Card Display {{i+1}}</a>
+                </mat-card>
+              </ng-container>
+            </div>
+          </mat-carousel-slide>
+          <mat-carousel-slide #matCarouselSlide overlayColor="white">
+            <div class="myMatCarouselSlide2" fxLayout="row wrap" fxLayoutAlign="center center">
+              <ng-container *ngFor="let _ of [1,2,3,4] ; let i = index">
+                <mat-card class="myCard" fxFlex="20%" fxFlex.xs="40%" fxLayoutAlign="center center" fxLayout="column wrap">
+                  <img mat-card-image style="width: 80px; height: 80px" src="{{'/assets/yacht.jpg'}}">
+                  <a>Card Display {{i+5}}</a>
+                </mat-card>
+              </ng-container>
+            </div>
+          </mat-carousel-slide>
+        </mat-carousel>
+      </div>
+<!--      avanture-->
+      <div style="display:inline; margin-top: 30px; margin-left: 30px"  >
+        <div style="float: left; width: 80%;">
+          <label style="font-size: 25px; font-weight: 500; margin-left: 10px" ><strong>Najpopularnije avanture</strong></label>
+        </div>
+        <div style="float: left; width: 20%;">
+          <button style="font-size: 15px;border: None;background: transparent; font-weight: 500;" >Prikazi sve</button>
+        </div>
+      </div>
+      <div class="myMatCarousel2">
+        <mat-carousel timings="250ms ease-in" [autoplay]="false" [maintainAspectRatio]="false" [slides]="2" color="accent"
+                      [loop]="true" [hideArrows]="false" [hideIndicators]="true" [useKeyboard]="true" [useMouseWheel]="false"
+                      orientation="ltr">
+          <mat-carousel-slide #matCarouselSlide overlayColor="white">
+            <div class="myMatCarouselSlide2" fxLayout="row wrap" fxLayoutAlign="center center">
+              <ng-container *ngFor="let _ of [1,2,3,4] ; let i = index">
+                <mat-card style="margin-right: 5px; margin-left: 5px" class="myCard" fxFlex="20%" fxFlex.xs="40%" fxLayoutAlign="center center" fxLayout="column wrap">
+                  <img mat-card-image style="width: 80px; height: 80px" src="{{'assets/adventure.jpg'}}">
+                  <a>Card Display {{i+1}}</a>
+                </mat-card>
+              </ng-container>
+            </div>
+          </mat-carousel-slide>
+          <mat-carousel-slide #matCarouselSlide overlayColor="white">
+            <div class="myMatCarouselSlide2" fxLayout="row wrap" fxLayoutAlign="center center">
+              <ng-container *ngFor="let _ of [1,2,3,4] ; let i = index">
+                <mat-card class="myCard" fxFlex="30%" fxFlex.xs="40%" fxLayoutAlign="center center" fxLayout="column wrap">
+                  <img mat-card-image style="width: 100px; height:120px; margin: 0" src="{{'/assets/adventure.jpg'}}">
+                  <a>Card Display {{i+5}}</a>
+                </mat-card>
+              </ng-container>
+            </div>
+          </mat-carousel-slide>
+        </mat-carousel>
+      </div>
+<!--      <footer>footer</footer>-->
+    </div>
+
+</div>
+
+
+
+
+
+
+
