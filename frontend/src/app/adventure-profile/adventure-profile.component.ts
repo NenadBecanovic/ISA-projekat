@@ -28,8 +28,8 @@ export class AdventureProfileComponent implements OnInit {
     }
   ];
 
-  address: Address = new Address("Kotor","Kotor","Crna Gora",0,0)
-  user: MyUser = new MyUser("Kapetan","Kuka","","","kuka","",this.address);
+  address: Address = new Address("Kotor","Kotor","Crna Gora",0,0,31100)
+  user: MyUser = new MyUser("Kapetan","Kuka","","","kuka","",this.address, "065454545", "Zelim");
   service1: AdditionalService= new AdditionalService("STAPOVI", 2000);
   service2: AdditionalService= new AdditionalService("STAPOVI", 3000);
   additionalServices: Array<AdditionalService>;
