@@ -9,7 +9,7 @@ import { AdventureProfileComponent } from './adventure-profile/adventure-profile
 
 const routes: Routes = [
   {path:'login', component: LoginComponent},
-  {path:'register', component: RegistrationComponent},
+  {path:'registration', component: RegistrationComponent},
   {path:'email-activation', component: EmailActivationComponent},
   { path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}]},
   {path: 'adventure-profile', component: AdventureProfileComponent}

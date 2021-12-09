@@ -8,10 +8,11 @@ export class MyUser {
   password: String;
   username: String;
   authority: String;
-  addressDTO: Address
+  addressDTO: Address;
+  phoneNumber: String;
+  reasonForRegistration: String;
 
-
-  constructor(firstName: String, lastName: String, email: String, password: String, username: String, authority: String, addressDTO: Address) {
+  constructor(firstName: String, lastName: String, email: String, password: String, username: String, authority: String, addressDTO: Address, phoneNumber: String, reasonForRegistration: String) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
@@ -19,5 +20,7 @@ export class MyUser {
     this.username = username;
     this.authority = authority;
     this.addressDTO = addressDTO;
+    this.phoneNumber = phoneNumber;
+    this.reasonForRegistration = reasonForRegistration;
   }
 }
