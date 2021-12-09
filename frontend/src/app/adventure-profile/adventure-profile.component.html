@@ -11,7 +11,7 @@
         </mat-carousel-slide>
       </mat-carousel>
       <button mat-raised-button (click)="addImage.click()" class="btn add-picture-button">Dodaj sliku</button>
-      <input type="file" style="display:none;border:none;" #addImage/>
+      <input type="file" accept="image/*" style="display:none;border:none;" (change)="imageAdded($event)" #addImage/>
     </div>
     <div class="adventure-container">
       <div class="d-flex flex-column adventure-view-title-container">

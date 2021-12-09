@@ -5,6 +5,11 @@ import { Address } from '../model/address';
 import { FishingAdventure } from '../model/fishing-adventure';
 import { MyUser } from '../model/my-user';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { AdventureProfileService } from '../service/adventure-profile.service';
+
+class ImageSnippet {
+  constructor(public src: string, public file: File) {}
+}
 @Component({
   selector: 'app-adventure-profile',
   templateUrl: './adventure-profile.component.html',
@@ -29,9 +34,9 @@ export class AdventureProfileComponent implements OnInit {
   service2: AdditionalService= new AdditionalService("STAPOVI", 3000);
   additionalServices: Array<AdditionalService>;
   fishingAdventure: FishingAdventure;
-  @ViewChild('addImage') addImage: any; 
+  selectedFile!: ImageSnippet;
   
-  constructor(public dialog: MatDialog) {
+  constructor(public dialog: MatDialog, private adventureService: AdventureProfileService) {
     this.additionalServices = new Array<AdditionalService>();
     this.additionalServices.push(this.service1);
     this.additionalServices.push(this.service2);
@@ -56,20 +61,38 @@ export class AdventureProfileComponent implements OnInit {
       alert("RADI");
     });
   }
-/*
-    imageAdded(e){
-      const file = e.target.files[0];
+
+  imageAdded(e: any){
+     /* const file = e.target.files[0];
       this.createBase64Image(file);
-     // this.form.articleImage=URL.createObjectURL(file);
-  },
-  createBase64Image(file){
-      const reader= new FileReader();
+      this.newImage=URL.createObjectURL(file);*/
+      const file: File = e.files[0];
+    const reader = new FileReader();
+
+    reader.addEventListener('load', (event: any) => {
+
+      this.selectedFile = new ImageSnippet(event.target.result, file);
+
+      this.adventureService.uploadImage(this.selectedFile.file).subscribe(
+        (res) => {
+          alert("OK");
+        },
+        (err) => {
+        
+        })
+    });
+
+    reader.readAsDataURL(file);
+  }
+  
+  createBase64Image(file: Blob){
+    /*  const reader= new FileReader();
       reader.onload = (e) =>{
-     //   let img = e.target.result;
-        //img.replace("data:image\/(png|jpg|jpeg);base64", "");
+        let img = e.target.result;
+        img.replace("data:image\/(png|jpg|jpeg);base64", "");
       //  console.log(img);
-       // this.form.backendImage = img;
+        this.form.backendImage = img;
       }
-      reader.readAsDataURL(file);
-  }*/
+      reader.readAsDataURL(file);*/
+  }
 }
