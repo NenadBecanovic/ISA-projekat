@@ -1,0 +1,187 @@
+<div id="adventure-profile">
+  <div id="adventure-content">
+    <app-header></app-header>
+    
+    <div [style.height]="500">
+      <mat-carousel timings="250ms ease-in" [autoplay]="true" [interval]="5000" color="warn" maxWidth="auto"
+        [proportion]="25" [slides]="5" [loop]="true" [hideArrows]="false" [useKeyboard]="true" [useMouseWheel]="false"
+        orientation="ltr">
+        <mat-carousel-slide #matCarouselSlide *ngFor="let slide of slides; let i = index" [image]="slide.image"
+          overlayColor="#00000040" [hideOverlay]="false">
+        </mat-carousel-slide>
+      </mat-carousel>
+      <button mat-raised-button (click)="addImage.click()" class="btn add-picture-button">Dodaj sliku</button>
+      <input type="file" accept="image/*" style="display:none;border:none;" (change)="imageAdded($event)" #addImage/>
+    </div>
+    <div class="adventure-container">
+      <div class="d-flex flex-column adventure-view-title-container">
+        <div class="d-flex flex-row">
+          <div class="d-flex left align-items-center">
+            <span class="adventure-view-adventure-name display-6">
+              {{fishingAdventure.name}}
+            </span>
+            <a class="red-link ms-3 mt-3" (click)="showMap()">{{fishingAdventure.address.street}},
+              {{fishingAdventure.address.city}}, {{fishingAdventure.address.state}}</a>
+          </div>
+          <div class="d-flex right align-items-center justify-content-end">
+            <button mat-raised-button (click)="addActionDialog()" class="btn add-action-button">Dodaj akciju</button>
+          </div>
+        </div>
+        <div class="d-flex flex-row mt-5">
+          <div class="d-flex flex-column ms-3 filter-sort-container">
+            <span class="basic-title text-center">Informacije</span>
+            <div class="form-check">
+              <label class="form-check-label wrap" for="flexCheckShowAll">
+                Maksimalno osoba: {{fishingAdventure.capacity}}
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label" for="flexCheckBarbecue">
+                Cena po satu: {{fishingAdventure.pricePerHour}}din
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label wrap" for="flexCheckItalian">
+                Otkazivanje: {{fishingAdventure.cancellationFee}}% rezervacije
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label wrap" for="flexCheckChinese">
+                Oprema: <br> {{fishingAdventure.fishingEquipment}}
+              </label>
+            </div>
+            <div class="form-check last-form-check">
+              <label class="form-check-label wrap" for="flexCheckChinese">
+                Pravila ponasanja: <br> {{fishingAdventure.behaviourRules}}
+              </label>
+            </div>
+            <div class="form-check last-form-check">
+              <label class="form-check-label wrap" for="flexCheckChinese">
+                Dodatne usluge: <br>
+                <li *ngFor="let service of fishingAdventure.services">
+                  {{service.name}} = {{service.price}}din <br>
+                </li>
+              </label>
+
+            </div>
+          </div>
+          <div class="d-flex ms-5 flex-column">
+            <span>It’s time to book a fishing trip in Montenegro with Captain Ivan Fishing Tour. Captain Ivan himself
+              will show you a great day out on the water and will guarantee that you’ll catch fish. He is happy to stay
+              longer until you do. Capt. Ivan is a local who speaks English and knows these waters like the back of his
+              hand.<br>
+
+              Capt. Ivan is great to fish with as he knows the local history of the area. For example, the live bait
+              you’ll be using is a special type that lives in the muddy parts of the bay. This area used to be an
+              Austro-Hungarian salt factory!<br>
+
+              Groups of 10 will have plenty of room on the captain’s 27’ center console boat with a T-top. There are
+              seats in the shade and space to catch some rays in the sun. Three anglers can fish at once.<br>
+
+              These short trips are great, as you’ll stay in the calmer waters of the bay. The location and the short
+              trips make Captain Ivan Fishing Tour great for kids. Throughout the year you’ll be able to catch the likes
+              of Common Pandora, Mahi Mahi, Sea Bream, Mackerel, and Bonito. These are great tablefare that can be
+              cooked for you by local restaurants for a small charge.<br>
+
+              These trips are great for the whole family, groups of friends, and even team building events. You can come
+              with zero experience and still catch fish, have a great time, and learn some history about the area, too.<br>
+
+              You should bring along your own snacks for the day. Water, juices, and a local brandy are served on board.
+              It’s best to wear layers of light clothing and light-soled shoes. You’ll want a camera ready, as well as
+              sunscreen and a sun hat.<br>
+
+              Book a trip with Captain Ivan Fishing Tour today for an unforgettable trip. You’re bound to come back time
+              and time again!</span>
+          </div>
+          <div class="d-flex flex-column ms-3 filter-sort-container">
+            <span class="basic-title text-center">Instruktor</span>
+            <div class="form-check">
+              <label class="form-check-label wrap" for="flexCheckShowAll">
+                Ime: {{fishingAdventure.instructor.firstName}}
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label" for="flexCheckBarbecue">
+                Prezime: {{fishingAdventure.instructor.lastName}}
+              </label>
+            </div>
+            <div class="form-check last-form-check">
+              <label class="form-check-label wrap" for="flexCheckChinese">
+                Opis: <br> {{fishingAdventure.promoDescription}}
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex flex-column">
+          <div class="d-flex flex-row">
+            <span class=" basic-title text-center">Akcije</span>
+          </div>
+          <div class="col-12 d-flex flex-row">
+            <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <div class="row">
+
+                    <div class="col-md-4 mb-3">
+                      <div class="card">
+                        <div class="card-body">
+                          <h4 class="card-title">Pecaroška avantura 16.12.2021. 6:00h</h4>
+                          <p class="card-text">{{fishingAdventure.address.street}}, {{fishingAdventure.address.city}},
+                            {{fishingAdventure.address.state}}</p>
+                          <p class="card-text">Trajanje: 6h</p>
+                          <p class="card-text">Broj osoba: 5</p>
+                          <p class="card-text">Dodatne usluge: {{fishingAdventure.fishingEquipment}}</p>
+                          <p class="card-text">Cena: {{fishingAdventure.pricePerHour}}din/h</p>
+                        </div>
+                        <div class="d-flex right me-3 mb-3 align-items-center justify-content-end">
+                          <button type="button" class="btn add-action-button"
+                            (click)="addActionDialog()">REZERVIŠI</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <div class="card">
+                        <div class="card-body">
+                          <h4 class="card-title">Pecaroška avantura 16.12.2021. 6:00h</h4>
+                          <p class="card-text">{{fishingAdventure.address.street}}, {{fishingAdventure.address.city}},
+                            {{fishingAdventure.address.state}}</p>
+                          <p class="card-text">Trajanje: 6h</p>
+                          <p class="card-text">Broj osoba: 5</p>
+                          <p class="card-text">Dodatne usluge: {{fishingAdventure.fishingEquipment}}</p>
+                          <p class="card-text">Cena: {{fishingAdventure.pricePerHour}}din/h</p>
+                        </div>
+                        <div class="d-flex right me-3 mb-3 align-items-center justify-content-end">
+                          <button type="button" class="btn add-action-button"
+                            (click)="addActionDialog()">REZERVIŠI</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <div class="card">
+                        <div class="card-body">
+                          <h4 class="card-title">Pecaroška avantura 16.12.2021. 6:00h</h4>
+                          <p class="card-text">{{fishingAdventure.address.street}}, {{fishingAdventure.address.city}},
+                            {{fishingAdventure.address.state}}</p>
+                          <p class="card-text">Trajanje: 6h</p>
+                          <p class="card-text">Broj osoba: 5</p>
+                          <p class="card-text">Dodatne usluge: {{fishingAdventure.fishingEquipment}}</p>
+                          <p class="card-text">Cena: {{fishingAdventure.pricePerHour}}din/h</p>
+                        </div>
+                        <div class="d-flex right me-3 mb-3 align-items-center justify-content-end">
+                          <button type="button" class="btn add-action-button"
+                            (click)="addActionDialog()">REZERVIŠI</button>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>
