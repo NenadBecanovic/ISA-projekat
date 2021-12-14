@@ -46,6 +46,7 @@ public class AuthService {
         Authority authority = this.authorityService.findAuthorityByName(myUserDTO.getAuthority());
         myUser.setAuthority(authority);
         myUser.setActivated(false);
+        myUser.setPhoneNumber(myUserDTO.getPhoneNumber());
 
         Optional<MyUser> saved = Optional.of(this.save(myUser));
 

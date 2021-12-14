@@ -12,20 +12,22 @@ import { AlertModule } from 'ngx-alerts';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HomePageModule} from "./home-page/home-page-module/home-page.module";
 import { HomeDashboardComponent } from './home-page/home-dashboard/home-dashboard.component';
+import {RouterModule} from "@angular/router";
+import { HouseProfileForHouseOwnerComponent } from './house-profile-for-house-owner/house-profile-for-house-owner.component';
+import {MatCarouselModule} from "@ngbmodule/material-carousel";
 
 // app module - kada hocemo da koristimo neki modul iz nekog paketa
-
-
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegistrationComponent,
-    EmailActivationComponent
-
+    EmailActivationComponent,
+    HouseProfileForHouseOwnerComponent
   ],
   imports: [
+    RouterModule,
     HomePageModule,
     BrowserModule,
     AppRoutingModule,
@@ -33,7 +35,8 @@ import { HomeDashboardComponent } from './home-page/home-dashboard/home-dashboar
     HttpClientModule,
     NgProgressModule,
     BrowserAnimationsModule,
-    AlertModule.forRoot({ maxMessages: 5, timeout: 5000,positionX: "right", positionY: "top" }),
+    AlertModule.forRoot({maxMessages: 5, timeout: 5000, positionX: "right", positionY: "top"}),
+    MatCarouselModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
