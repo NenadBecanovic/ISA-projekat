@@ -6,6 +6,7 @@ import { FishingAdventure } from '../model/fishing-adventure';
 import { MyUser } from '../model/my-user';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { AdventureProfileService } from '../service/adventure-profile.service';
+import { AdventureReservationsDialogComponent } from '../fishing-instructor-profile/adventure-reservations-dialog/adventure-reservations-dialog.component';
 
 class ImageSnippet {
   constructor(public src: string, public file: File) {}
@@ -51,14 +52,24 @@ export class AdventureProfileComponent implements OnInit {
   }
 
   addActionDialog(){
-    alert("NOVA AKCIJA");
     const dialogRef = this.dialog.open(AddActionDialogComponent, {
       width: '250px',
       data: {},
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      alert("RADI");
+      
+    });
+  }
+
+  showReservationsDialog(){
+    const dialogRef = this.dialog.open(AdventureReservationsDialogComponent, {
+      width: '500px',
+      data: {},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      
     });
   }
 
