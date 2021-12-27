@@ -10,6 +10,10 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
 import { MatCarouselModule } from '@ngbmodule/material-carousel';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import {HomeHouseComponent} from "../home-house/home-house.component";
+import {RouterModule} from "@angular/router";
+import {ScrollingModule} from "@angular/cdk/scrolling";
+import {MatGridListModule} from "@angular/material/grid-list";
 
 
 
@@ -17,19 +21,23 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 @NgModule({
   declarations: [
     HomePageComponent,
-    HomeDashboardComponent
+    HomeDashboardComponent,
+    HomeHouseComponent
   ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    MatButtonModule,
-    MatDividerModule,
-    MatCardModule,
-    MatCarouselModule,
-    FlexLayoutModule,
-  ],
+    imports: [
+        RouterModule,
+        CommonModule,
+        SharedModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        MatButtonModule,
+        MatDividerModule,
+        MatCardModule,
+        MatCarouselModule,
+        FlexLayoutModule,
+        ScrollingModule,
+        MatGridListModule,
+    ],
   // providers:[
   //   DashboardService,
   //   {

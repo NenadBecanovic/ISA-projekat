@@ -12,7 +12,7 @@ import { EmailActivationComponent } from './email-activation/email-activation.co
 import { AlertModule } from 'ngx-alerts';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HomePageModule} from "./home-page/home-page-module/home-page.module";
-import { HomeDashboardComponent } from './home-page/home-dashboard/home-dashboard.component';
+
 
 
 
