@@ -12,7 +12,8 @@ import { AlertModule } from 'ngx-alerts';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HomePageModule} from "./home-page/home-page-module/home-page.module";
 import { HomeDashboardComponent } from './home-page/home-dashboard/home-dashboard.component';
-
+import {RouterModule} from "@angular/router";
+import { HouseProfileForHouseOwnerComponent } from './house-profile-for-house-owner/house-profile-for-house-owner.component';
 import { AdventureProfileComponent } from './adventure-profile/adventure-profile.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
@@ -73,9 +74,11 @@ const MaterialComponents = [
     LoginComponent,
     RegistrationComponent,
     EmailActivationComponent,
+    HouseProfileForHouseOwnerComponent,
     AdventureProfileComponent
    ],
   imports: [
+    RouterModule,
     HomePageModule,
     BrowserModule,
     AppRoutingModule,
@@ -85,6 +88,8 @@ const MaterialComponents = [
     NgProgressModule,
     MaterialComponents,
     BrowserAnimationsModule,
+    AlertModule.forRoot({maxMessages: 5, timeout: 5000, positionX: "right", positionY: "top"}),
+    MatCarouselModule,
     BsDropdownModule.forRoot(),
     TooltipModule.forRoot(),
     ModalModule.forRoot(),

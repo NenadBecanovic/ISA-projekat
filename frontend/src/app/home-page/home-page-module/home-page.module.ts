@@ -12,16 +12,14 @@ import { MatCarouselModule } from '@ngbmodule/material-carousel';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 
-
-
 @NgModule({
-  declarations: [
+  declarations: [ // deklaracije komponenti koje ce se koristiti (prikazivati) u nasem glavnom prozoru
     HomePageComponent,
     HomeDashboardComponent
   ],
   imports: [
     CommonModule,
-    SharedModule,
+    SharedModule,  // importujemo ceo modul u kome se nalaze header i footer komponente
     BrowserModule,
     BrowserAnimationsModule,
     MatButtonModule,
