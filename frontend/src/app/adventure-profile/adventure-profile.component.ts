@@ -41,7 +41,7 @@ export class AdventureProfileComponent implements OnInit {
     this.additionalServices = new Array<AdditionalService>();
     this.additionalServices.push(this.service1);
     this.additionalServices.push(this.service2);
-    this.fishingAdventure = new FishingAdventure("Ludilo avantura", this.address, "Neverovatna avantura kapetana kuke!", 5, "SVA OPREMA", "Kapetan mora da se slusa", 4000, this.additionalServices,false, 20, this.user);
+    this.fishingAdventure = new FishingAdventure(0,"Ludilo avantura", this.address, "Neverovatna avantura kapetana kuke!", 5, "SVA OPREMA", "Kapetan mora da se slusa", 4000, this.additionalServices,false, 20, this.user);
    }
 
   ngOnInit() {

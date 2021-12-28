@@ -5,6 +5,7 @@ import { MyUser } from "./my-user";
 
 export class FishingAdventure {
 
+  id: number;
   name: String;
   address: Address;
   promoDescription: String;
@@ -17,7 +18,8 @@ export class FishingAdventure {
   cancellationFee: number;
   instructor: MyUser;
 
-  constructor(name: String, address: Address, promoDescription: String, capacity: number, fishingEquipment: String, behaviourRules: String, pricePerHour: number, services: Array<AdditionalService>, isCancellationFree: boolean, cancelationFee: number, instructor: MyUser){
+  constructor(id: number,name: String, address: Address, promoDescription: String, capacity: number, fishingEquipment: String, behaviourRules: String, pricePerHour: number, services: Array<AdditionalService>, isCancellationFree: boolean, cancelationFee: number, instructor: MyUser){
+    this.id = id;
     this.name = name;
     this.address = address;
     this.promoDescription = promoDescription;

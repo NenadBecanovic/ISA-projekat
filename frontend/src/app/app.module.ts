@@ -14,7 +14,7 @@ import { AlertModule } from 'ngx-alerts';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HomePageModule} from "./home-page/home-page-module/home-page.module";
 import { HomeDashboardComponent } from './home-page/home-dashboard/home-dashboard.component';
-
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { AdventureProfileComponent } from './adventure-profile/adventure-profile.component';
 //import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 //import { TooltipModule } from 'ngx-bootstrap/tooltip';
@@ -47,6 +47,7 @@ import { SharedModule } from './home-page/shared/shared.module';
 import { FishingInstructorProfileComponent } from './fishing-instructor-profile/fishing-instructor-profile.component';
 import { CalendarDialogComponent } from './fishing-instructor-profile/calendar-dialog/calendar-dialog.component';
 import { DemoUtilsModule } from './fishing-instructor-profile/calendar-dialog/demo-utils/calendar.module';
+import { DefineAvaibilityPeriodComponent } from './fishing-instructor-profile/define-avaibility-period/define-avaibility-period.component';
 
 
 const MaterialComponents = [
@@ -82,7 +83,8 @@ const MaterialComponents = [
     EmailActivationComponent,
     AdventureProfileComponent,
     FishingInstructorProfileComponent,
-    CalendarDialogComponent
+    CalendarDialogComponent,
+    DefineAvaibilityPeriodComponent
    ],
   imports: [
     HomePageModule,
@@ -98,6 +100,7 @@ const MaterialComponents = [
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
+    Ng2SearchPipeModule,
     DemoUtilsModule,
     //BsDropdownModule.forRoot(),
     //TooltipModule.forRoot(),
