@@ -14,6 +14,7 @@ import {HomeHouseComponent} from "../home-house/home-house.component";
 import {RouterModule} from "@angular/router";
 import {ScrollingModule} from "@angular/cdk/scrolling";
 import {MatGridListModule} from "@angular/material/grid-list";
+import {MatIconModule} from "@angular/material/icon";
 
 
 
@@ -24,20 +25,21 @@ import {MatGridListModule} from "@angular/material/grid-list";
     HomeDashboardComponent,
     HomeHouseComponent
   ],
-    imports: [
-        RouterModule,
-        CommonModule,
-        SharedModule,
-        BrowserModule,
-        BrowserAnimationsModule,
-        MatButtonModule,
-        MatDividerModule,
-        MatCardModule,
-        MatCarouselModule,
-        FlexLayoutModule,
-        ScrollingModule,
-        MatGridListModule,
-    ],
+  imports: [
+    RouterModule,
+    CommonModule,
+    SharedModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatDividerModule,
+    MatCardModule,
+    MatCarouselModule,
+    FlexLayoutModule,
+    ScrollingModule,
+    MatGridListModule,
+    MatIconModule,
+  ],
   // providers:[
   //   DashboardService,
   //   {
