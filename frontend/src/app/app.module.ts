@@ -17,10 +17,6 @@ import { ClientHomePageComponent } from './client-home-page/client-home-page.com
 
 
 
-
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +24,6 @@ import { ClientHomePageComponent } from './client-home-page/client-home-page.com
     RegistrationComponent,
     EmailActivationComponent,
     ClientHomePageComponent,
-
 
   ],
   imports: [
