@@ -12,7 +12,6 @@ public class Boat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private String type;
     private float length;
@@ -30,15 +29,18 @@ public class Boat {
     private String promoDescription;
 //    private Set<String> images ;
     private int capacity;
-    @ManyToMany(mappedBy = "boats")
+
+    @OneToMany(mappedBy = "boat")
     private Set<BoatReservation> courses = new HashSet<BoatReservation>();
     private String behaviourRules;
     private String fishingEquipment;
     private float pricePerDay;
+
     @ManyToMany(mappedBy = "boats")
     private Set<AdditionalServices> services = new HashSet<AdditionalServices>();
     private boolean isCancalletionFree;
     private int cancalletionFee;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id")
     private MyUser owner;

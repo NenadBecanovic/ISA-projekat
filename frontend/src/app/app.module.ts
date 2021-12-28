@@ -42,6 +42,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { HeaderComponent } from './home-page/shared/header/header.component';
 import { FooterComponent } from './home-page/shared/footer/footer.component';
 import { SharedModule } from './home-page/shared/shared.module';
+import { BoatProfileForBoatOwnerComponent } from './boat-profile-for-boat-owner/boat-profile-for-boat-owner.component';
 
 
 const MaterialComponents = [
@@ -75,7 +76,8 @@ const MaterialComponents = [
     RegistrationComponent,
     EmailActivationComponent,
     HouseProfileForHouseOwnerComponent,
-    AdventureProfileComponent
+    AdventureProfileComponent,
+    BoatProfileForBoatOwnerComponent
    ],
   imports: [
     RouterModule,

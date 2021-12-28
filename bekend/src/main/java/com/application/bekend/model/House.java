@@ -25,10 +25,12 @@ public class House {
     private Set<HouseReservation> courses = new HashSet<HouseReservation>();
     private String behaviourRules;
     private float pricePerDay;
+
     @ManyToMany(mappedBy = "houses")
     private Set<AdditionalServices> services = new HashSet<AdditionalServices>();
     private boolean isCancalletionFree;
     private int cancalletionFee;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id")
     private MyUser owner;
