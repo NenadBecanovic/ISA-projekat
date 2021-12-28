@@ -6,12 +6,18 @@ import {AdditionalService} from "../model/additional-service";
 import {NavigationEquipment} from "../model/navigation-equipment";
 import {BoatReservation} from "../model/boat-reservation";
 
+
 @Component({
   selector: 'app-boat-profile-for-boat-owner',
   templateUrl: './boat-profile-for-boat-owner.component.html',
   styleUrls: ['./boat-profile-for-boat-owner.component.css']
 })
+
 export class BoatProfileForBoatOwnerComponent implements OnInit {
+  // public map: any = { lat: 51.678418, lng: 7.809007 };
+  lat = 51.678418;
+  lng = 7.809007;
+
   slides = [{'image': 'assets/boat2.jpg'}, {'image': 'assets/boat-inside1.jpg'}, {'image': 'assets/boat-inside2.jpg'}]
   boat: Boat;
   address: Address = new Address("Luka 11","Novi Sad","Srbija",0,0,21000)
@@ -31,7 +37,7 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
     this.additionalServices.push(this.service1);
     this.additionalServices.push(this.service2);
 
-    this.boat = new Boat("Kruzer na Dunavu", this.address, "Najbolji kruzer na dunavu koji postoji u ponudi!",
+    this.boat = new Boat("Kruzer na Dunavu", this.address, "Najbolji kruzer na Dunavu koji postoji u ponudi!",
       "Zabranjeno pusenje.", 8600, 10, "kruzer", 10, 3, 120, 80, false, 3000,
       this.additionalServices, this.fishingEquipment, this.navigationEquipment, this.courses);
 

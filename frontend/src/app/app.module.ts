@@ -43,7 +43,8 @@ import { HeaderComponent } from './home-page/shared/header/header.component';
 import { FooterComponent } from './home-page/shared/footer/footer.component';
 import { SharedModule } from './home-page/shared/shared.module';
 import { BoatProfileForBoatOwnerComponent } from './boat-profile-for-boat-owner/boat-profile-for-boat-owner.component';
-
+// import {GoogleMapsModule} from "@angular/google-maps";
+import {AgmCoreModule} from '@agm/core';
 
 const MaterialComponents = [
   MatSliderModule,
@@ -70,7 +71,7 @@ const MaterialComponents = [
 ];
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
     LoginComponent,
     RegistrationComponent,
@@ -95,7 +96,10 @@ const MaterialComponents = [
     BsDropdownModule.forRoot(),
     TooltipModule.forRoot(),
     ModalModule.forRoot(),
-    AlertModule.forRoot({ maxMessages: 5, timeout: 5000,positionX: "right", positionY: "top" }),
+    AlertModule.forRoot({maxMessages: 5, timeout: 5000, positionX: "right", positionY: "top"}),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDhUaf84F4NwNDUjw-feRmJusep1T1EB6s'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
