@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {FormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {LoginComponent} from "./login/login.component";
 import { NgProgressModule } from 'ngx-progressbar';
 import { RegistrationComponent } from './registration/registration.component';
@@ -12,6 +12,9 @@ import { EmailActivationComponent } from './email-activation/email-activation.co
 import { AlertModule } from 'ngx-alerts';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HomePageModule} from "./home-page/home-page-module/home-page.module";
+import {TokenInterceptor} from "./interceptor/token-interceptor";
+import { ClientHomePageComponent } from './client-home-page/client-home-page.component';
+
 
 
 
@@ -23,7 +26,9 @@ import {HomePageModule} from "./home-page/home-page-module/home-page.module";
     AppComponent,
     LoginComponent,
     RegistrationComponent,
-    EmailActivationComponent
+    EmailActivationComponent,
+    ClientHomePageComponent,
+
 
   ],
   imports: [
@@ -36,7 +41,13 @@ import {HomePageModule} from "./home-page/home-page-module/home-page.module";
     BrowserAnimationsModule,
     AlertModule.forRoot({ maxMessages: 5, timeout: 5000,positionX: "right", positionY: "top" }),
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

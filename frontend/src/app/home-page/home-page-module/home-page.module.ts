@@ -14,6 +14,8 @@ import {HomeHouseComponent} from "../home-house/home-house.component";
 import {RouterModule} from "@angular/router";
 import {ScrollingModule} from "@angular/cdk/scrolling";
 import {MatGridListModule} from "@angular/material/grid-list";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {TokenInterceptor} from "../../interceptor/token-interceptor";
 
 
 
@@ -38,14 +40,13 @@ import {MatGridListModule} from "@angular/material/grid-list";
         ScrollingModule,
         MatGridListModule,
     ],
-  // providers:[
-  //   DashboardService,
-  //   {
-  //     provide: HTTP_INTERCEPTORS,
-  //     useClass: TokenInterceptor,
-  //     multi: true,
-  //   }
-  // ],
+  providers:[
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    }
+  ],
   // schemas: [
   //   NO_ERRORS_SCHEMA
   // ]
