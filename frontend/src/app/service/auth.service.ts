@@ -38,6 +38,11 @@ export class AuthService {
         }));
       }));
 
+
+  }
+
+  public registerUser(myUser: MyUser): Observable<MyUser>{
+    return  this._http.post<MyUser>(`${this.userPath}/registerUser`, myUser);
   }
 
   public register(myUser: MyUser): Observable<MyUser>{
@@ -47,6 +52,5 @@ export class AuthService {
 
   public confirmEmail(urlParams: any) {
     return this._http.post(this.userPath + '/email/verification', urlParams);
-
   }
 }

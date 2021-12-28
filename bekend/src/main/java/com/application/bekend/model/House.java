@@ -21,7 +21,7 @@ public class House {
     private String promoDescription;
 
     //    private Set<String> images ;
-    @ManyToMany(mappedBy = "houses")
+    @OneToMany(mappedBy = "house")
     private Set<HouseReservation> courses = new HashSet<HouseReservation>();
     private String behaviourRules;
     private float pricePerDay;

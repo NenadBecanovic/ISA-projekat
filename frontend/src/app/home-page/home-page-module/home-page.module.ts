@@ -47,8 +47,33 @@ import {TokenInterceptor} from "../../interceptor/token-interceptor";
       multi: true,
     }
   ],
-  // schemas: [
-  //   NO_ERRORS_SCHEMA
-  // ]
+
+
+
+@NgModule({
+  declarations: [ // deklaracije komponenti koje ce se koristiti (prikazivati) u nasem glavnom prozoru
+    HomePageComponent,
+    HomeDashboardComponent
+  ],
+  imports: [
+    CommonModule,
+    SharedModule,  // importujemo ceo modul u kome se nalaze header i footer komponente
+    BrowserModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatDividerModule,
+    MatCardModule,
+    MatCarouselModule,
+    FlexLayoutModule,
+  ],
+  providers:[
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    }
+  ],
+
+
 })
 export class HomePageModule { }
