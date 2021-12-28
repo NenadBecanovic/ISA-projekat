@@ -112,10 +112,52 @@
         </div>
       </div>
 
+      <!-- LOKACIJA PRIMER 1  -->
+      <div>
+        <div>
+          <br> <label style="font-size: 30px; font-weight: 500; margin-left: 30px" >Lokacija:</label>
+        </div>
+        <agm-map [latitude]="lat" [longitude]="lng">
+          <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+        </agm-map>
+      </div>
+
+      <br>
+
+      <!-- LOKACIJA PRIMER 2 -->
+      <section class="section pb-5">
+        <div class="row">
+          <!--Grid column-->
+          <div class="col-lg-5 mb-4" style="height: 400px">
+            <div class="card">
+              <div class="card-body">
+                <div class="form-header blue accent-1">
+                  <h3><i class="fas fa-envelope"></i> Lokacija:</h3>
+                </div>
+                <p> {{boat.address.street}}, {{boat.address.city}}, {{boat.address.state}} </p>
+                <br>
+              </div>
+            </div>
+          </div>
+          <!--Grid column-->
+
+          <!--Grid column-->
+          <div class="col-lg-7">
+            <!--Google map-->
+            <div id="map-container-google-11" class="z-depth-1-half map-container-6" style="height: 400px">
+              <iframe src="https://maps.google.com/maps?q=new%20delphi&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                      frameborder="0" style="border:0" allowfullscreen></iframe>
+            </div>
+          </div>
+          <!--Grid column-->
+        </div>
+      </section>
+
+
       <!-- AKCIJE  -->
       <div>
         <div>
-          <label style="font-size: 30px; font-weight: 500; margin-left: 30px" ><strong>Akcije</strong></label>
+          <br> <label style="font-size: 30px; font-weight: 500; margin-left: 30px" >Akcije:</label>
         </div>
         <div class="myMatCarousel2">
           <mat-carousel timings="250ms ease-in" [autoplay]="false" [maintainAspectRatio]="false" [slides]="3" color="accent" [loop]="true" [hideArrows]="false"
@@ -166,9 +208,7 @@
       </div>
     </div>
 
-    <agm-map [latitude]="lat" [longitude]="lng" style="height: 300px">
-      <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-    </agm-map>
+
 
 <!--    <div>-->
 <!--      <google-map> </google-map>-->
