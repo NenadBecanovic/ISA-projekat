@@ -26,38 +26,10 @@ import {TokenInterceptor} from "../../interceptor/token-interceptor";
     HomeDashboardComponent,
     HomeHouseComponent
   ],
-    imports: [
-        RouterModule,
-        CommonModule,
-        SharedModule,
-        BrowserModule,
-        BrowserAnimationsModule,
-        MatButtonModule,
-        MatDividerModule,
-        MatCardModule,
-        MatCarouselModule,
-        FlexLayoutModule,
-        ScrollingModule,
-        MatGridListModule,
-    ],
-  providers:[
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
-      multi: true,
-    }
-  ],
-
-
-
-@NgModule({
-  declarations: [ // deklaracije komponenti koje ce se koristiti (prikazivati) u nasem glavnom prozoru
-    HomePageComponent,
-    HomeDashboardComponent
-  ],
   imports: [
+    RouterModule,
     CommonModule,
-    SharedModule,  // importujemo ceo modul u kome se nalaze header i footer komponente
+    SharedModule,
     BrowserModule,
     BrowserAnimationsModule,
     MatButtonModule,
@@ -65,8 +37,10 @@ import {TokenInterceptor} from "../../interceptor/token-interceptor";
     MatCardModule,
     MatCarouselModule,
     FlexLayoutModule,
+    ScrollingModule,
+    MatGridListModule,
   ],
-  providers:[
+  providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
@@ -74,6 +48,6 @@ import {TokenInterceptor} from "../../interceptor/token-interceptor";
     }
   ],
 
-
 })
+
 export class HomePageModule { }

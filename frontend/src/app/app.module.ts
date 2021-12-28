@@ -72,18 +72,18 @@ const MaterialComponents = [
 ];
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
     LoginComponent,
     RegistrationComponent,
     EmailActivationComponent,
     ClientHomePageComponent,
+    HouseProfileForHouseOwnerComponent,
+    AdventureProfileComponent
 
   ],
   imports: [
     RouterModule,
-    HouseProfileForHouseOwnerComponent,
-    AdventureProfileComponent
     HomePageModule,
     BrowserModule,
     AppRoutingModule,

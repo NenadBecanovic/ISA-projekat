@@ -1,5 +1,6 @@
 package com.application.bekend.controller;
 import com.application.bekend.DTO.ActivationDTO;
+import com.application.bekend.DTO.AuthUserDTO;
 import com.application.bekend.DTO.MyUserDTO;
 import com.application.bekend.DTO.UserTokenStateDTO;
 import com.application.bekend.model.MyUser;
@@ -29,6 +30,7 @@ import java.sql.Timestamp;
 @RestController
 @RequestMapping("api/identity")
 public class AuthentificationController {
+
     private final AuthService authService;
     private final MyUserService myUserService;
     private final VerificationTokenService verificationTokenService;
@@ -63,16 +65,7 @@ public class AuthentificationController {
         return ResponseEntity.ok(new UserTokenStateDTO(jwt, expiresIn));
     }
 
-    @PostMapping("/registerUser")
-    public ResponseEntity<MyUser> registerNewUser(@RequestBody MyUserDTO myUserDTO){
-        MyUser user = this.authService.findMyUserByEmailOrUsername(myUserDTO.getEmail(), myUserDTO.getUsername());
-        if(user != null){
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
-        this.authService.registerNewUser(myUserDTO);
 
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
-    }
 
 
     @PostMapping("/register")
@@ -84,17 +77,6 @@ public class AuthentificationController {
         this.authService.register(myUserDTO);
 
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<MyUser> loginUser(@RequestBody AuthUserDTO authUserDTO) {
-        System.out.println(authUserDTO.toString());
-        MyUser user = authService.loginUser(authUserDTO.getEmail(), authUserDTO.getPassword());
-        if(user == null){
-            throw new UsernameNotFoundException("User Not found");
-        }
-
-        return new ResponseEntity<>(user,HttpStatus.ACCEPTED);
     }
 
 

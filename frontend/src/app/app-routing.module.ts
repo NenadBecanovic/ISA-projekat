@@ -10,9 +10,6 @@ import {ClientHomePageComponent} from "./client-home-page/client-home-page.compo
 import {HouseProfileForHouseOwnerComponent} from "./house-profile-for-house-owner/house-profile-for-house-owner.component";
 import { AdventureProfileComponent } from './adventure-profile/adventure-profile.component';
 
-const routes: Routes = [
- 
-
 
 const routes: Routes = [
   {path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}, {path: 'house', component: HomeHouseComponent}]},
