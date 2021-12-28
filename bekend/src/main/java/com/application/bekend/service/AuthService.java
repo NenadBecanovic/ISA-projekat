@@ -7,7 +7,10 @@ import com.application.bekend.model.MyUser;
 import com.application.bekend.model.VerificationRequest;
 import com.application.bekend.repository.MyUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import sun.security.util.Password;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -25,7 +28,14 @@ public class AuthService {
     @Autowired
     private EmailService emailService;
     @Autowired
+
+    private PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
+
     private VerificationRequestService verificationRequestService;
+
 
     public MyUser registerNewUser(MyUserDTO myUserDTO) {
         MyUser myUser = new MyUser();
@@ -33,7 +43,7 @@ public class AuthService {
         myUser.setLastName(myUserDTO.getLastName());
         myUser.setEmail(myUserDTO.getEmail());
         myUser.setUsername(myUserDTO.getUsername());
-        myUser.setPassword(myUserDTO.getPassword());
+        myUser.setPassword(passwordEncoder().encode(myUserDTO.getPassword()));
         Address address = new Address();
         address.setStreet(myUserDTO.getAddressDTO().getStreet());
         address.setCity(myUserDTO.getAddressDTO().getCity());
@@ -44,9 +54,12 @@ public class AuthService {
 
         myUser.setAddress(address);
         Authority authority = this.authorityService.findAuthorityByName(myUserDTO.getAuthority());
-        myUser.setAuthority(authority);
-        myUser.setActivated(false);
+
+        System.out.println(authority.toString());
+        myUser.addAuthority(authority);
+        myUser.setIsActivated(false);
         myUser.setPhoneNumber(myUserDTO.getPhoneNumber());
+
 
         Optional<MyUser> saved = Optional.of(this.save(myUser));
 

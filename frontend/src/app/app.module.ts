@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {FormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {LoginComponent} from "./login/login.component";
 import { NgProgressModule } from 'ngx-progressbar';
 import { RegistrationComponent } from './registration/registration.component';
@@ -11,6 +11,8 @@ import { EmailActivationComponent } from './email-activation/email-activation.co
 import { AlertModule } from 'ngx-alerts';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HomePageModule} from "./home-page/home-page-module/home-page.module";
+import {TokenInterceptor} from "./interceptor/token-interceptor";
+import { ClientHomePageComponent } from './client-home-page/client-home-page.component';
 import { HomeDashboardComponent } from './home-page/home-dashboard/home-dashboard.component';
 import {RouterModule} from "@angular/router";
 import { HouseProfileForHouseOwnerComponent } from './house-profile-for-house-owner/house-profile-for-house-owner.component';
@@ -44,6 +46,7 @@ import { FooterComponent } from './home-page/shared/footer/footer.component';
 import { SharedModule } from './home-page/shared/shared.module';
 
 
+
 const MaterialComponents = [
   MatSliderModule,
   MatToolbarModule,
@@ -74,11 +77,13 @@ const MaterialComponents = [
     LoginComponent,
     RegistrationComponent,
     EmailActivationComponent,
-    HouseProfileForHouseOwnerComponent,
-    AdventureProfileComponent
-   ],
+    ClientHomePageComponent,
+
+  ],
   imports: [
     RouterModule,
+    HouseProfileForHouseOwnerComponent,
+    AdventureProfileComponent
     HomePageModule,
     BrowserModule,
     AppRoutingModule,
@@ -95,7 +100,13 @@ const MaterialComponents = [
     ModalModule.forRoot(),
     AlertModule.forRoot({ maxMessages: 5, timeout: 5000,positionX: "right", positionY: "top" }),
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

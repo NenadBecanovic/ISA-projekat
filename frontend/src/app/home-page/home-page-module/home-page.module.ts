@@ -10,6 +10,44 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
 import { MatCarouselModule } from '@ngbmodule/material-carousel';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import {HomeHouseComponent} from "../home-house/home-house.component";
+import {RouterModule} from "@angular/router";
+import {ScrollingModule} from "@angular/cdk/scrolling";
+import {MatGridListModule} from "@angular/material/grid-list";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {TokenInterceptor} from "../../interceptor/token-interceptor";
+
+
+
+
+@NgModule({
+  declarations: [
+    HomePageComponent,
+    HomeDashboardComponent,
+    HomeHouseComponent
+  ],
+    imports: [
+        RouterModule,
+        CommonModule,
+        SharedModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        MatButtonModule,
+        MatDividerModule,
+        MatCardModule,
+        MatCarouselModule,
+        FlexLayoutModule,
+        ScrollingModule,
+        MatGridListModule,
+    ],
+  providers:[
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    }
+  ],
+
 
 
 @NgModule({
@@ -28,16 +66,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatCarouselModule,
     FlexLayoutModule,
   ],
-  // providers:[
-  //   DashboardService,
-  //   {
-  //     provide: HTTP_INTERCEPTORS,
-  //     useClass: TokenInterceptor,
-  //     multi: true,
-  //   }
-  // ],
-  // schemas: [
-  //   NO_ERRORS_SCHEMA
-  // ]
+  providers:[
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    }
+  ],
+
+
 })
 export class HomePageModule { }

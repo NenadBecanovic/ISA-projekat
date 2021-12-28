@@ -11,7 +11,7 @@ import {MatDividerModule} from "@angular/material/divider";
         HeaderComponent,
         FooterComponent
     ],
-    exports: [    // exportujemo ove komponente da bi ih kasnije negde mogli imprtovati
+    exports: [
         FooterComponent,
         HeaderComponent
     ],
