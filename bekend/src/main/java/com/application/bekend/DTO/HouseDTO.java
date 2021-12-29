@@ -1,60 +1,41 @@
-package com.application.bekend.model;
+package com.application.bekend.DTO;
+
+import com.application.bekend.model.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-public class House {
+public class HouseDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-
-    @OneToMany(mappedBy = "house", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Room> rooms = new HashSet<Room>();
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "address_id")
-    private Address address;
+//    private Set<Room> rooms = new HashSet<Room>();
+    private AddressDTO address;
     private String promoDescription;
-
-    @OneToMany(mappedBy = "house", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Image> images;
-
-    @OneToMany(mappedBy = "house")
-    private Set<HouseReservation> courses = new HashSet<HouseReservation>();
+//    private Set<HouseReservation> courses = new HashSet<HouseReservation>();
     private String behaviourRules;
     private float pricePerDay;
-
-    @ManyToMany(mappedBy = "houses")
-    private Set<AdditionalServices> services = new HashSet<AdditionalServices>();
+//    private Set<AdditionalServices> services = new HashSet<AdditionalServices>();
     private boolean isCancalletionFree;
     private int cancalletionFee;
+//    private MyUser owner;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id")
-    private MyUser owner;
-
-    public House(Long id, String name, Set<Room> rooms, Address address, String promoDescription, Set<HouseReservation> courses,
-                 String behaviourRules, float pricePerDay, Set<AdditionalServices> services, boolean isCancalletionFree,
-                 int cancalletionFee, Set<Image> images) {
+    public HouseDTO(Long id, String name, AddressDTO addressDTO, String promoDescription, String behaviourRules, float pricePerDay,
+                    boolean isCancalletionFree, int cancalletionFee, Set<Image> images) {
         this.id = id;
         this.name = name;
-        this.rooms = rooms;
-        this.address = address;
+        this.address = addressDTO;
         this.promoDescription = promoDescription;
-        this.courses = courses;
         this.behaviourRules = behaviourRules;
         this.pricePerDay = pricePerDay;
-        this.services = services;
         this.isCancalletionFree = isCancalletionFree;
         this.cancalletionFee = cancalletionFee;
         this.images = images;
     }
 
-    public House() {
+    public HouseDTO() {
     }
 
     public Long getId() {
@@ -73,19 +54,11 @@ public class House {
         this.name = name;
     }
 
-    public Set<Room> getRooms() {
-        return rooms;
-    }
-
-    public void setRooms(Set<Room> rooms) {
-        this.rooms = rooms;
-    }
-
-    public Address getAddress() {
+    public AddressDTO getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(AddressDTO address) {
         this.address = address;
     }
 
@@ -95,14 +68,6 @@ public class House {
 
     public void setPromoDescription(String promoDescription) {
         this.promoDescription = promoDescription;
-    }
-
-    public Set<HouseReservation> getCourses() {
-        return courses;
-    }
-
-    public void setCourses(Set<HouseReservation> courses) {
-        this.courses = courses;
     }
 
     public String getBehaviourRules() {
@@ -119,14 +84,6 @@ public class House {
 
     public void setPricePerDay(float pricePerDay) {
         this.pricePerDay = pricePerDay;
-    }
-
-    public Set<AdditionalServices> getServices() {
-        return services;
-    }
-
-    public void setServices(Set<AdditionalServices> services) {
-        this.services = services;
     }
 
     public boolean isCancalletionFree() {

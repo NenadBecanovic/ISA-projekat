@@ -25,7 +25,7 @@
               </span>
         </div>
         <!-- adresa vikednice -->
-        <div class="d-flex left align-items-center" style="margin-left: 10px">
+        <div class="d-flex left align-items-center" style="margin-left: 10px" >
           <a class="house-address ms-3 mt-3" (click)="showMap()">{{house.address.street}}, {{house.address.city}}, {{house.address.state}}</a>
           <br>
         </div>
@@ -35,16 +35,16 @@
           <div class="d-flex flex-column ms-3 filter-sort-container">
             <span class="basic-title text-center">Informacije</span>
             <div class="form-check">
-              <label class="form-check-label wrap">
-                Broj soba: {{house.rooms.length}}
-              </label>
+<!--              <label class="form-check-label wrap">-->
+<!--                Broj soba: {{house.rooms.length}}-->
+<!--              </label>-->
             </div>
             <div class="form-check">
               <label class="form-check-label">
                 Broj kreveta po sobi: <br>
-                <li *ngFor="let room of house.rooms">
-                  {{room.numberOfBeds}} <br>
-                </li>
+<!--                <li *ngFor="let room of house.rooms">-->
+<!--                  {{room.numberOfBeds}} <br>-->
+<!--                </li>-->
               </label>
             </div>
             <div class="form-check last-form-check">
@@ -60,9 +60,9 @@
             <div class="form-check last-form-check">
               <label class="form-check-label wrap">
                 <br> Dodatne usluge: <br>
-                <li *ngFor="let service of house.services">
-                  {{service.name}} : {{service.price}} din <br>
-                </li>
+<!--                <li *ngFor="let service of house.services">-->
+<!--                  {{service.name}} : {{service.price}} din <br>-->
+<!--                </li>-->
                 <br>
               </label>
             </div>
@@ -109,23 +109,23 @@
 <!--                  {{service.name}} : {{service.price}} din <br>-->
 <!--                </li>-->
 
-                <ng-container *ngFor="let course of house.courses ; let i = index">
-                  <mat-card style="margin-right: 5px; margin-left: 5px" class="myCardSlide">
-                    <div>
-                      <div>
-                        <h4 class="card-title"> {{ course.startDate }} - {{ course.endDate }} </h4>
-                        <p class="card-text">Trajanje: 2 dana </p>
-                        <p class="card-text">Maksimalan broj osoba: {{ course.maxGuests }}</p>
-                        <p class="card-text">Dodatne usluge: {{course.additionalServices }} </p>
-                        <p class="card-text">Cena po 1 nocenju: {{ course.price }} din/dan</p>
-                      </div>
-                      <br>
-<!--                      <div class=" align-items-center justify-content-end">-->
-<!--                        <button type="button" class="btn reserve-button" (click)="addActionDialog()">REZERVIŠI</button>-->
+<!--                <ng-container *ngFor="let course of house.courses ; let i = index">-->
+<!--                  <mat-card style="margin-right: 5px; margin-left: 5px" class="myCardSlide">-->
+<!--                    <div>-->
+<!--                      <div>-->
+<!--                        <h4 class="card-title"> {{ course.startDate }} - {{ course.endDate }} </h4>-->
+<!--                        <p class="card-text">Trajanje: 2 dana </p>-->
+<!--                        <p class="card-text">Maksimalan broj osoba: {{ course.maxGuests }}</p>-->
+<!--                        <p class="card-text">Dodatne usluge: {{course.additionalServices }} </p>-->
+<!--                        <p class="card-text">Cena po 1 nocenju: {{ course.price }} din/dan</p>-->
 <!--                      </div>-->
-                    </div>
-                  </mat-card>
-                </ng-container>
+<!--                      <br>-->
+<!--&lt;!&ndash;                      <div class=" align-items-center justify-content-end">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <button type="button" class="btn reserve-button" (click)="addActionDialog()">REZERVIŠI</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                      </div>&ndash;&gt;-->
+<!--                    </div>-->
+<!--                  </mat-card>-->
+<!--                </ng-container>-->
               </div>
             </mat-carousel-slide>
 

@@ -98,7 +98,7 @@ const MaterialComponents = [
     ModalModule.forRoot(),
     AlertModule.forRoot({maxMessages: 5, timeout: 5000, positionX: "right", positionY: "top"}),
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDhUaf84F4NwNDUjw-feRmJusep1T1EB6s'
+      apiKey: 'AIzaSyDhUaf84F4NwNDUjw-feRmJusep1T1EB6s'   // za google maps
     })
   ],
   providers: [],

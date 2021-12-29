@@ -21,7 +21,6 @@ public class HouseReservation {
     @ManyToMany(mappedBy = "houseReservations")
     private Set<MyUser> guests = new HashSet<MyUser>();
 
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinTable(name = "house_reservation_table", joinColumns = @JoinColumn(name = "house_appointment_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "house_id", referencedColumnName = "id"))
     private House house;

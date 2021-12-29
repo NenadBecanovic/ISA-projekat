@@ -1,11 +1,11 @@
 package com.application.bekend.repository;
 
-import com.application.bekend.model.Address;
+import com.application.bekend.model.House;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AddressRepository extends JpaRepository<Address, Long> {
+public interface HouseRepository extends JpaRepository<House, Long> {
 
-    Address getAddressById(Long id);
+    House getHouseById(Long id);
 }

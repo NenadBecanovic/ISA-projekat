@@ -15,6 +15,7 @@ public class Address {
     private String state;
     private float longitude;
     private float latitude;
+    private int postalCode;
 
     @OneToMany(mappedBy = "address", fetch = FetchType.EAGER)
     private Set<MyUser> users= new HashSet<MyUser>();
@@ -25,13 +26,14 @@ public class Address {
     @OneToMany(mappedBy = "address", fetch = FetchType.EAGER)
     private Set<House> houses= new HashSet<House>();
 
-    public Address(Long id, String street, String city, String state, float longitude, float latitude) {
+    public Address(Long id, String street, String city, String state, float longitude, float latitude, int postalCode) {
         this.id = id;
         this.street = street;
         this.city = city;
         this.state = state;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.postalCode = postalCode;
     }
 
     public Address() {
@@ -108,4 +110,8 @@ public class Address {
     public void setHouses(Set<House> houses) {
         this.houses = houses;
     }
+
+    public int getPostalCode() { return postalCode; }
+
+    public void setPostalCode(int postalCode) { this.postalCode = postalCode; }
 }

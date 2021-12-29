@@ -20,7 +20,7 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
 
   slides = [{'image': 'assets/boat2.jpg'}, {'image': 'assets/boat-inside1.jpg'}, {'image': 'assets/boat-inside2.jpg'}]
   boat: Boat;
-  address: Address = new Address("Luka 11","Novi Sad","Srbija",0,0,21000)
+  address: Address = new Address(0,"Luka 11","Novi Sad","Srbija",0,0,21000)
   service1: AdditionalService= new AdditionalService("ROSTILJ", 2000);
   service2: AdditionalService= new AdditionalService("OPREMA ZA RONJENJE", 3000);
   additionalServices: Array<AdditionalService>;
