@@ -4,16 +4,19 @@ import com.application.bekend.DTO.MyUserDTO;
 import com.application.bekend.model.Address;
 import com.application.bekend.model.Authority;
 import com.application.bekend.model.MyUser;
+import com.application.bekend.model.VerificationRequest;
 import com.application.bekend.repository.MyUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import sun.security.util.Password;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class AuthService {
-
     @Autowired
     private MyUserRepository myUserRepository;
     @Autowired
@@ -24,10 +27,18 @@ public class AuthService {
     private VerificationTokenService verificationTokenService;
     @Autowired
     private EmailService emailService;
+    @Autowired
+
+    private PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 
 
-    public MyUser registerNewUser(MyUserDTO myUserDTO) {
+    private VerificationRequestService verificationRequestService;
 
+
+
+    public MyUser register(MyUserDTO myUserDTO) {
         MyUser myUser = new MyUser();
         myUser.setFirstName(myUserDTO.getFirstName());
         myUser.setLastName(myUserDTO.getLastName());
@@ -41,38 +52,25 @@ public class AuthService {
         address.setLongitude(myUserDTO.getAddressDTO().getLongitude());
         address.setLatitude(myUserDTO.getAddressDTO().getLatitude());
         addresService.save(address);
-
         myUser.setAddress(address);
         Authority authority = this.authorityService.findAuthorityByName(myUserDTO.getAuthority());
-        myUser.setAuthority(authority);
-        myUser.setActivated(false);
+        myUser.addAuthority(authority);
+        myUser.setIsActivated(false);
+        myUser.setPhoneNumber(myUserDTO.getPhoneNumber());
+        this.save(myUser);
 
-        Optional<MyUser> saved = Optional.of(this.save(myUser));
+        // poslati zahtev za registraciju administratoru
+        VerificationRequest verificationRequest = new VerificationRequest(myUser, false, myUserDTO.getReasonForRegistration());
+        this.verificationRequestService.save(verificationRequest);
 
-        //creation of validation token
-
-        saved.ifPresent(u -> {
-                    try {
-                        String token = UUID.randomUUID().toString();
-                        verificationTokenService.save(saved.get(), token);
-                        //send verification email
-                        this.emailService.sendHTMLMail(saved.get());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-        );
-
-        return saved.get();
+        return myUser;
     }
 
     public MyUser save(MyUser user) {
         return this.myUserRepository.save(user);
     }
 
-    public MyUser loginUser(String username, String password) {
-        return myUserRepository.findMyUserByEmailAndPassword(username, password);
-    }
+
 
     public MyUser findMyUserByEmailOrUsername(String email, String username) {
         return this.myUserRepository.findMyUserByEmailOrUsername(email, username);

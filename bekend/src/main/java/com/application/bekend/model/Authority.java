@@ -1,11 +1,13 @@
 package com.application.bekend.model;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Authority {
+public class Authority implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,10 +15,10 @@ public class Authority {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "authority", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "authorities")
     private Set<MyUser> users= new HashSet<MyUser>();
 
-    public Authority(Long id, String name, Set<MyUser> users) {
+    public Authority(Long id, String name, MyUser user) {
         this.id = id;
         this.name = name;
         this.users = users;
@@ -41,11 +43,11 @@ public class Authority {
         this.name = name;
     }
 
-    public Set<MyUser> getUsers() {
-        return users;
+
+    @Override
+    public String getAuthority() {
+        return name;
     }
 
-    public void setUsers(Set<MyUser> users) {
-        this.users = users;
-    }
+
 }

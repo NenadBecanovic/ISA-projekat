@@ -1,11 +1,20 @@
 package com.application.bekend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
-public class MyUser {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class MyUser implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,10 +29,15 @@ public class MyUser {
     private String password;
     @Column(name = "username", nullable = false, unique = true)
     private String username;
+    @Column(name = "phoneNumber", nullable = false)
+    private String phoneNumber;
+
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Boat> boats = new HashSet<Boat>();
+
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<House> houses = new HashSet<House>();
+
     @OneToMany(mappedBy = "instructor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<FishingAdventure> fishingAdventures = new HashSet<FishingAdventure>();
 
@@ -39,20 +53,21 @@ public class MyUser {
     @JoinTable(name = "fishing_reservations", joinColumns = @JoinColumn(name = "guest_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "fishing_reservation_id", referencedColumnName = "id"))
     private Set<AdventureReservation> adventureReservations = new HashSet<AdventureReservation>();
 
-
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "authority_id")
-    private Authority authority;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_authorities", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
+    private List<Authority> authorities;
+
+
+    @OneToOne(mappedBy = "user")
+    private VerificationRequest verificationRequest;
 
 
     private Boolean isActivated;
-
-
 
     public MyUser(Long id, String firstName, String lastName, String email, String password, String username) {
         this.id = id;
@@ -63,81 +78,35 @@ public class MyUser {
         this.username = username;
     }
 
-    public MyUser() {
+
+    @Override
+    @JsonIgnore
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public Long getId() {
-        return id;
+    @Override
+    @JsonIgnore
+    public boolean isAccountNonLocked() {
+        return true;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    @Override
+    @JsonIgnore
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    @Override
+    public boolean isEnabled() {
+        return isActivated;
     }
 
 
-   public Boolean getActivated() {
-       return isActivated;
+    public void addAuthority(Authority authority){
+        this.authorities.add(authority);
    }
 
-   public void setActivated(Boolean activated) {
-      isActivated = activated;
-  }
 
-   public Address getAddress() {
-       return address;
-    }
-
-   public void setAddress(Address address) {
-      this.address = address;
-    }
-
-
-    public Authority getAuthority() {
-        return authority;
-    }
-
-    public void setAuthority(Authority authority) {
-        this.authority = authority;
-    }
-
+  
 }

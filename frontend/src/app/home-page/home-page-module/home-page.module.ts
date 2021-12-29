@@ -15,6 +15,8 @@ import {RouterModule} from "@angular/router";
 import {ScrollingModule} from "@angular/cdk/scrolling";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatIconModule} from "@angular/material/icon";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {TokenInterceptor} from "../../interceptor/token-interceptor";
 
 
 
@@ -40,16 +42,15 @@ import {MatIconModule} from "@angular/material/icon";
     MatGridListModule,
     MatIconModule,
   ],
-  // providers:[
-  //   DashboardService,
-  //   {
-  //     provide: HTTP_INTERCEPTORS,
-  //     useClass: TokenInterceptor,
-  //     multi: true,
-  //   }
-  // ],
-  // schemas: [
-  //   NO_ERRORS_SCHEMA
-  // ]
+ 
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    }
+  ],
+
 })
+
 export class HomePageModule { }

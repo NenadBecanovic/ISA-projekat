@@ -22,11 +22,11 @@ public class HouseReservation {
     private Set<MyUser> guests = new HashSet<MyUser>();
 
 
-    @ManyToMany
-    @JoinTable(name = "house_reservation_table", joinColumns = @JoinColumn(name = "house_appointment_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "boat_id", referencedColumnName = "id"))
-    private Set<House> houses = new HashSet<House>();
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinTable(name = "house_reservation_table", joinColumns = @JoinColumn(name = "house_appointment_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "house_id", referencedColumnName = "id"))
+    private House house;
 
-    public HouseReservation(Long id, Date startDate, Date endDate, int maxGuests, String additionalServices, float price, boolean isAvailable, Set<House> houses) {
+    public HouseReservation(Long id, Date startDate, Date endDate, int maxGuests, String additionalServices, float price, boolean isAvailable, House house) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -34,7 +34,7 @@ public class HouseReservation {
         this.additionalServices = additionalServices;
         this.price = price;
         this.isAvailable = isAvailable;
-        this.houses = houses;
+        this.house = house;
     }
 
     public HouseReservation() {
@@ -96,11 +96,11 @@ public class HouseReservation {
         isAvailable = available;
     }
 
-    public Set<House> getHouses() {
-        return houses;
+    public House getHouse() {
+        return house;
     }
 
-    public void setHouses(Set<House> houses) {
-        this.houses = houses;
+    public void setHouse(House house) {
+        this.house = house;
     }
 }
