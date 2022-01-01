@@ -13,8 +13,7 @@ public class HouseDTO {
 //    private Set<Room> rooms = new HashSet<Room>();
     private AddressDTO address;
     private String promoDescription;
-    private Set<Image> images;
-//    private Set<HouseReservation> courses = new HashSet<HouseReservation>();
+    //    private Set<HouseReservation> courses = new HashSet<HouseReservation>();
     private String behaviourRules;
     private float pricePerDay;
 //    private Set<AdditionalServices> services = new HashSet<AdditionalServices>();
@@ -23,7 +22,7 @@ public class HouseDTO {
 //    private MyUser owner;
 
     public HouseDTO(Long id, String name, AddressDTO addressDTO, String promoDescription, String behaviourRules, float pricePerDay,
-                    boolean isCancalletionFree, int cancalletionFee, Set<Image> images) {
+                    boolean isCancalletionFree, int cancalletionFee) {
         this.id = id;
         this.name = name;
         this.address = addressDTO;
@@ -32,7 +31,6 @@ public class HouseDTO {
         this.pricePerDay = pricePerDay;
         this.isCancalletionFree = isCancalletionFree;
         this.cancalletionFee = cancalletionFee;
-        this.images = images;
     }
 
     public HouseDTO() {
@@ -102,7 +100,4 @@ public class HouseDTO {
         this.cancalletionFee = cancalletionFee;
     }
 
-    public Set<Image> getImages() { return images; }
-
-    public void setImages(Set<Image> images) { this.images = images; }
 }

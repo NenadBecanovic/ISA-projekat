@@ -25,11 +25,13 @@ public class AdditionalServices {
     @JoinTable(name = "addiotional_services_adventure", joinColumns = @JoinColumn(name = "additional_services_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "house_id", referencedColumnName = "id"))
     private Set<FishingAdventure> fishingAdventures = new HashSet<FishingAdventure>();
 
-    public AdditionalServices(Long id, String name, float price, Set<Boat> boats) {
+    public AdditionalServices(Long id, String name, float price, Set<Boat> boats, Set<FishingAdventure> fishingAdventures, Set<House> houses) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.boats = boats;
+        this.fishingAdventures = fishingAdventures;
+        this.houses = houses;
     }
 
     public AdditionalServices() {

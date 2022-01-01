@@ -1,12 +1,9 @@
 import {Address} from "./address";
-import {Room} from "./room";
-import {AdditionalService} from "./additional-service";
-import {HouseReservation} from "./house-reservation";
 import {Image} from "./image";
-
 
 export class House {
 
+  id: number;
   name: String;
   address: Address;
   // rooms: Array<Room>;                 //
@@ -17,11 +14,12 @@ export class House {
   // services: Array<AdditionalService>; //
   isCancalletionFree: boolean;
   cancalletionFee: number;
-  images: Array<Image>;
-//images[]: Image;
+  // images: Array<Image>;
+  //images[]: Image;
 
-  constructor(name: String, addressDTO: Address, promoDescription: String, behaviourRules: String, pricePerDay: number,
-              isCancalletionFree: boolean, cancalletionFee: number, images: Array<Image>) {
+  constructor(id: number, name: String, addressDTO: Address, promoDescription: String, behaviourRules: String, pricePerDay: number,
+              isCancalletionFree: boolean, cancalletionFee: number) {
+    this.id = id;
     this.name = name;
     this.address = addressDTO;
     // this.rooms = rooms;
@@ -32,7 +30,7 @@ export class House {
     this.isCancalletionFree = isCancalletionFree;
     this.cancalletionFee = cancalletionFee;
     // this.courses = courses;
-    this.images = images;
+    // this.images = images;
   }
 
 }

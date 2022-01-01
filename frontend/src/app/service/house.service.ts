@@ -13,7 +13,7 @@ export class HouseService {
   private readonly userPath = 'http://localhost:8080/api/house';
 
   public getHouseById(id: number): Observable<House>{
-    console.log(`${this.userPath}/getHouseById/`+id)
+    //console.log(`${this.userPath}/getHouseById/`+id)
     return this._http.get<House>(`${this.userPath}/getHouseById/`+id)
   }
 }

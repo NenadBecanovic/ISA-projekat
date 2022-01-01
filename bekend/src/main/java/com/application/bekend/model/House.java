@@ -13,7 +13,7 @@ public class House {
     private String name;
 
     @OneToMany(mappedBy = "house", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Room> rooms = new HashSet<Room>();
+    private Set<Room> rooms = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id")
@@ -24,12 +24,12 @@ public class House {
     private Set<Image> images;
 
     @OneToMany(mappedBy = "house")
-    private Set<HouseReservation> courses = new HashSet<HouseReservation>();
+    private Set<HouseReservation> courses = new HashSet<>();
     private String behaviourRules;
     private float pricePerDay;
 
     @ManyToMany(mappedBy = "houses")
-    private Set<AdditionalServices> services = new HashSet<AdditionalServices>();
+    private Set<AdditionalServices> services = new HashSet<>();
     private boolean isCancalletionFree;
     private int cancalletionFee;
 
