@@ -16,4 +16,8 @@ export class AdditionalServicesService {
   public getAllByHouseId(id: number): Observable<AdditionalService[]>{
     return this._http.get<AdditionalService[]>(`${this.userPath}/getAllByHouseId/`+id)
   }
+
+  public getAllByBoatId(id: number): Observable<AdditionalService[]>{
+    return this._http.get<AdditionalService[]>(`${this.userPath}/getAllByBoatId/`+id)
+  }
 }

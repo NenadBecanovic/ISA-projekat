@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {AdditionalService} from "../model/additional-service";
-import {HouseReservation} from "../model/house-reservation";
 import {HouseReservationSlide} from "../model/house-reservation-slide";
 
 @Injectable({

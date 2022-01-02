@@ -39,4 +39,17 @@ public class AdditionalServicesContoller {
 
         return new ResponseEntity<>(additionalServicesDTOS, HttpStatus.OK);
     }
+
+    @GetMapping("/getAllByBoatId/{id}")
+    public ResponseEntity<List<AdditionalServicesDTO>> getAllByBoatId(@PathVariable("id") Long id){
+        List<AdditionalServices> additionalServices = this.additionalServicesService.getAllByBoatId(id);
+        List<AdditionalServicesDTO> additionalServicesDTOS = new ArrayList<>();
+
+        for (AdditionalServices a: additionalServices) {
+            AdditionalServicesDTO additionalServicesDTO = new AdditionalServicesDTO(a.getId(), a.getName(), a.getPrice());
+            additionalServicesDTOS.add(additionalServicesDTO);
+        }
+
+        return new ResponseEntity<>(additionalServicesDTOS, HttpStatus.OK);
+    }
 }

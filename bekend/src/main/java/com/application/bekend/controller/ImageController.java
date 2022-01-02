@@ -39,4 +39,17 @@ public class ImageController {
 
         return new ResponseEntity<>(imagesDTOS, HttpStatus.OK);
     }
+
+    @GetMapping("/getAllByBoatId/{id}")
+    public ResponseEntity<List<ImageDTO>> getAllByBoatId(@PathVariable("id") Long id){
+        List<Image> images = this.imageService.getAllByBoat_Id(id);
+        List<ImageDTO> imagesDTOS = new ArrayList<>();
+
+        for (Image i: images) {
+            ImageDTO imageDTO = new ImageDTO(i.getId(), i.getImageUrl());
+            imagesDTOS.add(imageDTO);
+        }
+
+        return new ResponseEntity<>(imagesDTOS, HttpStatus.OK);
+    }
 }

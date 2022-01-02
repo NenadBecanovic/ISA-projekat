@@ -1,11 +1,5 @@
 package com.application.bekend.DTO;
 
-import com.application.bekend.model.*;
-
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
-
 public class HouseDTO {
 
     private Long id;

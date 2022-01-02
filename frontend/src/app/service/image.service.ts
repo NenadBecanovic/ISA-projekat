@@ -16,4 +16,8 @@ export class ImageService {
   public getAllByHouseId(id: number): Observable<Image[]>{
     return this._http.get<Image[]>(`${this.userPath}/getAllByHouseId/`+id)
   }
+
+  public getAllByBoatId(id: number): Observable<Image[]>{
+    return this._http.get<Image[]>(`${this.userPath}/getAllByBoatId/`+id)
+  }
 }

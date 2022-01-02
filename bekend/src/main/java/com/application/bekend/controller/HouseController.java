@@ -2,14 +2,11 @@ package com.application.bekend.controller;
 
 import com.application.bekend.DTO.AddressDTO;
 import com.application.bekend.DTO.HouseDTO;
-import com.application.bekend.model.Address;
 import com.application.bekend.model.House;
-import com.application.bekend.service.AddresService;
 import com.application.bekend.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

@@ -5,6 +5,15 @@ import {add} from "ngx-bootstrap/chronos";
 import {AdditionalService} from "../model/additional-service";
 import {NavigationEquipment} from "../model/navigation-equipment";
 import {BoatReservation} from "../model/boat-reservation";
+import {House} from "../model/house";
+import {BoatService} from "../service/boat.service";
+import {AdditionalServicesService} from "../service/additional-services.service";
+import {ImageService} from "../service/image.service";
+import {Image} from "../model/image";
+import {HouseReservationService} from "../service/house-reservation.service";
+import {BoatReservationService} from "../service/boat-reservation.service";
+import {HouseReservationSlide} from "../model/house-reservation-slide";
+import {BoatReservationSlide} from "../model/boat-reservation-slide";
 
 
 @Component({
@@ -14,46 +23,25 @@ import {BoatReservation} from "../model/boat-reservation";
 })
 
 export class BoatProfileForBoatOwnerComponent implements OnInit {
-  // public map: any = { lat: 51.678418, lng: 7.809007 };
-  lat = 51.678418;
-  lng = 7.809007;
-
-  slides = [{'image': 'assets/boat2.jpg'}, {'image': 'assets/boat-inside1.jpg'}, {'image': 'assets/boat-inside2.jpg'}]
-  boat: Boat;
+  lat = 0;
+  lng = 0;
   address: Address = new Address(0,"Luka 11","Novi Sad","Srbija",0,0,21000)
-  service1: AdditionalService= new AdditionalService("ROSTILJ", 2000);
-  service2: AdditionalService= new AdditionalService("OPREMA ZA RONJENJE", 3000);
-  additionalServices: Array<AdditionalService>;
-  fishingEquipment: String = new String("10 stapova za pecanje, 100 udica");
-  navigationEquipment: NavigationEquipment = new NavigationEquipment(true, true, true, true);
-  courses: Array<BoatReservation> = new Array<BoatReservation>();
-  boatReservation1: BoatReservation;
-  boatReservation2: BoatReservation;
-  boatReservation3: BoatReservation;
-  boatReservation4: BoatReservation;
+  boat: Boat = new Boat(0, '', '', '', 0, 0, '', 0, 0, 0, 0, false, 0, '', this.address);
+  additionalServices: AdditionalService[] = new Array<AdditionalService>();
+  // fishingEquipment: String = new String("10 stapova za pecanje, 100 udica");
+  // navigationEquipment: NavigationEquipment = new NavigationEquipment(true, true, true, true);
+  courses: BoatReservation[] = new Array<BoatReservation>();
+  courses_slides: BoatReservationSlide[] = new Array<BoatReservationSlide>();
+  isSlideLoaded: boolean = false;
+  images: Image[] = new Array<Image>();
+  isLoaded: boolean = false;
 
-  constructor() {
-    this.additionalServices = new Array<AdditionalService>();
-    this.additionalServices.push(this.service1);
-    this.additionalServices.push(this.service2);
-
-    this.boat = new Boat("Kruzer na Dunavu", this.address, "Najbolji kruzer na Dunavu koji postoji u ponudi!",
-      "Zabranjeno pusenje.", 8600, 10, "kruzer", 10, 3, 120, 80, false, 3000,
-      this.additionalServices, this.fishingEquipment, this.navigationEquipment, this.courses);
-
-    this.boatReservation1 = new BoatReservation(new Date("Dec 19 2021 07:44:57"), new Date("Dec 20 2021 07:44:57"), 5, "Bazen", 2000, true, this.boat)
-    this.boatReservation2 = new BoatReservation(new Date("Dec 21 2021 07:44:57"), new Date("Dec 22 2021 07:44:57"), 3, "Rostilj", 1000, true, this.boat)
-    this.boatReservation3 = new BoatReservation(new Date("Dec 23 2021 07:44:57"), new Date("Dec 25 2021 07:44:57"), 6, "Peraja za ronjenje", 1000, true, this.boat)
-    this.boatReservation4 = new BoatReservation(new Date("Dec 28 2021 07:44:57"), new Date("Dec 30 2021 07:44:57"), 2, "Djakuzi", 1000, true, this.boat)
-
-    this.courses.push(this.boatReservation1);
-    this.courses.push(this.boatReservation2);
-    this.courses.push(this.boatReservation3);
-
-    this.boat.courses = this.courses;
+  constructor(private _boatService: BoatService, private _additionalServices: AdditionalServicesService, private _imageService: ImageService,
+              private _boatReservationService: BoatReservationService) {
   }
 
   ngOnInit(): void {
+    this.loadData();
   }
 
   addImageToBoat($event: Event) {
@@ -67,4 +55,42 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
   addActionDialog() {
 
   }
+
+  modifyProfile() {
+
+  }
+
+  loadData() { // ucitavanje iz baze
+    this._boatService.getBoatById(1).subscribe(
+      (boat: Boat) => {
+        this.boat = boat
+        this.address = this.boat.address;
+        this.lat = this.address.latitude;
+        this.lng = this.address.longitude;
+
+        this._additionalServices.getAllByBoatId(this.boat.id).subscribe(
+          (additionalServices: AdditionalService[]) => {
+            this.additionalServices = additionalServices
+          }
+        )
+
+        this._imageService.getAllByBoatId(this.boat.id).subscribe(
+          (images: Image[]) => {
+            this.images = images
+            this.isLoaded = true;
+          }
+        )
+
+        this._boatReservationService.getAllByBoatId(this.boat.id).subscribe(
+          (courses_slides: BoatReservationSlide[]) => {
+            this.courses_slides = courses_slides
+            this.isSlideLoaded = true
+          }
+        )
+
+      }
+    )
+  }
+
+
 }

@@ -1,13 +1,13 @@
 <div id="boat-profile">
   <app-header> </app-header>
   <div [style.height]="500">
-    <mat-carousel
-      timings="250ms ease-in" [autoplay]=true [interval] = "5000" color="accent" maxWidth="auto" [proportion]= "40" [slides] = "3"
+    <mat-carousel *ngIf="isLoaded"
+      timings="250ms ease-in" [autoplay]=true [interval] = "5000" color="accent" maxWidth="auto" [proportion]= "40" [slides] = "images.length"
       [loop]=true [hideArrows]="false" [hideIndicators]="true" [useKeyboard]="true" [useMouseWheel]="false" orientation="ltr">
       <mat-carousel-slide
         #matCarouselSlide
-        *ngFor="let slide of slides; let i = index"
-        [image]="slide.image"
+        *ngFor="let sl of images;"
+        [image]=sl.imageUrl
         overlayColor="#00000040"
         [hideOverlay]="false">
       </mat-carousel-slide>
@@ -15,9 +15,9 @@
     <button mat-raised-button (click)="addImage.click()" class="btn add-picture-button">Dodaj sliku</button>
     <input type="file" accept="image/*" style="display:none;border:none;" (change)="addImageToBoat($event)" #addImage/>
 
+    <button mat-raised-button (click)="modifyProfile()" class="btn modify-profile-button">Izmeni profil</button>
 
     <div class="boat-container boat-view-title-container">
-<!--      <div class="d-flex flex-column boat-view-title-container">-->
 
       <!-- naziv broda -->
       <div class="d-flex left align-items-center" style="margin-left: 10px">
@@ -31,7 +31,7 @@
         <br>
       </div>
 
-      <!-- informacije, promo opis i opsi broda, predstavljamo kao 3 kolone -->
+      <!-- informacije, promo opis i opis broda, predstavljamo kao 3 kolone -->
       <div class="d-flex flex-row mt-5">
         <!-- Informacije -->
         <div class="d-flex flex-column ms-3 filter-sort-container">
@@ -49,7 +49,7 @@
           <div class="form-check last-form-check">
             <label class="form-check-label wrap">
               <br> Dodatne usluge: <br>
-              <li *ngFor="let service of boat.services">
+              <li *ngFor="let service of additionalServices">
                 {{service.name}} : {{service.price}} din <br>
               </li>
               <br>
@@ -65,13 +65,7 @@
 
         <!-- promo opis -->
         <div class="boat-promo-desc d-flex ms-5 flex-column">
-          {{ boat.promoDescription }} {{ boat.promoDescription }} {{ boat.promoDescription }}
-          {{ boat.promoDescription }}{{ boat.promoDescription }}{{ boat.promoDescription }}
-          {{ boat.promoDescription }}{{ boat.promoDescription }}{{ boat.promoDescription }}
-          {{ boat.promoDescription }} {{ boat.promoDescription }} {{ boat.promoDescription }}
-          {{ boat.promoDescription }} {{ boat.promoDescription }} {{ boat.promoDescription }}
-          {{ boat.promoDescription }}{{ boat.promoDescription }}{{ boat.promoDescription }}
-          {{ boat.promoDescription }}{{ boat.promoDescription }}{{ boat.promoDescription }}
+          {{ boat.promoDescription }}
         </div>
 
         <!-- O BRODU -->
@@ -121,10 +115,9 @@
           <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
         </agm-map>
       </div>
-
       <br>
 
-      <!-- LOKACIJA PRIMER 2 -->
+      <!-- LOKACIJA PRIMER 2 - NISU ISKORISTENI DINAMICKI PODACI ! -->
       <section class="section pb-5">
         <div class="row">
           <!--Grid column-->
@@ -152,6 +145,7 @@
           <!--Grid column-->
         </div>
       </section>
+      <!-- LOKACIJA PRIMER 2 - KRAJ-->
 
 
       <!-- AKCIJE  -->
@@ -160,40 +154,22 @@
           <br> <label style="font-size: 30px; font-weight: 500; margin-left: 30px" >Akcije:</label>
         </div>
         <div class="myMatCarousel2">
-          <mat-carousel timings="250ms ease-in" [autoplay]="false" [maintainAspectRatio]="false" [slides]="3" color="accent" [loop]="true" [hideArrows]="false"
+          <mat-carousel *ngIf="isSlideLoaded" timings="250ms ease-in" [autoplay]="false" [maintainAspectRatio]="false" color="accent" [loop]="true" [hideArrows]="false"
                         [hideIndicators]="true" [useKeyboard]="true" [useMouseWheel]="false" orientation="ltr">
-            <mat-carousel-slide #matCarouselSlide overlayColor="white">
+            <mat-carousel-slide #matCarouselSlide overlayColor="white" *ngFor="let courses of courses_slides; let i = index">
               <div class="myMatCarouselSlide2">
-                <!--                <li *ngFor="let service of house.services">-->
-                <!--                  {{service.name}} : {{service.price}} din <br>-->
-                <!--                </li>-->
-
-                <ng-container *ngFor="let course of boat.courses ; let i = index">
+                <ng-container *ngFor="let course of courses.boatReservationDTOList ; let j = index">
                   <mat-card style="margin-right: 5px; margin-left: 5px" class="myCardSlide">
                     <div>
                       <div>
-                        <h4 class="card-title"> {{ course.startDate }} - {{ course.endDate }} </h4>
+                        <h4 class="card-title"> {{ course.id }} {{ course.startDate }} - {{ course.endDate }} </h4>
                         <p class="card-text">Trajanje: 2 dana </p>
                         <p class="card-text">Maksimalan broj osoba: {{ course.maxGuests }}</p>
                         <p class="card-text">Dodatne usluge: {{course.additionalServices }} </p>
                         <p class="card-text">Cena po 1 nocenju: {{ course.price }} din/dan</p>
                       </div>
                       <br>
-<!--                      <div class=" align-items-center justify-content-end">-->
-<!--                        <button type="button" class="btn reserve-button" (click)="addActionDialog()">REZERVIŠI</button>-->
-<!--                      </div>-->
                     </div>
-                  </mat-card>
-                </ng-container>
-              </div>
-            </mat-carousel-slide>
-
-            <mat-carousel-slide #matCarouselSlide overlayColor="white">
-              <div class="myMatCarouselSlide2">
-                <ng-container *ngFor="let _ of [1,2,3,4] ; let i = index">
-                  <mat-card class="myCardSlide">
-                    <img mat-card-image style="width: 100%; height:100%; max-height: 150px; max-width: 150px" src="{{'assets/yacht.jpg'}}">
-                    <a>Card Display {{i+5}}</a>
                   </mat-card>
                 </ng-container>
               </div>
@@ -207,8 +183,6 @@
         <button mat-raised-button (click)="addActionDialog()" class="btn add-action-button">Dodaj akciju</button>
       </div>
     </div>
-
-
 
 <!--    <div>-->
 <!--      <google-map> </google-map>-->

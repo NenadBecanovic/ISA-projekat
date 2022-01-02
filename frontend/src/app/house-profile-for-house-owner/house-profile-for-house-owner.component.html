@@ -16,6 +16,8 @@
     <button mat-raised-button (click)="addImage.click()" class="btn add-picture-button">Dodaj sliku</button>
     <input type="file" accept="image/*" style="display:none;border:none;" (change)="addImageToHouse($event)" #addImage/>
 
+    <button mat-raised-button (click)="modifyProfile()" class="btn modify-profile-button">Izmeni profil</button>
+
     <div class="house-container">
       <div class="d-flex flex-column house-view-title-container">
 
@@ -67,6 +69,12 @@
                 <br>
               </label>
             </div>
+            <div class="form-check">
+              <label class="form-check-label wrap">
+                Besplatno otkazivanje: {{house.isCancalletionFree}}
+                <br> Uslovi otkazivanja: {{house.cancalletionFee}} din <br>
+              </label>
+            </div>
           </div>
 
           <!-- promo opis -->
@@ -96,6 +104,18 @@
 <!--      </div>-->
       <!-- KRAJ AKCIJE -->
 
+
+      <!-- LOKACIJA PRIMER 1  -->
+      <div>
+        <div>
+          <br> <label style="font-size: 30px; font-weight: 500; margin-left: 30px" >Lokacija:</label>
+        </div>
+        <agm-map [latitude]="lat" [longitude]="lng">
+          <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+        </agm-map>
+      </div>
+      <br> <br>
+
       <!-- AKCIJE  -->
       <div>
         <div>
@@ -104,7 +124,7 @@
         <div class="myMatCarousel2">
           <mat-carousel *ngIf="isSlideLoaded" timings="250ms ease-in" [autoplay]="false" [maintainAspectRatio]="false" color="accent" [loop]="true" [hideArrows]="false"
                         [hideIndicators]="true" [useKeyboard]="true" [useMouseWheel]="false" orientation="ltr" >
-            <mat-carousel-slide #matCarouselSlide overlayColor="white" *ngFor="let courses of courses_slides ; let i = index">
+            <mat-carousel-slide #matCarouselSlide overlayColor="white" *ngFor="let courses of courses_slides; let i = index">
               <div class="myMatCarouselSlide2">
                 <ng-container *ngFor="let course of courses.houseReservationDTOList ; let j = index">
                   <mat-card style="margin-right: 5px; margin-left: 5px" class="myCardSlide">
@@ -122,25 +142,6 @@
                 </ng-container>
               </div>
             </mat-carousel-slide>
-
-<!--            <mat-carousel-slide #matCarouselSlide overlayColor="white">-->
-<!--              <div class="myMatCarouselSlide2">-->
-<!--                <ng-container *ngFor="let _ of [1,2,3] ; let i = index">-->
-<!--                  <mat-card class="myCardSlide">-->
-<!--                    <div>-->
-<!--                      <div>-->
-<!--                        <h4 class="card-title"> {{ '*' + courses[i].id + '*' }} {{ courses[i].startDate }} - {{ courses[i].endDate }} </h4>-->
-<!--                        <p class="card-text">Trajanje: 2 dana </p>-->
-<!--                        <p class="card-text">Maksimalan broj osoba: {{ courses[i].maxGuests }}</p>-->
-<!--                        <p class="card-text">Dodatne usluge: {{courses[i].additionalServices }} </p>-->
-<!--                        <p class="card-text">Cena po 1 nocenju: {{ courses[i].price }} din/dan</p>-->
-<!--                      </div>-->
-<!--                      <br>-->
-<!--                    </div>-->
-<!--                  </mat-card>-->
-<!--                </ng-container>-->
-<!--              </div>-->
-<!--            </mat-carousel-slide>-->
           </mat-carousel>
         </div>
       </div>

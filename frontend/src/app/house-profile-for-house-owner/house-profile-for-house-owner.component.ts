@@ -21,16 +21,17 @@ import {HouseReservationSlide} from "../model/house-reservation-slide";
 export class HouseProfileForHouseOwnerComponent implements OnInit {
   address: Address = new Address(0,"","","",0,0,31100)
   images: Image[] = new Array<Image>();
+  isLoaded: boolean = false;
   house: House = new House(0,'', this.address, '', '', 0, false, 0);
   rooms: Room[] = new Array<Room>();
   additionalServices: AdditionalService[] = new Array<AdditionalService>();
-  isLoaded: boolean = false;
   courses_slides: HouseReservationSlide[] = new Array<HouseReservationSlide>();
   isSlideLoaded: boolean = false;
+  lat = 0;
+  lng = 0;
 
   constructor(private _houseService: HouseService, private _addressService: AddressService, private _roomService: RoomService,
               private _additionalServices: AdditionalServicesService, private _imageService: ImageService, private _houseReservationService: HouseReservationService) {
-
   }
 
   ngOnInit(): void {
@@ -51,11 +52,17 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
 
   }
 
+  modifyProfile() {
+
+  }
+
   loadData() { // ucitavanje iz baze
     this._houseService.getHouseById(1).subscribe(
       (house:House) => {
         this.house = house
         this.address = this.house.address;
+        this.lat = this.address.latitude;
+        this.lng = this.address.longitude;
 
         this._roomService.getAllByHouseId(this.house.id).subscribe(
           (rooms: Room[]) => {

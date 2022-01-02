@@ -81,6 +81,17 @@
   font-size: 20px;
 }
 
+.modify-profile-button{
+  color:white;
+  background-color: #31B4E5;
+  position: absolute;
+  top: 43vw;
+  left: 93%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  font-size: 20px;
+}
+
 .add-action-button{
   color:white;
   background-color: #31B4E5;
@@ -113,4 +124,9 @@
   align-items: center;
   flex: 1 1 30%;
   max-width: 28%;
+}
+
+agm-map{
+  height: 400px;
+  zoom: 100%;
 }

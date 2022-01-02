@@ -16,4 +16,6 @@ public class AdditionalServicesService {
     }
 
     public List<AdditionalServices> getAllByHouseId(Long id) { return additionalServicesRepository.getAllByHouseId(id); };
+
+    public List<AdditionalServices> getAllByBoatId(Long id) { return additionalServicesRepository.getAllByBoatId(id); };
 }

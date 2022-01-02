@@ -1,7 +1,7 @@
 package com.application.bekend.service;
 
 import com.application.bekend.model.HouseReservation;
-import com.application.bekend.repository.HouseReservationsRepository;
+import com.application.bekend.repository.HouseReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +10,10 @@ import java.util.List;
 @Service
 public class HouseReservationService {
 
-    private final HouseReservationsRepository houseReservationsRepository;
+    private final HouseReservationRepository houseReservationsRepository;
 
     @Autowired
-    public HouseReservationService(HouseReservationsRepository houseReservationsRepository) {
+    public HouseReservationService(HouseReservationRepository houseReservationsRepository) {
         this.houseReservationsRepository = houseReservationsRepository;
     }
 
