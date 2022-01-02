@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {LoginComponent} from "./login/login.component";
 import { NgProgressModule } from 'ngx-progressbar';
@@ -43,8 +43,9 @@ import { HeaderComponent } from './home-page/shared/header/header.component';
 import { FooterComponent } from './home-page/shared/footer/footer.component';
 import { SharedModule } from './home-page/shared/shared.module';
 import { BoatProfileForBoatOwnerComponent } from './boat-profile-for-boat-owner/boat-profile-for-boat-owner.component';
-// import {GoogleMapsModule} from "@angular/google-maps";
 import {AgmCoreModule} from '@agm/core';
+import { AddActionHouseProfileComponent } from './add-action-house-profile/add-action-house-profile.component';
+import { ModifyHouseProfileComponent } from './modify-house-profile/modify-house-profile.component';
 
 const MaterialComponents = [
   MatSliderModule,
@@ -78,7 +79,9 @@ const MaterialComponents = [
     EmailActivationComponent,
     HouseProfileForHouseOwnerComponent,
     AdventureProfileComponent,
-    BoatProfileForBoatOwnerComponent
+    BoatProfileForBoatOwnerComponent,
+    AddActionHouseProfileComponent,
+    ModifyHouseProfileComponent
    ],
   imports: [
     RouterModule,
@@ -86,6 +89,7 @@ const MaterialComponents = [
     BrowserModule,
     AppRoutingModule,
     SharedModule,
+    ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
     NgProgressModule,

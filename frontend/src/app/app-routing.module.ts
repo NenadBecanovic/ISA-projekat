@@ -8,6 +8,8 @@ import {HomeDashboardComponent} from "./home-page/home-dashboard/home-dashboard.
 import {HouseProfileForHouseOwnerComponent} from "./house-profile-for-house-owner/house-profile-for-house-owner.component";
 import { AdventureProfileComponent } from './adventure-profile/adventure-profile.component';
 import {BoatProfileForBoatOwnerComponent} from "./boat-profile-for-boat-owner/boat-profile-for-boat-owner.component";
+import {AddActionHouseProfileComponent} from "./add-action-house-profile/add-action-house-profile.component";
+import {ModifyHouseProfileComponent} from "./modify-house-profile/modify-house-profile.component";
 
 const routes: Routes = [
   {path:'login', component: LoginComponent},
@@ -17,6 +19,8 @@ const routes: Routes = [
   { path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}]},
   {path: 'adventure-profile', component: AdventureProfileComponent},
   { path:'boat-profile-for-boat-owner', component: BoatProfileForBoatOwnerComponent},
+  { path:'add-action-house-profile/:id', component: AddActionHouseProfileComponent},
+  { path:'modify-house-profile/:id', component: ModifyHouseProfileComponent},
 
 ];
 

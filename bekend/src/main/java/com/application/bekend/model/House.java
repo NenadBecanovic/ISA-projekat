@@ -148,4 +148,9 @@ public class House {
     public Set<Image> getImages() { return images; }
 
     public void setImages(Set<Image> images) { this.images = images; }
+
+    public void addHouseReservation(HouseReservation houseReservation)
+    {
+        this.courses.add(houseReservation);
+    }
 }

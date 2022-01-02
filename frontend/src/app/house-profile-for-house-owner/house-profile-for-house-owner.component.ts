@@ -9,9 +9,9 @@ import {AddressService} from "../service/address.service";
 import {RoomService} from "../service/room.service";
 import {AdditionalServicesService} from "../service/additional-services.service";
 import {ImageService} from "../service/image.service";
-import {HouseReservation} from "../model/house-reservation";
 import {HouseReservationService} from "../service/house-reservation.service";
 import {HouseReservationSlide} from "../model/house-reservation-slide";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-house-profile-for-house-owner',
@@ -29,9 +29,12 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
   isSlideLoaded: boolean = false;
   lat = 0;
   lng = 0;
+  freeCancelation: boolean = false;
+  duration: number = 0;
 
   constructor(private _houseService: HouseService, private _addressService: AddressService, private _roomService: RoomService,
-              private _additionalServices: AdditionalServicesService, private _imageService: ImageService, private _houseReservationService: HouseReservationService) {
+              private _additionalServices: AdditionalServicesService, private _imageService: ImageService, private _houseReservationService: HouseReservationService,
+              private _router: Router) {
   }
 
   ngOnInit(): void {
@@ -44,15 +47,19 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
     const reader = new FileReader();
   }
 
-  showMap() {
-
-  }
-
   addActionDialog() {
-
+    this._router.navigate(['/add-action-house-profile', this.house.id])
   }
 
   modifyProfile() {
+    this._router.navigate(['/modify-house-profile', this.house.id])
+  }
+
+  editActionDialog() {
+
+  }
+
+  deleteActionDialog() {
 
   }
 
@@ -63,6 +70,8 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
         this.address = this.house.address;
         this.lat = this.address.latitude;
         this.lng = this.address.longitude;
+        this.freeCancelation = this.house.cancalletionFree;
+        // console.log(this.freeCancelation)
 
         this._roomService.getAllByHouseId(this.house.id).subscribe(
           (rooms: Room[]) => {
@@ -90,7 +99,6 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
             console.log(courses_slides)
           }
         )
-
       }
     )
 

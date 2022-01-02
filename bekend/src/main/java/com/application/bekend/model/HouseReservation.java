@@ -9,7 +9,7 @@ import java.util.Set;
 public class HouseReservation {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Date startDate;
     private Date endDate;

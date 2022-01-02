@@ -35,6 +35,7 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
   isSlideLoaded: boolean = false;
   images: Image[] = new Array<Image>();
   isLoaded: boolean = false;
+  freeCancelation: boolean = false;
 
   constructor(private _boatService: BoatService, private _additionalServices: AdditionalServicesService, private _imageService: ImageService,
               private _boatReservationService: BoatReservationService) {
@@ -67,6 +68,8 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
         this.address = this.boat.address;
         this.lat = this.address.latitude;
         this.lng = this.address.longitude;
+        this.freeCancelation = this.boat.cancalletionFree;
+        // console.log(this.freeCancelation)
 
         this._additionalServices.getAllByBoatId(this.boat.id).subscribe(
           (additionalServices: AdditionalService[]) => {

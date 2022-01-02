@@ -15,19 +15,18 @@
     <button mat-raised-button (click)="addImage.click()" class="btn add-picture-button">Dodaj sliku</button>
     <input type="file" accept="image/*" style="display:none;border:none;" (change)="addImageToBoat($event)" #addImage/>
 
-    <button mat-raised-button (click)="modifyProfile()" class="btn modify-profile-button">Izmeni profil</button>
-
     <div class="boat-container boat-view-title-container">
 
       <!-- naziv broda -->
       <div class="d-flex left align-items-center" style="margin-left: 10px">
         <span class="house-name display-6" style="margin-left: 10px">
           {{boat.name}}
+          <button mat-raised-button (click)="modifyProfile()" class="btn modify-profile-button">Izmeni profil</button>
         </span>
       </div>
       <!-- adresa broda -->
       <div class="d-flex left align-items-center" style="margin-left: 10px">
-        <a class="house-address ms-3 mt-3" (click)="showMap()">{{boat.address.street}}, {{boat.address.city}}, {{boat.address.state}}</a>
+        <a class="house-address ms-3 mt-3">{{boat.address.street}}, {{boat.address.city}}, {{boat.address.state}}</a>
         <br>
       </div>
 
@@ -56,10 +55,15 @@
             </label>
           </div>
           <div class="form-check">
-            <label class="form-check-label wrap">
-              Besplatno otkazivanje: {{boat.isCancalletionFree}}
-              <br> Uslovi otkazivanja: {{boat.cancalletionFee}} din
+            <label class="form-check-label wrap" *ngIf="freeCancelation; else elseBlockShow">
+              Besplatno otkazivanje: DA
             </label>
+            <ng-template #elseBlockShow>
+              <label class="form-check-label wrap">
+                Besplatno otkazivanje: NE
+                <br> Uslovi otkazivanja: {{boat.cancalletionFee}} din <br>
+              </label>
+            </ng-template>
           </div>
         </div>
 
@@ -117,35 +121,35 @@
       </div>
       <br>
 
-      <!-- LOKACIJA PRIMER 2 - NISU ISKORISTENI DINAMICKI PODACI ! -->
-      <section class="section pb-5">
-        <div class="row">
-          <!--Grid column-->
-          <div class="col-lg-5 mb-4" style="height: 400px">
-            <div class="card">
-              <div class="card-body">
-                <div class="form-header blue accent-1">
-                  <h3><i class="fas fa-envelope"></i> Lokacija:</h3>
-                </div>
-                <p> {{boat.address.street}}, {{boat.address.city}}, {{boat.address.state}} </p>
-                <br>
-              </div>
-            </div>
-          </div>
-          <!--Grid column-->
+<!--      &lt;!&ndash; LOKACIJA PRIMER 2 - NISU ISKORISTENI DINAMICKI PODACI ! &ndash;&gt;-->
+<!--      <section class="section pb-5">-->
+<!--        <div class="row">-->
+<!--          &lt;!&ndash;Grid column&ndash;&gt;-->
+<!--          <div class="col-lg-5 mb-4" style="height: 400px">-->
+<!--            <div class="card">-->
+<!--              <div class="card-body">-->
+<!--                <div class="form-header blue accent-1">-->
+<!--                  <h3><i class="fas fa-envelope"></i> Lokacija:</h3>-->
+<!--                </div>-->
+<!--                <p> {{boat.address.street}}, {{boat.address.city}}, {{boat.address.state}} </p>-->
+<!--                <br>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          &lt;!&ndash;Grid column&ndash;&gt;-->
 
-          <!--Grid column-->
-          <div class="col-lg-7">
-            <!--Google map-->
-            <div id="map-container-google-11" class="z-depth-1-half map-container-6" style="height: 400px">
-              <iframe src="https://maps.google.com/maps?q=new%20delphi&t=&z=13&ie=UTF8&iwloc=&output=embed"
-                      frameborder="0" style="border:0" allowfullscreen></iframe>
-            </div>
-          </div>
-          <!--Grid column-->
-        </div>
-      </section>
-      <!-- LOKACIJA PRIMER 2 - KRAJ-->
+<!--          &lt;!&ndash;Grid column&ndash;&gt;-->
+<!--          <div class="col-lg-7">-->
+<!--            &lt;!&ndash;Google map&ndash;&gt;-->
+<!--            <div id="map-container-google-11" class="z-depth-1-half map-container-6" style="height: 400px">-->
+<!--              <iframe src="https://maps.google.com/maps?q=new%20delphi&t=&z=13&ie=UTF8&iwloc=&output=embed"-->
+<!--                      frameborder="0" style="border:0" allowfullscreen></iframe>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          &lt;!&ndash;Grid column&ndash;&gt;-->
+<!--        </div>-->
+<!--      </section>-->
+<!--      &lt;!&ndash; LOKACIJA PRIMER 2 - KRAJ&ndash;&gt;-->
 
 
       <!-- AKCIJE  -->
@@ -162,8 +166,9 @@
                   <mat-card style="margin-right: 5px; margin-left: 5px" class="myCardSlide">
                     <div>
                       <div>
-                        <h4 class="card-title"> {{ course.id }} {{ course.startDate }} - {{ course.endDate }} </h4>
-                        <p class="card-text">Trajanje: 2 dana </p>
+                        <h4 class="card-title"> {{ '*' + course.id + '*' }} <br> {{ course.startDate }} - {{ course.endDate }} </h4>
+                        <br>
+<!--                        <p class="card-text">Trajanje: 2 dana </p>-->
                         <p class="card-text">Maksimalan broj osoba: {{ course.maxGuests }}</p>
                         <p class="card-text">Dodatne usluge: {{course.additionalServices }} </p>
                         <p class="card-text">Cena po 1 nocenju: {{ course.price }} din/dan</p>
@@ -178,6 +183,7 @@
         </div>
       </div>
       <!-- AKCIJE KRAJ -->
+      <br>
 
       <div class="align-items-center">
         <button mat-raised-button (click)="addActionDialog()" class="btn add-action-button">Dodaj akciju</button>

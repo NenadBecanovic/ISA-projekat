@@ -18,4 +18,8 @@ public class HouseService {
     public House getHouseById(Long id){
         return this.houseRepository.getHouseById(id);
     }
+
+    public House save(House house) {
+        return this.houseRepository.save(house);
+    }
 }

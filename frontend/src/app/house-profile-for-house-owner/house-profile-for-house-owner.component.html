@@ -16,7 +16,6 @@
     <button mat-raised-button (click)="addImage.click()" class="btn add-picture-button">Dodaj sliku</button>
     <input type="file" accept="image/*" style="display:none;border:none;" (change)="addImageToHouse($event)" #addImage/>
 
-    <button mat-raised-button (click)="modifyProfile()" class="btn modify-profile-button">Izmeni profil</button>
 
     <div class="house-container">
       <div class="d-flex flex-column house-view-title-container">
@@ -25,11 +24,13 @@
         <div class="d-flex left align-items-center" style="margin-left: 10px">
               <span class="house-name display-6" style="margin-left: 10px">
                 {{house.name}}
+                <button mat-raised-button (click)="modifyProfile()" class="btn modify-profile-button">Izmeni profil</button>
+
               </span>
         </div>
         <!-- adresa vikednice -->
         <div class="d-flex left align-items-center" style="margin-left: 10px" >
-          <a class="house-address ms-3 mt-3" (click)="showMap()">{{house.address.street}}, {{house.address.city}}, {{house.address.state}}</a>
+          <a class="house-address ms-3 mt-3">{{house.address.street}}, {{house.address.city}}, {{house.address.state}}</a>
           <br>
         </div>
 
@@ -46,7 +47,7 @@
               <label class="form-check-label">
                 Broj kreveta po sobi: <br>
                 <li *ngFor="let room of rooms">
-                  {{room.numberOfBeds}} <br>
+                  Soba {{room.id}} : {{room.numberOfBeds}} <br>
                 </li>
               </label>
             </div>
@@ -70,10 +71,16 @@
               </label>
             </div>
             <div class="form-check">
-              <label class="form-check-label wrap">
-                Besplatno otkazivanje: {{house.isCancalletionFree}}
-                <br> Uslovi otkazivanja: {{house.cancalletionFee}} din <br>
+              <label class="form-check-label wrap" *ngIf="freeCancelation; else elseBlockShow">
+                Besplatno otkazivanje: DA
               </label>
+              <ng-template #elseBlockShow>
+                <label class="form-check-label wrap">
+                  Besplatno otkazivanje: NE
+                  <br> Uslovi otkazivanja: {{house.cancalletionFee}} din <br>
+                </label>
+              </ng-template>
+
             </div>
           </div>
 
@@ -105,52 +112,58 @@
       <!-- KRAJ AKCIJE -->
 
 
-      <!-- LOKACIJA PRIMER 1  -->
-      <div>
+        <!-- LOKACIJA PRIMER 1  -->
         <div>
-          <br> <label style="font-size: 30px; font-weight: 500; margin-left: 30px" >Lokacija:</label>
+          <div>
+            <br> <label style="font-size: 30px; font-weight: 500; margin-left: 30px" >Lokacija:</label>
+          </div>
+          <agm-map [latitude]="lat" [longitude]="lng">
+            <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+          </agm-map>
         </div>
-        <agm-map [latitude]="lat" [longitude]="lng">
-          <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-        </agm-map>
-      </div>
-      <br> <br>
+        <br> <br>
 
-      <!-- AKCIJE  -->
-      <div>
+        <!-- AKCIJE  -->
         <div>
-          <label style="font-size: 30px; font-weight: 500; margin-left: 30px" >Akcije:</label>
-        </div>
-        <div class="myMatCarousel2">
-          <mat-carousel *ngIf="isSlideLoaded" timings="250ms ease-in" [autoplay]="false" [maintainAspectRatio]="false" color="accent" [loop]="true" [hideArrows]="false"
-                        [hideIndicators]="true" [useKeyboard]="true" [useMouseWheel]="false" orientation="ltr" >
-            <mat-carousel-slide #matCarouselSlide overlayColor="white" *ngFor="let courses of courses_slides; let i = index">
-              <div class="myMatCarouselSlide2">
-                <ng-container *ngFor="let course of courses.houseReservationDTOList ; let j = index">
-                  <mat-card style="margin-right: 5px; margin-left: 5px" class="myCardSlide">
-                    <div>
+          <div>
+            <label style="font-size: 30px; font-weight: 500; margin-left: 30px" >Akcije:</label>
+          </div>
+          <div class="myMatCarousel2">
+            <mat-carousel *ngIf="isSlideLoaded" timings="250ms ease-in" [autoplay]="false" [maintainAspectRatio]="false" color="accent" [loop]="true" [hideArrows]="false"
+                          [hideIndicators]="true" [useKeyboard]="true" [useMouseWheel]="false" orientation="ltr" >
+              <mat-carousel-slide #matCarouselSlide overlayColor="white" *ngFor="let courses of courses_slides; let i = index">
+                <div class="myMatCarouselSlide2">
+                  <ng-container *ngFor="let course of courses.houseReservationDTOList ; let j = index">
+                    <mat-card style="margin-right: 5px; margin-left: 5px" class="myCardSlide">
                       <div>
-                        <h4 class="card-title"> {{ '*' + course.id + '*' }} {{ course.startDate }} - {{ course.endDate }} </h4>
-                        <p class="card-text">Trajanje: 2 dana </p>
-                        <p class="card-text">Maksimalan broj osoba: {{ course.maxGuests }}</p>
-                        <p class="card-text">Dodatne usluge: {{course.additionalServices }} </p>
-                        <p class="card-text">Cena po 1 nocenju: {{ course.price }} din/dan</p>
+                        <div>
+                          <h4 class="card-title"> {{ '*' + course.id + '*' }} <br> {{ course.startDate | date:'dd/MM/yyyy HH:mm:ss'}}  - {{ course.endDate | date:'dd/MM/yyyy HH:mm:ss' }} </h4>
+                          <br>
+  <!--                        <p class="card-text">Trajanje: 2 dana </p>-->
+                          <p class="card-text">Maksimalan broj osoba: {{ course.maxGuests }}</p>
+                          <p class="card-text">Dodatne usluge: {{course.additionalServices }} </p>
+                          <p class="card-text">Cena po 1 nocenju: {{ course.price }} din/dan</p>
+  <!--                        <p class="card-text"> Slobodna: {{ course.available }} din/dan</p>-->
+                          <button mat-icon-button  (click)="editActionDialog()" class="btn edit-action-button"> <mat-icon>edit</mat-icon>  </button>
+                          <button mat-icon-button (click)="deleteActionDialog()" class="btn delete-action-button"> <mat-icon>delete</mat-icon> </button>
+
+                        </div>
+                        <br>
                       </div>
-                      <br>
-                    </div>
-                  </mat-card>
-                </ng-container>
-              </div>
-            </mat-carousel-slide>
-          </mat-carousel>
+                    </mat-card>
+                  </ng-container>
+                </div>
+              </mat-carousel-slide>
+            </mat-carousel>
+          </div>
         </div>
-      </div>
-      <!-- AKCIJE KRAJ -->
+        <!-- AKCIJE KRAJ -->
+        <br>
 
-
-      <div class="align-items-center">
-        <button mat-raised-button (click)="addActionDialog()" class="btn add-action-button">Dodaj akciju</button>
-      </div>
+        <div class="align-items-center">
+          <button mat-raised-button (click)="addActionDialog()" class="btn add-action-button">Dodaj akciju</button>
+        </div>
+        <br>
 
       </div>
     </div>

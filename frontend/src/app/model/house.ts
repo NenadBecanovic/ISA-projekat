@@ -12,13 +12,13 @@ export class House {
   behaviourRules: String;
   pricePerDay: number;
   // services: Array<AdditionalService>; //
-  isCancalletionFree: boolean;
+  cancalletionFree: boolean;
   cancalletionFee: number;
   // images: Array<Image>;
   //images[]: Image;
 
   constructor(id: number, name: String, addressDTO: Address, promoDescription: String, behaviourRules: String, pricePerDay: number,
-              isCancalletionFree: boolean, cancalletionFee: number) {
+              cancalletionFree: boolean, cancalletionFee: number) {
     this.id = id;
     this.name = name;
     this.address = addressDTO;
@@ -27,7 +27,7 @@ export class House {
     this.behaviourRules = behaviourRules;
     this.pricePerDay = pricePerDay;
     // this.services = services;
-    this.isCancalletionFree = isCancalletionFree;
+    this.cancalletionFree = cancalletionFree;
     this.cancalletionFee = cancalletionFee;
     // this.courses = courses;
     // this.images = images;

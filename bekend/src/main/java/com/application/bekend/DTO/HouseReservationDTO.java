@@ -4,9 +4,10 @@ import java.util.Date;
 
 public class HouseReservationDTO {
 
+    private Long houseId;
     private Long id;
-    private Date startDate;
-    private Date endDate;
+    private String startDate;
+    private String endDate;
     private int maxGuests;
     private String additionalServices;
     private float price;
@@ -14,7 +15,18 @@ public class HouseReservationDTO {
 
     public HouseReservationDTO(){};
 
-    public HouseReservationDTO(Long id, Date startDate, Date endDate, int maxGuests, String additionalServices, float price, boolean isAvailable) {
+    public HouseReservationDTO(Long houseId, Long id, String startDate, String endDate, int maxGuests, String additionalServices, float price, boolean isAvailable) {
+        this.houseId = houseId;
+        this.id = id;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.maxGuests = maxGuests;
+        this.additionalServices = additionalServices;
+        this.price = price;
+        this.isAvailable = isAvailable;
+    }
+
+    public HouseReservationDTO(Long id, String startDate, String endDate, int maxGuests, String additionalServices, float price, boolean isAvailable) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -32,19 +44,19 @@ public class HouseReservationDTO {
         this.id = id;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
@@ -78,5 +90,13 @@ public class HouseReservationDTO {
 
     public void setAvailable(boolean available) {
         isAvailable = available;
+    }
+
+    public Long getHouseId() {
+        return houseId;
+    }
+
+    public void setHouseId(Long houseId) {
+        this.houseId = houseId;
     }
 }

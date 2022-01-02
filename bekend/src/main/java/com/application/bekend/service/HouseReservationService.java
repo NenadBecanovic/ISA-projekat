@@ -17,5 +17,11 @@ public class HouseReservationService {
         this.houseReservationsRepository = houseReservationsRepository;
     }
 
-    public List<HouseReservation> getAllByHouse_Id(Long id) { return houseReservationsRepository.getAllByHouse_Id(id);}
+    public List<HouseReservation> getAllByHouse_Id(Long id) {
+        return houseReservationsRepository.getAllByHouse_Id(id);
+    }
+
+    public HouseReservation save(HouseReservation houseReservation) {
+        return this.houseReservationsRepository.save(houseReservation);
+    }
 }
