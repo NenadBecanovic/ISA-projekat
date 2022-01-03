@@ -17,14 +17,12 @@ export class AuthService {
   private readonly userPath = 'http://localhost:8080/api/identity';
   private access_token: any;
 
-
   public login(user:AuthUserDTO):Observable<void>{
 
     const body = {
       email: user.email,
       password: user.password
     };
-
 
     return this._http.post<UserTokenState>(`${this.userPath}/login`,body)
       .pipe(map((res) => {
@@ -37,18 +35,11 @@ export class AuthService {
           token
         }));
       }));
-
-
-  }
-
-  public registerUser(myUser: MyUser): Observable<MyUser>{
-    return  this._http.post<MyUser>(`${this.userPath}/registerUser`, myUser);
   }
 
   public register(myUser: MyUser): Observable<MyUser>{
     return  this._http.post<MyUser>(`${this.userPath}/register`, myUser);
   }
-
 
   public confirmEmail(urlParams: any) {
     return this._http.post(this.userPath + '/email/verification', urlParams);

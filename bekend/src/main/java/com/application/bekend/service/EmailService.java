@@ -16,7 +16,7 @@ import javax.mail.internet.MimeMessage;
 public class EmailService {
 
     private final VerificationTokenService verificationTokenService;
-    private final TemplateEngine templateEngine;
+    private final TemplateEngine templateEngine;        // za generisanje izgleda mejla (u html-u) -> template/verification.html
     private final JavaMailSender javaMailSender;
 
     @Autowired
