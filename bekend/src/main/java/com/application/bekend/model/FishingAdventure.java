@@ -13,7 +13,6 @@ public class FishingAdventure {
     private Long id;
     private String name;
 
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id")
     private Address address;
@@ -21,20 +20,26 @@ public class FishingAdventure {
     private int capacity;
     private String fishingEquipment;
 
-    //    private Set<String> images ;
+    @OneToMany(mappedBy = "fishingAdventure", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Image> images;
+
     @ManyToMany(mappedBy = "fishingAdventures")
     private Set<AdventureReservation> adventureReservations = new HashSet<AdventureReservation>();
     private String behaviourRules;
     private float pricePerDay;
+
     @ManyToMany(mappedBy = "fishingAdventures")
     private Set<AdditionalServices> services = new HashSet<AdditionalServices>();
     private boolean isCancalletionFree;
     private int cancalletionFee;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "instructor_id")
     private MyUser instructor;
 
-    public FishingAdventure(Long id, String name, Address address, String promoDescription, int capacity, String fishingEquipment, Set<AdventureReservation> adventureReservations, String behaviourRules, float pricePerDay, Set<AdditionalServices> services, boolean isCancalletionFree, int cancalletionFee) {
+    public FishingAdventure(Long id, String name, Address address, String promoDescription, int capacity, String fishingEquipment,
+                            Set<AdventureReservation> adventureReservations, String behaviourRules, float pricePerDay,
+                            Set<AdditionalServices> services, boolean isCancalletionFree, int cancalletionFee, Set<Image> images) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -47,6 +52,7 @@ public class FishingAdventure {
         this.services = services;
         this.isCancalletionFree = isCancalletionFree;
         this.cancalletionFee = cancalletionFee;
+        this.images = images;
     }
 
     public FishingAdventure() {
@@ -147,4 +153,8 @@ public class FishingAdventure {
     public void setCancalletionFee(int cancalletionFee) {
         this.cancalletionFee = cancalletionFee;
     }
+
+    public Set<Image> getImages() { return images; }
+
+    public void setImages(Set<Image> images) { this.images = images; }
 }

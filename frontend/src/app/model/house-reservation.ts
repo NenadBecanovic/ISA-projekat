@@ -1,24 +1,23 @@
-import {House} from "./house";
-
 export class HouseReservation {
 
-  startDate: Date;
-  endDate: Date;
-  maxGuests: number;
-  additionalServices: String;
-  price: number;
-  isAvailable: boolean;
-  //private Set<MyUser> guests = new HashSet<MyUser>();
-  house: House;
+  public houseId: number = 0;
+  public id: number;
+  public startDate: string;
+  public endDate: string;
+  public maxGuests: number;
+  public additionalServices: String;
+  public price: number;
+  public available: boolean;
 
-  constructor(startDate: Date, endDate: Date, maxGuests: number, additionalServices: String, price: number, isAvailable: boolean, house: House) {
+  constructor(id: number, startDate: string, endDate: string, maxGuests: number, additionalServices: String, price: number, isAvailable: boolean) {
+    this.id = id;
     this.startDate = startDate;
     this.endDate = endDate;
     this.maxGuests = maxGuests;
     this.additionalServices = additionalServices;
     this.price = price;
-    this.isAvailable = isAvailable;
-    this.house = house;
+    this.available = isAvailable;
   }
+
 
 }

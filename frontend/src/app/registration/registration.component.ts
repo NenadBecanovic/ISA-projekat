@@ -12,7 +12,7 @@ import { AlertService } from 'ngx-alerts';
 })
 export class RegistrationComponent implements OnInit {
 
-  address: Address = new Address("","","",0,0, 0)
+  address: Address = new Address(0,"","","",0,0, 0)
   user: MyUser = new MyUser("","","","","","",this.address, "", "");
   passwordCheck: String = "";
   isUser = true;
@@ -24,8 +24,6 @@ export class RegistrationComponent implements OnInit {
   }
 
   registerUser() {
-
-
     if (this.user.authority === "USER") {
       if (this.user.password !== this.passwordCheck) {
         this.alertService.success('Incorrect password');
