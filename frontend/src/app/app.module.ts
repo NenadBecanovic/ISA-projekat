@@ -4,6 +4,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
+import {FormsModule} from "@angular/forms";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {LoginComponent} from "./login/login.component";
 import { NgProgressModule } from 'ngx-progressbar';
 import { RegistrationComponent } from './registration/registration.component';
@@ -11,6 +13,8 @@ import { EmailActivationComponent } from './email-activation/email-activation.co
 import { AlertModule } from 'ngx-alerts';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HomePageModule} from "./home-page/home-page-module/home-page.module";
+import {TokenInterceptor} from "./interceptor/token-interceptor";
+import { ClientHomePageComponent } from './client-home-page/client-home-page.component';
 import { HomeDashboardComponent } from './home-page/home-dashboard/home-dashboard.component';
 import {RouterModule} from "@angular/router";
 import { HouseProfileForHouseOwnerComponent } from './house-profile-for-house-owner/house-profile-for-house-owner.component';
@@ -47,6 +51,7 @@ import {AgmCoreModule} from '@agm/core';
 import { AddActionHouseProfileComponent } from './add-action-house-profile/add-action-house-profile.component';
 import { ModifyHouseProfileComponent } from './modify-house-profile/modify-house-profile.component';
 
+
 const MaterialComponents = [
   MatSliderModule,
   MatToolbarModule,
@@ -77,12 +82,13 @@ const MaterialComponents = [
     LoginComponent,
     RegistrationComponent,
     EmailActivationComponent,
+    ClientHomePageComponent,
     HouseProfileForHouseOwnerComponent,
     AdventureProfileComponent,
     BoatProfileForBoatOwnerComponent,
     AddActionHouseProfileComponent,
     ModifyHouseProfileComponent
-   ],
+  ],
   imports: [
     RouterModule,
     HomePageModule,
@@ -105,7 +111,13 @@ const MaterialComponents = [
       apiKey: 'AIzaSyDhUaf84F4NwNDUjw-feRmJusep1T1EB6s'   // za google maps
     })
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

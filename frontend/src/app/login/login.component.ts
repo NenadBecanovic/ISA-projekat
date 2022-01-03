@@ -3,6 +3,8 @@ import {AuthUserDTO} from "../model/AuthUserDTO";
 import {AuthService} from "../service/auth.service";
 import {MyUser} from "../model/my-user";
 import {Router} from "@angular/router";
+import {AuthentificationService} from "../authentification/authentification.service";
+import {AlertService} from "ngx-alerts";
 
 
 @Component({
@@ -13,7 +15,8 @@ import {Router} from "@angular/router";
 export class LoginComponent implements OnInit {
 
 
-  constructor(private authService: AuthService, private _router: Router) { }
+  constructor(private _service: AuthService,private _authenticationService: AuthentificationService, private _router: Router,
+              private alertService: AlertService) { }
 
   authUser = new AuthUserDTO("","");
 
@@ -21,18 +24,19 @@ export class LoginComponent implements OnInit {
   }
 
   loginUser() {
-
-    this.authService.login(this.authUser).subscribe(
-
-      (user:MyUser) => {
-      console.log(user)
+    this._service.login(this.authUser).subscribe(
+      () => {
+        if (this._authenticationService.isLoggedInUser()) {
+          this._router.navigate(['client']);
+          // this.getLoggedUser();
+        } else if (this._authenticationService.isLoggedInAdmin()) {
+          // this.getLoggedUser();
+        }
 
       },
-
-      error=> {
-
+      (error)=> {
         console.log('error occuried');
-
+        this.alertService.danger('Pogresni kredencijali');
       }
     )
   }

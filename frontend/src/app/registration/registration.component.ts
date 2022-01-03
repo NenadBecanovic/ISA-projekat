@@ -24,7 +24,6 @@ export class RegistrationComponent implements OnInit {
   }
 
   registerUser() {
-    console.log(this.user)
     if (this.user.authority === "USER") {
       if (this.user.password !== this.passwordCheck) {
         this.alertService.success('Incorrect password');
@@ -53,6 +52,7 @@ export class RegistrationComponent implements OnInit {
         },
       )
     }
+
   }
 
   onChange($event: Event) {
