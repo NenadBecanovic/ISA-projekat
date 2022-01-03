@@ -6,17 +6,21 @@ import {EmailActivationComponent} from "./email-activation/email-activation.comp
 import {HomePageComponent} from "./home-page/home-page-component/home-page.component";
 import {HomeDashboardComponent} from "./home-page/home-dashboard/home-dashboard.component";
 import {HomeHouseComponent} from "./home-page/home-house/home-house.component";
-import {ClientHomePageComponent} from "./client-home-page/client-home-page.component";
 import {HouseProfileForHouseOwnerComponent} from "./house-profile-for-house-owner/house-profile-for-house-owner.component";
 import { AdventureProfileComponent } from './adventure-profile/adventure-profile.component';
+import {HomeBoatComponent} from "./home-page/home-boat/home-boat.component";
+import {ClientHomePageComponent} from "./clientHome/client-home-page/client-home-page.component";
+import {DashboardComponent} from "./clientHome/dashboard/dashboard.component";
+import {HomeAdventureComponent} from "./home-page/home-adventure/home-adventure.component";
 
 
 const routes: Routes = [
-  {path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}, {path: 'house', component: HomeHouseComponent}]},
+  {path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}, {path: 'house', component: HomeHouseComponent},
+      {path: 'boats', component: HomeBoatComponent}, {path: 'adventures', component: HomeAdventureComponent}]},
   {path:'login', component: LoginComponent},
   {path:'register', component: RegistrationComponent},
   {path:'email-activation', component: EmailActivationComponent},
-  {path:'client', component: ClientHomePageComponent},
+  {path:'client', component: ClientHomePageComponent, children: [{path: '', component: DashboardComponent}]},
   {path:'house-profile-for-house-owner', component: HouseProfileForHouseOwnerComponent},
   {path: 'adventure-profile', component: AdventureProfileComponent}
 

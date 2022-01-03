@@ -64,9 +64,7 @@ public class AuthentificationController {
 
         return ResponseEntity.ok(new UserTokenStateDTO(jwt, expiresIn));
     }
-
-
-
+    
 
     @PostMapping("/register")
     public ResponseEntity<MyUser> register(@RequestBody MyUserDTO myUserDTO){

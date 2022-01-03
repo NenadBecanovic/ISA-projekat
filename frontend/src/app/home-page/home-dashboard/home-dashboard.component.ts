@@ -21,6 +21,12 @@ export class HomeDashboardComponent implements OnInit {
     this._router.navigate(['house']);
   }
 
-  
 
+  goToAllBoats() {
+    this._router.navigate(['boats']);
+  }
+
+  goToAllAdventures() {
+    this._router.navigate(['adventures']);
+  }
 }

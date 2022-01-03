@@ -12,8 +12,6 @@ import { AlertModule } from 'ngx-alerts';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HomePageModule} from "./home-page/home-page-module/home-page.module";
 import {TokenInterceptor} from "./interceptor/token-interceptor";
-import { ClientHomePageComponent } from './client-home-page/client-home-page.component';
-import { HomeDashboardComponent } from './home-page/home-dashboard/home-dashboard.component';
 import {RouterModule} from "@angular/router";
 import { HouseProfileForHouseOwnerComponent } from './house-profile-for-house-owner/house-profile-for-house-owner.component';
 import { AdventureProfileComponent } from './adventure-profile/adventure-profile.component';
@@ -41,9 +39,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule} from '@angular/material/select';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTabsModule} from '@angular/material/tabs';
-import { HeaderComponent } from './home-page/shared/header/header.component';
-import { FooterComponent } from './home-page/shared/footer/footer.component';
 import { SharedModule } from './home-page/shared/shared.module';
+import {ClientModule} from "./clientHome/client-module/client-module";
 
 
 
@@ -77,12 +74,12 @@ const MaterialComponents = [
     LoginComponent,
     RegistrationComponent,
     EmailActivationComponent,
-    ClientHomePageComponent,
     HouseProfileForHouseOwnerComponent,
-    AdventureProfileComponent
+    AdventureProfileComponent,
   ],
   imports: [
     RouterModule,
+    ClientModule,
     HomePageModule,
     BrowserModule,
     AppRoutingModule,
