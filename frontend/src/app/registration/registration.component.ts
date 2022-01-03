@@ -12,7 +12,7 @@ import { AlertService } from 'ngx-alerts';
 })
 export class RegistrationComponent implements OnInit {
 
-  address: Address = new Address("","","",0,0, 0)
+  address: Address = new Address(0,"","","",0,0, 0)
   user: MyUser = new MyUser("","","","","","",this.address, "", "");
   passwordCheck: String = "";
   isUser = true;
@@ -25,22 +25,6 @@ export class RegistrationComponent implements OnInit {
 
   registerUser() {
 
-
-    if (this.user.authority === "USER") {
-      if (this.user.password !== this.passwordCheck) {
-        this.alertService.success('Incorrect password');
-        return;
-      }
-      this.authService.registerUser(this.user).subscribe(
-        (user: MyUser) => {
-          this.alertService.success('User created');
-        },
-        (error) => {
-          this.alertService.danger('Something went wrong');
-        },
-      )
-    }
-    else {
       if (this.user.password !== this.passwordCheck) {
         this.alertService.success('Incorrect password');
         return;
@@ -53,13 +37,11 @@ export class RegistrationComponent implements OnInit {
           this.alertService.danger('Something went wrong');
         },
       )
-    }
-
   }
 
   onChange($event: Event) {
     console.log(this.user.authority)
-    if(this.user.authority !== "USER"){
+    if(this.user.authority !== "ROLE_USER"){
       this.isUser = false
     }else{
       this.isUser = true

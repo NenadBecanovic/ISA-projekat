@@ -12,7 +12,6 @@ public class Boat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private String type;
     private float length;
@@ -28,22 +27,30 @@ public class Boat {
     @JoinColumn(name = "address_id")
     private Address address;
     private String promoDescription;
-//    private Set<String> images ;
     private int capacity;
-    @ManyToMany(mappedBy = "boats")
+
+    @OneToMany(mappedBy = "boat", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Image> images;
+
+    @OneToMany(mappedBy = "boat")
     private Set<BoatReservation> courses = new HashSet<BoatReservation>();
     private String behaviourRules;
     private String fishingEquipment;
     private float pricePerDay;
+
     @ManyToMany(mappedBy = "boats")
     private Set<AdditionalServices> services = new HashSet<AdditionalServices>();
     private boolean isCancalletionFree;
     private int cancalletionFee;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id")
     private MyUser owner;
 
-    public Boat(Long id, String name, String type, float length, int engineNumber, float enginePower, float maxSpeed, NavigationEquipment navigationEquipment, Address address, String promoDescription, int capacity, Set<BoatReservation> courses, String behaviourRules, String fishingEquipment, float pricePerDay, Set<AdditionalServices> services, boolean isCancalletionFree, int cancalletionFee) {
+    public Boat(Long id, String name, String type, float length, int engineNumber, float enginePower, float maxSpeed,
+                NavigationEquipment navigationEquipment, Address address, String promoDescription, int capacity,
+                Set<BoatReservation> courses, String behaviourRules, String fishingEquipment, float pricePerDay,
+                Set<AdditionalServices> services, boolean isCancalletionFree, int cancalletionFee, Set<Image> images) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -62,6 +69,7 @@ public class Boat {
         this.services = services;
         this.isCancalletionFree = isCancalletionFree;
         this.cancalletionFee = cancalletionFee;
+        this.images = images;
     }
 
     public Boat() {
@@ -210,4 +218,8 @@ public class Boat {
     public void setCancalletionFee(int cancalletionFee) {
         this.cancalletionFee = cancalletionFee;
     }
+
+    public Set<Image> getImages() { return images; }
+
+    public void setImages(Set<Image> images) { this.images = images; }
 }

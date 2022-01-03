@@ -1,5 +1,6 @@
 export class Address {
 
+  id: number;
   street: String;
   city : String;
   state: String;
@@ -7,7 +8,8 @@ export class Address {
   latitude: number;
   postalCode: number;
 
-  constructor(street: String, city: String, state: String, longitude: number, latitude: number, postalCode: number) {
+  constructor(id: number, street: String, city: String, state: String, longitude: number, latitude: number, postalCode: number) {
+    this.id = id;
     this.street = street;
     this.city = city;
     this.state = state;
@@ -15,7 +17,4 @@ export class Address {
     this.latitude = latitude;
     this.postalCode = postalCode;
   }
-
-
-
 }

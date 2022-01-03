@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {LoginComponent} from "./login/login.component";
 import { NgProgressModule } from 'ngx-progressbar';
@@ -41,8 +41,10 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTabsModule} from '@angular/material/tabs';
 import { SharedModule } from './home-page/shared/shared.module';
 import {ClientModule} from "./clientHome/client-module/client-module";
-
-
+import { BoatProfileForBoatOwnerComponent } from './boat-profile-for-boat-owner/boat-profile-for-boat-owner.component';
+import {AgmCoreModule} from '@agm/core';
+import { AddActionHouseProfileComponent } from './add-action-house-profile/add-action-house-profile.component';
+import { ModifyHouseProfileComponent } from './modify-house-profile/modify-house-profile.component';
 
 const MaterialComponents = [
   MatSliderModule,
@@ -76,6 +78,9 @@ const MaterialComponents = [
     EmailActivationComponent,
     HouseProfileForHouseOwnerComponent,
     AdventureProfileComponent,
+    BoatProfileForBoatOwnerComponent,
+    AddActionHouseProfileComponent,
+    ModifyHouseProfileComponent
   ],
   imports: [
     RouterModule,
@@ -84,6 +89,7 @@ const MaterialComponents = [
     BrowserModule,
     AppRoutingModule,
     SharedModule,
+    ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
     NgProgressModule,
@@ -94,7 +100,10 @@ const MaterialComponents = [
     BsDropdownModule.forRoot(),
     TooltipModule.forRoot(),
     ModalModule.forRoot(),
-    AlertModule.forRoot({ maxMessages: 5, timeout: 5000,positionX: "right", positionY: "top" }),
+    AlertModule.forRoot({maxMessages: 5, timeout: 5000, positionX: "right", positionY: "top"}),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDhUaf84F4NwNDUjw-feRmJusep1T1EB6s'   // za google maps
+    })
   ],
   providers: [
     {

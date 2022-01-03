@@ -13,16 +13,11 @@ export class EmailActivationComponent implements OnInit {
   emailConfirmed: Boolean = false;
   urlParams: any ={}
 
-
   constructor(private route: ActivatedRoute, private authService: AuthService, private alertService: AlertService) { }
-
-
 
   ngOnInit(): void {
     this.urlParams.token = this.route.snapshot.queryParamMap.get('token');
     this.urlParams.userId = this.route.snapshot.queryParamMap.get('userId');
-    
-
     this.confirmEmail();
   }
 

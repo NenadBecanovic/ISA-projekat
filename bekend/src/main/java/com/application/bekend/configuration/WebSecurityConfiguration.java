@@ -47,6 +47,16 @@ public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(HttpMethod.POST, "/api/identity/**");
+        web.ignoring().antMatchers(HttpMethod.GET, "/api/house/**");
+        web.ignoring().antMatchers(HttpMethod.GET, "/api/boat/**");
+        web.ignoring().antMatchers(HttpMethod.GET, "/api/address/**");
+        web.ignoring().antMatchers(HttpMethod.GET, "/api/image/**");
+        web.ignoring().antMatchers(HttpMethod.GET, "/api/boatReservations/**");
+        web.ignoring().antMatchers(HttpMethod.GET, "/api/houseReservations/**");
+        web.ignoring().antMatchers(HttpMethod.POST, "/api/houseReservations/**");
+        web.ignoring().antMatchers(HttpMethod.GET, "/api/room/**");
+        web.ignoring().antMatchers(HttpMethod.GET, "/api/additionalServices/**");
+
         web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/**/*.html",
                 "/**/*.css", "/**/*.js");
     }
@@ -57,7 +67,7 @@ public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter {
         http
                 .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
                 .authorizeRequests()
-//                .antMatchers("/admin/**").hasRole("ADMINISTRATOR")
+//                .antMatchers("api/boatowner/**").hasRole("BOAT_OWNER")
 //                .antMatchers("/users/**").hasAnyRole("USER","ADMINISTRATOR")
                 .anyRequest()
                 .authenticated().and()

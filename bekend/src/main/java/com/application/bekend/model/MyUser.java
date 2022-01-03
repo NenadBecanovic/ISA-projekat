@@ -60,7 +60,7 @@ public class MyUser implements UserDetails {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_authorities", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
-    private List<Authority> authorities;
+    private List<Authority> authorities = new ArrayList<>();
 
 
     @OneToOne(mappedBy = "user")

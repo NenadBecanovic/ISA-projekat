@@ -21,12 +21,11 @@ public class BoatReservation {
     @ManyToMany(mappedBy = "boatReservations")
     private Set<MyUser> guests = new HashSet<MyUser>();
 
-
-    @ManyToMany
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinTable(name = "boat_reservation_table", joinColumns = @JoinColumn(name = "boat_appointment_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "boat_id", referencedColumnName = "id"))
-    private Set<Boat> boats = new HashSet<Boat>();
+    private Boat boat;
 
-    public BoatReservation(Long id, Date startDate, Date endDate, int maxGuests, String additionalServices, float price, boolean isAvailable, Set<Boat> boats) {
+    public BoatReservation(Long id, Date startDate, Date endDate, int maxGuests, String additionalServices, float price, boolean isAvailable,Boat boat) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -34,7 +33,7 @@ public class BoatReservation {
         this.additionalServices = additionalServices;
         this.price = price;
         this.isAvailable = isAvailable;
-        this.boats = boats;
+        this.boat = boat;
     }
 
     public BoatReservation() {
@@ -96,11 +95,11 @@ public class BoatReservation {
         isAvailable = available;
     }
 
-    public Set<Boat> getBoats() {
-        return boats;
+    public Boat getBoat() {
+        return boat;
     }
 
-    public void setBoats(Set<Boat> boats) {
-        this.boats = boats;
+    public void setBoat(Boat boat) {
+        this.boat = boat;
     }
 }

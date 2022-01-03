@@ -46,7 +46,6 @@ public class AuthentificationController {
         this.tokenUtils = tokenUtils;
     }
 
-
     @RequestMapping(value="/login", method = RequestMethod.POST)
     public ResponseEntity<UserTokenStateDTO> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest){
 
@@ -64,7 +63,6 @@ public class AuthentificationController {
 
         return ResponseEntity.ok(new UserTokenStateDTO(jwt, expiresIn));
     }
-    
 
     @PostMapping("/register")
     public ResponseEntity<MyUser> register(@RequestBody MyUserDTO myUserDTO){
@@ -72,11 +70,12 @@ public class AuthentificationController {
         if(user != null){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
+
+        // ukoliko ne postoji korisnik sa istim email-om ili username-om, idemo na registraciju
         this.authService.register(myUserDTO);
 
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
-
 
     @PostMapping("/email/verification")
     public ResponseEntity indentifyUser(@RequestBody ActivationDTO activationDTO) throws UserPrincipalNotFoundException {
@@ -85,6 +84,7 @@ public class AuthentificationController {
             throw new UserPrincipalNotFoundException("User not found");
         }
 
+        // proveravamo da nije istekao expiru date
         VerificationToken verificationToken = this.verificationTokenService.findByToken(activationDTO.getToken());
         if(verificationToken.getUser() == user){
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());

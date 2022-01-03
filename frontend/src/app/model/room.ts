@@ -2,12 +2,12 @@ import {House} from "./house";
 
 export class Room {
 
-   numberOfBeds: number;
-   house: House;
+  id: number;
+  numberOfBeds: number;
 
-  constructor(numberOfBeds: number, house: House) {
+  constructor(id: number, numberOfBeds: number, house: House) {
+    this.id = id;
     this.numberOfBeds = numberOfBeds;
-    this.house = house;
   }
 
 }
