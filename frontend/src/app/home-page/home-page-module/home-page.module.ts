@@ -14,8 +14,12 @@ import {HomeHouseComponent} from "../home-house/home-house.component";
 import {RouterModule} from "@angular/router";
 import {ScrollingModule} from "@angular/cdk/scrolling";
 import {MatGridListModule} from "@angular/material/grid-list";
+import {MatIconModule} from "@angular/material/icon";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {TokenInterceptor} from "../../interceptor/token-interceptor";
+import {MatRadioModule} from "@angular/material/radio";
+import {HomeBoatComponent} from "../home-boat/home-boat.component";
+import {HomeAdventureComponent} from "../home-adventure/home-adventure.component";
 
 
 
@@ -24,22 +28,27 @@ import {TokenInterceptor} from "../../interceptor/token-interceptor";
   declarations: [
     HomePageComponent,
     HomeDashboardComponent,
-    HomeHouseComponent
+    HomeHouseComponent,
+    HomeBoatComponent,
+    HomeAdventureComponent
   ],
-  imports: [
-    RouterModule,
-    CommonModule,
-    SharedModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    MatButtonModule,
-    MatDividerModule,
-    MatCardModule,
-    MatCarouselModule,
-    FlexLayoutModule,
-    ScrollingModule,
-    MatGridListModule,
-  ],
+    imports: [
+        RouterModule,
+        CommonModule,
+        SharedModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        MatButtonModule,
+        MatDividerModule,
+        MatCardModule,
+        MatCarouselModule,
+        FlexLayoutModule,
+        ScrollingModule,
+        MatGridListModule,
+        MatIconModule,
+        MatRadioModule,
+    ],
+
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

@@ -1,0 +1,44 @@
+<mat-nav-list>
+  <div class="profile-card">
+    <div class="header">
+      <h2>{{'Vladimir' +' '+currentUser.lastName}}</h2>
+      <h4>{{currentUser.email}}</h4>
+    </div>
+
+  </div>
+
+  <mat-divider></mat-divider>
+  <mat-divider></mat-divider>
+  <h2 matSubheader>Profil</h2>
+  <a mat-list-item routerLinkActive="list-item-active"   routerLink="/admin">Profil</a>
+  <h2 matSubheader>Pregled</h2>
+
+  <a mat-list-item routerLinkActive="list-item-active" routerLink="/admin">Vikendice</a>
+  <a mat-list-item routerLinkActive="list-item-active" routerLink="/admin/users">Brodovi</a>
+  <a mat-list-item routerLinkActive="list-item-active" routerLink="/articles">Instruktori</a>
+
+  <mat-divider></mat-divider>
+
+  <h2 matSubheader>Istorija rezervacija</h2>
+  <a mat-list-item routerLinkActive="list-item-active" routerLink="/admin">Vikendica</a>
+  <a mat-list-item routerLinkActive="list-item-active" routerLink="/admin/users">Brodova</a>
+  <a mat-list-item routerLinkActive="list-item-active" routerLink="/articles">Instruktora</a>
+  <mat-divider></mat-divider>
+  <h2 matSubheader>Ostalo</h2>
+  <a mat-list-item routerLinkActive="list-item-active" routerLink="/admin">Trenutne rezervacije</a>
+  <a mat-list-item routerLinkActive="list-item-active" routerLink="/admin/users">Penali</a>
+  <a mat-list-item routerLinkActive="list-item-active" routerLink="/articles">Preplate</a>
+
+
+
+  <!--  <a mat-list-item routerLinkActive="list-item-active" routerLink="/contacts">-->
+<!--    <mat-icon>import_contacts</mat-icon>-->
+<!--    Contacts-->
+<!--  </a>-->
+
+<!--  <a mat-list-item routerLinkActive="list-item-active" routerLink="/contacts">-->
+<!--    <mat-icon>contact_phone</mat-icon>-->
+<!--    Leads-->
+<!--  </a>-->
+
+</mat-nav-list>

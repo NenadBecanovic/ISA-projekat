@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+
 @Component({
   selector: 'app-client-home-page',
   templateUrl: './client-home-page.component.html',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClientHomePageComponent implements OnInit {
 
+  sidebarOpen = false;
+
   constructor() { }
 
   ngOnInit(): void {
+    this.loadDate()
   }
 
+  loadDate(){
+
+  }
+
+  sideBarToggler($event: any) {
+    this.sidebarOpen = !this.sidebarOpen;
+  }
 }
