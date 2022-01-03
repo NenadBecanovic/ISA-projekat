@@ -20,7 +20,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -46,6 +46,10 @@ public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/**/*.html",
+                "/**/*.css", "/**/*.js");
+
+        web.ignoring().antMatchers(HttpMethod.POST, "/api/houseReservations/**");
         web.ignoring().antMatchers(HttpMethod.POST, "/api/identity/**");
         web.ignoring().antMatchers(HttpMethod.GET, "/api/house/**");
         web.ignoring().antMatchers(HttpMethod.GET, "/api/boat/**");
@@ -53,12 +57,10 @@ public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(HttpMethod.GET, "/api/image/**");
         web.ignoring().antMatchers(HttpMethod.GET, "/api/boatReservations/**");
         web.ignoring().antMatchers(HttpMethod.GET, "/api/houseReservations/**");
-        web.ignoring().antMatchers(HttpMethod.POST, "/api/houseReservations/**");
         web.ignoring().antMatchers(HttpMethod.GET, "/api/room/**");
         web.ignoring().antMatchers(HttpMethod.GET, "/api/additionalServices/**");
 
-        web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/**/*.html",
-                "/**/*.css", "/**/*.js");
+
     }
 
     @Override

@@ -5,6 +5,7 @@ public class AdditionalServicesDTO {
     private Long id;
     private String name;
     private float price;
+    private Boolean checked = false;
 
     public AdditionalServicesDTO(Long id, String name, float price) {
         this.id = id;
@@ -37,5 +38,13 @@ public class AdditionalServicesDTO {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public Boolean getChecked() {
+        return checked;
+    }
+
+    public void setChecked(Boolean checked) {
+        this.checked = checked;
     }
 }

@@ -1,3 +1,5 @@
+import {AdditionalService} from "./additional-service";
+
 export class HouseReservation {
 
   public houseId: number = 0;
@@ -5,11 +7,11 @@ export class HouseReservation {
   public startDate: string;
   public endDate: string;
   public maxGuests: number;
-  public additionalServices: String;
+  public additionalServices: AdditionalService[];
   public price: number;
   public available: boolean;
 
-  constructor(id: number, startDate: string, endDate: string, maxGuests: number, additionalServices: String, price: number, isAvailable: boolean) {
+  constructor(id: number, startDate: string, endDate: string, maxGuests: number, additionalServices: AdditionalService[], price: number, isAvailable: boolean) {
     this.id = id;
     this.startDate = startDate;
     this.endDate = endDate;
@@ -18,6 +20,5 @@ export class HouseReservation {
     this.price = price;
     this.available = isAvailable;
   }
-
 
 }

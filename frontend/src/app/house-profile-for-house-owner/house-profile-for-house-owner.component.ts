@@ -95,8 +95,23 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
         this._houseReservationService.getAllByHouseId(this.house.id).subscribe(
           (courses_slides: HouseReservationSlide[]) => {
             this.courses_slides = courses_slides
+
+            // for (let c of this.courses_slides)
+            // {
+            //     for (let h of c.houseReservationDTOList)
+            //     {
+            //       console.log(h)
+            //
+            //       // for (let a of h.additionalServices)
+            //       //   {
+            //       //     console.log('ISPIS')
+            //       //     // console.log(a.name, a.price)
+            //       //   }
+            //     }
+            // }
+
             this.isSlideLoaded = true
-            console.log(courses_slides)
+            // console.log(courses_slides)
           }
         )
       }

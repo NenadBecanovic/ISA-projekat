@@ -20,7 +20,9 @@
       <br>
       <div class = "input-box">
         <span class="details">Dodatne usluge:</span>
-        <input type="text"  name="additionalServices" [(ngModel)]="houseReservation.additionalServices" placeholder="Unesite dodatne usluge" required>
+        <div *ngFor="let service of additionalServices">
+          <mat-checkbox name="checkbox" [(ngModel)]="service.checked"> {{ service.name}}: {{service.price}} din </mat-checkbox>
+        </div>
       </div>
       <br>
       <div class = "input-box">

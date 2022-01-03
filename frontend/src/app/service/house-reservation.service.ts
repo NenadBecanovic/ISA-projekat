@@ -18,6 +18,6 @@ export class HouseReservationService {
   }
 
   public save(houseReservation: HouseReservation): Observable<HouseReservation> { // saljem post zahtev (rezervaciju vikendice) na bekend
-    return this._http.post<HouseReservation>(`${this.userPath}/save`, houseReservation)
+    return this._http.post<HouseReservation>(`${this.userPath}/add`, houseReservation)
   }
 }

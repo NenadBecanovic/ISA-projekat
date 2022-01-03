@@ -25,6 +25,10 @@ public class AdditionalServices {
     @JoinTable(name = "addiotional_services_adventure", joinColumns = @JoinColumn(name = "additional_services_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "house_id", referencedColumnName = "id"))
     private Set<FishingAdventure> fishingAdventures = new HashSet<FishingAdventure>();
 
+    @ManyToMany
+    @JoinTable(name = "addiotional_services_house_reservation", joinColumns = @JoinColumn(name = "additional_services_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "house_reservation_id", referencedColumnName = "id"))
+    private Set<HouseReservation> houseReservationsServices = new HashSet<HouseReservation>();
+
     public AdditionalServices(Long id, String name, float price, Set<Boat> boats, Set<FishingAdventure> fishingAdventures, Set<House> houses) {
         this.id = id;
         this.name = name;
@@ -32,6 +36,13 @@ public class AdditionalServices {
         this.boats = boats;
         this.fishingAdventures = fishingAdventures;
         this.houses = houses;
+    }
+
+    public AdditionalServices(Long id, String name, float price, Set<HouseReservation> houseReservationsServices) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.houseReservationsServices = houseReservationsServices;
     }
 
     public AdditionalServices() {
@@ -81,7 +92,9 @@ public class AdditionalServices {
         return fishingAdventures;
     }
 
-    public void setFishingAdventures(Set<FishingAdventure> fishingAdventures) {
-        this.fishingAdventures = fishingAdventures;
+    public void setFishingAdventures(Set<FishingAdventure> fishingAdventures) { this.fishingAdventures = fishingAdventures; }
+
+    public void addHouseReservation(HouseReservation houseReservation){
+        this.houseReservationsServices.add(houseReservation);
     }
 }

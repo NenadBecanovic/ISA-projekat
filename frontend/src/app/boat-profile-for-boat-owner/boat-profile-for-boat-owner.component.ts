@@ -14,6 +14,7 @@ import {HouseReservationService} from "../service/house-reservation.service";
 import {BoatReservationService} from "../service/boat-reservation.service";
 import {HouseReservationSlide} from "../model/house-reservation-slide";
 import {BoatReservationSlide} from "../model/boat-reservation-slide";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -38,7 +39,7 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
   freeCancelation: boolean = false;
 
   constructor(private _boatService: BoatService, private _additionalServices: AdditionalServicesService, private _imageService: ImageService,
-              private _boatReservationService: BoatReservationService) {
+              private _boatReservationService: BoatReservationService, private _router: Router) {
   }
 
   ngOnInit(): void {
@@ -49,16 +50,12 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
 
   }
 
-  showMap() {
-
-  }
-
   addActionDialog() {
-
+    this._router.navigate(['/add-action-boat-profile', this.boat.id])
   }
 
   modifyProfile() {
-
+    this._router.navigate(['/modify-boat-profile', this.boat.id])
   }
 
   loadData() { // ucitavanje iz baze
