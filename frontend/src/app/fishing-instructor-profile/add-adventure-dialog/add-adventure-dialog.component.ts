@@ -15,7 +15,7 @@ class ImageSnippet {
 export class AddAdventureDialogComponent implements OnInit {
 
   selectedFile!: ImageSnippet;
-  address: Address = new Address("","","",0,0,0);
+  address: Address = new Address(0,"","","",0,0,0);
   fishingAdventure: NewFishingAdventure = new NewFishingAdventure("",this.address,"",0,"","",0,true,0);
 
   constructor(

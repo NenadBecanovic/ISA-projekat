@@ -19,9 +19,9 @@ import {TokenInterceptor} from "./interceptor/token-interceptor";
 import {RouterModule} from "@angular/router";
 import { HouseProfileForHouseOwnerComponent } from './house-profile-for-house-owner/house-profile-for-house-owner.component';
 import { AdventureProfileComponent } from './adventure-profile/adventure-profile.component';
-//import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-//import { TooltipModule } from 'ngx-bootstrap/tooltip';
-//import { ModalModule } from 'ngx-bootstrap/modal';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -125,7 +125,6 @@ const MaterialComponents = [
     }),
     Ng2SearchPipeModule,
     DemoUtilsModule,
-    AlertModule.forRoot({maxMessages: 5, timeout: 5000, positionX: "right", positionY: "top"}),
     MatCarouselModule,
     BsDropdownModule.forRoot(),
     TooltipModule.forRoot(),

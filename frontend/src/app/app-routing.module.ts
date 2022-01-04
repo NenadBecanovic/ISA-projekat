@@ -30,7 +30,7 @@ const routes: Routes = [
   { path:'house-profile-for-house-owner', component: HouseProfileForHouseOwnerComponent},
   { path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}]},
   {path: 'adventure-profile', component: AdventureProfileComponent},
-  {path: 'fishing-instructor', component: FishingInstructorProfileComponent}
+  {path: 'fishing-instructor', component: FishingInstructorProfileComponent},
   { path:'boat-profile-for-boat-owner', component: BoatProfileForBoatOwnerComponent},
   { path:'add-action-house-profile/:id', component: AddActionHouseProfileComponent},
   { path:'modify-house-profile/:id', component: ModifyHouseProfileComponent},

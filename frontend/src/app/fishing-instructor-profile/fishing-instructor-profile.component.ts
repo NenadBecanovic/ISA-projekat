@@ -17,9 +17,9 @@ import { MakeReservationDialogComponent } from './make-reservation-dialog/make-r
 })
 export class FishingInstructorProfileComponent implements OnInit {
 
-  address: Address = new Address("Kotor","Kotor","Crna Gora",0,0,31100)
-  service1: AdditionalService= new AdditionalService("STAPOVI", 2000);
-  service2: AdditionalService= new AdditionalService("STAPOVI", 3000);
+  address: Address = new Address(0,"Kotor","Kotor","Crna Gora",0,0,31100);
+  service1: AdditionalService= new AdditionalService(0,"STAPOVI", 2000,false);
+  service2: AdditionalService= new AdditionalService(0,"STAPOVI", 3000,false);
   additionalServices = new Array<AdditionalService>();
   instructor: FishingAdventureInstructorDTO = new FishingAdventureInstructorDTO(1,"Kapetan","Kuka","","",this.address, "065454545", "Najjaci sam na svetu");
   adventure: FishingAdventure = new FishingAdventure(2,"Avanturica", this.address, "Mnogo dobra",5,"SVA","Be good",30,this.additionalServices,false,10,this.instructor);
