@@ -9,8 +9,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class DefineAvaibilityPeriodComponent implements OnInit {
 
-  dateFrom = new FormControl(new Date());
-  dateTo = new FormControl(new Date());
+  dateFrom = new Date();
+  dateTo = new Date();
 
   constructor(
     public dialogRef: MatDialogRef<DefineAvaibilityPeriodComponent>

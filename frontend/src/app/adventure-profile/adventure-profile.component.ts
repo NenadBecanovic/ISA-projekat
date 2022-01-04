@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AddActionDialogComponent } from '../add-action-dialog/add-action-dialog/add-action-dialog.component';
 import { AdditionalService } from '../model/additional-service';
 import { Address } from '../model/address';
 import { FishingAdventure } from '../model/fishing-adventure';
@@ -7,6 +6,7 @@ import { MyUser } from '../model/my-user';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { AdventureProfileService } from '../service/adventure-profile.service';
 import { AdventureReservationsDialogComponent } from '../fishing-instructor-profile/adventure-reservations-dialog/adventure-reservations-dialog.component';
+import { FishingAdventureInstructorDTO } from '../model/fishing-adventure-instructorDTO';
 
 class ImageSnippet {
   constructor(public src: string, public file: File) {}
@@ -30,7 +30,7 @@ export class AdventureProfileComponent implements OnInit {
   ];
 
   address: Address = new Address("Kotor","Kotor","Crna Gora",0,0,31100)
-  user: MyUser = new MyUser("Kapetan","Kuka","","","kuka","",this.address, "065454545", "Zelim");
+  user: FishingAdventureInstructorDTO = new FishingAdventureInstructorDTO(1,"Kapetan","Kuka","","",this.address, "065454545", "Najjaci sam na svetu");
   service1: AdditionalService= new AdditionalService("STAPOVI", 2000);
   service2: AdditionalService= new AdditionalService("STAPOVI", 3000);
   additionalServices: Array<AdditionalService>;
@@ -52,14 +52,7 @@ export class AdventureProfileComponent implements OnInit {
   }
 
   addActionDialog(){
-    const dialogRef = this.dialog.open(AddActionDialogComponent, {
-      width: '250px',
-      data: {},
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      
-    });
+    alert("AKCIJA");
   }
 
   showReservationsDialog(){

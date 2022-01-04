@@ -1,31 +1,41 @@
-<h1 mat-dialog-title>Hi</h1>
+<h1 mat-dialog-title class="ms-3">Nova avantura</h1>
 <div mat-dialog-content>
-  <div class="suspicious-customers-style mt-3 d-flex flex-row">
-    <div class="d-flex flex-column ms-3 justify-content-center">
-        <span class="basic-title mb-1 nowrap">
-            Name & surname
-        </span>
-        <span class="me-2">Name surname</span>
+  <div class=" d-flex flex-row">
+    <div class="d-flex flex-column ms-3 me-5 justify-content-center">
+        <button mat-raised-button (click)="addImage.click()" class="btn">Dodaj sliku</button>
+        <input type="file" accept="image/*" style="display:none;border:none;" (change)="imageAdded($event)" #addImage/>
+        <span>Naziv avanture</span>
+        <input type="text" class="form-control" name="name" [(ngModel)]="fishingAdventure.name">
+        <span>Ulica i broj</span>
+        <input type="text" class="form-control" name="street" [(ngModel)]="fishingAdventure.address.street">
+        <span>Grad</span>
+        <input type="text" class="form-control" name="city" [(ngModel)]="fishingAdventure.address.city">
+        <span>Država</span>
+        <input type="text" class="form-control" name="state" [(ngModel)]="fishingAdventure.address.state">
+        <span>Poštanski broj</span>
+        <input type="number" class="form-control" name="time"  [(ngModel)]="fishingAdventure.address.postalCode">
+        <span>Geografska dužina</span>
+        <input type="number" class="form-control" name="time" [(ngModel)]="fishingAdventure.address.longitude">
+        <span>Geografska širina</span>
+        <input type="number" class="form-control" name="time" [(ngModel)]="fishingAdventure.address.latitude">
     </div>
-    <div class="d-flex ms-5 flex-column justify-content-center">
-        <span class="basic-title mb-1">
-            Username
-        </span>
-        <span class="me-2">username</span>
+    <div class="d-flex flex-column ms-5 justify-content-center">
+        <span>Promo opis</span>
+        <input type="text" class="form-control" name="time" [(ngModel)]="fishingAdventure.promoDescription">
+        <span>Oprema</span>
+        <input type="text" class="form-control" name="time" [(ngModel)]="fishingAdventure.fishingEquipment">
+        <span>Pravila ponašanja</span>
+        <input type="text" class="form-control" name="time" [(ngModel)]="fishingAdventure.behaviourRules">
+        <span>Kapacitet</span>
+        <input type="number" class="form-control" name="time" [(ngModel)]="fishingAdventure.capacity">
+        <span>Cena(din/h)</span>
+        <input type="number" class="form-control" name="time" [(ngModel)]="fishingAdventure.pricePerHour">
+        <span>Procenat prilikom otkazivanja</span>
+        <input type="number" class="form-control" name="time" [(ngModel)]="fishingAdventure.cancellationFee">
     </div>
-    <div class="d-flex ms-5 flex-column justify-content-center">
-        <span class="basic-title mb-1">
-            Monthly cancellations
-        </span>
-        <span class="me-2">rez</span>
-    </div>
-    <button type="button" class="btn btn-danger ms-5 justify-end align-items-center" >
-        <img src=""/>
-        <span>Popuni izvestaj</span>
-    </button>
   </div>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button cdkFocusInitial>Ok</button>
+  <button mat-button (click)="onNoClick()">Otkaži</button>
+  <button mat-button cdkFocusInitial (click)="ok()">Sačuvaj</button>
 </div>

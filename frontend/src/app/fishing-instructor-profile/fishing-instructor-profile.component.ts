@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { AdditionalService } from '../model/additional-service';
 import { Address } from '../model/address';
+import { FishingAdventure } from '../model/fishing-adventure';
+import { FishingAdventureInstructorDTO } from '../model/fishing-adventure-instructorDTO';
 import { MyUser } from '../model/my-user';
+import { AddAdventureDialogComponent } from './add-adventure-dialog/add-adventure-dialog.component';
 import { CalendarDialogComponent } from './calendar-dialog/calendar-dialog.component';
 import { DefineAvaibilityPeriodComponent } from './define-avaibility-period/define-avaibility-period.component';
+import { MakeReservationDialogComponent } from './make-reservation-dialog/make-reservation-dialog.component';
 
 @Component({
   selector: 'app-fishing-instructor-profile',
@@ -13,88 +18,32 @@ import { DefineAvaibilityPeriodComponent } from './define-avaibility-period/defi
 export class FishingInstructorProfileComponent implements OnInit {
 
   address: Address = new Address("Kotor","Kotor","Crna Gora",0,0,31100)
-  instructor: MyUser = new MyUser("Kapetan","Kuka","","","kuka","",this.address, "065454545", "Zelim");
+  service1: AdditionalService= new AdditionalService("STAPOVI", 2000);
+  service2: AdditionalService= new AdditionalService("STAPOVI", 3000);
+  additionalServices = new Array<AdditionalService>();
+  instructor: FishingAdventureInstructorDTO = new FishingAdventureInstructorDTO(1,"Kapetan","Kuka","","",this.address, "065454545", "Najjaci sam na svetu");
+  adventure: FishingAdventure = new FishingAdventure(2,"Avanturica", this.address, "Mnogo dobra",5,"SVA","Be good",30,this.additionalServices,false,10,this.instructor);
   filterTerm!: string;
 
-  adventures = [{
-    "id": 1,
-    "name": "Ludilo",
-    "address": this.address,
-    "persons": "5",
-    "price": "30"
-  },
-  {
-    "id": 2,
-    "name": "Ludilo",
-    "address": this.address,
-    "persons": "5",
-    "price": "30"
-  },
-  {
-    "id": 3,
-    "name": "Ludilo",
-    "address": this.address,
-    "persons": "5",
-    "price": "30"
-  },
-  {
-    "id": 4,
-    "name": "gfgf",
-    "address": this.address,
-    "persons": "5",
-    "price": "30"
-  },
-  {
-    "id": 5,
-    "name": "Waaa",
-    "address": this.address,
-    "persons": "5",
-    "price": "30"
-  },
-  {
-    "id": 6,
-    "name": "Wohoo",
-    "address": this.address,
-    "persons": "5",
-    "price": "30"
-  },
-  {
-    "id": 7,
-    "name": "LudAaaailo",
-    "address": this.address,
-    "persons": "5",
-    "price": "30"
-  },
-  {
-    "id": 8,
-    "name": "Ludilo",
-    "address": this.address,
-    "persons": "7",
-    "price": "35"
-  },
-  {
-    "id": 9,
-    "name": "Haos",
-    "address": this.address,
-    "persons": "5",
-    "price": "30"
-  },
-  {
-    "id": 10,
-    "name": "Zezanje",
-    "address": this.address,
-    "persons": "5",
-    "price": "30"
-  }
-]
+  adventures = [this.adventure, this.adventure, this.adventure, this.adventure]
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog) {
+    this.additionalServices.push(this.service1);
+    this.additionalServices.push(this.service2);
+   }
 
   ngOnInit() {
   }
 
   addAdventure(){
-    alert("AVANTURA");
+    const dialogRef = this.dialog.open(AddAdventureDialogComponent, {
+      width: '600px',
+      data: {},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      
+    });
   }
 
   showCalendarDialog(){
@@ -110,10 +59,22 @@ export class FishingInstructorProfileComponent implements OnInit {
 
   defineAvaibilityDialog(){
     const dialogRef = this.dialog.open(DefineAvaibilityPeriodComponent, {
-      width: '700px',
+      width: '650px',
       data: {},
     });
 
+    dialogRef.afterClosed().subscribe(result => {
+      
+    });
+  }
+
+  makeReservation(a: FishingAdventure){
+    const dialogRef = this.dialog.open(MakeReservationDialogComponent, {
+      width: '320px',
+      data: {},
+    });
+    dialogRef.componentInstance.adventureId = a.id;
+    dialogRef.componentInstance.additionalServices = a.services;
     dialogRef.afterClosed().subscribe(result => {
       
     });

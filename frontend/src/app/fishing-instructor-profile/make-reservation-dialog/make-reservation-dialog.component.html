@@ -1,0 +1,29 @@
+<h1 mat-dialog-title class="ms-3">Rezervacija</h1>
+<div mat-dialog-content>
+  <div class="mt-3 d-flex flex-row">
+    <div class="d-flex flex-column ms-3 justify-content-center">
+        <span>Datum:</span>
+        <mat-form-field appearance="fill">
+            <mat-label>Angular forms</mat-label>
+            <input matInput [matDatepicker]="picker1" [(ngModel)]="date">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+        <span>Vreme početka</span>
+        <input type="number" class="form-control" name="time" [(ngModel)]="timeStart">
+        <span>Trajanje</span>
+        <input type="number" class="form-control" name="time" [(ngModel)]="adventureLength">
+        <span>Broj osoba</span>
+        <input type="number" class="form-control" name="time" [(ngModel)]="numberOfPersons">
+        <span>Dodatne usluge:</span>
+        <div *ngFor="let service of additionalServices">
+          <input type="checkbox" id="scales" name="scales" >
+          <label for="scales" class="ms-2">{{service.name}} {{service.price}}din.</label>
+        </div>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Otkaži</button>
+  <button mat-button cdkFocusInitial (click)="ok()">Sačuvaj</button>
+</div>

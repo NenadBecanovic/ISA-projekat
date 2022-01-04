@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { AddActionDialogComponent } from './add-action-dialog.component';
+import { MakeReservationDialogComponent } from './make-reservation-dialog.component';
 
-describe('AddActionDialogComponent', () => {
-  let component: AddActionDialogComponent;
-  let fixture: ComponentFixture<AddActionDialogComponent>;
+describe('MakeReservationDialogComponent', () => {
+  let component: MakeReservationDialogComponent;
+  let fixture: ComponentFixture<MakeReservationDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddActionDialogComponent ]
+      declarations: [ MakeReservationDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddActionDialogComponent);
+    fixture = TestBed.createComponent(MakeReservationDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

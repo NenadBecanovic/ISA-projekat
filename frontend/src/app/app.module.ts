@@ -48,6 +48,8 @@ import { FishingInstructorProfileComponent } from './fishing-instructor-profile/
 import { CalendarDialogComponent } from './fishing-instructor-profile/calendar-dialog/calendar-dialog.component';
 import { DemoUtilsModule } from './fishing-instructor-profile/calendar-dialog/demo-utils/calendar.module';
 import { DefineAvaibilityPeriodComponent } from './fishing-instructor-profile/define-avaibility-period/define-avaibility-period.component';
+import { MakeReservationDialogComponent } from './fishing-instructor-profile/make-reservation-dialog/make-reservation-dialog.component';
+import { AddAdventureDialogComponent } from './fishing-instructor-profile/add-adventure-dialog/add-adventure-dialog.component';
 
 
 const MaterialComponents = [
@@ -84,7 +86,9 @@ const MaterialComponents = [
     AdventureProfileComponent,
     FishingInstructorProfileComponent,
     CalendarDialogComponent,
-    DefineAvaibilityPeriodComponent
+    DefineAvaibilityPeriodComponent,
+    MakeReservationDialogComponent,
+    AddAdventureDialogComponent
    ],
   imports: [
     HomePageModule,
