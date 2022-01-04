@@ -29,14 +29,14 @@ export class AdventureProfileComponent implements OnInit {
     }
   ];
 
-  address: Address = new Address("Kotor","Kotor","Crna Gora",0,0,31100)
+  address: Address = new Address(0,"Kotor","Kotor","Crna Gora",0,0,31100)
   user: FishingAdventureInstructorDTO = new FishingAdventureInstructorDTO(1,"Kapetan","Kuka","","",this.address, "065454545", "Najjaci sam na svetu");
-  service1: AdditionalService= new AdditionalService("STAPOVI", 2000);
-  service2: AdditionalService= new AdditionalService("STAPOVI", 3000);
+  service1: AdditionalService= new AdditionalService(0,"STAPOVI", 2000,false);
+  service2: AdditionalService= new AdditionalService(0,"STAPOVI", 3000,false);
   additionalServices: Array<AdditionalService>;
   fishingAdventure: FishingAdventure;
   selectedFile!: ImageSnippet;
-  
+
   constructor(public dialog: MatDialog, private adventureService: AdventureProfileService) {
     this.additionalServices = new Array<AdditionalService>();
     this.additionalServices.push(this.service1);
@@ -82,13 +82,13 @@ export class AdventureProfileComponent implements OnInit {
           alert("OK");
         },
         (err) => {
-        
+
         })
     });
 
     reader.readAsDataURL(file);
   }
-  
+
   createBase64Image(file: Blob){
     /*  const reader= new FileReader();
       reader.onload = (e) =>{

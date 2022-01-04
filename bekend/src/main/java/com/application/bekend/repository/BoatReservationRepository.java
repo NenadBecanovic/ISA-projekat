@@ -1,0 +1,13 @@
+package com.application.bekend.repository;
+
+import com.application.bekend.model.BoatReservation;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface BoatReservationRepository extends JpaRepository<BoatReservation, Long> {
+
+    List<BoatReservation> getAllByBoat_Id(Long id);
+}

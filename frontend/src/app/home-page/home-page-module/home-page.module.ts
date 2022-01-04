@@ -10,6 +10,16 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
 import { MatCarouselModule } from '@ngbmodule/material-carousel';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import {HomeHouseComponent} from "../home-house/home-house.component";
+import {RouterModule} from "@angular/router";
+import {ScrollingModule} from "@angular/cdk/scrolling";
+import {MatGridListModule} from "@angular/material/grid-list";
+import {MatIconModule} from "@angular/material/icon";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {TokenInterceptor} from "../../interceptor/token-interceptor";
+import {MatRadioModule} from "@angular/material/radio";
+import {HomeBoatComponent} from "../home-boat/home-boat.component";
+import {HomeAdventureComponent} from "../home-adventure/home-adventure.component";
 
 
 
@@ -17,29 +27,36 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 @NgModule({
   declarations: [
     HomePageComponent,
-    HomeDashboardComponent
+    HomeDashboardComponent,
+    HomeHouseComponent,
+    HomeBoatComponent,
+    HomeAdventureComponent
   ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    MatButtonModule,
-    MatDividerModule,
-    MatCardModule,
-    MatCarouselModule,
-    FlexLayoutModule,
+    imports: [
+        RouterModule,
+        CommonModule,
+        SharedModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        MatButtonModule,
+        MatDividerModule,
+        MatCardModule,
+        MatCarouselModule,
+        FlexLayoutModule,
+        ScrollingModule,
+        MatGridListModule,
+        MatIconModule,
+        MatRadioModule,
+    ],
+
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    }
   ],
-  // providers:[
-  //   DashboardService,
-  //   {
-  //     provide: HTTP_INTERCEPTORS,
-  //     useClass: TokenInterceptor,
-  //     multi: true,
-  //   }
-  // ],
-  // schemas: [
-  //   NO_ERRORS_SCHEMA
-  // ]
+
 })
+
 export class HomePageModule { }

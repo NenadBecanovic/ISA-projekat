@@ -13,27 +13,33 @@ public class House {
     private String name;
 
     @OneToMany(mappedBy = "house", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Room> rooms = new HashSet<Room>();
+    private Set<Room> rooms = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id")
     private Address address;
     private String promoDescription;
 
-    //    private Set<String> images ;
-    @ManyToMany(mappedBy = "houses")
-    private Set<HouseReservation> courses = new HashSet<HouseReservation>();
+    @OneToMany(mappedBy = "house", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Image> images;
+
+    @OneToMany(mappedBy = "house")
+    private Set<HouseReservation> courses = new HashSet<>();
     private String behaviourRules;
     private float pricePerDay;
+
     @ManyToMany(mappedBy = "houses")
-    private Set<AdditionalServices> services = new HashSet<AdditionalServices>();
+    private Set<AdditionalServices> services = new HashSet<>();
     private boolean isCancalletionFree;
     private int cancalletionFee;
-    @ManyToOne(fetch = FetchType.EAGER)
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
     private MyUser owner;
 
-    public House(Long id, String name, Set<Room> rooms, Address address, String promoDescription, Set<HouseReservation> courses, String behaviourRules, float pricePerDay, Set<AdditionalServices> services, boolean isCancalletionFree, int cancalletionFee) {
+    public House(Long id, String name, Set<Room> rooms, Address address, String promoDescription, Set<HouseReservation> courses,
+                 String behaviourRules, float pricePerDay, Set<AdditionalServices> services, boolean isCancalletionFree,
+                 int cancalletionFee, Set<Image> images) {
         this.id = id;
         this.name = name;
         this.rooms = rooms;
@@ -45,6 +51,7 @@ public class House {
         this.services = services;
         this.isCancalletionFree = isCancalletionFree;
         this.cancalletionFee = cancalletionFee;
+        this.images = images;
     }
 
     public House() {
@@ -136,5 +143,14 @@ public class House {
 
     public void setCancalletionFee(int cancalletionFee) {
         this.cancalletionFee = cancalletionFee;
+    }
+
+    public Set<Image> getImages() { return images; }
+
+    public void setImages(Set<Image> images) { this.images = images; }
+
+    public void addHouseReservation(HouseReservation houseReservation)
+    {
+        this.courses.add(houseReservation);
     }
 }

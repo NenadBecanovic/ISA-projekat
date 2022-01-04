@@ -16,4 +16,6 @@ public class AddresService {
     public Address save(Address address){
         return this.addressRepository.save(address);
     }
+
+    public Address getAddressById(Long id) { return this.addressRepository.getAddressById(id); }
 }

@@ -7,6 +7,8 @@ import com.application.bekend.model.MyUser;
 import com.application.bekend.model.VerificationRequest;
 import com.application.bekend.repository.MyUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -24,44 +26,33 @@ public class AuthService {
     private VerificationTokenService verificationTokenService;
     @Autowired
     private EmailService emailService;
+
     @Autowired
-    private VerificationRequestService verificationRequestService;
+    public AuthService(VerificationRequestService verificationRequestService) {
+        this.verificationRequestService = verificationRequestService;
+    }
 
-    public MyUser registerNewUser(MyUserDTO myUserDTO) {
-        MyUser myUser = new MyUser();
-        myUser.setFirstName(myUserDTO.getFirstName());
-        myUser.setLastName(myUserDTO.getLastName());
-        myUser.setEmail(myUserDTO.getEmail());
-        myUser.setUsername(myUserDTO.getUsername());
-        myUser.setPassword(myUserDTO.getPassword());
-        Address address = new Address();
-        address.setStreet(myUserDTO.getAddressDTO().getStreet());
-        address.setCity(myUserDTO.getAddressDTO().getCity());
-        address.setState(myUserDTO.getAddressDTO().getState());
-        address.setLongitude(myUserDTO.getAddressDTO().getLongitude());
-        address.setLatitude(myUserDTO.getAddressDTO().getLatitude());
-        addresService.save(address);
+    private PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }       // za enkodovanje lozinke
 
-        myUser.setAddress(address);
-        Authority authority = this.authorityService.findAuthorityByName(myUserDTO.getAuthority());
-        myUser.setAuthority(authority);
-        myUser.setActivated(false);
+    private final VerificationRequestService verificationRequestService;
 
+    public MyUser sendVerificationEmail(MyUser myUser) {    // preko mejla saljemo verifikacioni token
         Optional<MyUser> saved = Optional.of(this.save(myUser));
 
-        //creation of validation token
         saved.ifPresent(u -> {      // ako je user sacuvan (nije null)
                     try {
                         String token = UUID.randomUUID().toString();
-                        verificationTokenService.save(saved.get(), token);
-                        //send verification email
-                        this.emailService.sendHTMLMail(saved.get());
+                        verificationTokenService.save(saved.get(), token);  // kreiranje verifikacionog tokena
+
+                        this.emailService.sendHTMLMail(saved.get());  // send verification email
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
         );
-        return saved.get();     // vracamo sacuvanog user-a
+        return saved.get();     // vracamo sacuvanog user-a (moze biti i void metoda)
     }
 
     public MyUser register(MyUserDTO myUserDTO) {
@@ -70,34 +61,36 @@ public class AuthService {
         myUser.setLastName(myUserDTO.getLastName());
         myUser.setEmail(myUserDTO.getEmail());
         myUser.setUsername(myUserDTO.getUsername());
-        myUser.setPassword(myUserDTO.getPassword());
+        myUser.setPassword(this.passwordEncoder().encode(myUserDTO.getPassword()));
         Address address = new Address();
         address.setStreet(myUserDTO.getAddressDTO().getStreet());
         address.setCity(myUserDTO.getAddressDTO().getCity());
         address.setState(myUserDTO.getAddressDTO().getState());
         address.setLongitude(myUserDTO.getAddressDTO().getLongitude());
         address.setLatitude(myUserDTO.getAddressDTO().getLatitude());
+        address.setPostalCode(myUserDTO.getAddressDTO().getPostalCode());
         addresService.save(address);
         myUser.setAddress(address);
         Authority authority = this.authorityService.findAuthorityByName(myUserDTO.getAuthority());
-        myUser.setAuthority(authority);
-        myUser.setActivated(false);
+        myUser.addAuthority(authority);
+        myUser.setIsActivated(false);
         myUser.setPhoneNumber(myUserDTO.getPhoneNumber());
-        this.save(myUser);
+        MyUser user = this.save(myUser);
 
-        // poslati zahtev za registraciju administratoru
-        VerificationRequest verificationRequest = new VerificationRequest(myUser, false, myUserDTO.getReasonForRegistration());
-        this.verificationRequestService.save(verificationRequest);
+        // poslati mejl za obicnog usera
+        if(myUserDTO.getAuthority().equals("ROLE_USER")){
+            this.sendVerificationEmail(user);
+        }else{
+            // poslati zahtev za verifikaciju za ostale korisnike
+            VerificationRequest verificationRequest = new VerificationRequest(myUser, false, myUserDTO.getReasonForRegistration());
+            this.verificationRequestService.save(verificationRequest);
+        }
 
         return myUser;
     }
 
     public MyUser save(MyUser user) {
         return this.myUserRepository.save(user);
-    }
-
-    public MyUser loginUser(String username, String password) {
-        return myUserRepository.findMyUserByEmailAndPassword(username, password);
     }
 
     public MyUser findMyUserByEmailOrUsername(String email, String username) {

@@ -50,10 +50,9 @@
       <div class = "input-box" style="alignment: left">
         <span class="details">Type</span>
         <select  name="type" [(ngModel)]="user.authority" (change)="onChange($event)" >
-          <option value="USER">USER</option>
-          <option value="INSTRUCTOR">INSTRUCTOR</option>
-          <option value="HOUSE OWNER">HOUSE OWNER</option>
-          <option value="BOAT OWNER">BOAT OWNER</option>
+          <option value="ROLE_USER">USER</option>
+          <option value="ROLE_HOUSE_OWNER">HOUSE OWNER</option>
+          <option value="ROLE_BOAT_OWNER">BOAT OWNER</option>
         </select>
       </div>
       <div class = "input-box" *ngIf="!isUser">
