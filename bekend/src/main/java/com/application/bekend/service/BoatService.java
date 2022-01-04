@@ -5,6 +5,8 @@ import com.application.bekend.repository.BoatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BoatService {
 
@@ -16,4 +18,6 @@ public class BoatService {
     }
 
     public Boat getBoatById(Long id){ return boatRepository.getBoatById(id); }
+
+    public List<Boat> findAll(){ return boatRepository.findAll(); }
 }

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {Boat} from "../../model/boat";
+import {AdventureService} from "../../service/adventure.service";
+import {Adventure} from "../../model/adventure";
 
 @Component({
   selector: 'app-home-adventure',
@@ -7,9 +10,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeAdventureComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _adventureService: AdventureService) { }
+  adventures: Adventure[] = new Array();
 
   ngOnInit(): void {
+    this.loadData()
   }
 
+  loadData() {
+    this._adventureService.findAll().subscribe(   // subscribe - da bismo dobili odgovor beka
+      (adventures: Adventure[]) => {
+        this.adventures = adventures;
+      },
+      (error) => {
+
+      },
+    )
+  }
 }

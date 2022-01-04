@@ -5,6 +5,8 @@ import com.application.bekend.repository.HouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class HouseService {
 
@@ -22,4 +24,7 @@ public class HouseService {
     public House save(House house) {
         return this.houseRepository.save(house);
     }
+
+    public List<House> findAll() {return this.houseRepository.findAll();}
+
 }

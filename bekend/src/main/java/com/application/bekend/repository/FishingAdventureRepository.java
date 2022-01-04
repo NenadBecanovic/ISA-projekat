@@ -1,13 +1,9 @@
 package com.application.bekend.repository;
 
-import com.application.bekend.model.House;
+import com.application.bekend.model.FishingAdventure;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface HouseRepository extends JpaRepository<House, Long> {
-
-    House getHouseById(Long id);
-
-
+public interface FishingAdventureRepository extends JpaRepository<FishingAdventure, Long> {
 }

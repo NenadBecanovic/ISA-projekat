@@ -16,4 +16,8 @@ export class BoatService {
   public getBoatById(id: number): Observable<Boat>{
     return this._http.get<Boat>(`${this.userPath}/getBoatById/`+id)
   }
+
+  public findAll(): Observable<Boat[]>{
+    return this._http.get<Boat[]>(`${this.userPath}/findAll`)
+  }
 }

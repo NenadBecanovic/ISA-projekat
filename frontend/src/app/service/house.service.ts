@@ -15,4 +15,8 @@ export class HouseService {
   public getHouseById(id: number): Observable<House>{
     return this._http.get<House>(`${this.userPath}/getHouseById/`+id)
   }
+
+  public findAll(): Observable<House[]>{
+    return this._http.get<House[]>(`${this.userPath}/findAll/`)
+  }
 }
