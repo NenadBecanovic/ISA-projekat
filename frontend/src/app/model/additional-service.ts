@@ -1,5 +1,6 @@
 export class AdditionalService {
 
+  public houseId: number = 0;
   id: number;
   name: String;
   price: number;

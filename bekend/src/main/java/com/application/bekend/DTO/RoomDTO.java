@@ -1,5 +1,7 @@
 package com.application.bekend.DTO;
 
+import com.application.bekend.model.Room;
+
 public class RoomDTO {
 
     private Long id;
@@ -10,6 +12,8 @@ public class RoomDTO {
         this.id = id;
         this.numberOfBeds = numberOfBeds;
     }
+
+    public RoomDTO(){}
 
     public Long getId() {
         return id;

@@ -1,32 +1,31 @@
 package com.application.bekend.controller;
 
 import com.application.bekend.DTO.AdditionalServicesDTO;
-import com.application.bekend.DTO.RoomDTO;
 import com.application.bekend.model.AdditionalServices;
-import com.application.bekend.model.Room;
+import com.application.bekend.model.House;
 import com.application.bekend.service.AdditionalServicesService;
+import com.application.bekend.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import javax.transaction.Transactional;
+import java.util.*;
 
 @RestController
 @RequestMapping("api/additionalServices")
+@EnableTransactionManagement
 public class AdditionalServicesContoller {
 
     private final AdditionalServicesService additionalServicesService;
+    private final HouseService houseService;
 
     @Autowired
-    public AdditionalServicesContoller(AdditionalServicesService additionalServicesService) {
+    public AdditionalServicesContoller(AdditionalServicesService additionalServicesService, HouseService houseService) {
         this.additionalServicesService = additionalServicesService;
+        this.houseService = houseService;
     }
 
     @GetMapping("/getAllByHouseId/{id}")
@@ -69,4 +68,57 @@ public class AdditionalServicesContoller {
         return new ResponseEntity<>(additionalServicesDTOS, HttpStatus.OK);
     }
 
+    @DeleteMapping("/delete/{id}")
+    @Transactional
+    public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
+        AdditionalServices additionalServices = this.additionalServicesService.getAdditionalServicesById(id);
+        additionalServices.setHouses(null);
+        additionalServices.setHouseReservationsServices(null);
+
+        this.additionalServicesService.deleteById(id);  // brisanje iz additional_services
+
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<AdditionalServices> save(@RequestBody AdditionalServicesDTO dto) {
+        AdditionalServices additionalServices = new AdditionalServices(dto.getId(), dto.getName(), dto.getPrice(), new HashSet<>());
+
+        House house = this.houseService.getHouseById(dto.getHouseId());
+
+        Set<House> houses = additionalServices.getHouses();
+        houses.add(house);
+        additionalServices.setHouses(houses);
+        this.additionalServicesService.save(additionalServices);
+
+//
+//        Date startDate = new Date(Long.parseLong(dto.getStartDate()));
+//        Date endDate = new Date(Long.parseLong(dto.getEndDate()));
+//        HouseReservation houseReservation = new HouseReservation(dto.getId(), startDate, endDate, dto.getMaxGuests(), dto.getPrice(), dto.isAvailable(), house);
+//
+//        houseReservation = this.houseReservationService.save(houseReservation); // sacuvali smo rezervaciju i povratna vrednost metode je tacno ta rezervacija iz baze (sa ispravno generisanim id-em ...)
+//        // ovaj korak je obavezan jer se rezervacija koju dodajemo ovde (***) mora nalaziti u bazi
+//
+//        Set<AdditionalServices> additionalServicesSet = new HashSet<>();
+//        for(AdditionalServicesDTO add : dto.getAdditionalServices()){
+//
+//            // iz baze dobavljamo (original) dodatnu uslugu i u njen set rezervacija, dodajemo ovu konkretnu rezervaciju (houseReservation)
+//            AdditionalServices additionalServices = this.additionalServicesService.getAdditionalServicesById(add.getId());
+//
+//            additionalServices.addHouseReservation(houseReservation); // (***)
+//            // da je bio slucaj da smo dodali samo inicijalno kreiran houseReservation (nastao iz podataka od DTO), bio bi error: javax.persistence.EntityNotFoundException
+//            // jer u tabeli koja spaja AdditionalServices (id_a) i HouseReservation (id_h), id_h bi bio null i to vraca gresku, jer se u tabeli mora nalaziti neki vec postojeci id_h (radimo spajanje podataka dve postojece table, nema novih podataka)
+//
+//            additionalServicesSet.add(additionalServices);   // u set koji cemo kasnije dodeliti rezervaciji dodajemo dodatnu uslugu
+//
+//            // azuriramo (sacuvamo) izmenjenu dodatnu uslugu u bazi (additional service)
+//            this.additionalServicesService.save(additionalServices);
+//        }
+////
+//        // dodajem rezervaciju vikendice u samu vikendicu
+//        house.addHouseReservation(houseReservation);
+//        this.houseService.save(house);
+//
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 }

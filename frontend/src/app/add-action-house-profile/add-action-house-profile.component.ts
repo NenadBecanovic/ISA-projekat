@@ -66,8 +66,6 @@ export class AddActionHouseProfileComponent implements OnInit {
         }
     }
 
-    // console.log(this.additionalServicesFinal)
-
     this.houseReservation.additionalServices = this.additionalServicesFinal
     // console.log(this.houseReservation.additionalServices)
 
