@@ -1,12 +1,15 @@
 export class AdditionalService {
-    name: String;
-    price: number;
-    checked: boolean;
 
-    constructor(name: String, price: number, checked: boolean){
-        this.name = name;
-        this.price = price;
-        this.checked = checked;
-    }
+  id: number;
+  name: String;
+  price: number;
+  checked: boolean;
+
+  constructor(id: number, name: String, price: number, checked: boolean){
+    this.id = id;
+    this.name = name;
+    this.price = price;
+    this.checked = checked;
+  }
 
 }

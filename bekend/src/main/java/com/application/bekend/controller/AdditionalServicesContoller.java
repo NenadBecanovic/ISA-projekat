@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api/additionalServices")
@@ -52,4 +54,19 @@ public class AdditionalServicesContoller {
 
         return new ResponseEntity<>(additionalServicesDTOS, HttpStatus.OK);
     }
+
+    @GetMapping("/getAllByHouseReservationId/{id}")
+    public ResponseEntity<Set<AdditionalServicesDTO>> getAllByHouseReservationId(@PathVariable("id") Long id){
+        Set<AdditionalServices> additionalServices = this.additionalServicesService.getAllByHouseReservationId(id);
+        Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
+
+        for (AdditionalServices a: additionalServices) {
+            // TODO: proveriti ovaj deo checked u kostruktoru
+            AdditionalServicesDTO additionalServicesDTO = new AdditionalServicesDTO(a.getId(), a.getName(), a.getPrice(), true);
+            additionalServicesDTOS.add(additionalServicesDTO);
+        }
+
+        return new ResponseEntity<>(additionalServicesDTOS, HttpStatus.OK);
+    }
+
 }

@@ -138,4 +138,14 @@ public class HouseReservationController {
 
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
+
+    @GetMapping("/getHouseReservationById/{id}")
+    public ResponseEntity<HouseReservationDTO> getHouseReservationById(@PathVariable("id") Long id) {
+        HouseReservation houseReservation = this.houseReservationService.getHouseReservationById(id);
+
+        HouseReservationDTO dto = new HouseReservationDTO(houseReservation.getId(), houseReservation.getStartDate().toString(), houseReservation.getEndDate().toString(),
+                houseReservation.getMaxGuests(), houseReservation.getPrice(), houseReservation.isAvailable());
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
 }

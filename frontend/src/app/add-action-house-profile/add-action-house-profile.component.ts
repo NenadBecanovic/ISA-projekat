@@ -47,10 +47,10 @@ export class AddActionHouseProfileComponent implements OnInit {
     this.date =  new Date(startDate)
     this.endDate.setDate( this.date.getDate() + this.duration );  // na Date se dodaje trajanje (koje je tipa number)
 
-    // console.log(this.date)
-    // console.log(this.endDate)
-    // console.log(this.duration)
-    // console.log(this.houseReservation)
+    console.log(this.date)
+    console.log(this.endDate)
+    console.log(this.duration)
+    console.log(this.houseReservation)
 
     this.houseReservation.endDate = Date.parse(this.endDate.toString()).toString()
     this.houseReservation.startDate = Date.parse(this.date.toString()).toString()
@@ -66,15 +66,17 @@ export class AddActionHouseProfileComponent implements OnInit {
         }
     }
 
-    console.log(this.additionalServicesFinal)
+    // console.log(this.additionalServicesFinal)
 
     this.houseReservation.additionalServices = this.additionalServicesFinal
-    console.log(this.houseReservation.additionalServices)
+    // console.log(this.houseReservation.additionalServices)
 
-    this._alertService.info('Rezervacija je zapoceta');
+    // this._alertService.info('Rezervacija je zapoceta');
+
     this._houseReservationService.save(this.houseReservation).subscribe(   // subscribe - da bismo dobili odgovor beka
       (houseReservation: HouseReservation) => {
-        this._alertService.success('Uspesno kreirana rezervacija');
+
+        // this._alertService.success('Uspesno kreirana rezervacija');  // iskoci tek kad seldeci put udjem u dijalog za pravljenje nove akcije, ne iskoci za onu akciju za koju je potrebno
         this._router.navigate(['house-profile-for-house-owner'])
       },
       (error) => {

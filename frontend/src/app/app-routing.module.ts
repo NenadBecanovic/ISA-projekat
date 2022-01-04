@@ -34,7 +34,7 @@ const routes: Routes = [
   { path:'modify-house-profile/:id', component: ModifyHouseProfileComponent},
   { path:'add-action-boat-profile/:id', component: AddActionBoatProfileComponent},
   { path:'modify-boat-profile/:id', component: ModifyBoatProfileComponent},
-  { path:'edit-house-action/:id', component: EditHouseActionComponent},
+  { path:'edit-house-action/:id/:houseId', component: EditHouseActionComponent},
 
 ];
 

@@ -13,6 +13,13 @@ public class AdditionalServicesDTO {
         this.price = price;
     }
 
+    public AdditionalServicesDTO(Long id, String name, float price, boolean checked) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.checked = checked;
+    }
+
     public AdditionalServicesDTO() {
     }
 
