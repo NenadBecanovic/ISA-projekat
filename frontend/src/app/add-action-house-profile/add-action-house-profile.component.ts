@@ -71,7 +71,6 @@ export class AddActionHouseProfileComponent implements OnInit {
     this.houseReservation.additionalServices = this.additionalServicesFinal
     console.log(this.houseReservation.additionalServices)
 
-
     this._alertService.info('Rezervacija je zapoceta');
     this._houseReservationService.save(this.houseReservation).subscribe(   // subscribe - da bismo dobili odgovor beka
       (houseReservation: HouseReservation) => {

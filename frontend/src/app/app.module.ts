@@ -47,6 +47,7 @@ import { AddActionHouseProfileComponent } from './add-action-house-profile/add-a
 import { ModifyHouseProfileComponent } from './modify-house-profile/modify-house-profile.component';
 import { AddActionBoatProfileComponent } from './add-action-boat-profile/add-action-boat-profile.component';
 import { ModifyBoatProfileComponent } from './modify-boat-profile/modify-boat-profile.component';
+import { EditHouseActionComponent } from './edit-house-action/edit-house-action.component';
 
 const MaterialComponents = [
   MatSliderModule,
@@ -84,7 +85,8 @@ const MaterialComponents = [
     AddActionHouseProfileComponent,
     ModifyHouseProfileComponent,
     AddActionBoatProfileComponent,
-    ModifyBoatProfileComponent
+    ModifyBoatProfileComponent,
+    EditHouseActionComponent
   ],
   imports: [
     RouterModule,

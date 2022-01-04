@@ -25,6 +25,26 @@ public class AdditionalServices {
     @JoinTable(name = "addiotional_services_adventure", joinColumns = @JoinColumn(name = "additional_services_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "house_id", referencedColumnName = "id"))
     private Set<FishingAdventure> fishingAdventures = new HashSet<FishingAdventure>();
 
+//    @ManyToMany(fetch = FetchType.LAZY,
+//            cascade =
+//                    {
+//                            CascadeType.DETACH,
+//                            CascadeType.MERGE,
+//                            CascadeType.REFRESH,
+//                            CascadeType.PERSIST
+//                    },
+//            targetEntity = HouseReservation.class)
+//    @JoinTable(name = "additional_services_house_reservation",
+//            joinColumns = @JoinColumn(name = "house_reservation_id",
+//                    nullable = false,
+//                    updatable = false),
+//            inverseJoinColumns = @JoinColumn(name = "additional_services_id",
+//                    nullable = false,
+//                    updatable = false),
+//            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
+//            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
+//    private Set<HouseReservation> houseReservationsServices = new HashSet<>();
+
     @ManyToMany
     @JoinTable(name = "addiotional_services_house_reservation", joinColumns = @JoinColumn(name = "additional_services_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "house_reservation_id", referencedColumnName = "id"))
     private Set<HouseReservation> houseReservationsServices = new HashSet<HouseReservation>();
@@ -96,5 +116,13 @@ public class AdditionalServices {
 
     public void addHouseReservation(HouseReservation houseReservation){
         this.houseReservationsServices.add(houseReservation);
+    }
+
+    public Set<HouseReservation> getHouseReservationsServices() {
+        return houseReservationsServices;
+    }
+
+    public void setHouseReservationsServices(Set<HouseReservation> houseReservationsServices) {
+        this.houseReservationsServices = houseReservationsServices;
     }
 }

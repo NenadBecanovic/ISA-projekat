@@ -55,12 +55,19 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
     this._router.navigate(['/modify-house-profile', this.house.id])
   }
 
-  editActionDialog() {
-
+  editActionDialog(id: number) {
+    this._router.navigate(['/edit-house-action', this.house.id])
   }
 
-  deleteActionDialog() {
-
+  deleteActionDialog(id: number) {
+    console.log('usloo')
+    console.log(id)
+    this._houseReservationService.delete(id).subscribe(
+      (boolean:boolean) =>{
+        console.log(boolean)
+        this.loadData()
+      }
+    )
   }
 
   loadData() { // ucitavanje iz baze

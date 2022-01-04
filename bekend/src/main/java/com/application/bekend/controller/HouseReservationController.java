@@ -10,12 +10,15 @@ import com.application.bekend.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 @RestController
 @RequestMapping("api/houseReservations")
+@EnableTransactionManagement
 public class HouseReservationController {
 
     private final HouseReservationService houseReservationService;
@@ -88,11 +91,11 @@ public class HouseReservationController {
         for(AdditionalServicesDTO add : dto.getAdditionalServices()){
 
             // iz baze dobavljamo (original) dodatnu uslugu i u njen set rezervacija, dodajemo ovu konkretnu rezervaciju (houseReservation)
-           AdditionalServices additionalServices = this.additionalServicesService.getById(add.getId());
+            AdditionalServices additionalServices = this.additionalServicesService.getAdditionalServicesById(add.getId());
 
-           additionalServices.addHouseReservation(houseReservation); // (***)
-           // da je bio slucaj da smo dodali samo inicijalno kreiran houseReservation (nastao iz podataka od DTO), bio bi error: javax.persistence.EntityNotFoundException
-           // jer u tabeli koja spaja AdditionalServices (id_a) i HouseReservation (id_h), id_h bi bio null i to vraca gresku, jer se u tabeli mora nalaziti neki vec postojeci id_h (radimo spajanje podataka dve postojece table, nema novih podataka)
+            additionalServices.addHouseReservation(houseReservation); // (***)
+            // da je bio slucaj da smo dodali samo inicijalno kreiran houseReservation (nastao iz podataka od DTO), bio bi error: javax.persistence.EntityNotFoundException
+            // jer u tabeli koja spaja AdditionalServices (id_a) i HouseReservation (id_h), id_h bi bio null i to vraca gresku, jer se u tabeli mora nalaziti neki vec postojeci id_h (radimo spajanje podataka dve postojece table, nema novih podataka)
 
             additionalServicesSet.add(additionalServices);   // u set koji cemo kasnije dodeliti rezervaciji dodajemo dodatnu uslugu
 
@@ -100,7 +103,7 @@ public class HouseReservationController {
             this.additionalServicesService.save(additionalServices);
         }
 
-            // nepotrebno, vec smo sacuvali u bazi
+        // nepotrebno, vec smo sacuvali u bazi
 //        houseReservation.setAdditionalServices(additionalServicesSet);
 //        houseReservation = this.houseReservationService.save(houseReservation); // sacuvana rezervacija vikenice u bazi
 
@@ -111,4 +114,23 @@ public class HouseReservationController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    // kod brisanja:
+    // mora biti Transactional metoda + EnableTransactionManagement klasa
+    // mora se brisati sa obe strane
+    @DeleteMapping("/delete/{id}")
+    @Transactional
+    public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
+        HouseReservation houseReservation = this.houseReservationService.getHouseReservationById(id);
+        Set<AdditionalServices> additionalServices =  houseReservation.getAdditionalServices();
+        for(AdditionalServices a: additionalServices){
+            a.getHouseReservationsServices().remove(houseReservation);
+            this.additionalServicesService.save(a);
+        }
+        houseReservation.setAdditionalServices(null);
+        houseReservation = this.houseReservationService.save(houseReservation);
+        houseReservation.setHouse(null);
+        houseReservation = this.houseReservationService.save(houseReservation);
+        this.houseReservationService.delete(houseReservation.getId());
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
 }

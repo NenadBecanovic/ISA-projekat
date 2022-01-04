@@ -10,4 +10,8 @@ import java.util.List;
 public interface HouseReservationRepository extends JpaRepository<HouseReservation, Long> {
 
     List<HouseReservation> getAllByHouse_Id(Long id);
+
+    HouseReservation getHouseReservationById(Long id);
+
+    void deleteById(Long id);
 }
