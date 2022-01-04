@@ -1,11 +1,14 @@
 package com.application.bekend.controller;
 
+import com.application.bekend.DTO.AdditionalServicesDTO;
 import com.application.bekend.DTO.AddressDTO;
 import com.application.bekend.DTO.HouseDTO;
 import com.application.bekend.DTO.RoomDTO;
+import com.application.bekend.model.AdditionalServices;
 import com.application.bekend.model.Address;
 import com.application.bekend.model.House;
 import com.application.bekend.model.Room;
+import com.application.bekend.service.AdditionalServicesService;
 import com.application.bekend.service.HouseService;
 import com.application.bekend.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @RestController
@@ -21,11 +25,13 @@ public class HouseController {
 
     private final HouseService houseService;
     private final RoomService roomService;
+    private final AdditionalServicesService additionalServicesService;
 
     @Autowired
-    public HouseController(HouseService houseService, RoomService roomService) {
+    public HouseController(HouseService houseService, RoomService roomService, AdditionalServicesService additionalServicesService) {
         this.houseService = houseService;
         this.roomService = roomService;
+        this.additionalServicesService = additionalServicesService;
     }
 
     @GetMapping("/getHouseById/{id}")
@@ -44,14 +50,26 @@ public class HouseController {
         House house = this.houseService.getHouseById(dto.getId());
         Address address = house.getAddress();
         Set<Room> rooms = house.getRooms();
+        Set<AdditionalServices> additionalServices = house.getServices();
 
-        for (Room r: rooms) {
-            for(RoomDTO roomDTO: dto.getRooms())
-            {
-                if(r.getId() == roomDTO.getId())
-                {
+        for (Room r : rooms) {
+            for (RoomDTO roomDTO : dto.getRooms()) {
+                if (r.getId() == roomDTO.getId()) {
                     r.setNumberOfBeds(roomDTO.getNumberOfBeds());
                     this.roomService.save(r);
+                }
+            }
+        }
+
+        for (AdditionalServices a: additionalServices)
+        {
+            for (AdditionalServicesDTO additionalServicesDTO: dto.getServices())
+            {
+                if(a.getId() == additionalServicesDTO.getId())
+                {
+                    a.setName(additionalServicesDTO.getName());
+                    a.setPrice(additionalServicesDTO.getPrice());
+                    this.additionalServicesService.save(a);
                 }
             }
         }

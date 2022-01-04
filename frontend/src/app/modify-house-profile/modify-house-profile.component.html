@@ -59,20 +59,30 @@
 
       <br><br>
       <div class = "input-box">
-        <span class="details">SOBE</span>
-      </div>
-      <div class = "input-box">
-          <span class="details">Broj soba:</span>
-          <input type="number" name="lenRooms" [(ngModel)]="rooms.length" placeholder="Unesite broj soba" required>
-      </div>
-      <br>
-      <div class = "input-box">
-        <span class="details">Broj kreveta u sobama</span>
+        <span class="details">BROJ KREVETA U SOBAMA</span>
         <div *ngFor="let item of rooms;let index = index;">
           <span class="details">Soba {{item.id}}:</span>
-          <input type="number" name=a{{index}} [(ngModel)]="rooms[index].numberOfBeds" placeholder="Unesite broj kreveta">
+          <input type="number" style="width: 85%" name=a{{index}} [(ngModel)]="rooms[index].numberOfBeds" placeholder="Unesite broj kreveta">
+          <button mat-icon-button (click)="deleteRoom(rooms[index].id)"> <mat-icon>delete</mat-icon> </button>
         </div>
       </div>
+      <div class = "input-box">
+        <button mat-icon-button (click)="showAddingNewRoom()"> <mat-icon>add</mat-icon> </button>
+      </div>
+      <br>
+
+      <div *ngIf="showNewRoom">
+        <div class = "input-box">
+          <span class="details">Broj kreveta u sobi:</span>
+          <input type="number" name="newAddRoomNumOfBeds" [(ngModel)]="newRoom.numberOfBeds" placeholder="Unesite broj kreveta" required>
+        </div>
+        <br>
+        <div class = "button">
+          <input type ="button" value="DODAJ NOVU SOBU" (click)="addNewRoom()">
+        </div>
+        <br>
+      </div>
+
       <br><br>
 
 <!--      <div class = "input-box" style="width: 50%;">-->
@@ -111,7 +121,7 @@
       </div>
 
       <br>
-      <div *ngIf="show">
+      <div *ngIf="showNewService">
         <div class = "input-box">
           <span class="details">Naziv usluge:</span>
           <input type="text" name="newAddSerName" [(ngModel)]="newAdditionalService.name" placeholder="Unesite naziv" required>
@@ -124,6 +134,7 @@
         <div class = "button">
           <input type ="button" value="DODAJ NOVU USLUGU" (click)="addAdditionalService()">
         </div>
+        <br>
       </div>
 
       <br><br>

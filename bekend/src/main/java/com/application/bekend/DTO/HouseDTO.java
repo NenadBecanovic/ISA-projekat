@@ -119,4 +119,12 @@ public class HouseDTO {
     public void setRooms(Set<RoomDTO> rooms) {
         this.rooms = rooms;
     }
+
+    public Set<AdditionalServicesDTO> getServices() {
+        return services;
+    }
+
+    public void setServices(Set<AdditionalServicesDTO> services) {
+        this.services = services;
+    }
 }

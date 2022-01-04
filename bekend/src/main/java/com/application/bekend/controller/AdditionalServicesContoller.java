@@ -83,7 +83,6 @@ public class AdditionalServicesContoller {
     @PostMapping("/add")
     public ResponseEntity<AdditionalServices> save(@RequestBody AdditionalServicesDTO dto) {
         AdditionalServices additionalServices = new AdditionalServices(dto.getId(), dto.getName(), dto.getPrice(), new HashSet<>());
-
         House house = this.houseService.getHouseById(dto.getHouseId());
 
         Set<House> houses = additionalServices.getHouses();
@@ -91,34 +90,6 @@ public class AdditionalServicesContoller {
         additionalServices.setHouses(houses);
         this.additionalServicesService.save(additionalServices);
 
-//
-//        Date startDate = new Date(Long.parseLong(dto.getStartDate()));
-//        Date endDate = new Date(Long.parseLong(dto.getEndDate()));
-//        HouseReservation houseReservation = new HouseReservation(dto.getId(), startDate, endDate, dto.getMaxGuests(), dto.getPrice(), dto.isAvailable(), house);
-//
-//        houseReservation = this.houseReservationService.save(houseReservation); // sacuvali smo rezervaciju i povratna vrednost metode je tacno ta rezervacija iz baze (sa ispravno generisanim id-em ...)
-//        // ovaj korak je obavezan jer se rezervacija koju dodajemo ovde (***) mora nalaziti u bazi
-//
-//        Set<AdditionalServices> additionalServicesSet = new HashSet<>();
-//        for(AdditionalServicesDTO add : dto.getAdditionalServices()){
-//
-//            // iz baze dobavljamo (original) dodatnu uslugu i u njen set rezervacija, dodajemo ovu konkretnu rezervaciju (houseReservation)
-//            AdditionalServices additionalServices = this.additionalServicesService.getAdditionalServicesById(add.getId());
-//
-//            additionalServices.addHouseReservation(houseReservation); // (***)
-//            // da je bio slucaj da smo dodali samo inicijalno kreiran houseReservation (nastao iz podataka od DTO), bio bi error: javax.persistence.EntityNotFoundException
-//            // jer u tabeli koja spaja AdditionalServices (id_a) i HouseReservation (id_h), id_h bi bio null i to vraca gresku, jer se u tabeli mora nalaziti neki vec postojeci id_h (radimo spajanje podataka dve postojece table, nema novih podataka)
-//
-//            additionalServicesSet.add(additionalServices);   // u set koji cemo kasnije dodeliti rezervaciji dodajemo dodatnu uslugu
-//
-//            // azuriramo (sacuvamo) izmenjenu dodatnu uslugu u bazi (additional service)
-//            this.additionalServicesService.save(additionalServices);
-//        }
-////
-//        // dodajem rezervaciju vikendice u samu vikendicu
-//        house.addHouseReservation(houseReservation);
-//        this.houseService.save(house);
-//
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

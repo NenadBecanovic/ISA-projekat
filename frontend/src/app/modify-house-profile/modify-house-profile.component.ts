@@ -25,7 +25,9 @@ export class ModifyHouseProfileComponent implements OnInit {
   additionalServices: AdditionalService[] = new Array();
   house: House = new House(0, '', this.address, '', '', 0, false, 0, this.rooms, this.additionalServices);
   newAdditionalService: AdditionalService = new AdditionalService(0, '', 0, false);
-  show: boolean = false;
+  showNewService: boolean = false;
+  showNewRoom: boolean = false;
+  newRoom: Room = new Room(0, 0, this.house);
 
   constructor(private _route: ActivatedRoute, private _router: Router, private _houseService: HouseService, private _alertService: AlertService,
               private _roomService: RoomService, private _additionalServices: AdditionalServicesService) { }
@@ -46,7 +48,6 @@ export class ModifyHouseProfileComponent implements OnInit {
           (rooms: Room[]) => {
             this.rooms = rooms
             this.house.rooms = rooms
-            // console.log(rooms)
           }
         )
 
@@ -54,12 +55,11 @@ export class ModifyHouseProfileComponent implements OnInit {
           (additionalServices: AdditionalService[]) => {
             this.additionalServices = additionalServices
             this.house.services = additionalServices
-            console.log(additionalServices)
           }
         )
       }
     )
-    console.log(this.house)
+    // console.log(this.house)
   }
 
   deleteAdditionalService(id: number) {
@@ -91,11 +91,8 @@ export class ModifyHouseProfileComponent implements OnInit {
   }
 
   addAdditionalService() {
-
     this.newAdditionalService.houseId = this.id;
     this.newAdditionalService.checked = false;
-
-    console.log(this.newAdditionalService)
 
     this._additionalServices.save(this.newAdditionalService).subscribe(   // subscribe - da bismo dobili odgovor beka
       (additionalService: AdditionalService) => {
@@ -108,13 +105,47 @@ export class ModifyHouseProfileComponent implements OnInit {
   }
 
   showAddingNewService() {
-      if (this.show == true)
+      if (this.showNewService == true)
       {
-        this.show = false;
+        this.showNewService = false;
       }
       else
       {
-        this.show = true;
+        this.showNewService = true;
       }
+  }
+
+  showAddingNewRoom() {
+    if (this.showNewRoom == true)
+    {
+      this.showNewRoom = false;
+    }
+    else
+    {
+      this.showNewRoom = true;
+    }
+  }
+
+  addNewRoom() {
+    console.log(this.newRoom)
+
+    this.newRoom.houseId = this.id;
+
+    this._roomService.save(this.newRoom).subscribe(
+      (room: Room) => {
+        this.loadData();
+      },
+      (error) => {
+        this._alertService.danger('Doslo je do greske');
+      },
+    )
+  }
+
+  deleteRoom(id: number) {
+      this._roomService.delete(id).subscribe(
+        (boolean:boolean) =>{
+          this.loadData()
+        }
+      )
   }
 }
