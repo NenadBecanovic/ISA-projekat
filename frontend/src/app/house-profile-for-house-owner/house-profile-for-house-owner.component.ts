@@ -60,11 +60,11 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
   }
 
   deleteActionDialog(id: number) {
-    console.log('usloo')
-    console.log(id)
-    this._houseReservationService.delete(id).subscribe(
+    // console.log('usloo')
+    // console.log(id)
+    this._houseReservationService.delete(id).subscribe(   // OBAVEZNO SE MORA SUBSCRIBE-OVATI !!!
       (boolean:boolean) =>{
-        console.log(boolean)
+        // console.log(boolean)
         this.loadData()
       }
     )

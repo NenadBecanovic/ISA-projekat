@@ -20,6 +20,7 @@ public class HouseReservation {
     @ManyToMany(mappedBy = "houseReservations")
     private Set<MyUser> guests = new HashSet<MyUser>();
 
+    // vodeca strana ManyToMany veze, sto znaci ako nesto uklonimo sa strane House uklonice se i sa druge strane ManyToMany veze
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinTable(name = "house_reservation_table", joinColumns = @JoinColumn(name = "house_appointment_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "house_id", referencedColumnName = "id"))
     private House house;

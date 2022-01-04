@@ -116,21 +116,26 @@ public class HouseReservationController {
 
     // kod brisanja:
     // mora biti Transactional metoda + EnableTransactionManagement klasa
-    // mora se brisati sa obe strane
     @DeleteMapping("/delete/{id}")
     @Transactional
     public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
-        HouseReservation houseReservation = this.houseReservationService.getHouseReservationById(id);
-        Set<AdditionalServices> additionalServices =  houseReservation.getAdditionalServices();
+        HouseReservation houseReservation = this.houseReservationService.getHouseReservationById(id);   // dobavimo rezervaciju iz baze
+
+        Set<AdditionalServices> additionalServices =  houseReservation.getAdditionalServices();     // ne moramo direktno iz baze dobavljati jer ova lista u sebi ima objekte sa svojim pravim id-jevima
         for(AdditionalServices a: additionalServices){
-            a.getHouseReservationsServices().remove(houseReservation);
+            a.getHouseReservationsServices().remove(houseReservation);  // iz niza rezervacija dodatnih usluga izbacimo ovu rezervaciju koju brisemo - raskinuta u tabeli additional_services_house_reservation (sa vodece strane, jer je kod AdditionalService JoinTable)
             this.additionalServicesService.save(a);
         }
-        houseReservation.setAdditionalServices(null);
+
+        // nepotrebno
+//        houseReservation.setAdditionalServices(null);   // raskinuta veza s druge strane u tabeli additional_services_house_reservation
+//        houseReservation = this.houseReservationService.save(houseReservation);
+
+        houseReservation.setHouse(null);  // raskinuta veza u tabeli house_reservation_table (sa strane vodece veze u ManyToMany vezi)
         houseReservation = this.houseReservationService.save(houseReservation);
-        houseReservation.setHouse(null);
-        houseReservation = this.houseReservationService.save(houseReservation);
-        this.houseReservationService.delete(houseReservation.getId());
+
+        this.houseReservationService.delete(houseReservation.getId());  // brisanje rezervacije iz house_reservation tabele
+
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 }
