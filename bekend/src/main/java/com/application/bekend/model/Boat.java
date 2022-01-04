@@ -1,9 +1,7 @@
 package com.application.bekend.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -26,10 +24,14 @@ public class Boat {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id")
     private Address address;
+    @OneToMany(mappedBy = "boat", fetch = FetchType.EAGER)
+    private Set<Feedback> feedbacks= new HashSet<>();
     private String promoDescription;
     private int capacity;
+    @Column(name = "grade", nullable = true)
+    private double grade;
 
-    @OneToMany(mappedBy = "boat", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "boat", fetch = FetchType.EAGER)
     private Set<Image> images;
 
     @OneToMany(mappedBy = "boat")
@@ -49,7 +51,7 @@ public class Boat {
 
     public Boat(Long id, String name, String type, float length, int engineNumber, float enginePower, float maxSpeed,
                 NavigationEquipment navigationEquipment, Address address, String promoDescription, int capacity,
-                Set<BoatReservation> courses, String behaviourRules, String fishingEquipment, float pricePerDay,
+                double grade, Set<BoatReservation> courses, String behaviourRules, String fishingEquipment, float pricePerDay,
                 Set<AdditionalServices> services, boolean isCancalletionFree, int cancalletionFee, Set<Image> images) {
         this.id = id;
         this.name = name;
@@ -62,6 +64,7 @@ public class Boat {
         this.address = address;
         this.promoDescription = promoDescription;
         this.capacity = capacity;
+        this.grade = grade;
         this.courses = courses;
         this.behaviourRules = behaviourRules;
         this.fishingEquipment = fishingEquipment;
@@ -222,4 +225,24 @@ public class Boat {
     public Set<Image> getImages() { return images; }
 
     public void setImages(Set<Image> images) { this.images = images; }
+
+    public Set<Feedback> getFeedbacks() {
+        return feedbacks;
+    }
+
+    public void setFeedbacks(Set<Feedback> feedbacks) {
+        this.feedbacks = feedbacks;
+    }
+
+    public double getGrade() {return grade;}
+
+    public void setGrade(double grade) {this.grade = grade;}
+
+    public MyUser getOwner() {
+        return owner;
+    }
+
+    public void setOwner(MyUser owner) {
+        this.owner = owner;
+    }
 }

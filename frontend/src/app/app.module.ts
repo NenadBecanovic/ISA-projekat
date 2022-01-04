@@ -45,6 +45,9 @@ import { BoatProfileForBoatOwnerComponent } from './boat-profile-for-boat-owner/
 import {AgmCoreModule} from '@agm/core';
 import { AddActionHouseProfileComponent } from './add-action-house-profile/add-action-house-profile.component';
 import { ModifyHouseProfileComponent } from './modify-house-profile/modify-house-profile.component';
+import { AdventureComponent } from './home-page/adventure/adventure.component';
+import { HouseComponent } from './home-page/house/house.component';
+import { BoatComponent } from './home-page/boat/boat.component';
 
 const MaterialComponents = [
   MatSliderModule,
@@ -80,7 +83,10 @@ const MaterialComponents = [
     AdventureProfileComponent,
     BoatProfileForBoatOwnerComponent,
     AddActionHouseProfileComponent,
-    ModifyHouseProfileComponent
+    ModifyHouseProfileComponent,
+    AdventureComponent,
+    HouseComponent,
+    BoatComponent
   ],
   imports: [
     RouterModule,

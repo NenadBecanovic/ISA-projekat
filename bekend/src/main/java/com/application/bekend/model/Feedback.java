@@ -1,9 +1,6 @@
 package com.application.bekend.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Feedback {
@@ -11,20 +8,30 @@ public class Feedback {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String rewiew;
     private int grade;
-    private boolean isApproved;
+    private String review;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "myUser_id")
+    private MyUser myUser;
 
 
-    public Feedback(Long id, String rewiew, int grade, boolean isApproved) {
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "boat_id")
+    private Boat boat;
+
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "house_id")
+    private House house;
+
+    public Feedback(Long id, int grade, String review) {
         this.id = id;
-        this.rewiew = rewiew;
         this.grade = grade;
-        this.isApproved = isApproved;
+        this.review = review;
     }
 
     public Feedback() {
-
     }
 
     public Long getId() {
@@ -35,14 +42,6 @@ public class Feedback {
         this.id = id;
     }
 
-    public String getRewiew() {
-        return rewiew;
-    }
-
-    public void setRewiew(String rewiew) {
-        this.rewiew = rewiew;
-    }
-
     public int getGrade() {
         return grade;
     }
@@ -51,11 +50,11 @@ public class Feedback {
         this.grade = grade;
     }
 
-    public boolean isApproved() {
-        return isApproved;
+    public String getReview() {
+        return review;
     }
 
-    public void setApproved(boolean approved) {
-        isApproved = approved;
+    public void setReview(String review) {
+        this.review = review;
     }
 }

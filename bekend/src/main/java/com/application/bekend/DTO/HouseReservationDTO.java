@@ -13,6 +13,7 @@ public class HouseReservationDTO {
     private float price;
     private boolean isAvailable;
 
+
     public HouseReservationDTO(){};
 
     public HouseReservationDTO(Long houseId, Long id, String startDate, String endDate, int maxGuests, String additionalServices, float price, boolean isAvailable) {

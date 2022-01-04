@@ -3,6 +3,7 @@ import {MatRadioChange} from "@angular/material/radio";
 import {HouseService} from "../../service/house.service";
 import {MyUser} from "../../model/my-user";
 import {House} from "../../model/house";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-home-house',
@@ -13,7 +14,7 @@ export class HomeHouseComponent implements OnInit {
   items = [1,2,3];
   houses: House[] = new Array();
 
-  constructor(private _houseService: HouseService) { }
+  constructor(private _houseService: HouseService, private _router: Router) { }
 
   ngOnInit(): void {
 
@@ -32,6 +33,7 @@ export class HomeHouseComponent implements OnInit {
     this._houseService.findAll().subscribe(   // subscribe - da bismo dobili odgovor beka
       (houses: House[]) => {
         this.houses = houses;
+        console.log(this.houses)
       },
       (error) => {
 
@@ -39,7 +41,8 @@ export class HomeHouseComponent implements OnInit {
     )
   }
 
-  doStuff(id: number) {
-    console.log(id)
+  goToHouse(id: number) {
+
+    this._router.navigate(['/house',id])
   }
 }

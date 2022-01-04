@@ -1,24 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import {House} from "../model/house";
-import {Address} from "../model/address";
-import {AdditionalService} from "../model/additional-service";
-import {Room} from "../model/room";
-import {Image} from "../model/image";
-import {HouseService} from "../service/house.service";
-import {AddressService} from "../service/address.service";
-import {RoomService} from "../service/room.service";
-import {AdditionalServicesService} from "../service/additional-services.service";
-import {ImageService} from "../service/image.service";
-import {HouseReservationService} from "../service/house-reservation.service";
-import {HouseReservationSlide} from "../model/house-reservation-slide";
-import {Router} from "@angular/router";
+import {Address} from "../../model/address";
+import {Image} from "../../model/image";
+import {House} from "../../model/house";
+import {Room} from "../../model/room";
+import {AdditionalService} from "../../model/additional-service";
+import {HouseReservationSlide} from "../../model/house-reservation-slide";
+import {HouseService} from "../../service/house.service";
+import {AddressService} from "../../service/address.service";
+import {RoomService} from "../../service/room.service";
+import {AdditionalServicesService} from "../../service/additional-services.service";
+import {ImageService} from "../../service/image.service";
+import {HouseReservationService} from "../../service/house-reservation.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
-  selector: 'app-house-profile-for-house-owner',
-  templateUrl: './house-profile-for-house-owner.component.html',
-  styleUrls: ['./house-profile-for-house-owner.component.css']
+  selector: 'app-house',
+  templateUrl: './house.component.html',
+  styleUrls: ['./house.component.css']
 })
-export class HouseProfileForHouseOwnerComponent implements OnInit {
+export class HouseComponent implements OnInit {
+
+  id: number = 0;
   address: Address = new Address(0,"","","",0,0,31100)
   images: Image[] = new Array<Image>();
   isLoaded: boolean = false;
@@ -34,37 +36,28 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
 
   constructor(private _houseService: HouseService, private _addressService: AddressService, private _roomService: RoomService,
               private _additionalServices: AdditionalServicesService, private _imageService: ImageService, private _houseReservationService: HouseReservationService,
-              private _router: Router) {
+              private _router: Router, private _route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
-    this.loadData();
+    // @ts-ignore
+    this.id =  +this._route.snapshot.paramMap.get('id');
+    console.log(this.id)
+    this.loadData(this.id);
   }
 
-  // https://www.eduforbetterment.com/file-upload-using-material-components-in-angular/
-  addImageToHouse(e: any) {
-    const file: File = e.files[0];
-    const reader = new FileReader();
-  }
 
   addActionDialog() {
     this._router.navigate(['/add-action-house-profile', this.house.id])
   }
 
-  modifyProfile() {
-    this._router.navigate(['/modify-house-profile', this.house.id])
-  }
-
-  editActionDialog() {
-
-  }
 
   deleteActionDialog() {
 
   }
 
-  loadData() { // ucitavanje iz baze
-    this._houseService.getHouseById(1).subscribe(
+  loadData(id: number) { // ucitavanje iz baze
+    this._houseService.getHouseById(id).subscribe(
       (house:House) => {
         this.house = house
         this.address = this.house.address;

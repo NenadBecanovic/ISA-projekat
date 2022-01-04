@@ -1,32 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-import {Boat} from "../model/boat";
-import {Address} from "../model/address";
-import {add} from "ngx-bootstrap/chronos";
-import {AdditionalService} from "../model/additional-service";
-import {NavigationEquipment} from "../model/navigation-equipment";
-import {BoatReservation} from "../model/boat-reservation";
-import {House} from "../model/house";
-import {BoatService} from "../service/boat.service";
-import {AdditionalServicesService} from "../service/additional-services.service";
-import {ImageService} from "../service/image.service";
-import {Image} from "../model/image";
-import {HouseReservationService} from "../service/house-reservation.service";
-import {BoatReservationService} from "../service/boat-reservation.service";
-import {HouseReservationSlide} from "../model/house-reservation-slide";
-import {BoatReservationSlide} from "../model/boat-reservation-slide";
-
+import {Address} from "../../model/address";
+import {Boat} from "../../model/boat";
+import {AdditionalService} from "../../model/additional-service";
+import {BoatReservation} from "../../model/boat-reservation";
+import {BoatReservationSlide} from "../../model/boat-reservation-slide";
+import {Image} from "../../model/image";
+import {BoatService} from "../../service/boat.service";
+import {AdditionalServicesService} from "../../service/additional-services.service";
+import {ImageService} from "../../service/image.service";
+import {BoatReservationService} from "../../service/boat-reservation.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
-  selector: 'app-boat-profile-for-boat-owner',
-  templateUrl: './boat-profile-for-boat-owner.component.html',
-  styleUrls: ['./boat-profile-for-boat-owner.component.css']
+  selector: 'app-boat',
+  templateUrl: './boat.component.html',
+  styleUrls: ['./boat.component.css']
 })
-
-export class BoatProfileForBoatOwnerComponent implements OnInit {
+export class BoatComponent implements OnInit {
+  id = 0;
   lat = 0;
   lng = 0;
   address: Address = new Address(0,"Luka 11","Novi Sad","Srbija",0,0,21000)
-  boat: Boat = new Boat(0, '', '', '', 0, 0, '', 0, 0, 0, 0, false, 0, '', this.address,0);
+  boat: Boat = new Boat(0, '', '', '', 0, 0, '', 0, 0, 0, 0, false, 0, '', this.address, 0);
   additionalServices: AdditionalService[] = new Array<AdditionalService>();
   // fishingEquipment: String = new String("10 stapova za pecanje, 100 udica");
   // navigationEquipment: NavigationEquipment = new NavigationEquipment(true, true, true, true);
@@ -38,11 +33,13 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
   freeCancelation: boolean = false;
 
   constructor(private _boatService: BoatService, private _additionalServices: AdditionalServicesService, private _imageService: ImageService,
-              private _boatReservationService: BoatReservationService) {
+              private _boatReservationService: BoatReservationService, private _route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
-    this.loadData();
+    // @ts-ignore
+    this.id =  +this._route.snapshot.paramMap.get('id');
+    this.loadData(this.id);
   }
 
   addImageToBoat($event: Event) {
@@ -53,18 +50,12 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
 
   }
 
-  addActionDialog() {
 
-  }
-
-  modifyProfile() {
-
-  }
-
-  loadData() { // ucitavanje iz baze
-    this._boatService.getBoatById(1).subscribe(
+  loadData(id: number) { // ucitavanje iz baze
+    this._boatService.getBoatById(id).subscribe(
       (boat: Boat) => {
         this.boat = boat
+        console.log(boat)
         this.address = this.boat.address;
         this.lat = this.address.latitude;
         this.lng = this.address.longitude;
@@ -94,6 +85,5 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
       }
     )
   }
-
 
 }

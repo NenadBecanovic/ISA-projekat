@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {House} from "../../model/house";
 import {BoatService} from "../../service/boat.service";
 import {Boat} from "../../model/boat";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-home-boat',
@@ -10,7 +11,7 @@ import {Boat} from "../../model/boat";
 })
 export class HomeBoatComponent implements OnInit {
 
-  constructor(private _boatService: BoatService) { }
+  constructor(private _boatService: BoatService, private _router: Router) { }
 
   boats: Boat[] = new Array();
 
@@ -27,5 +28,9 @@ export class HomeBoatComponent implements OnInit {
 
       },
     )
+  }
+
+  goToBoat(id: number) {
+    this._router.navigate(['/boat',id])
   }
 }

@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
-import { MatCarouselModule } from '@ngbmodule/material-carousel';
+import { MatCarouselModule } from 'ng-mat-carousel';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {HomeHouseComponent} from "../home-house/home-house.component";
 import {RouterModule} from "@angular/router";

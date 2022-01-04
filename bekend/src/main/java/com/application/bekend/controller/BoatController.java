@@ -3,9 +3,12 @@ package com.application.bekend.controller;
 import com.application.bekend.DTO.AddressDTO;
 import com.application.bekend.DTO.BoatDTO;
 import com.application.bekend.DTO.HouseDTO;
+import com.application.bekend.DTO.ImageDTO;
 import com.application.bekend.model.Boat;
 import com.application.bekend.model.House;
+import com.application.bekend.model.Image;
 import com.application.bekend.service.BoatService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api/boat")
@@ -27,6 +32,8 @@ public class BoatController {
     public BoatController(BoatService boatService) {
         this.boatService = boatService;
     }
+    @Autowired
+    private ModelMapper modelMapper;
 
     @GetMapping("/getBoatById/{id}")
     public ResponseEntity<BoatDTO> getBoatById(@PathVariable("id") Long id){
@@ -36,7 +43,13 @@ public class BoatController {
 
         BoatDTO dto = new BoatDTO(boat.getId(), boat.getName(), boat.getType(), boat.getLength(), boat.getEngineNumber(), boat.getEnginePower(), boat.getMaxSpeed(),
                 boat.getPromoDescription(), boat.getCapacity(), boat.getBehaviourRules(), boat.getFishingEquipment(), boat.getPricePerDay(), boat.isCancalletionFree(), boat.getCancalletionFee(), addressDTO);
-
+        dto.setGrade(boat.getGrade());
+        Set<ImageDTO> dtoSet = new HashSet<>();
+        for(Image i: boat.getImages()){
+            ImageDTO postDto = modelMapper.map(i, ImageDTO.class);
+            dtoSet.add(postDto);
+        }
+        dto.setImages(dtoSet);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
@@ -50,8 +63,17 @@ public class BoatController {
 
             BoatDTO dto = new BoatDTO(boat.getId(), boat.getName(), boat.getType(), boat.getLength(), boat.getEngineNumber(), boat.getEnginePower(), boat.getMaxSpeed(),
                     boat.getPromoDescription(), boat.getCapacity(), boat.getBehaviourRules(), boat.getFishingEquipment(), boat.getPricePerDay(), boat.isCancalletionFree(), boat.getCancalletionFee(), addressDTO);
+            dto.setGrade(boat.getGrade());
             boatDTOS.add(dto);
+            Set<ImageDTO> dtoSet = new HashSet<>();
+            for(Image i: boat.getImages()){
+                ImageDTO postDto = modelMapper.map(i, ImageDTO.class);
+                dtoSet.add(postDto);
+            }
+            dto.setImages(dtoSet);
         }
+
+
         return new ResponseEntity<>(boatDTOS, HttpStatus.OK);
     }
 
