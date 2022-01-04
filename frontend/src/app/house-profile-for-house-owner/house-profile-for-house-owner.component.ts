@@ -55,12 +55,19 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
     this._router.navigate(['/modify-house-profile', this.house.id])
   }
 
-  editActionDialog() {
-
+  editActionDialog(id: number, houseId: number) {
+    this._router.navigate(['/edit-house-action', this.house.id, this.house.id])
   }
 
-  deleteActionDialog() {
-
+  deleteActionDialog(id: number) {
+    // console.log('usloo')
+    // console.log(id)
+    this._houseReservationService.delete(id).subscribe(   // OBAVEZNO SE MORA SUBSCRIBE-OVATI !!!
+      (boolean:boolean) =>{
+        // console.log(boolean)
+        this.loadData()
+      }
+    )
   }
 
   loadData() { // ucitavanje iz baze
@@ -95,8 +102,23 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
         this._houseReservationService.getAllByHouseId(this.house.id).subscribe(
           (courses_slides: HouseReservationSlide[]) => {
             this.courses_slides = courses_slides
+
+            // for (let c of this.courses_slides)
+            // {
+            //     for (let h of c.houseReservationDTOList)
+            //     {
+            //       console.log(h)
+            //
+            //       // for (let a of h.additionalServices)
+            //       //   {
+            //       //     console.log('ISPIS')
+            //       //     // console.log(a.name, a.price)
+            //       //   }
+            //     }
+            // }
+
             this.isSlideLoaded = true
-            console.log(courses_slides)
+            // console.log(courses_slides)
           }
         )
       }

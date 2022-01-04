@@ -14,23 +14,45 @@ public class HouseReservation {
     private Date startDate;
     private Date endDate;
     private int maxGuests;
-    private String additionalServices;
     private float price;
     private boolean isAvailable;
 
     @ManyToMany(mappedBy = "houseReservations")
     private Set<MyUser> guests = new HashSet<MyUser>();
 
+    // vodeca strana ManyToMany veze, sto znaci ako nesto uklonimo sa strane House uklonice se i sa druge strane ManyToMany veze
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinTable(name = "house_reservation_table", joinColumns = @JoinColumn(name = "house_appointment_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "house_id", referencedColumnName = "id"))
     private House house;
 
-    public HouseReservation(Long id, Date startDate, Date endDate, int maxGuests, String additionalServices, float price, boolean isAvailable, House house) {
+//    @ManyToMany(fetch = FetchType.LAZY,
+//            cascade =
+//                    {
+//                            CascadeType.DETACH,
+//                            CascadeType.MERGE,
+//                            CascadeType.REFRESH,
+//                            CascadeType.PERSIST
+//                    },
+//            targetEntity = AdditionalServices.class)
+//    @JoinTable(name = "additional_services_house_reservation",
+//            inverseJoinColumns = @JoinColumn(name = "additional_services_id",
+//                    nullable = false,
+//                    updatable = false),
+//            joinColumns = @JoinColumn(name = "house_reservation_id",
+//                    nullable = false,
+//                    updatable = false),
+//            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
+//            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
+//    private  Set<AdditionalServices> additionalServices = new HashSet<>();
+
+    @ManyToMany(mappedBy = "houseReservationsServices")
+    private Set<AdditionalServices> additionalServices = new HashSet<>();
+
+    public HouseReservation(Long id, Date startDate, Date endDate, int maxGuests, float price, boolean isAvailable, House house) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
         this.maxGuests = maxGuests;
-        this.additionalServices = additionalServices;
         this.price = price;
         this.isAvailable = isAvailable;
         this.house = house;
@@ -71,14 +93,6 @@ public class HouseReservation {
         this.maxGuests = maxGuests;
     }
 
-    public String getAdditionalServices() {
-        return additionalServices;
-    }
-
-    public void setAdditionalServices(String additionalServices) {
-        this.additionalServices = additionalServices;
-    }
-
     public float getPrice() {
         return price;
     }
@@ -101,5 +115,25 @@ public class HouseReservation {
 
     public void setHouse(House house) {
         this.house = house;
+    }
+
+    public Set<MyUser> getGuests() {
+        return guests;
+    }
+
+    public void setGuests(Set<MyUser> guests) {
+        this.guests = guests;
+    }
+
+    public Set<AdditionalServices> getAdditionalServices() {
+        return additionalServices;
+    }
+
+    public void setAdditionalServices(Set<AdditionalServices> additionalServices) {
+        this.additionalServices = additionalServices;
+    }
+
+    public void addAdditionalService(AdditionalServices additionalServices){
+        this.additionalServices.add(additionalServices);
     }
 }

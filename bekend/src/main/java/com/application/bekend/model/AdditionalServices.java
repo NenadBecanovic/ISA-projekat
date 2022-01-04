@@ -25,6 +25,32 @@ public class AdditionalServices {
     @JoinTable(name = "addiotional_services_adventure", joinColumns = @JoinColumn(name = "additional_services_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "house_id", referencedColumnName = "id"))
     private Set<FishingAdventure> fishingAdventures = new HashSet<FishingAdventure>();
 
+//    @ManyToMany(fetch = FetchType.LAZY,
+//            cascade =
+//                    {
+//                            CascadeType.DETACH,
+//                            CascadeType.MERGE,
+//                            CascadeType.REFRESH,
+//                            CascadeType.PERSIST
+//                    },
+//            targetEntity = HouseReservation.class)
+//    @JoinTable(name = "additional_services_house_reservation",
+//            joinColumns = @JoinColumn(name = "house_reservation_id",
+//                    nullable = false,
+//                    updatable = false),
+//            inverseJoinColumns = @JoinColumn(name = "additional_services_id",
+//                    nullable = false,
+//                    updatable = false),
+//            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
+//            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
+//    private Set<HouseReservation> houseReservationsServices = new HashSet<>();
+
+    // u ManyToMany strana kod koje je joinTable je vodeca
+    // vodeca strana ManyToMany veze, sto znaci ako nesto uklonimo sa strane AdditionalService uklonice se i sa druge strane ManyToMany veze
+    @ManyToMany
+    @JoinTable(name = "addiotional_services_house_reservation", joinColumns = @JoinColumn(name = "additional_services_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "house_reservation_id", referencedColumnName = "id"))
+    private Set<HouseReservation> houseReservationsServices = new HashSet<HouseReservation>();
+
     public AdditionalServices(Long id, String name, float price, Set<Boat> boats, Set<FishingAdventure> fishingAdventures, Set<House> houses) {
         this.id = id;
         this.name = name;
@@ -32,6 +58,13 @@ public class AdditionalServices {
         this.boats = boats;
         this.fishingAdventures = fishingAdventures;
         this.houses = houses;
+    }
+
+    public AdditionalServices(Long id, String name, float price, Set<HouseReservation> houseReservationsServices) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.houseReservationsServices = houseReservationsServices;
     }
 
     public AdditionalServices() {
@@ -81,7 +114,17 @@ public class AdditionalServices {
         return fishingAdventures;
     }
 
-    public void setFishingAdventures(Set<FishingAdventure> fishingAdventures) {
-        this.fishingAdventures = fishingAdventures;
+    public void setFishingAdventures(Set<FishingAdventure> fishingAdventures) { this.fishingAdventures = fishingAdventures; }
+
+    public void addHouseReservation(HouseReservation houseReservation){
+        this.houseReservationsServices.add(houseReservation);
+    }
+
+    public Set<HouseReservation> getHouseReservationsServices() {
+        return houseReservationsServices;
+    }
+
+    public void setHouseReservationsServices(Set<HouseReservation> houseReservationsServices) {
+        this.houseReservationsServices = houseReservationsServices;
     }
 }

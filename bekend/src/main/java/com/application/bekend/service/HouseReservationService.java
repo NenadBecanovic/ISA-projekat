@@ -5,6 +5,7 @@ import com.application.bekend.repository.HouseReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -23,5 +24,13 @@ public class HouseReservationService {
 
     public HouseReservation save(HouseReservation houseReservation) {
         return this.houseReservationsRepository.save(houseReservation);
+    }
+
+    public HouseReservation getHouseReservationById(Long id) {
+        return houseReservationsRepository.getHouseReservationById(id);
+    }
+
+    public void delete(Long id){
+        houseReservationsRepository.deleteById(id);
     }
 }

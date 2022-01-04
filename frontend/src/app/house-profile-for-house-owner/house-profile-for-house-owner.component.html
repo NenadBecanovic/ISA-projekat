@@ -141,11 +141,14 @@
                           <br>
   <!--                        <p class="card-text">Trajanje: 2 dana </p>-->
                           <p class="card-text">Maksimalan broj osoba: {{ course.maxGuests }}</p>
-                          <p class="card-text">Dodatne usluge: {{course.additionalServices }} </p>
+                          <p class="card-text">Dodatne usluge: </p>
+                            <li *ngFor="let a of course.additionalServices">
+                               {{a.name}} : {{a.price}} din <br>
+                            </li>
                           <p class="card-text">Cena po 1 nocenju: {{ course.price }} din/dan</p>
   <!--                        <p class="card-text"> Slobodna: {{ course.available }} din/dan</p>-->
-                          <button mat-icon-button  (click)="editActionDialog()" class="btn edit-action-button"> <mat-icon>edit</mat-icon>  </button>
-                          <button mat-icon-button (click)="deleteActionDialog()" class="btn delete-action-button"> <mat-icon>delete</mat-icon> </button>
+                          <button mat-icon-button  (click)="editActionDialog(course.id, house.id)" class="btn edit-action-button"> <mat-icon>edit</mat-icon>  </button>
+                          <button mat-icon-button (click)="deleteActionDialog(course.id)" class="btn delete-action-button"> <mat-icon>delete</mat-icon> </button>
 
                         </div>
                         <br>
