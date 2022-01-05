@@ -48,6 +48,10 @@ import { ModifyHouseProfileComponent } from './modify-house-profile/modify-house
 import { AdventureComponent } from './home-page/adventure/adventure.component';
 import { HouseComponent } from './home-page/house/house.component';
 import { BoatComponent } from './home-page/boat/boat.component';
+import { AddActionBoatProfileComponent } from './add-action-boat-profile/add-action-boat-profile.component';
+import { ModifyBoatProfileComponent } from './modify-boat-profile/modify-boat-profile.component';
+import { EditHouseActionComponent } from './edit-house-action/edit-house-action.component';
+import { HomePageHouseOwnerComponent } from './home-page-house-owner/home-page-house-owner.component';
 
 const MaterialComponents = [
   MatSliderModule,
@@ -87,6 +91,10 @@ const MaterialComponents = [
     AdventureComponent,
     HouseComponent,
     BoatComponent
+    AddActionBoatProfileComponent,
+    ModifyBoatProfileComponent,
+    EditHouseActionComponent,
+    HomePageHouseOwnerComponent
   ],
   imports: [
     RouterModule,

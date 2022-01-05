@@ -25,6 +25,7 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
   house: House = new House(0,'', this.address, '', '', 0, false, 0, 0);
   rooms: Room[] = new Array<Room>();
   additionalServices: AdditionalService[] = new Array<AdditionalService>();
+  house: House = new House(0,'', this.address, '', '', 0, false, 0, this.rooms, this.additionalServices);
   courses_slides: HouseReservationSlide[] = new Array<HouseReservationSlide>();
   isSlideLoaded: boolean = false;
   lat = 0;
@@ -55,12 +56,17 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
     this._router.navigate(['/modify-house-profile', this.house.id])
   }
 
-  editActionDialog() {
-
+  // TODO: obrisati
+  editActionDialog(id: number, houseId: number) {
+    this._router.navigate(['/edit-house-action', this.house.id, this.house.id])
   }
 
-  deleteActionDialog() {
-
+  deleteActionDialog(id: number) {
+    this._houseReservationService.delete(id).subscribe(   // OBAVEZNO SE MORA SUBSCRIBE-OVATI !!!
+      (boolean:boolean) =>{
+        this.loadData()
+      }
+    )
   }
 
   loadData() { // ucitavanje iz baze
@@ -71,7 +77,6 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
         this.lat = this.address.latitude;
         this.lng = this.address.longitude;
         this.freeCancelation = this.house.cancalletionFree;
-        // console.log(this.freeCancelation)
 
         this._roomService.getAllByHouseId(this.house.id).subscribe(
           (rooms: Room[]) => {
@@ -95,8 +100,22 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
         this._houseReservationService.getAllByHouseId(this.house.id).subscribe(
           (courses_slides: HouseReservationSlide[]) => {
             this.courses_slides = courses_slides
+
+            // for (let c of this.courses_slides)
+            // {
+            //     for (let h of c.houseReservationDTOList)
+            //     {
+            //       console.log(h)
+            //
+            //       // for (let a of h.additionalServices)
+            //       //   {
+            //       //     console.log('ISPIS')
+            //       //     // console.log(a.name, a.price)
+            //       //   }
+            //     }
+            // }
+
             this.isSlideLoaded = true
-            console.log(courses_slides)
           }
         )
       }

@@ -245,4 +245,9 @@ public class Boat {
     public void setOwner(MyUser owner) {
         this.owner = owner;
     }
+
+    public void addBoatReservation(BoatReservation boatReservation)
+    {
+        this.courses.add(boatReservation);
+    }
 }

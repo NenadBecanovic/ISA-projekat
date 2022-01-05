@@ -1,6 +1,6 @@
 package com.application.bekend.DTO;
 
-import java.util.Date;
+import java.util.Set;
 
 public class HouseReservationDTO {
 
@@ -9,30 +9,28 @@ public class HouseReservationDTO {
     private String startDate;
     private String endDate;
     private int maxGuests;
-    private String additionalServices;
     private float price;
     private boolean isAvailable;
+    private Set<AdditionalServicesDTO> additionalServices;  // unutar DTO objekta mogu biti samo primitivni tipovi ili neki drugi DTO (ne sme biti model)
 
 
     public HouseReservationDTO(){};
 
-    public HouseReservationDTO(Long houseId, Long id, String startDate, String endDate, int maxGuests, String additionalServices, float price, boolean isAvailable) {
+    public HouseReservationDTO(Long houseId, Long id, String startDate, String endDate, int maxGuests, float price, boolean isAvailable) {
         this.houseId = houseId;
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
         this.maxGuests = maxGuests;
-        this.additionalServices = additionalServices;
         this.price = price;
         this.isAvailable = isAvailable;
     }
 
-    public HouseReservationDTO(Long id, String startDate, String endDate, int maxGuests, String additionalServices, float price, boolean isAvailable) {
+    public HouseReservationDTO(Long id, String startDate, String endDate, int maxGuests, float price, boolean isAvailable) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
         this.maxGuests = maxGuests;
-        this.additionalServices = additionalServices;
         this.price = price;
         this.isAvailable = isAvailable;
     }
@@ -69,14 +67,6 @@ public class HouseReservationDTO {
         this.maxGuests = maxGuests;
     }
 
-    public String getAdditionalServices() {
-        return additionalServices;
-    }
-
-    public void setAdditionalServices(String additionalServices) {
-        this.additionalServices = additionalServices;
-    }
-
     public float getPrice() {
         return price;
     }
@@ -99,5 +89,13 @@ public class HouseReservationDTO {
 
     public void setHouseId(Long houseId) {
         this.houseId = houseId;
+    }
+
+    public Set<AdditionalServicesDTO> getAdditionalServices() {
+        return additionalServices;
+    }
+
+    public void setAdditionalServices(Set<AdditionalServicesDTO> additionalServices) {
+        this.additionalServices = additionalServices;
     }
 }

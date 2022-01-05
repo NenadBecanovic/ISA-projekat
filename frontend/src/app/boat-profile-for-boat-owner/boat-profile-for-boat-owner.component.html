@@ -19,7 +19,7 @@
 
       <!-- naziv broda -->
       <div class="d-flex left align-items-center" style="margin-left: 10px">
-        <span class="house-name display-6" style="margin-left: 10px">
+        <span class="house-name display-5" style="margin-left: 10px">
           {{boat.name}}
           <button mat-raised-button (click)="modifyProfile()" class="btn modify-profile-button">Izmeni profil</button>
         </span>
@@ -38,6 +38,12 @@
           <div class="form-check last-form-check">
             <label class="form-check-label wrap">
               Pravila ponasanja: <br> {{boat.behaviourRules}}
+            </label>
+          </div>
+          <br>
+          <div class="form-check">
+            <label class="form-check-label wrap">
+              Kapacitet: {{boat.capacity}} osoba
             </label>
           </div>
           <div class="form-check">
@@ -101,10 +107,38 @@
                 Makismalna brzina: {{boat.maxSpeed}}km/h
               </label>
             </div>
+            <br>
             <div class="form-check">
               <label class="form-check-label wrap">
-                Kapacitet: {{boat.capacity}} osoba
+                Pecaroska oprema: {{boat.fishingEquipment }}
               </label>
+            </div>
+            <br>
+
+            <label  class="form-check-label wrap">Navigaciona oprema: </label>
+            <div class="form-check" class="form-check-label wrap moveRight">
+              <ul>
+                <li *ngIf="boat.navigationEquipmentDTO.fishFinder">
+                  <label class="form-check-label wrap" >
+                  fish-finder
+                  </label>
+                </li>
+                <li *ngIf="boat.navigationEquipmentDTO.vhfradio">
+                  <label class="form-check-label wrap" >
+                    VHF Radio
+                  </label>
+                </li>
+                <li *ngIf="boat.navigationEquipmentDTO.radar">
+                  <label class="form-check-label wrap" >
+                    radar
+                  </label>
+                </li>
+                <li *ngIf="boat.navigationEquipmentDTO.gps">
+                  <label class="form-check-label wrap" >
+                    gps
+                  </label>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -166,12 +200,15 @@
                   <mat-card style="margin-right: 5px; margin-left: 5px" class="myCardSlide">
                     <div>
                       <div>
-                        <h4 class="card-title"> {{ '*' + course.id + '*' }} <br> {{ course.startDate }} - {{ course.endDate }} </h4>
+                        <h4 class="card-title"> {{ '*' + course.id + '*' }} <br> {{ course.startDate | date:'dd/MM/yyyy HH:mm:ss'}}  - {{ course.endDate | date:'dd/MM/yyyy HH:mm:ss' }} </h4>
                         <br>
-<!--                        <p class="card-text">Trajanje: 2 dana </p>-->
                         <p class="card-text">Maksimalan broj osoba: {{ course.maxGuests }}</p>
-                        <p class="card-text">Dodatne usluge: {{course.additionalServices }} </p>
+                        <p class="card-text">Dodatne usluge: </p>
+                          <li *ngFor="let a of course.additionalServices">
+                            {{a.name}} : {{a.price}} din <br>
+                          </li>
                         <p class="card-text">Cena po 1 nocenju: {{ course.price }} din/dan</p>
+                        <button mat-icon-button (click)="deleteActionDialog(course.id)" class="btn delete-action-button"> <mat-icon>delete</mat-icon> </button>
                       </div>
                       <br>
                     </div>
@@ -189,10 +226,7 @@
         <button mat-raised-button (click)="addActionDialog()" class="btn add-action-button">Dodaj akciju</button>
       </div>
     </div>
-
-<!--    <div>-->
-<!--      <google-map> </google-map>-->
-<!--    </div>-->
+    <br>
 
   </div>
   <app-footer></app-footer>

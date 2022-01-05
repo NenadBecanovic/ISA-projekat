@@ -26,4 +26,8 @@ public class BoatService {
     }
 
     public List<Boat> findAll(){ return boatRepository.findAll(); }
+
+    public Boat save(Boat boat) {
+        return this.boatRepository.save(boat);
+    }
 }

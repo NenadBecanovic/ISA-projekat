@@ -18,6 +18,10 @@ import {ModifyHouseProfileComponent} from "./modify-house-profile/modify-house-p
 import {AdventureComponent} from "./home-page/adventure/adventure.component";
 import {HouseComponent} from "./home-page/house/house.component";
 import {BoatComponent} from "./home-page/boat/boat.component";
+import {AddActionBoatProfileComponent} from "./add-action-boat-profile/add-action-boat-profile.component";
+import {ModifyBoatProfileComponent} from "./modify-boat-profile/modify-boat-profile.component";
+import {EditHouseActionComponent} from "./edit-house-action/edit-house-action.component";
+import {HomePageHouseOwnerComponent} from "./home-page-house-owner/home-page-house-owner.component";
 
 const routes: Routes = [
   {path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}, {path: 'houses', component: HomeHouseComponent},
@@ -33,6 +37,10 @@ const routes: Routes = [
   { path:'boat-profile-for-boat-owner', component: BoatProfileForBoatOwnerComponent},
   { path:'add-action-house-profile/:id', component: AddActionHouseProfileComponent},
   { path:'modify-house-profile/:id', component: ModifyHouseProfileComponent},
+  { path:'add-action-boat-profile/:id', component: AddActionBoatProfileComponent},
+  { path:'modify-boat-profile/:id', component: ModifyBoatProfileComponent},
+  { path:'edit-house-action/:id/:houseId', component: EditHouseActionComponent},
+  { path:'home-page-house-owner', component: HomePageHouseOwnerComponent},
 
 ];
 

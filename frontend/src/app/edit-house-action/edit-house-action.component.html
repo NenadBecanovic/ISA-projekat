@@ -1,0 +1,40 @@
+<body>
+<div class = "container" >
+  <div class = "title"> Izmena akcije</div>
+  <form  style="margin: auto !important" #addActionForm = "ngForm" (ngSubmit)="editAction()">
+    <div class = "user-details" >
+      <div class = "input-box">
+        <span class="details">Datum i vreme pocetka:</span>
+        <input type="datetime-local" name="startDate" [(ngModel)]="this.startDate" placeholder="Unesite datum i vreme pocetka" required>
+      </div>
+      <br>
+      <div class = "input-box">
+        <span class="details">Datum i vreme kraja:</span>
+        <input type="datetime-local" name="endDate" [(ngModel)]="houseReservation.endDate"  required>
+      </div>
+      <br>
+      <div class = "input-box">
+        <span class="details">Maksimalan broj gostiju:</span>
+        <input type="number" name="maxGuests" [(ngModel)]="houseReservation.maxGuests" placeholder="Unesite maksimalan broj gostiju" required>
+      </div>
+      <br>
+      <div class = "input-box" *ngIf="loaded">
+        <span class="details">Dodatne usluge:</span>
+        <div *ngFor="let service of allAdditionalServicesForHouse">
+          <mat-checkbox name="checkbox" [(ngModel)]="service.checked" (change)="checkboxChanged($event)"> {{service.id}} {{ service.name}}: {{service.price}} din </mat-checkbox>
+        </div>
+      </div>
+      <br>
+      <div class = "input-box">
+        <span class="details">Cena:</span>
+        <input type="text" name="price" [(ngModel)]="houseReservation.price" placeholder="Unesite cenu" required>
+      </div>
+    </div>
+    <br> <br>
+    <div class = "button">
+      <input type ="submit" value="Izmeni">
+    </div>
+  </form>
+</div>
+<ngx-alerts></ngx-alerts>
+</body>

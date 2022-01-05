@@ -24,5 +24,16 @@ export class HouseService {
 
   public findAllHousesForHomePage(): Observable<HouseHomeSlide[]>{
     return this._http.get<HouseHomeSlide[]>(`${this.userPath}/findHouseForHomePage`)
+
+  public edit(house: House): Observable<House>{
+    return this._http.put<House>(`${this.userPath}/edit/`+ house.id, house)
+  }
+
+  public getAll(): Observable<House[]>{
+    return this._http.get<House[]>(`${this.userPath}/getAll`)
+  }
+
+  public delete(id: number): Observable<boolean> {
+    return this._http.delete<boolean>(`${this.userPath}/delete/`+id)
   }
 }

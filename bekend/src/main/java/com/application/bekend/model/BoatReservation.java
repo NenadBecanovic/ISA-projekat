@@ -14,23 +14,25 @@ public class BoatReservation {
     private Date startDate;
     private Date endDate;
     private int maxGuests;
-    private String additionalServices;
     private float price;
     private boolean isAvailable;
 
-    @ManyToMany(mappedBy = "boatReservations")
-    private Set<MyUser> guests = new HashSet<MyUser>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "guest_id")
+    private MyUser guest;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinTable(name = "boat_reservation_table", joinColumns = @JoinColumn(name = "boat_appointment_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "boat_id", referencedColumnName = "id"))
     private Boat boat;
 
-    public BoatReservation(Long id, Date startDate, Date endDate, int maxGuests, String additionalServices, float price, boolean isAvailable,Boat boat) {
+    @ManyToMany(mappedBy = "boatReservationsServices")
+    private Set<AdditionalServices> additionalServices = new HashSet<>();
+
+    public BoatReservation(Long id, Date startDate, Date endDate, int maxGuests, float price, boolean isAvailable,Boat boat) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
         this.maxGuests = maxGuests;
-        this.additionalServices = additionalServices;
         this.price = price;
         this.isAvailable = isAvailable;
         this.boat = boat;
@@ -71,14 +73,6 @@ public class BoatReservation {
         this.maxGuests = maxGuests;
     }
 
-    public String getAdditionalServices() {
-        return additionalServices;
-    }
-
-    public void setAdditionalServices(String additionalServices) {
-        this.additionalServices = additionalServices;
-    }
-
     public float getPrice() {
         return price;
     }
@@ -101,5 +95,21 @@ public class BoatReservation {
 
     public void setBoat(Boat boat) {
         this.boat = boat;
+    }
+
+    public MyUser getGuest() {
+        return guest;
+    }
+
+    public void setGuest(MyUser guest) {
+        this.guest = guest;
+    }
+
+    public Set<AdditionalServices> getAdditionalServices() {
+        return additionalServices;
+    }
+
+    public void setAdditionalServices(Set<AdditionalServices> additionalServices) {
+        this.additionalServices = additionalServices;
     }
 }

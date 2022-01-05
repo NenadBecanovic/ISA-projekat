@@ -32,4 +32,9 @@ public class HouseService {
 
     public List<House> findAll() {return this.houseRepository.findAll();}
 
+    public List<House> getAll() { return  this.houseRepository.findAll(); }
+
+    public void delete(Long id){
+        houseRepository.deleteById(id);
+    }
 }

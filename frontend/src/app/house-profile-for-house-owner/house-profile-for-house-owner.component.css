@@ -3,7 +3,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-
 }
 
 #house-profile {
@@ -24,17 +23,26 @@
   margin-bottom: 30px;
 }
 
-.house-name{
-  font-weight: bold;
-}
+/*.house-name{*/
+/*  font-weight: bold;*/
+/*}*/
 
 .house-address{
   font-weight: lighter;
 }
 
+.house-view-title-container{
+  font-family: "Poppins", sans-serif;
+  position: relative;
+  width: 100%;
+  margin-top: 34px;
+  margin-bottom: 34px;
+  padding-left: 5vw;
+  padding-right: 5vw;
+}
+
 .house-container{
   font-family: "Poppins", sans-serif;
-  /*font-family: 'Rubik', sans-serif;*/
   font-size: 20px;
   font-weight: lighter;
   color: #181e27;
@@ -64,16 +72,6 @@
   font-size: 17px;
   font-weight: 300;
   color: #000000;
-}
-
-.house-view-title-container{
-  font-family: "Poppins", sans-serif;
-  position: relative;
-  width: 100%;
-  margin-top: 34px;
-  margin-bottom: 34px;
-  padding-left: 5vw;
-  padding-right: 5vw;
 }
 
 /*.reserve-button{*/

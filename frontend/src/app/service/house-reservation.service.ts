@@ -17,7 +17,15 @@ export class HouseReservationService {
     return this._http.get<HouseReservationSlide[]>(`${this.userPath}/getAllByHouseId/`+id)
   }
 
+  public getHouseReservationById(id: number): Observable<HouseReservation> {
+    return this._http.get<HouseReservation>(`${this.userPath}/getHouseReservationById/`+id)
+  }
+
   public save(houseReservation: HouseReservation): Observable<HouseReservation> { // saljem post zahtev (rezervaciju vikendice) na bekend
-    return this._http.post<HouseReservation>(`${this.userPath}/save`, houseReservation)
+    return this._http.post<HouseReservation>(`${this.userPath}/add`, houseReservation)
+  }
+
+  public delete(id: number): Observable<boolean> {
+    return this._http.delete<boolean>(`${this.userPath}/delete/`+id)
   }
 }

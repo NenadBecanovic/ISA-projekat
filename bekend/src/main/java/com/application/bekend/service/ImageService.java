@@ -1,5 +1,6 @@
 package com.application.bekend.service;
 
+import com.application.bekend.model.House;
 import com.application.bekend.model.Image;
 import com.application.bekend.repository.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,4 +21,15 @@ public class ImageService {
     public List<Image> getAllByHouse_Id(Long id) { return imageRepository.getAllByHouse_Id(id); }
 
     public List<Image> getAllByBoat_Id(Long id) { return imageRepository.getAllByBoat_Id(id); }
+
+    public Image getImageById(Long id) { return  this.imageRepository.getImageById(id); }
+
+    public Image save(Image image) {
+        return this.imageRepository.save(image);
+    }
+
+    public void delete(Long id){
+        this.imageRepository.deleteById(id);
+    }
+
 }
