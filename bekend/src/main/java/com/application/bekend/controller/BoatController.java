@@ -2,8 +2,8 @@ package com.application.bekend.controller;
 
 import com.application.bekend.DTO.*;
 import com.application.bekend.model.Boat;
-import com.application.bekend.model.House;
 import com.application.bekend.model.Image;
+import com.application.bekend.service.AddresService;
 import org.modelmapper.ModelMapper;
 import com.application.bekend.model.*;
 import com.application.bekend.service.AdditionalServicesService;
@@ -25,12 +25,14 @@ public class BoatController {
     private final BoatService boatService;
     private final AdditionalServicesService additionalServicesService;
     private final NavigationEquipmentService navigationEquipmentService;
+    private final AddresService addresService;
 
     @Autowired
-    public BoatController(BoatService boatService, AdditionalServicesService additionalServicesService, NavigationEquipmentService navigationEquipmentService) {
+    public BoatController(BoatService boatService, AdditionalServicesService additionalServicesService, NavigationEquipmentService navigationEquipmentService, AddresService addresService) {
         this.boatService = boatService;
         this.additionalServicesService = additionalServicesService;
         this.navigationEquipmentService = navigationEquipmentService;
+        this.addresService = addresService;
     }
     @Autowired
     private ModelMapper modelMapper;
@@ -63,7 +65,7 @@ public class BoatController {
     public ResponseEntity<BoatDTO> save(@RequestBody BoatDTO dto) {
         Boat boat = this.boatService.getBoatById(dto.getId());
         Address address = boat.getAddress();
-        Set<AdditionalServices> additionalServices = boat.getServices();
+        List<AdditionalServices> additionalServices = this.additionalServicesService.getAllByBoatId(dto.getId());
 
         for (AdditionalServices a: additionalServices)
         {
@@ -78,14 +80,16 @@ public class BoatController {
             }
         }
 
-        address.setStreet(dto.getAddress().getStreet());
-        address.setCity(dto.getAddress().getCity());
-        address.setState(dto.getAddress().getState());
-        address.setLongitude(dto.getAddress().getLongitude());
-        address.setLatitude(dto.getAddress().getLatitude());
-        address.setPostalCode(dto.getAddress().getPostalCode());
+        Address address1 = this.addresService.getAddressById(dto.getAddress().getId());
+        address1.setStreet(dto.getAddress().getStreet());
+        address1.setCity(dto.getAddress().getCity());
+        address1.setState(dto.getAddress().getState());
+        address1.setLongitude(dto.getAddress().getLongitude());
+        address1.setLatitude(dto.getAddress().getLatitude());
+        address1.setPostalCode(dto.getAddress().getPostalCode());
+        this.addresService.save(address1);
 
-        boat.setAddress(address);
+        boat.setAddress(address1);
         boat.setName(dto.getName());
         boat.setPromoDescription(dto.getPromoDescription());
         boat.setCapacity(dto.getCapacity());

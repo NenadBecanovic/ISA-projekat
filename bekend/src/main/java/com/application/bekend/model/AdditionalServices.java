@@ -27,11 +27,11 @@ public class AdditionalServices {
 
     // u ManyToMany strana kod koje je joinTable je vodeca
     // vodeca strana ManyToMany veze, sto znaci ako nesto uklonimo sa strane AdditionalService uklonice se i sa druge strane ManyToMany veze
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "addiotional_services_house_reservation", joinColumns = @JoinColumn(name = "additional_services_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "house_reservation_id", referencedColumnName = "id"))
     private Set<HouseReservation> houseReservationsServices = new HashSet<HouseReservation>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "addiotional_services_boat_reservation", joinColumns = @JoinColumn(name = "additional_services_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "boat_reservation_id", referencedColumnName = "id"))
     private Set<BoatReservation> boatReservationsServices = new HashSet<>();
 

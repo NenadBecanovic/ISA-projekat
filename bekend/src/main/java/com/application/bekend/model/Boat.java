@@ -34,7 +34,7 @@ public class Boat {
     @OneToMany(mappedBy = "boat", fetch = FetchType.EAGER)
     private Set<Image> images;
 
-    @OneToMany(mappedBy = "boat")
+    @OneToMany(mappedBy = "boat", fetch = FetchType.EAGER)
     private Set<BoatReservation> courses = new HashSet<BoatReservation>();
     private String behaviourRules;
     private String fishingEquipment;
