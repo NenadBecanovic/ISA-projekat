@@ -31,4 +31,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -f bekend/pom.xml -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=TeodoraMaruna_ISA-projekat
+        run: mvn -f https://github.com/TeodoraMaruna/ISA-projekat/blob/e3dedc9d3a031b720db8b6764bd66507325580c2/bekend/pom.xml -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=TeodoraMaruna_ISA-projekat
