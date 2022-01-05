@@ -8,12 +8,15 @@ import com.application.bekend.service.BoatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 @RestController
 @RequestMapping("api/boatReservations")
+@EnableTransactionManagement
 public class BoatReservationController {
 
     private final BoatReservationService boatReservationService;
@@ -102,5 +105,24 @@ public class BoatReservationController {
         this.boatService.save(boat);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @Transactional
+    public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
+        BoatReservation boatReservation = this.boatReservationService.getBoatReservationById(id);   // dobavimo rezervaciju iz baze
+
+        Set<AdditionalServices> additionalServices =  boatReservation.getAdditionalServices();     // ne moramo direktno iz baze dobavljati jer ova lista u sebi ima objekte sa svojim pravim id-jevima
+        for(AdditionalServices a: additionalServices){
+            a.getBoatReservationsServices().remove(boatReservation);  // iz niza rezervacija dodatnih usluga izbacimo ovu rezervaciju koju brisemo - raskinuta u tabeli additional_services_house_reservation (sa vodece strane, jer je kod AdditionalService JoinTable)
+            this.additionalServicesService.save(a);
+        }
+
+        boatReservation.setBoat(null);  // raskinuta veza u tabeli house_reservation_table (sa strane vodece veze u ManyToMany vezi)
+        boatReservation = this.boatReservationService.save(boatReservation);
+
+        this.boatReservationService.delete(boatReservation.getId());  // brisanje rezervacije iz house_reservation tabele
+
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 }
