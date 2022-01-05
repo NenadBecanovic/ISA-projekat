@@ -94,6 +94,16 @@ export class ModifyBoatProfileComponent implements OnInit {
   }
 
   editProfile() {
-    console.log(this.additionalServices)
+    console.log(this.boat.navigationEquipmentDTO)
+
+    this._boatService.edit(this.boat).subscribe(
+      (boat: Boat) => {
+        this._router.navigate(['boat-profile-for-boat-owner'])
+      },
+      (error) => {
+        // console.log(error)
+        this._alertService.danger('Doslo je do greske');
+      },
+    )
   }
 }

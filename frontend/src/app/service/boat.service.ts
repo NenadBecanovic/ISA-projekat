@@ -16,4 +16,8 @@ export class BoatService {
   public getBoatById(id: number): Observable<Boat>{
     return this._http.get<Boat>(`${this.userPath}/getBoatById/`+id)
   }
+
+  public edit(boat: Boat): Observable<Boat>{
+    return this._http.put<Boat>(`${this.userPath}/edit/`+ boat.id, boat)
+  }
 }

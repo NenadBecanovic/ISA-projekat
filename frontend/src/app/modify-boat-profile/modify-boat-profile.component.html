@@ -45,6 +45,10 @@
         <input type="text" name="behaviourRules" [(ngModel)]="boat.behaviourRules" placeholder="Unesite cenu" required>
       </div>
       <div class = "input-box">
+        <span class="details">Kapacitet:</span>
+        <input type="number" name="capacity" [(ngModel)]="boat.capacity" placeholder="Unesite cenu" required>
+      </div>
+      <div class = "input-box">
         <span class="details">Cena za 1 nocenje:</span>
         <input type="number" name="pricePerDay" [(ngModel)]="boat.pricePerDay" placeholder="Unesite cenu" required>
       </div>
@@ -59,37 +63,44 @@
 
       <br><br>
       <div class = "input-box">
-        <span class="details">Kapacitet:</span>
-        <input type="number" name="capacity" [(ngModel)]="boat.capacity" placeholder="Unesite cenu" required>
+        <span class="details">O BRODU</span>
       </div>
+      <div class = "input-box">
+        <span class="details">Tip broda:</span>
+        <input type="text" name="boatType" [(ngModel)]="boat.type" placeholder="Unesite tip broda" required>
+      </div>
+      <div class = "input-box">
+        <span class="details">Duzina broda:</span>
+        <input type="number" name="boatLength" [(ngModel)]="boat.length" placeholder="Unesite duzinu broda" required>
+      </div>
+      <div class = "input-box">
+        <span class="details">Broj motora:</span>
+        <input type="number" name="engineNumber" [(ngModel)]="boat.engineNumber" placeholder="Unesite broj motora" required>
+      </div>
+      <div class = "input-box">
+        <span class="details">Snaga motora:</span>
+        <input type="number" name="enginePower" [(ngModel)]="boat.enginePower" placeholder="Unesite snagu motora " required>
+      </div>
+      <div class = "input-box">
+        <span class="details">Makismalna brzina broda:</span>
+        <input type="number" name="maxSpeed" [(ngModel)]="boat.maxSpeed" placeholder="Unesite makismalnu brzinu broda " required>
+      </div>
+      <div class = "input-box">
+        <span class="details">Pecaroska oprema:</span>
+        <input type="text" name="fishingEquipment" [(ngModel)]="boat.fishingEquipment" placeholder="Unesite pecarosku opremu " required>
+      </div>
+      <div class = "input-box">
+        <span class="details">Navigaciona oprema:</span>
+        <mat-checkbox name="checkbox1" [(ngModel)]="boat.navigationEquipmentDTO.fishFinder"> fish-finder </mat-checkbox>
+        <br>
+        <mat-checkbox name="checkbox2" [(ngModel)]="boat.navigationEquipmentDTO.radar"> radar </mat-checkbox>
+        <br>
+        <mat-checkbox name="checkbox3" [(ngModel)]="boat.navigationEquipmentDTO.vhfradio"> VHR radio </mat-checkbox>
+        <br>
+        <mat-checkbox name="checkbox4" [(ngModel)]="boat.navigationEquipmentDTO.gps"> gps </mat-checkbox>
+      </div>
+
       <br><br>
-<!--      <div class = "input-box">-->
-<!--        <span class="details">BROJ KREVETA U SOBAMA</span>-->
-<!--        <div *ngFor="let item of rooms;let index = index;">-->
-<!--          <span class="details">Soba {{item.id}}:</span>-->
-<!--          <input type="number" style="width: 85%" name=a{{index}} [(ngModel)]="rooms[index].numberOfBeds" placeholder="Unesite broj kreveta">-->
-<!--          <button mat-icon-button (click)="deleteRoom(rooms[index].id)"> <mat-icon>delete</mat-icon> </button>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class = "input-box">-->
-<!--        <button mat-icon-button (click)="showAddingNewRoom()"> <mat-icon>add</mat-icon> </button>-->
-<!--      </div>-->
-<!--      <br>-->
-
-<!--      <div *ngIf="showNewRoom">-->
-<!--        <div class = "input-box">-->
-<!--          <span class="details">Broj kreveta u sobi:</span>-->
-<!--          <input type="number" name="newAddRoomNumOfBeds" [(ngModel)]="newRoom.numberOfBeds" placeholder="Unesite broj kreveta" required>-->
-<!--        </div>-->
-<!--        <br>-->
-<!--        <div class = "button">-->
-<!--          <input type ="button" value="DODAJ NOVU SOBU" (click)="addNewRoom()">-->
-<!--        </div>-->
-<!--        <br>-->
-<!--      </div>-->
-
-      <br><br>
-
       <table class = "input-box">
         <tr>
           <th>Dodatna usluga</th>

@@ -19,5 +19,4 @@ export class HouseService {
   public edit(house: House): Observable<House>{
     return this._http.put<House>(`${this.userPath}/edit/`+ house.id, house)
   }
-
 }

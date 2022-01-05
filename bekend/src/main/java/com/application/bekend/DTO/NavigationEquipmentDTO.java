@@ -5,7 +5,7 @@ public class NavigationEquipmentDTO {
     private Long id;
     private boolean gps;
     private boolean radar;
-    private boolean VHFRadio;
+    private boolean vhfradio;
     private boolean fishFinder;
 //    private Boat boat;
 
@@ -13,7 +13,7 @@ public class NavigationEquipmentDTO {
         this.id = id;
         this.gps = gps;
         this.radar = radar;
-        this.VHFRadio = VHFRadio;
+        this.vhfradio = VHFRadio;
         this.fishFinder = fishFinder;
     }
 
@@ -43,19 +43,19 @@ public class NavigationEquipmentDTO {
         this.radar = radar;
     }
 
-    public boolean isVHFRadio() {
-        return VHFRadio;
-    }
-
-    public void setVHFRadio(boolean VHFRadio) {
-        this.VHFRadio = VHFRadio;
-    }
-
     public boolean isFishFinder() {
         return fishFinder;
     }
 
     public void setFishFinder(boolean fishFinder) {
         this.fishFinder = fishFinder;
+    }
+
+    public boolean isVhfradio() {
+        return vhfradio;
+    }
+
+    public void setVhfradio(boolean vhfradio) {
+        this.vhfradio = vhfradio;
     }
 }
