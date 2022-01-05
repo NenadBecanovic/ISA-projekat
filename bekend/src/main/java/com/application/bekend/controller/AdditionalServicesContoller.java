@@ -92,6 +92,9 @@ public class AdditionalServicesContoller {
         additionalServices.setHouses(null);
         additionalServices.setHouseReservationsServices(null);
 
+        additionalServices.setBoats(null);
+        additionalServices.setBoatReservationsServices(null);
+
         this.additionalServicesService.deleteById(id);  // brisanje iz additional_services
 
         return new ResponseEntity<>(true, HttpStatus.OK);

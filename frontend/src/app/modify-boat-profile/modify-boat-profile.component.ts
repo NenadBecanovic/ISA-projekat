@@ -54,7 +54,11 @@ export class ModifyBoatProfileComponent implements OnInit {
   }
 
   deleteAdditionalService(id: number) {
-
+    this._additionalServices.delete(id).subscribe(
+      (boolean:boolean) =>{
+        this.loadData()
+      }
+    )
   }
 
   showAddingNewService() {
@@ -90,6 +94,6 @@ export class ModifyBoatProfileComponent implements OnInit {
   }
 
   editProfile() {
-
+    console.log(this.additionalServices)
   }
 }
