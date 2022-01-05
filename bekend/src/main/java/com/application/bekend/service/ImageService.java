@@ -20,4 +20,6 @@ public class ImageService {
     public List<Image> getAllByHouse_Id(Long id) { return imageRepository.getAllByHouse_Id(id); }
 
     public List<Image> getAllByBoat_Id(Long id) { return imageRepository.getAllByBoat_Id(id); }
+    
+    public List<Image> getAllByFishing_Adventure_Id(Long id) { return imageRepository.getAllByFishing_Adventure_Id(id); }
 }

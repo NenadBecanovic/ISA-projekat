@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { AdditionalService } from '../model/additional-service';
 import { Address } from '../model/address';
 import { FishingAdventure } from '../model/fishing-adventure';
 import { FishingAdventureInstructorDTO } from '../model/fishing-adventure-instructorDTO';
 import { MyUser } from '../model/my-user';
+import { AdventureProfileService } from '../service/adventure-profile.service';
 import { AddAdventureDialogComponent } from './add-adventure-dialog/add-adventure-dialog.component';
 import { CalendarDialogComponent } from './calendar-dialog/calendar-dialog.component';
 import { DefineAvaibilityPeriodComponent } from './define-avaibility-period/define-avaibility-period.component';
@@ -18,21 +20,18 @@ import { MakeReservationDialogComponent } from './make-reservation-dialog/make-r
 export class FishingInstructorProfileComponent implements OnInit {
 
   address: Address = new Address(0,"Kotor","Kotor","Crna Gora",0,0,31100);
-  service1: AdditionalService= new AdditionalService(0,"STAPOVI", 2000,false);
-  service2: AdditionalService= new AdditionalService(0,"STAPOVI", 3000,false);
-  additionalServices = new Array<AdditionalService>();
+  additionalServices: AdditionalService[] = new Array<AdditionalService>();
+  adventures: FishingAdventure[] = new Array<FishingAdventure>();
   instructor: FishingAdventureInstructorDTO = new FishingAdventureInstructorDTO(1,"Kapetan","Kuka","","",this.address, "065454545", "Najjaci sam na svetu");
-  adventure: FishingAdventure = new FishingAdventure(2,"Avanturica", this.address, "Mnogo dobra",5,"SVA","Be good",30,this.additionalServices,false,10,this.instructor);
+  adventure: FishingAdventure = new FishingAdventure(2,"Avanturica", this.address, "Mnogo dobra",5,"SVA","Be good",30,false,10);
   filterTerm!: string;
 
-  adventures = [this.adventure, this.adventure, this.adventure, this.adventure]
+  constructor(public dialog: MatDialog, private _adventureService: AdventureProfileService, private _router: Router) {
 
-  constructor(public dialog: MatDialog) {
-    this.additionalServices.push(this.service1);
-    this.additionalServices.push(this.service2);
    }
 
   ngOnInit() {
+    this.loadData();
   }
 
   addAdventure(){
@@ -74,9 +73,17 @@ export class FishingInstructorProfileComponent implements OnInit {
       data: {},
     });
     dialogRef.componentInstance.adventureId = a.id;
-    dialogRef.componentInstance.additionalServices = a.services;
+    //dialogRef.componentInstance.additionalServices = a.services;
     dialogRef.afterClosed().subscribe(result => {
       
     });
+  }
+
+  loadData() { // ucitavanje iz baze
+    this._adventureService.getFishingAdventuresByInstructor(1).subscribe(
+      (adventures: FishingAdventure[]) => {
+        this.adventures = adventures
+      }
+    )
   }
 }

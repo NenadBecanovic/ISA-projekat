@@ -22,7 +22,7 @@ public class AdditionalServices {
     private Set<House> houses = new HashSet<House>();
 
     @ManyToMany
-    @JoinTable(name = "addiotional_services_adventure", joinColumns = @JoinColumn(name = "additional_services_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "house_id", referencedColumnName = "id"))
+    @JoinTable(name = "addiotional_services_adventure", joinColumns = @JoinColumn(name = "additional_services_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "fishing_adventure_id", referencedColumnName = "id"))
     private Set<FishingAdventure> fishingAdventures = new HashSet<FishingAdventure>();
 
 //    @ManyToMany(fetch = FetchType.LAZY,

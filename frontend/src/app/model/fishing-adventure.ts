@@ -14,12 +14,10 @@ export class FishingAdventure {
   fishingEquipment: String;
   behaviourRules: String;
   pricePerHour: number;
-  services: Array<AdditionalService>;
   isCancellationFree: boolean;
   cancellationFee: number;
-  instructor: FishingAdventureInstructorDTO;
 
-  constructor(id: number,name: String, address: Address, promoDescription: String, capacity: number, fishingEquipment: String, behaviourRules: String, pricePerHour: number, services: Array<AdditionalService>, isCancellationFree: boolean, cancelationFee: number, instructor: FishingAdventureInstructorDTO){
+  constructor(id: number,name: String, address: Address, promoDescription: String, capacity: number, fishingEquipment: String, behaviourRules: String, pricePerHour: number, isCancellationFree: boolean, cancelationFee: number){
     this.id = id;
     this.name = name;
     this.address = address;
@@ -28,10 +26,8 @@ export class FishingAdventure {
     this.fishingEquipment = fishingEquipment;
     this.behaviourRules = behaviourRules;
     this.pricePerHour = pricePerHour;
-    this.services = services;
     this.isCancellationFree = isCancellationFree;
     this.cancellationFee = cancelationFee;
-    this.instructor = instructor;
   }
 
 }
