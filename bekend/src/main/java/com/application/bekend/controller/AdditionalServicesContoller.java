@@ -2,8 +2,10 @@ package com.application.bekend.controller;
 
 import com.application.bekend.DTO.AdditionalServicesDTO;
 import com.application.bekend.model.AdditionalServices;
+import com.application.bekend.model.Boat;
 import com.application.bekend.model.House;
 import com.application.bekend.service.AdditionalServicesService;
+import com.application.bekend.service.BoatService;
 import com.application.bekend.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,11 +23,13 @@ public class AdditionalServicesContoller {
 
     private final AdditionalServicesService additionalServicesService;
     private final HouseService houseService;
+    private final BoatService boatService;
 
     @Autowired
-    public AdditionalServicesContoller(AdditionalServicesService additionalServicesService, HouseService houseService) {
+    public AdditionalServicesContoller(AdditionalServicesService additionalServicesService, HouseService houseService, BoatService boatService) {
         this.additionalServicesService = additionalServicesService;
         this.houseService = houseService;
+        this.boatService = boatService;
     }
 
     @GetMapping("/getAllByHouseId/{id}")
@@ -97,10 +101,19 @@ public class AdditionalServicesContoller {
     public ResponseEntity<AdditionalServices> save(@RequestBody AdditionalServicesDTO dto) {
         AdditionalServices additionalServices = new AdditionalServices(dto.getId(), dto.getName(), dto.getPrice(), new HashSet<>(), new HashSet<>());
         House house = this.houseService.getHouseById(dto.getHouseId());
+        Boat boat = this.boatService.getBoatById(dto.getBoatId());
 
-        Set<House> houses = additionalServices.getHouses();
-        houses.add(house);
-        additionalServices.setHouses(houses);
+        if (house != null) {
+            Set<House> houses = additionalServices.getHouses();
+            houses.add(house);
+            additionalServices.setHouses(houses);
+        }
+        else if (boat != null) {
+            Set<Boat> boats = additionalServices.getBoats();
+            boats.add(boat);
+            additionalServices.setBoats(boats);
+        }
+
         this.additionalServicesService.save(additionalServices);
 
         return new ResponseEntity<>(HttpStatus.CREATED);

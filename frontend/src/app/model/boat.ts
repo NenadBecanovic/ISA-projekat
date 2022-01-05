@@ -1,5 +1,6 @@
 import {Address} from "./address";
 import {NavigationEquipment} from "./navigation-equipment";
+import {AdditionalService} from "./additional-service";
 
 export class Boat {
 
@@ -16,7 +17,7 @@ export class Boat {
   behaviourRules: String;
   capacity: number;
   pricePerDay: number;
-  // services: Array<AdditionalService>;
+  services: AdditionalService[];
   cancalletionFree: boolean;
   cancalletionFee: number;
   fishingEquipment: String;
@@ -24,7 +25,7 @@ export class Boat {
 
   constructor(id: number, name: String, promoDescription: String, behaviourRules: String, pricePerDay: number, capacity: number,  type: String,
               length: number, engineNumber: number, enginePower: number, maxSpeed: number, cancalletionFree: boolean, cancalletionFee: number,
-              fishingEquipment: String, address: Address, navigationEquipment: NavigationEquipment) {
+              fishingEquipment: String, address: Address, navigationEquipment: NavigationEquipment, services: AdditionalService[]) {
     this.id = id;
     this.name = name;
     this.type = type;
@@ -37,11 +38,11 @@ export class Boat {
     this.promoDescription = promoDescription;
     this.behaviourRules = behaviourRules;
     this.pricePerDay = pricePerDay;
-    // this.services = services;
     this.cancalletionFree = cancalletionFree;
     this.cancalletionFee = cancalletionFee;
     this.fishingEquipment = fishingEquipment;
     this.navigationEquipmentDTO = navigationEquipment;
+    this.services = services;
     // this.courses = courses;
   }
 }

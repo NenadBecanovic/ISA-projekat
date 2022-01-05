@@ -44,7 +44,7 @@ public class BoatReservationController {
             BoatReservationDTO boatReservationDTO = new BoatReservationDTO(a.getId(), startDate, endDate, a.getMaxGuests(), a.getPrice(), a.isAvailable());
 
             Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
-            for(AdditionalServices add : this.additionalServicesService.getAllByHouseReservationId(a.getId())){  // a.getAdditionalServices()
+            for(AdditionalServices add : this.additionalServicesService.getAllByBoatReservationId(a.getId())){  // a.getAdditionalServices()
                 AdditionalServicesDTO newAddSer = new AdditionalServicesDTO(add.getId(), add.getName(), add.getPrice());
                 additionalServicesDTOS.add(newAddSer);
             }

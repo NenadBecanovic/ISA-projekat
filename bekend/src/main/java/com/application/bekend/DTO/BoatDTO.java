@@ -1,5 +1,7 @@
 package com.application.bekend.DTO;
 
+import java.util.Set;
+
 public class BoatDTO {
     private Long id;
     private String name;
@@ -17,10 +19,12 @@ public class BoatDTO {
     private int cancalletionFee;
     private AddressDTO address;
     private NavigationEquipmentDTO navigationEquipmentDTO;
+    private Set<AdditionalServicesDTO> services;
 
     public BoatDTO(Long id, String name, String type, float length, int engineNumber, float enginePower, float maxSpeed,
                    String promoDescription, int capacity, String behaviourRules, String fishingEquipment, float pricePerDay,
-                   boolean isCancalletionFree, int cancalletionFee, AddressDTO addressDTO, NavigationEquipmentDTO navigationEquipmentDTO) {
+                   boolean isCancalletionFree, int cancalletionFee, AddressDTO addressDTO,
+                   NavigationEquipmentDTO navigationEquipmentDTO) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -37,6 +41,29 @@ public class BoatDTO {
         this.cancalletionFee = cancalletionFee;
         this.address = addressDTO;
         this.navigationEquipmentDTO = navigationEquipmentDTO;
+    }
+
+    public BoatDTO(Long id, String name, String type, float length, int engineNumber, float enginePower, float maxSpeed,
+                   String promoDescription, int capacity, String behaviourRules, String fishingEquipment, float pricePerDay,
+                   boolean isCancalletionFree, int cancalletionFee, AddressDTO addressDTO,
+                   NavigationEquipmentDTO navigationEquipmentDTO, Set<AdditionalServicesDTO> services) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.length = length;
+        this.engineNumber = engineNumber;
+        this.enginePower = enginePower;
+        this.maxSpeed = maxSpeed;
+        this.promoDescription = promoDescription;
+        this.capacity = capacity;
+        this.behaviourRules = behaviourRules;
+        this.fishingEquipment = fishingEquipment;
+        this.pricePerDay = pricePerDay;
+        this.isCancalletionFree = isCancalletionFree;
+        this.cancalletionFee = cancalletionFee;
+        this.address = addressDTO;
+        this.navigationEquipmentDTO = navigationEquipmentDTO;
+        this.services = services;
     }
 
     public BoatDTO() {}
@@ -156,6 +183,14 @@ public class BoatDTO {
     public AddressDTO getAddress() { return address; }
 
     public void setAddress(AddressDTO address) { this.address = address; }
+
+    public Set<AdditionalServicesDTO> getServices() {
+        return services;
+    }
+
+    public void setServices(Set<AdditionalServicesDTO> services) {
+        this.services = services;
+    }
 
     public NavigationEquipmentDTO getNavigationEquipmentDTO() {
         return navigationEquipmentDTO;
