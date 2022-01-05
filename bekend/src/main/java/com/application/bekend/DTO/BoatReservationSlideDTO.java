@@ -10,6 +10,8 @@ public class BoatReservationSlideDTO {
         this.boatReservationDTOList = boatReservationDTOList;
     }
 
+    public BoatReservationSlideDTO() {}
+
     public List<BoatReservationDTO> getBoatReservationDTOList() {
         return boatReservationDTOList;
     }

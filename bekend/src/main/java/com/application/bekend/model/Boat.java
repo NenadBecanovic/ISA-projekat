@@ -222,4 +222,9 @@ public class Boat {
     public Set<Image> getImages() { return images; }
 
     public void setImages(Set<Image> images) { this.images = images; }
+
+    public void addBoatReservation(BoatReservation boatReservation)
+    {
+        this.courses.add(boatReservation);
+    }
 }

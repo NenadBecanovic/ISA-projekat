@@ -1,6 +1,7 @@
 package com.application.bekend.service;
 
 import com.application.bekend.model.Boat;
+import com.application.bekend.model.House;
 import com.application.bekend.repository.BoatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,4 +17,8 @@ public class BoatService {
     }
 
     public Boat getBoatById(Long id){ return boatRepository.getBoatById(id); }
+
+    public Boat save(Boat boat) {
+        return this.boatRepository.save(boat);
+    }
 }

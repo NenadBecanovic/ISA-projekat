@@ -1,6 +1,7 @@
 export class AdditionalService {
 
   public houseId: number = 0;
+  public boatId: number = 0;
   id: number;
   name: String;
   price: number;

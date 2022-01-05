@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {Boat} from "../model/boat";
 import {Address} from "../model/address";
-import {add} from "ngx-bootstrap/chronos";
 import {AdditionalService} from "../model/additional-service";
 import {NavigationEquipment} from "../model/navigation-equipment";
 import {BoatReservation} from "../model/boat-reservation";
-import {House} from "../model/house";
 import {BoatService} from "../service/boat.service";
 import {AdditionalServicesService} from "../service/additional-services.service";
 import {ImageService} from "../service/image.service";
@@ -27,10 +25,9 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
   lat = 0;
   lng = 0;
   address: Address = new Address(0,"Luka 11","Novi Sad","Srbija",0,0,21000)
-  boat: Boat = new Boat(0, '', '', '', 0, 0, '', 0, 0, 0, 0, false, 0, '', this.address);
+  navigationEquipment: NavigationEquipment = new NavigationEquipment(0,true, true, true, true);
+  boat: Boat = new Boat(0, '', '', '', 0, 0, '', 0, 0, 0, 0, false, 0, '', this.address, this.navigationEquipment);
   additionalServices: AdditionalService[] = new Array<AdditionalService>();
-  // fishingEquipment: String = new String("10 stapova za pecanje, 100 udica");
-  // navigationEquipment: NavigationEquipment = new NavigationEquipment(true, true, true, true);
   courses: BoatReservation[] = new Array<BoatReservation>();
   courses_slides: BoatReservationSlide[] = new Array<BoatReservationSlide>();
   isSlideLoaded: boolean = false;
@@ -58,6 +55,14 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
     this._router.navigate(['/modify-boat-profile', this.boat.id])
   }
 
+  deleteActionDialog(id: number) {
+    this._boatReservationService.delete(id).subscribe(
+      (boolean:boolean) =>{
+        this.loadData()
+      }
+    )
+  }
+
   loadData() { // ucitavanje iz baze
     this._boatService.getBoatById(1).subscribe(
       (boat: Boat) => {
@@ -66,7 +71,6 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
         this.lat = this.address.latitude;
         this.lng = this.address.longitude;
         this.freeCancelation = this.boat.cancalletionFree;
-        // console.log(this.freeCancelation)
 
         this._additionalServices.getAllByBoatId(this.boat.id).subscribe(
           (additionalServices: AdditionalService[]) => {
@@ -91,6 +95,5 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
       }
     )
   }
-
 
 }

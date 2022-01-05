@@ -16,7 +16,6 @@ export class House {
   services: AdditionalService[];
   cancalletionFree: boolean;
   cancalletionFee: number;
-  // images: Array<Image>;
   //images[]: Image;
 
   constructor(id: number, name: String, addressDTO: Address, promoDescription: String, behaviourRules: String, pricePerDay: number,

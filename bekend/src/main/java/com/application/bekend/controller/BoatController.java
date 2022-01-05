@@ -2,6 +2,7 @@ package com.application.bekend.controller;
 
 import com.application.bekend.DTO.AddressDTO;
 import com.application.bekend.DTO.BoatDTO;
+import com.application.bekend.DTO.NavigationEquipmentDTO;
 import com.application.bekend.model.Boat;
 import com.application.bekend.service.BoatService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +29,12 @@ public class BoatController {
         Boat boat = this.boatService.getBoatById(id);
         AddressDTO addressDTO = new AddressDTO(boat.getAddress().getId(), boat.getAddress().getStreet(), boat.getAddress().getCity(),
                 boat.getAddress().getState(), boat.getAddress().getLongitude(), boat.getAddress().getLatitude(), boat.getAddress().getPostalCode());
+        NavigationEquipmentDTO navigationEquipmentDTO = new NavigationEquipmentDTO(boat.getNavigationEquipment().getId(), boat.getNavigationEquipment().isFishFinder(),
+                boat.getNavigationEquipment().isRadar(), boat.getNavigationEquipment().isVHFRadio(), boat.getNavigationEquipment().isGps());
 
         BoatDTO dto = new BoatDTO(boat.getId(), boat.getName(), boat.getType(), boat.getLength(), boat.getEngineNumber(), boat.getEnginePower(), boat.getMaxSpeed(),
-                boat.getPromoDescription(), boat.getCapacity(), boat.getBehaviourRules(), boat.getFishingEquipment(), boat.getPricePerDay(), boat.isCancalletionFree(), boat.getCancalletionFee(), addressDTO);
+                boat.getPromoDescription(), boat.getCapacity(), boat.getBehaviourRules(), boat.getFishingEquipment(), boat.getPricePerDay(), boat.isCancalletionFree(),
+                boat.getCancalletionFee(), addressDTO, navigationEquipmentDTO);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }

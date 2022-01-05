@@ -127,8 +127,6 @@ export class ModifyHouseProfileComponent implements OnInit {
   }
 
   addNewRoom() {
-    console.log(this.newRoom)
-
     this.newRoom.houseId = this.id;
 
     this._roomService.save(this.newRoom).subscribe(

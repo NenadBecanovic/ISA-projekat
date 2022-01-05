@@ -86,7 +86,7 @@ const MaterialComponents = [
     ModifyHouseProfileComponent,
     AddActionBoatProfileComponent,
     ModifyBoatProfileComponent,
-    EditHouseActionComponent
+    EditHouseActionComponent,
   ],
   imports: [
     RouterModule,

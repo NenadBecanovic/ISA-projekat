@@ -1,23 +1,34 @@
 package com.application.bekend.DTO;
 
 import java.util.Date;
+import java.util.Set;
 
 public class BoatReservationDTO {
 
+    private Long boatId;
     private Long id;
-    private Date startDate;
-    private Date endDate;
+    private String startDate;
+    private String endDate;
     private int maxGuests;
-    private String additionalServices;
     private float price;
     private boolean isAvailable;
+    private Set<AdditionalServicesDTO> additionalServices;
 
-    public BoatReservationDTO(Long id, Date startDate, Date endDate, int maxGuests, String additionalServices, float price, boolean isAvailable) {
+    public BoatReservationDTO(Long boatId, Long id, String startDate, String endDate, int maxGuests, float price, boolean isAvailable) {
+        this.boatId = boatId;
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
         this.maxGuests = maxGuests;
-        this.additionalServices = additionalServices;
+        this.price = price;
+        this.isAvailable = isAvailable;
+    }
+
+    public BoatReservationDTO(Long id, String startDate, String endDate, int maxGuests, float price, boolean isAvailable) {
+        this.id = id;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.maxGuests = maxGuests;
         this.price = price;
         this.isAvailable = isAvailable;
     }
@@ -32,19 +43,19 @@ public class BoatReservationDTO {
         this.id = id;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
@@ -54,14 +65,6 @@ public class BoatReservationDTO {
 
     public void setMaxGuests(int maxGuests) {
         this.maxGuests = maxGuests;
-    }
-
-    public String getAdditionalServices() {
-        return additionalServices;
-    }
-
-    public void setAdditionalServices(String additionalServices) {
-        this.additionalServices = additionalServices;
     }
 
     public float getPrice() {
@@ -78,5 +81,21 @@ public class BoatReservationDTO {
 
     public void setAvailable(boolean available) {
         isAvailable = available;
+    }
+
+    public Long getBoatId() {
+        return boatId;
+    }
+
+    public void setBoatId(Long boatId) {
+        this.boatId = boatId;
+    }
+
+    public Set<AdditionalServicesDTO> getAdditionalServices() {
+        return additionalServices;
+    }
+
+    public void setAdditionalServices(Set<AdditionalServicesDTO> additionalServices) {
+        this.additionalServices = additionalServices;
     }
 }

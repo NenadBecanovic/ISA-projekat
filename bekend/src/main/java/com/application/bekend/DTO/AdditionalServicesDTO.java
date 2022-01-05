@@ -2,6 +2,7 @@ package com.application.bekend.DTO;
 
 public class AdditionalServicesDTO {
 
+    private Long boatId;
     private Long houseId;
     private Long id;
     private String name;
@@ -14,12 +15,13 @@ public class AdditionalServicesDTO {
         this.price = price;
     }
 
-    public AdditionalServicesDTO(Long id, String name, float price, boolean checked, Long houseId) {
+    public AdditionalServicesDTO(Long id, String name, float price, boolean checked, Long houseId, Long boatId) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.checked = checked;
         this.houseId = houseId;
+        this.boatId = boatId;
     }
 
     public AdditionalServicesDTO(Long id, String name, float price, boolean checked) {
@@ -70,5 +72,13 @@ public class AdditionalServicesDTO {
 
     public void setHouseId(Long houseId) {
         this.houseId = houseId;
+    }
+
+    public Long getBoatId() {
+        return boatId;
+    }
+
+    public void setBoatId(Long boatId) {
+        this.boatId = boatId;
     }
 }

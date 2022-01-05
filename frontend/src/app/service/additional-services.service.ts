@@ -26,6 +26,10 @@ export class AdditionalServicesService {
     return this._http.get<AdditionalService[]>(`${this.userPath}/getAllByHouseReservationId/`+id)
   }
 
+  public getAllByBoatReservationId(id: number): Observable<AdditionalService[]>{
+    return this._http.get<AdditionalService[]>(`${this.userPath}/getAllByBoatReservationId/`+id)
+  }
+
   public delete(id: number): Observable<boolean> {
     return this._http.delete<boolean>(`${this.userPath}/delete/`+id)
   }

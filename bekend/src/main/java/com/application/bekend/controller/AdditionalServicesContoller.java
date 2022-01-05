@@ -68,6 +68,19 @@ public class AdditionalServicesContoller {
         return new ResponseEntity<>(additionalServicesDTOS, HttpStatus.OK);
     }
 
+    @GetMapping("/getAllByBoatReservationId/{id}")
+    public ResponseEntity<Set<AdditionalServicesDTO>> getAllByBoatReservationId(@PathVariable("id") Long id){
+        Set<AdditionalServices> additionalServices = this.additionalServicesService.getAllByBoatReservationId(id);
+        Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
+
+        for (AdditionalServices a: additionalServices) {
+            AdditionalServicesDTO additionalServicesDTO = new AdditionalServicesDTO(a.getId(), a.getName(), a.getPrice(), true);
+            additionalServicesDTOS.add(additionalServicesDTO);
+        }
+
+        return new ResponseEntity<>(additionalServicesDTOS, HttpStatus.OK);
+    }
+
     @DeleteMapping("/delete/{id}")
     @Transactional
     public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
@@ -82,7 +95,7 @@ public class AdditionalServicesContoller {
 
     @PostMapping("/add")
     public ResponseEntity<AdditionalServices> save(@RequestBody AdditionalServicesDTO dto) {
-        AdditionalServices additionalServices = new AdditionalServices(dto.getId(), dto.getName(), dto.getPrice(), new HashSet<>());
+        AdditionalServices additionalServices = new AdditionalServices(dto.getId(), dto.getName(), dto.getPrice(), new HashSet<>(), new HashSet<>());
         House house = this.houseService.getHouseById(dto.getHouseId());
 
         Set<House> houses = additionalServices.getHouses();
