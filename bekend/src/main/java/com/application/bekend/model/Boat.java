@@ -40,7 +40,7 @@ public class Boat {
     private String fishingEquipment;
     private float pricePerDay;
 
-    @ManyToMany(mappedBy = "boats")
+    @ManyToMany(mappedBy = "boats", fetch = FetchType.EAGER)
     private Set<AdditionalServices> services = new HashSet<AdditionalServices>();
     private boolean isCancalletionFree;
     private int cancalletionFee;

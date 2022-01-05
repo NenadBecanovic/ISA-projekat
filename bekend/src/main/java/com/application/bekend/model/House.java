@@ -14,7 +14,7 @@ public class House {
     @Column(name = "grade", nullable = true)
     private double grade;
 
-    @OneToMany(mappedBy = "house", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "house", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Room> rooms = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -33,7 +33,7 @@ public class House {
     private String behaviourRules;
     private float pricePerDay;
 
-    @ManyToMany(mappedBy = "houses")
+    @ManyToMany(mappedBy = "houses", fetch = FetchType.EAGER)
     private Set<AdditionalServices> services = new HashSet<>();
     private boolean isCancalletionFree;
     private int cancalletionFee;
@@ -179,5 +179,7 @@ public class House {
     public void setFeedbacks(Set<Feedback> feedbacks) {
         this.feedbacks = feedbacks;
     }
+
+
 
 }
