@@ -3,6 +3,7 @@ package com.application.bekend.service;
 import com.application.bekend.model.House;
 import com.application.bekend.repository.HouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,10 @@ public class HouseService {
 
     public House getHouseById(Long id){
         return this.houseRepository.getHouseById(id);
+    }
+
+    public List<House> findAllOrderByGrade(){
+        return this.houseRepository.findAll(Sort.by(Sort.Direction.DESC, "grade"));
     }
 
     public House save(House house) {

@@ -1,4 +1,5 @@
 import {Address} from "./address";
+import {Image} from "./image";
 
 export class Adventure {
 
@@ -13,6 +14,7 @@ export class Adventure {
   pricePerDay: number;
   cancalletionFree: boolean;
   cancalletionFee: number;
+  images: Image[] = new Array();
 
 
   constructor(id: number, name: String, address: Address, promoDescription: String, capacity: number, fishingEquipment: String, behaviourRules: String, pricePerDay: number, cancalletionFree: boolean, cancalletionFee: number) {

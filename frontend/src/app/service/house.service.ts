@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {House} from "../model/house";
+import {BoatHomeSlide} from "../model/boat-home-slide";
+import {HouseHomeSlide} from "../model/house-home-slide";
 
 @Injectable({
   providedIn: 'root'
@@ -18,5 +20,9 @@ export class HouseService {
 
   public findAll(): Observable<House[]>{
     return this._http.get<House[]>(`${this.userPath}/findAll/`)
+  }
+
+  public findAllHousesForHomePage(): Observable<HouseHomeSlide[]>{
+    return this._http.get<HouseHomeSlide[]>(`${this.userPath}/findHouseForHomePage`)
   }
 }

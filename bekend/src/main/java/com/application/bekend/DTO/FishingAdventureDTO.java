@@ -1,5 +1,7 @@
 package com.application.bekend.DTO;
 
+import java.util.Set;
+
 public class FishingAdventureDTO {
 
     private Long id;
@@ -12,6 +14,7 @@ public class FishingAdventureDTO {
     private float pricePerDay;
     private boolean isCancalletionFree;
     private int cancalletionFee;
+    private Set<ImageDTO> images;
 
     public FishingAdventureDTO(Long id, String name, AddressDTO address, String promoDescription, int capacity, String fishingEquipment,
                                String behaviourRules, float pricePerDay, boolean isCancalletionFree, int cancalletionFee) {
@@ -25,6 +28,9 @@ public class FishingAdventureDTO {
         this.pricePerDay = pricePerDay;
         this.isCancalletionFree = isCancalletionFree;
         this.cancalletionFee = cancalletionFee;
+    }
+
+    public FishingAdventureDTO() {
     }
 
     public Long getId() {
@@ -105,5 +111,13 @@ public class FishingAdventureDTO {
 
     public void setCancalletionFee(int cancalletionFee) {
         this.cancalletionFee = cancalletionFee;
+    }
+
+    public Set<ImageDTO> getImages() {
+        return images;
+    }
+
+    public void setImages(Set<ImageDTO> images) {
+        this.images = images;
     }
 }

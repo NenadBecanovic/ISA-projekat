@@ -31,6 +31,17 @@ public class HouseDTO {
         this.cancalletionFee = cancalletionFee;
     }
 
+    public HouseDTO(Long id, String name, String promoDescription, String behaviourRules, float pricePerDay, boolean isCancalletionFree, int cancalletionFee, double grade) {
+        this.id = id;
+        this.name = name;
+        this.promoDescription = promoDescription;
+        this.behaviourRules = behaviourRules;
+        this.pricePerDay = pricePerDay;
+        this.isCancalletionFree = isCancalletionFree;
+        this.cancalletionFee = cancalletionFee;
+        this.grade = grade;
+    }
+
     public HouseDTO() {
     }
 

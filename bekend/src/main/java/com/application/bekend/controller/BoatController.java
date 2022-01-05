@@ -1,9 +1,6 @@
 package com.application.bekend.controller;
 
-import com.application.bekend.DTO.AddressDTO;
-import com.application.bekend.DTO.BoatDTO;
-import com.application.bekend.DTO.HouseDTO;
-import com.application.bekend.DTO.ImageDTO;
+import com.application.bekend.DTO.*;
 import com.application.bekend.model.Boat;
 import com.application.bekend.model.House;
 import com.application.bekend.model.Image;
@@ -75,6 +72,57 @@ public class BoatController {
 
 
         return new ResponseEntity<>(boatDTOS, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/findAllOrderByGrade")
+    public ResponseEntity<List<BoatDTO>> findAllOrderByGrade(){
+        List<Boat> boats = this.boatService.findAllOrderByGrade();
+        List<BoatDTO> boatDTOS = new ArrayList<>();
+        for(Boat boat: boats){
+            addBoatDto(boatDTOS, boat);
+        }
+        return new ResponseEntity<>(boatDTOS, HttpStatus.OK);
+    }
+
+    private void addBoatDto(List<BoatDTO> boatDTOS, Boat boat) {
+        BoatDTO dto = modelMapper.map(boat, BoatDTO.class);
+        boatDTOS.add(dto);
+    }
+
+
+    @GetMapping("/findBoatsForHomePage")
+    public ResponseEntity<List<HomeBoatSlideDTO>> findBoatsForHomePage(){
+        List<Boat> boats = this.boatService.findAllOrderByGrade();
+        List<BoatDTO> boatDTOS = new ArrayList<>();
+        for(Boat boat: boats){
+            addBoatDto(boatDTOS, boat);
+        }
+
+        List<HomeBoatSlideDTO> homeBoatSlideDTOS = getHomeBoatSlideDTOS(boatDTOS);
+
+        return new ResponseEntity<>(homeBoatSlideDTOS, HttpStatus.OK);
+    }
+
+    private List<HomeBoatSlideDTO> getHomeBoatSlideDTOS(List<BoatDTO> boatDTOS) {
+        List<HomeBoatSlideDTO> homeBoatSlideDTOS = new ArrayList<>();
+        List<BoatDTO> boatDTOS1 = new ArrayList<>();
+        int i = 1;
+        for (BoatDTO dto : boatDTOS) {
+            boatDTOS1.add(dto);
+            if (i % 4 == 0) {
+                HomeBoatSlideDTO homeBoatSlideDTO = new HomeBoatSlideDTO(boatDTOS1);
+                homeBoatSlideDTOS.add(homeBoatSlideDTO);
+                boatDTOS1 = new ArrayList<>();
+            }
+            i = i + 1;
+        }
+
+        if (boatDTOS1.size() != 0) {
+            HomeBoatSlideDTO homeBoatSlideDTO = new HomeBoatSlideDTO(boatDTOS1);
+            homeBoatSlideDTOS.add(homeBoatSlideDTO);
+        }
+        return homeBoatSlideDTOS;
     }
 
 }

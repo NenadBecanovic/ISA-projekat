@@ -1,8 +1,6 @@
 package com.application.bekend.controller;
 
-import com.application.bekend.DTO.AddressDTO;
-import com.application.bekend.DTO.HouseDTO;
-import com.application.bekend.DTO.ImageDTO;
+import com.application.bekend.DTO.*;
 import com.application.bekend.model.House;
 import com.application.bekend.model.Image;
 import com.application.bekend.service.HouseService;
@@ -69,5 +67,45 @@ public class HouseController {
             houseDTOS.add(dto);
         }
         return new ResponseEntity<>(houseDTOS, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/findHouseForHomePage")
+    public ResponseEntity<List<HomeHouseSlideDTO>> findHouseForHomePage(){
+        List<House> houses = this.houseService.findAllOrderByGrade();
+        List<HouseDTO> houseDTOS = new ArrayList<>();
+        for(House house: houses){
+            addHouseDto(houseDTOS, house);
+        }
+
+        List<HomeHouseSlideDTO> homeHouseSlideDTOS = getHomeHouseSlideDTOS(houseDTOS);
+
+        return new ResponseEntity<>(homeHouseSlideDTOS, HttpStatus.OK);
+    }
+
+    private void addHouseDto(List<HouseDTO> houseDTOS, House house) {
+        HouseDTO dto = modelMapper.map(house, HouseDTO.class);
+        houseDTOS.add(dto);
+    }
+
+    private List<HomeHouseSlideDTO> getHomeHouseSlideDTOS(List<HouseDTO> houseDTOS) {
+        List<HomeHouseSlideDTO> homeHouseSlideDTOS = new ArrayList<>();
+        List<HouseDTO> houseDTOS1 = new ArrayList<>();
+        int i = 1;
+        for (HouseDTO dto : houseDTOS) {
+            houseDTOS1.add(dto);
+            if (i % 4 == 0) {
+                HomeHouseSlideDTO homeBoatSlideDTO = new HomeHouseSlideDTO(houseDTOS1);
+                homeHouseSlideDTOS.add(homeBoatSlideDTO);
+                houseDTOS1 = new ArrayList<>();
+            }
+            i = i + 1;
+        }
+
+        if (houseDTOS1.size() != 0) {
+            HomeHouseSlideDTO homeBoatSlideDTO = new HomeHouseSlideDTO(houseDTOS1);
+            homeHouseSlideDTOS.add(homeBoatSlideDTO);
+        }
+        return homeHouseSlideDTOS;
     }
 }

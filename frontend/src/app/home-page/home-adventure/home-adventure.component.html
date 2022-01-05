@@ -53,11 +53,11 @@
 
     <mat-grid-tile [rowspan]="6" [colspan]="4" style="margin-top: 0;"  class="script-menu" >
       <div  style="width: 95%; max-height: 100%; border: 2px solid #2691d9;
-  border-radius: 5px;"  *ngFor="let adventure of adventures" >
-        <mat-card style="width: 100%;">
-          <mat-grid-list cols="4" rowHeight="1.5:1" >
+  border-radius: 5px; margin-bottom: 0.5vw"  *ngFor="let adventure of adventures" >
+        <mat-card style="width: 100%; height: 13vw;">
+          <mat-grid-list cols="4" rowHeight="1.1:1" >
             <mat-grid-tile >
-              <img style="width: 100%; height: 100%;" src="{{'assets/cottage.jpg'}}">
+              <img style="width: 100%; height: 100%;"src="{{adventure.images[0].imageUrl}}">
             </mat-grid-tile>
 
             <mat-grid-tile  [colspan]="3"  class="script-menu1"  >
@@ -65,12 +65,12 @@
                 <div style="float: left; width: 75%;">
                   <label style="font-size: 1.2vw; font-weight: 500; margin-left: 5px" ><strong>{{adventure.name}}</strong></label>
                 </div>
-                <div style="float: left; width: 10%;">
-                  <label style="font-size: 1.0vw; font-weight: 500; color: orange; margin-left: 5px" > </label>
-                </div>
-                <div style="float: left; width: 15%">
-                  <mat-icon style="color: orange;">star</mat-icon>
-                </div>
+<!--                <div style="float: left; width: 10%;">-->
+<!--                  <label style="font-size: 1.0vw; font-weight: 500; color: orange; margin-left: 1vw" >{{boat.grade}} </label>-->
+<!--                </div>-->
+<!--                <div style="float: left; width: 15%">-->
+<!--                  <mat-icon style="color: orange;">star</mat-icon>-->
+<!--                </div>-->
               </div>
               <div style="display:inline;" >
 
@@ -101,9 +101,12 @@
     <mat-grid-tile [colspan]="3" [rowspan]="3" >
 
     </mat-grid-tile>
-  </mat-grid-list>
-</div>
 
+  </mat-grid-list>
+
+
+
+</div>
 
 
 
