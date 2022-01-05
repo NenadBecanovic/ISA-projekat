@@ -28,7 +28,6 @@ export class AddActionHouseProfileComponent implements OnInit {
   ngOnInit(): void {
     // @ts-ignore
     this.houseId = +this._route.snapshot.paramMap.get('id');
-    // console.log(this.houseId)
     this.loadData();
   }
 
@@ -66,10 +65,8 @@ export class AddActionHouseProfileComponent implements OnInit {
         }
     }
 
-    // console.log(this.additionalServicesFinal)
-
     this.houseReservation.additionalServices = this.additionalServicesFinal
-    // console.log(this.houseReservation.additionalServices)
+    console.log(this.houseReservation)
 
     // this._alertService.info('Rezervacija je zapoceta');
 

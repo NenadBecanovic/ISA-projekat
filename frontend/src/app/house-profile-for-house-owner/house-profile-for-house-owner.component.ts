@@ -22,9 +22,9 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
   address: Address = new Address(0,"","","",0,0,31100)
   images: Image[] = new Array<Image>();
   isLoaded: boolean = false;
-  house: House = new House(0,'', this.address, '', '', 0, false, 0);
   rooms: Room[] = new Array<Room>();
   additionalServices: AdditionalService[] = new Array<AdditionalService>();
+  house: House = new House(0,'', this.address, '', '', 0, false, 0, this.rooms, this.additionalServices);
   courses_slides: HouseReservationSlide[] = new Array<HouseReservationSlide>();
   isSlideLoaded: boolean = false;
   lat = 0;
@@ -55,16 +55,14 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
     this._router.navigate(['/modify-house-profile', this.house.id])
   }
 
+  // TODO: obrisati
   editActionDialog(id: number, houseId: number) {
     this._router.navigate(['/edit-house-action', this.house.id, this.house.id])
   }
 
   deleteActionDialog(id: number) {
-    // console.log('usloo')
-    // console.log(id)
     this._houseReservationService.delete(id).subscribe(   // OBAVEZNO SE MORA SUBSCRIBE-OVATI !!!
       (boolean:boolean) =>{
-        // console.log(boolean)
         this.loadData()
       }
     )
@@ -78,7 +76,6 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
         this.lat = this.address.latitude;
         this.lng = this.address.longitude;
         this.freeCancelation = this.house.cancalletionFree;
-        // console.log(this.freeCancelation)
 
         this._roomService.getAllByHouseId(this.house.id).subscribe(
           (rooms: Room[]) => {
@@ -118,7 +115,6 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
             // }
 
             this.isSlideLoaded = true
-            // console.log(courses_slides)
           }
         )
       }

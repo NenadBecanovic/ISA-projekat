@@ -1,22 +1,15 @@
-package com.application.bekend.model;
+package com.application.bekend.DTO;
 
-import javax.persistence.*;
+public class NavigationEquipmentDTO {
 
-@Entity
-public class NavigationEquipment {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private boolean gps;
     private boolean radar;
     private boolean vhfradio;
     private boolean fishFinder;
+//    private Boat boat;
 
-    @OneToOne(mappedBy = "navigationEquipment")
-    private Boat boat;
-
-    public NavigationEquipment(Long id, boolean gps, boolean radar, boolean VHFRadio, boolean fishFinder) {
+    public NavigationEquipmentDTO(Long id, boolean gps, boolean radar, boolean VHFRadio, boolean fishFinder) {
         this.id = id;
         this.gps = gps;
         this.radar = radar;
@@ -24,8 +17,7 @@ public class NavigationEquipment {
         this.fishFinder = fishFinder;
     }
 
-    public NavigationEquipment() {
-    }
+    public  NavigationEquipmentDTO() {}
 
     public Long getId() {
         return id;
@@ -65,13 +57,5 @@ public class NavigationEquipment {
 
     public void setVhfradio(boolean vhfradio) {
         this.vhfradio = vhfradio;
-    }
-
-    public Boat getBoat() {
-        return boat;
-    }
-
-    public void setBoat(Boat boat) {
-        this.boat = boat;
     }
 }

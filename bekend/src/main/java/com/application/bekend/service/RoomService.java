@@ -22,4 +22,10 @@ public class RoomService {
     }
 
     public List<Room> getAllByHouse_Id(Long id) { return this.roomRepository.getAllByHouse_Id(id); }
+
+    public Room save(Room room) { return this.roomRepository.save(room); }
+
+    public Room getRoomById(Long id) { return this.roomRepository.getRoomById(id); }
+
+    public void deleteById(Long id) { this.roomRepository.deleteById(id);}
 }

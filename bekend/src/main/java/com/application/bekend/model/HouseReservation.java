@@ -25,26 +25,6 @@ public class HouseReservation {
     @JoinTable(name = "house_reservation_table", joinColumns = @JoinColumn(name = "house_appointment_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "house_id", referencedColumnName = "id"))
     private House house;
 
-//    @ManyToMany(fetch = FetchType.LAZY,
-//            cascade =
-//                    {
-//                            CascadeType.DETACH,
-//                            CascadeType.MERGE,
-//                            CascadeType.REFRESH,
-//                            CascadeType.PERSIST
-//                    },
-//            targetEntity = AdditionalServices.class)
-//    @JoinTable(name = "additional_services_house_reservation",
-//            inverseJoinColumns = @JoinColumn(name = "additional_services_id",
-//                    nullable = false,
-//                    updatable = false),
-//            joinColumns = @JoinColumn(name = "house_reservation_id",
-//                    nullable = false,
-//                    updatable = false),
-//            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
-//            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
-//    private  Set<AdditionalServices> additionalServices = new HashSet<>();
-
     @ManyToMany(mappedBy = "houseReservationsServices")
     private Set<AdditionalServices> additionalServices = new HashSet<>();
 

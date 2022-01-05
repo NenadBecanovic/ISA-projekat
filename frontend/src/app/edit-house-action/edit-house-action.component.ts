@@ -21,6 +21,7 @@ export class EditHouseActionComponent implements OnInit {
   houseReservation: HouseReservation = new HouseReservation(0,'','', 0, this.additionalServices, 0, true);
   startDate: Date = new Date();
   endDate: Date = new Date();
+  loaded: boolean = false;
 
   constructor(private _route: ActivatedRoute, private _router: Router, private _additionalServicesService: AdditionalServicesService,
               private _houseReservationService: HouseReservationService) { }
@@ -59,6 +60,7 @@ export class EditHouseActionComponent implements OnInit {
       (allAdditionalServicesForHouse: AdditionalService[]) => {
         this.allAdditionalServicesForHouse = allAdditionalServicesForHouse
 
+        this.loaded = true
 
         for (let a of this.allAdditionalServicesForHouse)
         {
