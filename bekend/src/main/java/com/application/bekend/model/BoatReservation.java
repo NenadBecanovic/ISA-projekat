@@ -17,8 +17,9 @@ public class BoatReservation {
     private float price;
     private boolean isAvailable;
 
-    @ManyToMany(mappedBy = "boatReservations")
-    private Set<MyUser> guests = new HashSet<MyUser>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "guest_id")
+    private MyUser guest;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinTable(name = "boat_reservation_table", joinColumns = @JoinColumn(name = "boat_appointment_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "boat_id", referencedColumnName = "id"))
@@ -96,12 +97,12 @@ public class BoatReservation {
         this.boat = boat;
     }
 
-    public Set<MyUser> getGuests() {
-        return guests;
+    public MyUser getGuest() {
+        return guest;
     }
 
-    public void setGuests(Set<MyUser> guests) {
-        this.guests = guests;
+    public void setGuest(MyUser guest) {
+        this.guest = guest;
     }
 
     public Set<AdditionalServices> getAdditionalServices() {

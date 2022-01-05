@@ -131,6 +131,7 @@ public class HouseReservationController {
 //        houseReservation.setAdditionalServices(null);   // raskinuta veza s druge strane u tabeli additional_services_house_reservation
 //        houseReservation = this.houseReservationService.save(houseReservation);
 
+        houseReservation.setGuest(null);    // TODO: proveriti kad se dodaju gosti sa rezervacijama
         houseReservation.setHouse(null);  // raskinuta veza u tabeli house_reservation_table (sa strane vodece veze u ManyToMany vezi)
         houseReservation = this.houseReservationService.save(houseReservation);
 

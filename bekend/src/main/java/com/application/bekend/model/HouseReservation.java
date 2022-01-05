@@ -17,8 +17,9 @@ public class HouseReservation {
     private float price;
     private boolean isAvailable;
 
-    @ManyToMany(mappedBy = "houseReservations")
-    private Set<MyUser> guests = new HashSet<MyUser>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "guest_id")
+    private MyUser guest;
 
     // vodeca strana ManyToMany veze, sto znaci ako nesto uklonimo sa strane House uklonice se i sa druge strane ManyToMany veze
     @ManyToOne(fetch = FetchType.EAGER)
@@ -97,12 +98,12 @@ public class HouseReservation {
         this.house = house;
     }
 
-    public Set<MyUser> getGuests() {
-        return guests;
+    public MyUser getGuest() {
+        return guest;
     }
 
-    public void setGuests(Set<MyUser> guests) {
-        this.guests = guests;
+    public void setGuest(MyUser guest) {
+        this.guest = guest;
     }
 
     public Set<AdditionalServices> getAdditionalServices() {

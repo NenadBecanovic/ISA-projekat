@@ -41,12 +41,10 @@ public class MyUser implements UserDetails {
     @OneToMany(mappedBy = "instructor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<FishingAdventure> fishingAdventures = new HashSet<FishingAdventure>();
 
-    @ManyToMany
-    @JoinTable(name = "house_reservations", joinColumns = @JoinColumn(name = "guest_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "house_reservation_id", referencedColumnName = "id"))
+    @OneToMany(mappedBy = "guest", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<HouseReservation> houseReservations = new HashSet<HouseReservation>();
 
-    @ManyToMany
-    @JoinTable(name = "boat_reservations", joinColumns = @JoinColumn(name = "guest_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "boat_reservation_id", referencedColumnName = "id"))
+    @OneToMany(mappedBy = "guest", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<BoatReservation> boatReservations = new HashSet<BoatReservation>();
 
     @ManyToMany

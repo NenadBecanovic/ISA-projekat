@@ -50,4 +50,5 @@ public class Room {
     public void setHouse(House house) {
         this.house = house;
     }
+    
 }

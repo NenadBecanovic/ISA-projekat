@@ -118,6 +118,7 @@ public class BoatReservationController {
             this.additionalServicesService.save(a);
         }
 
+        boatReservation.setGuest(null); // TODO: proveriit
         boatReservation.setBoat(null);  // raskinuta veza u tabeli house_reservation_table (sa strane vodece veze u ManyToMany vezi)
         boatReservation = this.boatReservationService.save(boatReservation);
 
