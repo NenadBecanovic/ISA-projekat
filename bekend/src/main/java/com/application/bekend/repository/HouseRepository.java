@@ -10,6 +10,7 @@ import java.util.List;
 public interface HouseRepository extends JpaRepository<House, Long> {
 
     House getHouseById(Long id);
-
+  
     void deleteById(Long id);
+
 }

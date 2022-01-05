@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -31,6 +30,8 @@ public class MyUser implements UserDetails {
     private String username;
     @Column(name = "phoneNumber", nullable = false)
     private String phoneNumber;
+    @Column(name = "grade", nullable = true)
+    private String grade;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Boat> boats = new HashSet<Boat>();
@@ -54,6 +55,10 @@ public class MyUser implements UserDetails {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id")
     private Address address;
+
+    @OneToMany(mappedBy = "myUser", fetch = FetchType.EAGER)
+    private Set<Feedback> feedbacks= new HashSet<>();
+
 
 
     @ManyToMany(fetch = FetchType.EAGER)

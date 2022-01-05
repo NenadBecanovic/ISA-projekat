@@ -11,6 +11,8 @@ public class House {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Column(name = "grade", nullable = true)
+    private double grade;
 
     @OneToMany(mappedBy = "house", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Room> rooms = new HashSet<>();
@@ -20,7 +22,10 @@ public class House {
     private Address address;
     private String promoDescription;
 
-    @OneToMany(mappedBy = "house", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "house", fetch = FetchType.EAGER)
+    private Set<Feedback> feedbacks= new HashSet<>();
+
+    @OneToMany(mappedBy = "house", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Image> images;
 
     @OneToMany(mappedBy = "house")
@@ -37,11 +42,12 @@ public class House {
     @JoinColumn(name = "owner_id")
     private MyUser owner;
 
-    public House(Long id, String name, Set<Room> rooms, Address address, String promoDescription, Set<HouseReservation> courses,
+    public House(Long id, String name, double grade, Set<Room> rooms, Address address, String promoDescription, Set<HouseReservation> courses,
                  String behaviourRules, float pricePerDay, Set<AdditionalServices> services, boolean isCancalletionFree,
                  int cancalletionFee, Set<Image> images) {
         this.id = id;
         this.name = name;
+        this.grade = grade;
         this.rooms = rooms;
         this.address = address;
         this.promoDescription = promoDescription;
@@ -160,5 +166,25 @@ public class House {
     public void addHouseReservation(HouseReservation houseReservation)
     {
         this.courses.add(houseReservation);
+    }
+
+    public double getGrade() {return grade;}
+
+    public void setGrade(double grade) {this.grade = grade;}
+
+    public Set<Feedback> getFeedbacks() {
+        return feedbacks;
+    }
+
+    public void setFeedbacks(Set<Feedback> feedbacks) {
+        this.feedbacks = feedbacks;
+    }
+
+    public MyUser getOwner() {
+        return owner;
+    }
+
+    public void setOwner(MyUser owner) {
+        this.owner = owner;
     }
 }

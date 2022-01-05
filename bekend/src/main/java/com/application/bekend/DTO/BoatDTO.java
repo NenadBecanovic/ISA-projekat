@@ -18,6 +18,8 @@ public class BoatDTO {
     private boolean isCancalletionFree;
     private int cancalletionFee;
     private AddressDTO address;
+    private double grade;
+    private Set<ImageDTO> images;
     private NavigationEquipmentDTO navigationEquipmentDTO;
     private Set<AdditionalServicesDTO> services;
 
@@ -183,6 +185,22 @@ public class BoatDTO {
     public AddressDTO getAddress() { return address; }
 
     public void setAddress(AddressDTO address) { this.address = address; }
+
+    public double getGrade() {
+        return grade;
+    }
+
+    public void setGrade(double grade) {
+        this.grade = grade;
+    }
+
+    public Set<ImageDTO> getImages() {
+        return images;
+    }
+
+    public void setImages(Set<ImageDTO> images) {
+        this.images = images;
+    }
 
     public Set<AdditionalServicesDTO> getServices() {
         return services;

@@ -20,7 +20,7 @@ public class FishingAdventure {
     private int capacity;
     private String fishingEquipment;
 
-    @OneToMany(mappedBy = "fishingAdventure", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "fishingAdventure", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Image> images;
 
     @ManyToMany(mappedBy = "fishingAdventures")

@@ -13,6 +13,7 @@ public class HouseReservationDTO {
     private boolean isAvailable;
     private Set<AdditionalServicesDTO> additionalServices;  // unutar DTO objekta mogu biti samo primitivni tipovi ili neki drugi DTO (ne sme biti model)
 
+
     public HouseReservationDTO(){};
 
     public HouseReservationDTO(Long houseId, Long id, String startDate, String endDate, int maxGuests, float price, boolean isAvailable) {

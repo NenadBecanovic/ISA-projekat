@@ -1,6 +1,5 @@
 package com.application.bekend.DTO;
 
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,6 +16,8 @@ public class HouseDTO {
     private Set<AdditionalServicesDTO> services;
     private boolean isCancalletionFree;
     private int cancalletionFee;
+    private double grade;
+    private Set<ImageDTO> images;
 //    private MyUser owner;
 
     public HouseDTO(Long id, String name, AddressDTO addressDTO, String promoDescription, String behaviourRules, float pricePerDay,
@@ -112,6 +113,22 @@ public class HouseDTO {
         this.cancalletionFee = cancalletionFee;
     }
 
+    public double getGrade() {
+        return grade;
+    }
+
+    public void setGrade(double grade) {
+        this.grade = grade;
+    }
+
+    public Set<ImageDTO> getImages() {
+        return images;
+    }
+
+    public void setImages(Set<ImageDTO> images) {
+        this.images = images;
+    }
+  
     public Set<RoomDTO> getRooms() {
         return rooms;
     }

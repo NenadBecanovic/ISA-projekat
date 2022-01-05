@@ -1,9 +1,7 @@
 package com.application.bekend.controller;
 
-import com.application.bekend.DTO.AdditionalServicesDTO;
-import com.application.bekend.DTO.AddressDTO;
-import com.application.bekend.DTO.HouseDTO;
-import com.application.bekend.DTO.RoomDTO;
+import com.application.bekend.DTO.*;
+import org.modelmapper.ModelMapper;
 import com.application.bekend.model.*;
 import com.application.bekend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.*;
-
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,11 +21,12 @@ import java.util.Set;
 public class HouseController {
 
     private final HouseService houseService;
+    private ModelMapper modelMapper;
     private final RoomService roomService;
     private final AdditionalServicesService additionalServicesService;
     private  final HouseReservationService houseReservationService;
     private final ImageService imageService;
-
+  
     @Autowired
     public HouseController(HouseService houseService, RoomService roomService, AdditionalServicesService additionalServicesService, HouseReservationService houseReservationService, ImageService imageService) {
         this.houseService = houseService;
@@ -46,8 +44,76 @@ public class HouseController {
 
         HouseDTO dto = new HouseDTO(house.getId(), house.getName(), addressDTO, house.getPromoDescription(), house.getBehaviourRules(),
                 house.getPricePerDay(), house.isCancalletionFree(), house.getCancalletionFee());
+        Set<ImageDTO> dtoSet = new HashSet<>();
+        for(Image i: house.getImages()){
+            ImageDTO imageDTO = modelMapper.map(i, ImageDTO.class);
+            dtoSet.add(imageDTO);
+        }
+        dto.setImages(dtoSet);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
+
+    @GetMapping("/findAll")
+    public ResponseEntity<List<HouseDTO>> findAll(){
+        List<House> houses = this.houseService.findAll();
+        List<HouseDTO> houseDTOS = new ArrayList<>();
+        for(House house: houses){
+            AddressDTO addressDTO = new AddressDTO(house.getAddress().getId(), house.getAddress().getStreet(), house.getAddress().getCity(), house.getAddress().getState(),
+                    house.getAddress().getLongitude(), house.getAddress().getLatitude(), house.getAddress().getPostalCode());
+
+            HouseDTO dto = new HouseDTO(house.getId(), house.getName(), addressDTO, house.getPromoDescription(), house.getBehaviourRules(),
+                    house.getPricePerDay(), house.isCancalletionFree(), house.getCancalletionFee());
+            dto.setGrade(house.getGrade());
+            Set<ImageDTO> dtoSet = new HashSet<>();
+            for(Image i: house.getImages()){
+                ImageDTO imageDTO = modelMapper.map(i, ImageDTO.class);
+                dtoSet.add(imageDTO);
+            }
+            dto.setImages(dtoSet);
+            houseDTOS.add(dto);
+        }
+        return new ResponseEntity<>(houseDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping("/findHouseForHomePage")
+    public ResponseEntity<List<HomeHouseSlideDTO>> findHouseForHomePage(){
+        List<House> houses = this.houseService.findAllOrderByGrade();
+        List<HouseDTO> houseDTOS = new ArrayList<>();
+        for(House house: houses){
+            addHouseDto(houseDTOS, house);
+        }
+
+        List<HomeHouseSlideDTO> homeHouseSlideDTOS = getHomeHouseSlideDTOS(houseDTOS);
+
+        return new ResponseEntity<>(homeHouseSlideDTOS, HttpStatus.OK);
+    }
+
+    private void addHouseDto(List<HouseDTO> houseDTOS, House house) {
+        HouseDTO dto = modelMapper.map(house, HouseDTO.class);
+        houseDTOS.add(dto);
+    }
+
+    private List<HomeHouseSlideDTO> getHomeHouseSlideDTOS(List<HouseDTO> houseDTOS) {
+        List<HomeHouseSlideDTO> homeHouseSlideDTOS = new ArrayList<>();
+        List<HouseDTO> houseDTOS1 = new ArrayList<>();
+        int i = 1;
+        for (HouseDTO dto : houseDTOS) {
+            houseDTOS1.add(dto);
+            if (i % 4 == 0) {
+                HomeHouseSlideDTO homeBoatSlideDTO = new HomeHouseSlideDTO(houseDTOS1);
+                homeHouseSlideDTOS.add(homeBoatSlideDTO);
+                houseDTOS1 = new ArrayList<>();
+            }
+            i = i + 1;
+        }
+
+        if (houseDTOS1.size() != 0) {
+            HomeHouseSlideDTO homeBoatSlideDTO = new HomeHouseSlideDTO(houseDTOS1);
+            homeHouseSlideDTOS.add(homeBoatSlideDTO);
+        }
+        return homeHouseSlideDTOS;
+    }
+}
 
     @PutMapping("/edit/{id}")
     public ResponseEntity<HouseDTO> save(@RequestBody HouseDTO dto) {
@@ -138,7 +204,6 @@ public class HouseController {
         for (Room r: house.getRooms()) {
             Room room = this.roomService.getRoomById(r.getId());
             room.setHouse(null);
-//            this.roomService.save(room); TODO: delete umesto save
             this.roomService.deleteById(room.getId());
         }
 
@@ -195,3 +260,4 @@ public class HouseController {
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 }
+

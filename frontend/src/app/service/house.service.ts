@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {House} from "../model/house";
+import {BoatHomeSlide} from "../model/boat-home-slide";
+import {HouseHomeSlide} from "../model/house-home-slide";
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +17,13 @@ export class HouseService {
   public getHouseById(id: number): Observable<House>{
     return this._http.get<House>(`${this.userPath}/getHouseById/`+id)
   }
+
+  public findAll(): Observable<House[]>{
+    return this._http.get<House[]>(`${this.userPath}/findAll/`)
+  }
+
+  public findAllHousesForHomePage(): Observable<HouseHomeSlide[]>{
+    return this._http.get<HouseHomeSlide[]>(`${this.userPath}/findHouseForHomePage`)
 
   public edit(house: House): Observable<House>{
     return this._http.put<House>(`${this.userPath}/edit/`+ house.id, house)

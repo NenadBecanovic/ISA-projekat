@@ -25,6 +25,7 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
   lat = 0;
   lng = 0;
   address: Address = new Address(0,"Luka 11","Novi Sad","Srbija",0,0,21000)
+  boat: Boat = new Boat(0, '', '', '', 0, 0, '', 0, 0, 0, 0, false, 0, '', this.address,0);
   navigationEquipment: NavigationEquipment = new NavigationEquipment(0,true, true, true, true);
   additionalServices: AdditionalService[] = new Array<AdditionalService>();
   boat: Boat = new Boat(0, '', '', '', 0, 0, '', 0, 0, 0, 0, false, 0, '', this.address, this.navigationEquipment, this.additionalServices);
