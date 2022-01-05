@@ -11,10 +11,10 @@ import * as _ from 'underscore';
   templateUrl: './home-house.component.html',
   styleUrls: ['./home-house.component.css']
 })
-export class HomeHouseComponent implements OnInit {
-  items = [1,2,3];
+export class HomeHouseComponent {
   houses: House[] = new Array();
   housesFilter: House[] = new Array();
+  houseSearch: House[] = new Array();
   houseName: number = 0;
   houseGrade: number = 0;
   housePrice: number = 0
@@ -66,6 +66,7 @@ export class HomeHouseComponent implements OnInit {
       (houses: House[]) => {
         this.houses = houses;
         this.housesFilter = houses
+        this.houseSearch = houses
         console.log(this.houses)
       },
       (error) => {
@@ -80,7 +81,7 @@ export class HomeHouseComponent implements OnInit {
 
   searchHouses(){
 
-    this.houses = this.housesFilter.filter(s => s.name.toLowerCase().includes(this.houseNameSearch.toLowerCase()) &&
+    this.houses = this.houseSearch.filter(s => s.name.toLowerCase().includes(this.houseNameSearch.toLowerCase()) &&
       (s.address.street+" "+ s.address.city + " " + s.address.state).toLowerCase().includes(this.houseAddressSearch.toLowerCase()))
     this.housesFilter = this.houses;
   }

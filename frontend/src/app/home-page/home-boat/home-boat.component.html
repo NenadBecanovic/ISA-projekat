@@ -6,10 +6,9 @@
     </mat-grid-tile>
     <mat-grid-tile [colspan]="4" style="margin-top: 10px" >
       <div style="width: 100%; display: flex">
-        <input type="text" style="width: 30%"  placeholder="Unesite naziv">
-        <input type="text" style="width: 30%"  placeholder="Unesite adresu">
-        <input type="number" style="width: 30%" placeholder="Unesite ocenu">
-        <button>
+        <input type="text" style="width: 45%" [(ngModel)]="boatNameSearch" placeholder="Unesite naziv">
+        <input type="text" style="width: 45%" [(ngModel)]="boatAddressSearch" placeholder="Unesite adresu">
+        <button (click)="searchBoats()">
           <mat-icon >search</mat-icon>
         </button>
       </div>
@@ -24,25 +23,27 @@
           <span class="basic-title text-center">Sortiraj prema:</span>
           <div class="form-check">
             <label> Naziv vikendice </label>
-            <mat-radio-group aria-label="Select an option" style="margin-left: 7px;">
-              <mat-radio-button value="1">A-Z</mat-radio-button>
-              <mat-radio-button value="2" style="margin-left: 5px">Z-A</mat-radio-button>
+            <mat-radio-group aria-label="Select an option" [(ngModel)]="boatName" (change)="changeSortName()" style="margin-left: 7px;">
+              <mat-radio-button [value]="1">A-Z</mat-radio-button>
+              <mat-radio-button [value]="2" style="margin-left: 5px">Z-A</mat-radio-button>
             </mat-radio-group>
           </div>
           <div class="form-check">
             <label> Ocena vikendice </label>
-            <mat-radio-group aria-label="Select an option" style="margin-left: 7px;">
-              <mat-radio-button value="1"><mat-icon>
+            <mat-radio-group aria-label="Select an option" [(ngModel)]="boatGrade" (change)="changeSortGrade()" style="margin-left: 7px;">
+              <mat-radio-button [value]="1"><mat-icon>
                 arrow_upward</mat-icon></mat-radio-button>
-              <mat-radio-button value="2" style="margin-left: 5px"><mat-icon>
+              <mat-radio-button [value]="2" style="margin-left: 5px"><mat-icon>
                 arrow_downward</mat-icon></mat-radio-button>
             </mat-radio-group>
           </div>
           <div class="form-check">
-            <label> Adresa vikendice </label>
-            <mat-radio-group aria-label="Select an option" style="margin-left: 7px;">
-              <mat-radio-button value="1">A-Z</mat-radio-button>
-              <mat-radio-button value="2" style="margin-left: 5px">Z-A</mat-radio-button>
+            <label> Cena vikendice po danu </label>
+            <mat-radio-group aria-label="Select an option"  [(ngModel)]="boatPrice" (change)="changeSortPrice()" style="margin-left: 7px;">
+              <mat-radio-button [value]="1"><mat-icon>
+                arrow_upward</mat-icon></mat-radio-button>
+              <mat-radio-button  [value]="2" style="margin-left: 5px"><mat-icon>
+                arrow_downward</mat-icon></mat-radio-button>
             </mat-radio-group>
           </div>
 
@@ -73,12 +74,13 @@
                 </div>
               </div>
               <div style="display:inline;" >
-
-                <div style="float: left; width: 100%;">
+                <div style="float: left; width: 80%;">
                   <mat-icon style="color: red">place</mat-icon>
                   <label style="font-size: 1.2vw; margin-left: 5px" >{{boat.address.street}}, {{boat.address.city}}, {{boat.address.state}}</label>
                 </div>
-
+                <div style="float: left; width: 20%;">
+                  <label style="font-size: 1.2vw; margin-left: 5px" >{{boat.pricePerDay}} din/danu</label>
+                </div>
               </div>
 
               <div style="display:inline;" >
@@ -86,19 +88,79 @@
                 <div style="float: left; width: 100%;">
                   <label style="font-size: 1.2vw;  margin-left: 5px" >{{boat.promoDescription}}</label>
                 </div>
-
               </div>
-
-
-
-
             </mat-grid-tile>
           </mat-grid-list>
         </mat-card>
       </div>
     </mat-grid-tile>
 
-    <mat-grid-tile [colspan]="3" [rowspan]="3" >
+    <mat-grid-tile [colspan]="3" [rowspan]="4" style="margin-bottom: 50px"  >
+      <div class="d-flex flex-row mt-5">
+        <div class="d-flex flex-column ms-3 filter-sort-container">
+          <span class="basic-title text-center">Filtriraj po oceni</span>
+          <mat-radio-group  [(ngModel)]="boatFilterGrade" >
+            <div class="form-check">
+              <label> <mat-icon style="color: orange;">star</mat-icon><mat-icon style="color: orange;">star</mat-icon><mat-icon style="color: orange;">star</mat-icon><mat-icon style="color: orange;">star</mat-icon>
+                <mat-icon style="color: orange;">star</mat-icon></label>
+              <mat-radio-button [value]="5" style="margin-left: 20px"></mat-radio-button>
+            </div>
+            <div class="form-check">
+              <label> <mat-icon style="color: orange;">star</mat-icon><mat-icon style="color: orange;">star</mat-icon><mat-icon style="color: orange;">star</mat-icon><mat-icon style="color: orange;">star</mat-icon>
+              </label>
+              <mat-radio-button [value]="4" style="margin-left: 20px"></mat-radio-button>
+            </div>
+            <div class="form-check">
+              <label> <mat-icon style="color: orange;">star</mat-icon><mat-icon style="color: orange;">star</mat-icon><mat-icon style="color: orange;">star</mat-icon>
+              </label>
+              <mat-radio-button [value]="3" style="margin-left: 20px"></mat-radio-button>
+            </div>
+            <div class="form-check">
+              <label><mat-icon style="color: orange;">star</mat-icon><mat-icon style="color: orange;">star</mat-icon>
+              </label>
+              <mat-radio-button [value]="2" style="margin-left: 20px"></mat-radio-button>
+            </div>
+            <div class="form-check">
+              <label><mat-icon style="color: orange;">star</mat-icon>
+              </label>
+              <mat-radio-button [value]="1" style="margin-left: 20px"></mat-radio-button>
+            </div>
+            <div class="form-check">
+              <label>Prikazi sve
+              </label>
+              <mat-radio-button [value]="0" style="margin-left: 20px"></mat-radio-button>
+            </div>
+          </mat-radio-group>
+          <button style="width: 50%; margin: auto" (click)="filterGrade()"> Filter </button>
+        </div>
+      </div>
+    </mat-grid-tile>
+
+    <mat-grid-tile>
+
+    </mat-grid-tile>
+    <mat-grid-tile>
+
+    </mat-grid-tile>
+    <mat-grid-tile>
+
+    </mat-grid-tile>
+    <mat-grid-tile>
+
+    </mat-grid-tile>
+    <mat-grid-tile>
+
+    </mat-grid-tile>
+    <mat-grid-tile>
+
+    </mat-grid-tile>
+    <mat-grid-tile>
+
+    </mat-grid-tile>
+    <mat-grid-tile>
+
+    </mat-grid-tile>
+    <mat-grid-tile>
 
     </mat-grid-tile>
 
