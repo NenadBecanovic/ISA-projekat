@@ -18,6 +18,7 @@ import {ModifyHouseProfileComponent} from "./modify-house-profile/modify-house-p
 import {AddActionBoatProfileComponent} from "./add-action-boat-profile/add-action-boat-profile.component";
 import {ModifyBoatProfileComponent} from "./modify-boat-profile/modify-boat-profile.component";
 import {EditHouseActionComponent} from "./edit-house-action/edit-house-action.component";
+import {HomePageHouseOwnerComponent} from "./home-page-house-owner/home-page-house-owner.component";
 
 const routes: Routes = [
   {path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}, {path: 'house', component: HomeHouseComponent},
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path:'add-action-boat-profile/:id', component: AddActionBoatProfileComponent},
   { path:'modify-boat-profile/:id', component: ModifyBoatProfileComponent},
   { path:'edit-house-action/:id/:houseId', component: EditHouseActionComponent},
+  { path:'home-page-house-owner', component: HomePageHouseOwnerComponent},
 
 ];
 

@@ -149,6 +149,14 @@ public class House {
 
     public void setImages(Set<Image> images) { this.images = images; }
 
+    public MyUser getOwner() {
+        return owner;
+    }
+
+    public void setOwner(MyUser owner) {
+        this.owner = owner;
+    }
+
     public void addHouseReservation(HouseReservation houseReservation)
     {
         this.courses.add(houseReservation);
