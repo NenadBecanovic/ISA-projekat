@@ -44,6 +44,7 @@ export class HouseComponent implements OnInit {
     this.id =  +this._route.snapshot.paramMap.get('id');
     console.log(this.id)
     this.loadData(this.id);
+
   }
 
 
