@@ -180,11 +180,4 @@ public class House {
         this.feedbacks = feedbacks;
     }
 
-    public MyUser getOwner() {
-        return owner;
-    }
-
-    public void setOwner(MyUser owner) {
-        this.owner = owner;
-    }
 }

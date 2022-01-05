@@ -38,20 +38,24 @@ public class BoatController {
     @GetMapping("/getBoatById/{id}")
     public ResponseEntity<BoatDTO> getBoatById(@PathVariable("id") Long id){
         Boat boat = this.boatService.getBoatById(id);
+
         AddressDTO addressDTO = new AddressDTO(boat.getAddress().getId(), boat.getAddress().getStreet(), boat.getAddress().getCity(),
                 boat.getAddress().getState(), boat.getAddress().getLongitude(), boat.getAddress().getLatitude(), boat.getAddress().getPostalCode());
         NavigationEquipmentDTO navigationEquipmentDTO = new NavigationEquipmentDTO(boat.getNavigationEquipment().getId(), boat.getNavigationEquipment().isFishFinder(),
                 boat.getNavigationEquipment().isRadar(), boat.getNavigationEquipment().isVhfradio(), boat.getNavigationEquipment().isGps());
-       BoatDTO dto = new BoatDTO(boat.getId(), boat.getName(), boat.getType(), boat.getLength(), boat.getEngineNumber(), boat.getEnginePower(), boat.getMaxSpeed(),
+        BoatDTO dto = new BoatDTO(boat.getId(), boat.getName(), boat.getType(), boat.getLength(), boat.getEngineNumber(), boat.getEnginePower(), boat.getMaxSpeed(),
                 boat.getPromoDescription(), boat.getCapacity(), boat.getBehaviourRules(), boat.getFishingEquipment(), boat.getPricePerDay(), boat.isCancalletionFree(),
                 boat.getCancalletionFee(), addressDTO, navigationEquipmentDTO);
+
         dto.setGrade(boat.getGrade());
+
         Set<ImageDTO> dtoSet = new HashSet<>();
         for(Image i: boat.getImages()){
             ImageDTO postDto = modelMapper.map(i, ImageDTO.class);
             dtoSet.add(postDto);
         }
         dto.setImages(dtoSet);
+
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
@@ -113,24 +117,13 @@ public class BoatController {
     public ResponseEntity<List<BoatDTO>> findAll(){
         List<Boat> boats = this.boatService.findAll();
         List<BoatDTO> boatDTOS = new ArrayList<>();
-        for(Boat boat: boats){
-            AddressDTO addressDTO = new AddressDTO(boat.getAddress().getId(), boat.getAddress().getStreet(), boat.getAddress().getCity(),
-                    boat.getAddress().getState(), boat.getAddress().getLongitude(), boat.getAddress().getLatitude(), boat.getAddress().getPostalCode());
 
-            BoatDTO dto = new BoatDTO(boat.getId(), boat.getName(), boat.getType(), boat.getLength(), boat.getEngineNumber(), boat.getEnginePower(), boat.getMaxSpeed(),
-                    boat.getPromoDescription(), boat.getCapacity(), boat.getBehaviourRules(), boat.getFishingEquipment(), boat.getPricePerDay(), boat.isCancalletionFree(), boat.getCancalletionFee(), addressDTO);
-            dto.setGrade(boat.getGrade());
+        for(Boat boat: boats){
+            BoatDTO dto = modelMapper.map(boat, BoatDTO.class);
             boatDTOS.add(dto);
-            Set<ImageDTO> dtoSet = new HashSet<>();
-            for(Image i: boat.getImages()){
-                ImageDTO postDto = modelMapper.map(i, ImageDTO.class);
-                dtoSet.add(postDto);
-            }
-            dto.setImages(dtoSet);
         }
         return new ResponseEntity<>(boatDTOS, HttpStatus.OK);
     }
-
 
     @GetMapping("/findAllOrderByGrade")
     public ResponseEntity<List<BoatDTO>> findAllOrderByGrade(){

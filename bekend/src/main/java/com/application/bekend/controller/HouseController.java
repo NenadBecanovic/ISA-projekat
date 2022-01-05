@@ -44,12 +44,14 @@ public class HouseController {
 
         HouseDTO dto = new HouseDTO(house.getId(), house.getName(), addressDTO, house.getPromoDescription(), house.getBehaviourRules(),
                 house.getPricePerDay(), house.isCancalletionFree(), house.getCancalletionFee());
-        Set<ImageDTO> dtoSet = new HashSet<>();
-        for(Image i: house.getImages()){
-            ImageDTO imageDTO = modelMapper.map(i, ImageDTO.class);
-            dtoSet.add(imageDTO);
-        }
-        dto.setImages(dtoSet);
+
+//        Set<ImageDTO> dtoSet = new HashSet<>();
+//        for(Image i: house.getImages()){
+//            ImageDTO imageDTO = modelMapper.map(i, ImageDTO.class);
+//            dtoSet.add(imageDTO);
+//        }
+//        dto.setImages(dtoSet);
+
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
@@ -113,7 +115,6 @@ public class HouseController {
         }
         return homeHouseSlideDTOS;
     }
-}
 
     @PutMapping("/edit/{id}")
     public ResponseEntity<HouseDTO> save(@RequestBody HouseDTO dto) {

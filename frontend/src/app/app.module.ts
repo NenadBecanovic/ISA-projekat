@@ -90,11 +90,11 @@ const MaterialComponents = [
     ModifyHouseProfileComponent,
     AdventureComponent,
     HouseComponent,
-    BoatComponent
+    BoatComponent,
     AddActionBoatProfileComponent,
     ModifyBoatProfileComponent,
     EditHouseActionComponent,
-    HomePageHouseOwnerComponent
+    HomePageHouseOwnerComponent,
   ],
   imports: [
     RouterModule,
