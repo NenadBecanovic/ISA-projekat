@@ -59,18 +59,20 @@ public class MyUser implements UserDetails {
     @OneToMany(mappedBy = "myUser", fetch = FetchType.EAGER)
     private Set<Feedback> feedbacks= new HashSet<>();
 
-
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_authorities", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
     private List<Authority> authorities = new ArrayList<>();
 
-
     @OneToOne(mappedBy = "user")
     private VerificationRequest verificationRequest;
 
-
     private Boolean isActivated;
+
+    @OneToMany(mappedBy = "subscribedUser", fetch = FetchType.LAZY)
+    private Set<Subscription> subscriptions_guests = new HashSet<>();
+
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
+    private Set<Subscription> subscriptions_owners = new HashSet<>();
 
     public MyUser(Long id, String firstName, String lastName, String email, String password, String username) {
         this.id = id;

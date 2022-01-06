@@ -1,5 +1,6 @@
 package com.application.bekend.service;
 
+import com.application.bekend.DTO.AddressDTO;
 import com.application.bekend.model.Address;
 import com.application.bekend.repository.AddressRepository;
 import org.springframework.stereotype.Service;
@@ -18,4 +19,16 @@ public class AddresService {
     }
 
     public Address getAddressById(Long id) { return this.addressRepository.getAddressById(id); }
+
+    public Address updateAddress(AddressDTO addressDTO){
+        Address address = this.addressRepository.getAddressById(addressDTO.getId());
+        address.setCity(addressDTO.getCity());
+        address.setState(addressDTO.getState());
+        address.setStreet(addressDTO.getStreet());
+        address.setLatitude(addressDTO.getLatitude());
+        address.setLongitude(addressDTO.getLongitude());
+        address.setPostalCode(addressDTO.getPostalCode());
+        this.addressRepository.save(address);
+        return address;
+    }
 }
