@@ -8,6 +8,7 @@ import {HomeDashboardComponent} from "./home-page/home-dashboard/home-dashboard.
 import {HomeHouseComponent} from "./home-page/home-house/home-house.component";
 import {HouseProfileForHouseOwnerComponent} from "./house-profile-for-house-owner/house-profile-for-house-owner.component";
 import { AdventureProfileComponent } from './adventure-profile/adventure-profile.component';
+import { FishingInstructorProfileComponent } from './fishing-instructor-profile/fishing-instructor-profile.component';
 import {HomeBoatComponent} from "./home-page/home-boat/home-boat.component";
 import {ClientHomePageComponent} from "./clientHome/client-home-page/client-home-page.component";
 import {DashboardComponent} from "./clientHome/dashboard/dashboard.component";
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path:'house-profile-for-house-owner/:id', component: HouseProfileForHouseOwnerComponent},
   { path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}]},
   {path: 'adventure-profile', component: AdventureProfileComponent},
+  {path: 'fishing-instructor', component: FishingInstructorProfileComponent},
   { path:'boat-profile-for-boat-owner', component: BoatProfileForBoatOwnerComponent},
   { path:'add-action-house-profile/:id', component: AddActionHouseProfileComponent},
   { path:'modify-house-profile/:id', component: ModifyHouseProfileComponent},

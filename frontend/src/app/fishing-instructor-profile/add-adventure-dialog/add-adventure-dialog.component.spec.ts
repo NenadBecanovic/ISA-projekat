@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { AddActionDialogComponent } from './add-action-dialog.component';
+import { AddAdventureDialogComponent } from './add-adventure-dialog.component';
 
-describe('AddActionDialogComponent', () => {
-  let component: AddActionDialogComponent;
-  let fixture: ComponentFixture<AddActionDialogComponent>;
+describe('AddAdventureDialogComponent', () => {
+  let component: AddAdventureDialogComponent;
+  let fixture: ComponentFixture<AddAdventureDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddActionDialogComponent ]
+      declarations: [ AddAdventureDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddActionDialogComponent);
+    fixture = TestBed.createComponent(AddAdventureDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

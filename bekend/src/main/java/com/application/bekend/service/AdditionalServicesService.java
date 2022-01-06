@@ -29,6 +29,8 @@ public class AdditionalServicesService {
     public Set<AdditionalServices> getAllByBoatReservationId(Long id) { return additionalServicesRepository.getAllByBoatReservationId(id); }
 
     public AdditionalServices getAdditionalServicesById(Long id){return additionalServicesRepository.getAdditionalServicesById(id);}
+    
+    public List<AdditionalServices> getAllByFishingAdventureId(Long id) { return additionalServicesRepository.getAllByFishingAdventureId(id); };
 
     public void deleteById(Long id) { this.additionalServicesRepository.deleteById(id); }
 }

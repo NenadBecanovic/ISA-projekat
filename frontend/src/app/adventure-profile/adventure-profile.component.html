@@ -50,19 +50,21 @@
                 Oprema: <br> {{fishingAdventure.fishingEquipment}}
               </label>
             </div>
-            <div class="form-check last-form-check">
+            <div class="form-check">
               <label class="form-check-label wrap" for="flexCheckChinese">
                 Pravila ponasanja: <br> {{fishingAdventure.behaviourRules}}
               </label>
             </div>
-            <div class="form-check last-form-check">
+            <div class="form-check">
               <label class="form-check-label wrap" for="flexCheckChinese">
                 Dodatne usluge: <br>
-                <li *ngFor="let service of fishingAdventure.services">
+                <!--li *ngFor="let service of fishingAdventure.services">
                   {{service.name}} = {{service.price}}din <br>
-                </li>
+                </li-->
               </label>
-
+            </div>
+            <div class="form-check last-form-check">
+              <a class="reservations-link" (click)="showReservationsDialog()"><u>Vidi rezervacije</u></a>
             </div>
           </div>
           <div class="d-flex ms-5 flex-column">
@@ -97,17 +99,17 @@
             <span class="basic-title text-center">Instruktor</span>
             <div class="form-check">
               <label class="form-check-label wrap" for="flexCheckShowAll">
-                Ime: {{fishingAdventure.instructor.firstName}}
+                Ime: {{user.firstName}}
               </label>
             </div>
             <div class="form-check">
               <label class="form-check-label" for="flexCheckBarbecue">
-                Prezime: {{fishingAdventure.instructor.lastName}}
+                Prezime: {{user.lastName}}
               </label>
             </div>
             <div class="form-check last-form-check">
               <label class="form-check-label wrap" for="flexCheckChinese">
-                Opis: <br> {{fishingAdventure.promoDescription}}
+                Opis: <br> {{user.description}}
               </label>
             </div>
           </div>
