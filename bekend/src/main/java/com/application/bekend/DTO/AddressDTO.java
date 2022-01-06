@@ -31,7 +31,7 @@ public class AddressDTO {
         return street;
     }
 
-    public void setStreet() {
+    public void setStreet(String street) {
         this.street = street;
     }
 

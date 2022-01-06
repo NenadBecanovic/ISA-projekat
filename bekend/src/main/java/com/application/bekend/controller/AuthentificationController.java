@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -48,18 +49,22 @@ public class AuthentificationController {
     public ResponseEntity<UserTokenStateDTO> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest){
 
         String username = this.myUserService.findUserByEmailorUsername(authenticationRequest.getEmail(), "").getUsername();
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(username,
-                        authenticationRequest.getPassword()));
+        try {
+            Authentication authentication = authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(username,
+                            authenticationRequest.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            MyUser user  = (MyUser) authentication.getPrincipal();
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        MyUser user  = (MyUser) authentication.getPrincipal();
 
+            String jwt = tokenUtils.generateToken(user);
+            long expiresIn = tokenUtils.getExpiredIn();
 
-        String jwt = tokenUtils.generateToken(user);
-        long expiresIn = tokenUtils.getExpiredIn();
+            return ResponseEntity.ok(new UserTokenStateDTO(jwt, expiresIn));
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
-        return ResponseEntity.ok(new UserTokenStateDTO(jwt, expiresIn));
     }
 
     @PostMapping("/register")

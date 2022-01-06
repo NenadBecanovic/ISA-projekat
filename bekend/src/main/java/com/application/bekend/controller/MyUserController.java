@@ -1,9 +1,6 @@
 package com.application.bekend.controller;
 
-import com.application.bekend.DTO.HomeHouseSlideDTO;
-import com.application.bekend.DTO.HouseDTO;
-import com.application.bekend.DTO.MyUserDTO;
-import com.application.bekend.DTO.RequestForAccountDeletingDTO;
+import com.application.bekend.DTO.*;
 import com.application.bekend.model.MyUser;
 import com.application.bekend.model.RequestForAccountDeleting;
 import com.application.bekend.service.MyUserService;
@@ -32,6 +29,9 @@ public class MyUserController {
     public ResponseEntity<MyUserDTO> findUserByEmail(@PathVariable("email") String email){
         MyUser myUser = this.myUserService.findUserByEmail(email);
         MyUserDTO dto = modelMapper.map(myUser, MyUserDTO.class);
+        AddressDTO addressDTO = modelMapper.map(myUser.getAddress(), AddressDTO.class);
+        dto.setAuthority(myUser.getAuthorities().get(0).getName());
+        dto.setAddressDTO(addressDTO);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
@@ -44,7 +44,10 @@ public class MyUserController {
 
     @PostMapping("/saveDeleteRequest")
     public ResponseEntity<RequestForAccountDeletingDTO> updateUser(@RequestBody RequestForAccountDeletingDTO dto){
-        RequestForAccountDeleting requestForAccountDeleting = modelMapper.map(dto, RequestForAccountDeleting.class);
+        MyUser user = this.myUserService.findUserByEmail(dto.getEmail());
+        RequestForAccountDeleting requestForAccountDeleting = new RequestForAccountDeleting();
+        requestForAccountDeleting.setUser(user);
+        requestForAccountDeleting.setDescription(dto.getDescription());
         this.myUserService.saveDeleteRequest(requestForAccountDeleting);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }

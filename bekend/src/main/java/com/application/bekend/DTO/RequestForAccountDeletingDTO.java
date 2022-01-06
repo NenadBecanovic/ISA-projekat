@@ -8,12 +8,13 @@ public class RequestForAccountDeletingDTO {
 
 
     private Long id;
-    private MyUserDTO user;
+    private String email;
     private String description;
 
-    public RequestForAccountDeletingDTO(Long id, MyUserDTO user, String description) {
+    public RequestForAccountDeletingDTO(Long id, String email, String description) {
         this.id = id;
-        this.user = user;        this.description = description;
+        this.email = email;
+        this.description = description;
     }
 
     public RequestForAccountDeletingDTO() {
@@ -27,12 +28,12 @@ public class RequestForAccountDeletingDTO {
         this.id = id;
     }
 
-    public MyUserDTO getUser() {
-        return user;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUser(MyUserDTO user) {
-        this.user = user;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getDescription() {

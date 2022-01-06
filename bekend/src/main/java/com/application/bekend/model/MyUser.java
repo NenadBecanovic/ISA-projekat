@@ -30,8 +30,12 @@ public class MyUser implements UserDetails {
     private String username;
     @Column(name = "phoneNumber", nullable = false)
     private String phoneNumber;
-    @Column(name = "grade", nullable = true)
+    @Column(name = "grade")
     private String grade;
+    @Column(name = "penalties")
+    private int penalties;
+    @Column(name = "isDeleted")
+    private boolean isDeleted;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Boat> boats = new HashSet<Boat>();

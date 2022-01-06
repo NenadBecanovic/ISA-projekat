@@ -160,7 +160,7 @@ public class HouseReservationController {
                     houseReservation.getMaxGuests(), houseReservation.getPrice(), houseReservation.isAvailable());
             houseReservationDTOS.add(dto);
         }
-        
+
         return new ResponseEntity<>(houseReservationDTOS, HttpStatus.OK);
     }
 

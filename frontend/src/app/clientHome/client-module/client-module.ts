@@ -23,6 +23,9 @@ import {ClientHousesComponent} from "../client-houses/client-houses.component";
 import {ClientBoatsComponent} from "../client-boats/client-boats.component";
 import {ClientAdventuresComponent} from "../client-adventures/client-adventures.component";
 import {ClientHouseReservationsComponent} from "../client-house-reservations/client-house-reservations.component";
+import {FormsModule} from "@angular/forms";
+import {AlertModule} from "ngx-alerts";
+import {DeleteAccountComponent} from "../delete-account/delete-account.component";
 
 
 @NgModule({
@@ -34,24 +37,27 @@ import {ClientHouseReservationsComponent} from "../client-house-reservations/cli
     ClientBoatsComponent,
     ClientAdventuresComponent,
     ClientHouseReservationsComponent,
+    DeleteAccountComponent,
   ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    SharedModule,
-    MatSidenavModule,
-    MatDividerModule,
-    FlexModule,
-    MatCardModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatProgressBarModule,
-    MatProgressSpinnerModule,
-    MatGridListModule,
-    MatIconModule,
-    MatRadioModule
+    imports: [
+        CommonModule,
+        RouterModule,
+        SharedModule,
+        MatSidenavModule,
+        MatDividerModule,
+        FlexModule,
+        MatCardModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatProgressBarModule,
+        MatProgressSpinnerModule,
+        MatGridListModule,
+        MatIconModule,
+        MatRadioModule,
+        FormsModule,
+        AlertModule
 
-  ],
+    ],
   providers:[
     DashboardService,
     {
