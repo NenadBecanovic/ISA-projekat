@@ -115,6 +115,15 @@
   left: 48vw;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
+  font-family: "Poppins", sans-serif;
+}
+
+.show-btn{
+  color:white;
+  background-color: #31B4E5;
+  font-size: 20px;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
 }
 
 /*.mat-icon {*/

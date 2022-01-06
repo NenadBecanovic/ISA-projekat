@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {House} from "../model/house";
 import {BoatHomeSlide} from "../model/boat-home-slide";
 import {HouseHomeSlide} from "../model/house-home-slide";
+import {HouseReservation} from "../model/house-reservation";
 
 @Injectable({
   providedIn: 'root'
@@ -39,4 +40,9 @@ export class HouseService {
     Observable < boolean > {
       return this._http.delete<boolean>(`${this.userPath}/delete/` + id)
     }
+
+  public save(house: House): Observable<House> {
+    return this._http.post<House>(`${this.userPath}/add`, house)
   }
+
+}

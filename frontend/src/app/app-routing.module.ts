@@ -22,6 +22,7 @@ import {AddActionBoatProfileComponent} from "./add-action-boat-profile/add-actio
 import {ModifyBoatProfileComponent} from "./modify-boat-profile/modify-boat-profile.component";
 import {EditHouseActionComponent} from "./edit-house-action/edit-house-action.component";
 import {HomePageHouseOwnerComponent} from "./home-page-house-owner/home-page-house-owner.component";
+import {AddHouseComponent} from "./add-house/add-house.component";
 
 const routes: Routes = [
   {path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}, {path: 'houses', component: HomeHouseComponent},
@@ -31,7 +32,7 @@ const routes: Routes = [
   {path:'register', component: RegistrationComponent},
   {path:'email-activation', component: EmailActivationComponent},
   {path:'client', component: ClientHomePageComponent, children: [{path: '', component: DashboardComponent}]},
-  { path:'house-profile-for-house-owner', component: HouseProfileForHouseOwnerComponent},
+  { path:'house-profile-for-house-owner/:id', component: HouseProfileForHouseOwnerComponent},
   { path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}]},
   {path: 'adventure-profile', component: AdventureProfileComponent},
   { path:'boat-profile-for-boat-owner', component: BoatProfileForBoatOwnerComponent},
@@ -41,7 +42,7 @@ const routes: Routes = [
   { path:'modify-boat-profile/:id', component: ModifyBoatProfileComponent},
   { path:'edit-house-action/:id/:houseId', component: EditHouseActionComponent},
   { path:'home-page-house-owner', component: HomePageHouseOwnerComponent},
-
+  { path:'add-house', component: AddHouseComponent},
 ];
 
 @NgModule({
