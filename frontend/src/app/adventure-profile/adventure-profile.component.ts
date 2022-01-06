@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import {ImageService} from "../service/image.service";
 import {Image} from "../model/image";
 import { AdditionalServicesService } from '../service/additional-services.service';
+import { AddImageDialogComponent } from './add-image-dialog/add-image-dialog.component';
 
 class ImageSnippet {
   constructor(public src: string, public file: File) {}
@@ -70,8 +71,8 @@ export class AdventureProfileComponent implements OnInit {
   imageAdded(e: any){
      /* const file = e.target.files[0];
       this.createBase64Image(file);
-      this.newImage=URL.createObjectURL(file);*/
-      const file: File = e.files[0];
+      this.newImage=URL.createObjectURL(file);
+    const file: File = e.files[0];
     const reader = new FileReader();
 
     reader.addEventListener('load', (event: any) => {
@@ -87,7 +88,15 @@ export class AdventureProfileComponent implements OnInit {
         })
     });
 
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(file);*/
+    const dialogRef = this.dialog.open(AddImageDialogComponent, {
+      width: '500px',
+      data: {},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      
+    });
   }
 
   createBase64Image(file: Blob){

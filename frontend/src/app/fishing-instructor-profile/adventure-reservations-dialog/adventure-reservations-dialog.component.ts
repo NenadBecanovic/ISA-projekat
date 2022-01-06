@@ -8,9 +8,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class AdventureReservationsDialogComponent implements OnInit {
 
-  constructor(
-    public dialogRef: MatDialogRef<AdventureReservationsDialogComponent>
-  ) { }
+  constructor(public dialogRef: MatDialogRef<AdventureReservationsDialogComponent>) { }
 
   ngOnInit() {
   }

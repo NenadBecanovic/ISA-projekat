@@ -65,6 +65,7 @@ import { ModifyBoatProfileComponent } from './modify-boat-profile/modify-boat-pr
 import { EditHouseActionComponent } from './edit-house-action/edit-house-action.component';
 import { HomePageHouseOwnerComponent } from './home-page-house-owner/home-page-house-owner.component';
 import { AddHouseComponent } from './add-house/add-house.component';
+import { AddImageDialogComponent } from './adventure-profile/add-image-dialog/add-image-dialog.component';
 
 const MaterialComponents = [
   MatSliderModule,
@@ -115,6 +116,7 @@ const MaterialComponents = [
     EditHouseActionComponent,
     HomePageHouseOwnerComponent,
     AddHouseComponent,
+    AddImageDialogComponent
   ],
   imports: [
     RouterModule,
