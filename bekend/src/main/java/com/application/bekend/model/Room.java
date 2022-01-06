@@ -6,7 +6,7 @@ import javax.persistence.*;
 public class Room {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private int numberOfBeds;
 
@@ -18,6 +18,10 @@ public class Room {
         this.id = id;
         this.numberOfBeds = numberOfBeds;
         this.house = house;
+    }
+
+    public Room(int numberOfBeds) {
+        this.numberOfBeds = numberOfBeds;
     }
 
     public Room() {
@@ -46,4 +50,5 @@ public class Room {
     public void setHouse(House house) {
         this.house = house;
     }
+    
 }

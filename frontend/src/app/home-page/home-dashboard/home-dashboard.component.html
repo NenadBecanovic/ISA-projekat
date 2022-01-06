@@ -18,25 +18,15 @@
 
 <!--      vikendice-->
       <div class="myMatCarousel2" >
-        <mat-carousel timings="400ms ease-in" [autoplay]="false" [maintainAspectRatio]="false" [slides]="2"
+        <mat-carousel timings="250ms ease-in" [autoplay]="false" [maintainAspectRatio]="false" [slides]="2" color="accent"
                       [loop]="true" [hideArrows]="false" [hideIndicators]="true" [useKeyboard]="true" [useMouseWheel]="false"
-                      orientation="ltr">
-          <mat-carousel-slide   #matCarouselSlide overlayColor="white">
+                      orientation="ltr" *ngIf="isLoaded">
+          <mat-carousel-slide #matCarouselSlide overlayColor="white" *ngFor="let slide of houseSlides; let i = index">
             <div class="myMatCarouselSlide2" fxLayout="row wrap" fxLayoutAlign="center center">
-              <ng-container *ngFor="let _ of [1,2,3,4] ; let i = index">
+              <ng-container *ngFor="let house of slide.houses ; let j = index">
                 <mat-card style="margin-right: 5px; margin-left: 5px" class="myCard" fxFlex="20%" fxFlex.xs="40%" fxLayoutAlign="center center" fxLayout="column wrap">
-                  <img mat-card-image style="width: 100%; height:100%; max-height: 150px; max-width: 150px" src="{{'assets/cottage.jpg'}}">
-                  <a>Card Display {{i+1}}</a>
-                </mat-card>
-              </ng-container>
-            </div>
-          </mat-carousel-slide>
-          <mat-carousel-slide #matCarouselSlide overlayColor="white">
-            <div class="myMatCarouselSlide2" fxLayout="row wrap" fxLayoutAlign="center center">
-              <ng-container *ngFor="let _ of [1,2,3,4] ; let i = index">
-                <mat-card class="myCard" fxFlex="20%" fxFlex.xs="40%" fxLayoutAlign="center center" fxLayout="column wrap">
-                  <img mat-card-image style="width: 80px; height: 80px" src="{{'assets/cottage.jpg'}}">
-                  <a>Card Display {{i+5}}</a>
+                  <img  style="width: 100%; height: 100%" src="{{house.images[0].imageUrl}}">
+                  <a>{{house.name}}</a>
                 </mat-card>
               </ng-container>
             </div>
@@ -57,23 +47,13 @@
       <div class="myMatCarousel2">
         <mat-carousel timings="250ms ease-in" [autoplay]="false" [maintainAspectRatio]="false" [slides]="2" color="accent"
                       [loop]="true" [hideArrows]="false" [hideIndicators]="true" [useKeyboard]="true" [useMouseWheel]="false"
-                      orientation="ltr">
-          <mat-carousel-slide #matCarouselSlide overlayColor="white">
+                      orientation="ltr" *ngIf="isLoaded">
+          <mat-carousel-slide #matCarouselSlide overlayColor="white" *ngFor="let slide of boatSlides; let i = index">
             <div class="myMatCarouselSlide2" fxLayout="row wrap" fxLayoutAlign="center center">
-              <ng-container *ngFor="let _ of [1,2,3,4] ; let i = index">
+              <ng-container *ngFor="let boat of slide.boats ; let j = index">
                 <mat-card style="margin-right: 5px; margin-left: 5px" class="myCard" fxFlex="20%" fxFlex.xs="40%" fxLayoutAlign="center center" fxLayout="column wrap">
-                  <img mat-card-image style="width: 80px; height: 80px" src="{{'assets/yacht.jpg'}}">
-                  <a>Card Display {{i+1}}</a>
-                </mat-card>
-              </ng-container>
-            </div>
-          </mat-carousel-slide>
-          <mat-carousel-slide #matCarouselSlide overlayColor="white">
-            <div class="myMatCarouselSlide2" fxLayout="row wrap" fxLayoutAlign="center center">
-              <ng-container *ngFor="let _ of [1,2,3,4] ; let i = index">
-                <mat-card class="myCard" fxFlex="20%" fxFlex.xs="40%" fxLayoutAlign="center center" fxLayout="column wrap">
-                  <img mat-card-image style="width: 80px; height: 80px" src="{{'/assets/yacht.jpg'}}">
-                  <a>Card Display {{i+5}}</a>
+                  <img mat-card-image style="width: 100%; height: 100%" src="{{boat.images[0].imageUrl}}">
+                  <a>{{boat.name}}</a>
                 </mat-card>
               </ng-container>
             </div>
@@ -93,23 +73,13 @@
       <div class="myMatCarousel2">
         <mat-carousel timings="250ms ease-in" [autoplay]="false" [maintainAspectRatio]="false" [slides]="2" color="accent"
                       [loop]="true" [hideArrows]="false" [hideIndicators]="true" [useKeyboard]="true" [useMouseWheel]="false"
-                      orientation="ltr">
-          <mat-carousel-slide #matCarouselSlide overlayColor="white">
+                      orientation="ltr" *ngIf="isLoaded">
+          <mat-carousel-slide #matCarouselSlide overlayColor="white" *ngFor="let slide of adventureSlides; let i = index">
             <div class="myMatCarouselSlide2" fxLayout="row wrap" fxLayoutAlign="center center">
-              <ng-container *ngFor="let _ of [1,2,3,4] ; let i = index">
+              <ng-container *ngFor="let adventure of slide.adventures ; let j = index">
                 <mat-card style="margin-right: 5px; margin-left: 5px" class="myCard" fxFlex="20%" fxFlex.xs="40%" fxLayoutAlign="center center" fxLayout="column wrap">
-                  <img mat-card-image style="width: 80px; height: 80px" src="{{'assets/adventure.jpg'}}">
-                  <a>Card Display {{i+1}}</a>
-                </mat-card>
-              </ng-container>
-            </div>
-          </mat-carousel-slide>
-          <mat-carousel-slide #matCarouselSlide overlayColor="white">
-            <div class="myMatCarouselSlide2" fxLayout="row wrap" fxLayoutAlign="center center">
-              <ng-container *ngFor="let _ of [1,2,3,4] ; let i = index">
-                <mat-card class="myCard" fxFlex="30%" fxFlex.xs="40%" fxLayoutAlign="center center" fxLayout="column wrap">
-                  <img mat-card-image style="width: 100px; height:120px; margin: 0" src="{{'/assets/adventure.jpg'}}">
-                  <a>Card Display {{i+5}}</a>
+                  <img mat-card-image style="width: 100%; height: 100%" src="{{adventure.images[0].imageUrl}}">
+                  <a>{{adventure.name}}</a>
                 </mat-card>
               </ng-container>
             </div>

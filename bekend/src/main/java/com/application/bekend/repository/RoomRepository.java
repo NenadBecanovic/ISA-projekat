@@ -12,4 +12,8 @@ import java.util.Set;
 public interface RoomRepository extends JpaRepository<Room, Long> {
 
     List<Room> getAllByHouse_Id(Long id);
+
+    Room getRoomById(Long id);
+
+    void deleteById(Long id);
 }

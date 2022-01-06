@@ -10,7 +10,7 @@ public class NavigationEquipment {
     private Long id;
     private boolean gps;
     private boolean radar;
-    private boolean VHFRadio;
+    private boolean vhfradio;
     private boolean fishFinder;
 
     @OneToOne(mappedBy = "navigationEquipment")
@@ -20,7 +20,7 @@ public class NavigationEquipment {
         this.id = id;
         this.gps = gps;
         this.radar = radar;
-        this.VHFRadio = VHFRadio;
+        this.vhfradio = VHFRadio;
         this.fishFinder = fishFinder;
     }
 
@@ -51,19 +51,27 @@ public class NavigationEquipment {
         this.radar = radar;
     }
 
-    public boolean isVHFRadio() {
-        return VHFRadio;
-    }
-
-    public void setVHFRadio(boolean VHFRadio) {
-        this.VHFRadio = VHFRadio;
-    }
-
     public boolean isFishFinder() {
         return fishFinder;
     }
 
     public void setFishFinder(boolean fishFinder) {
         this.fishFinder = fishFinder;
+    }
+
+    public boolean isVhfradio() {
+        return vhfradio;
+    }
+
+    public void setVhfradio(boolean vhfradio) {
+        this.vhfradio = vhfradio;
+    }
+
+    public Boat getBoat() {
+        return boat;
+    }
+
+    public void setBoat(Boat boat) {
+        this.boat = boat;
     }
 }

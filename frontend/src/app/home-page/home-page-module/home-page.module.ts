@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
-import { MatCarouselModule } from '@ngbmodule/material-carousel';
+import { MatCarouselModule } from 'ng-mat-carousel';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {HomeHouseComponent} from "../home-house/home-house.component";
 import {RouterModule} from "@angular/router";
@@ -20,6 +20,7 @@ import {TokenInterceptor} from "../../interceptor/token-interceptor";
 import {MatRadioModule} from "@angular/material/radio";
 import {HomeBoatComponent} from "../home-boat/home-boat.component";
 import {HomeAdventureComponent} from "../home-adventure/home-adventure.component";
+import {FormsModule} from "@angular/forms";
 
 
 
@@ -47,6 +48,7 @@ import {HomeAdventureComponent} from "../home-adventure/home-adventure.component
         MatGridListModule,
         MatIconModule,
         MatRadioModule,
+        FormsModule,
     ],
 
   providers: [

@@ -2,16 +2,18 @@ import {Boat} from "./boat";
 
 export class NavigationEquipment {
 
+  id: number;
   gps: boolean;
   radar: boolean;
-  VHFRadio: boolean;
+  vhfradio: boolean;
   fishFinder: boolean;
   //boat: Boat;
 
-  constructor(gps: boolean, radar: boolean, VHFRadio: boolean, fishFinder: boolean) {
+  constructor(id:number, gps: boolean, radar: boolean, VHFRadio: boolean, fishFinder: boolean) {
+    this.id = id;
     this.gps = gps;
     this.radar = radar;
-    this.VHFRadio = VHFRadio;
+    this.vhfradio = VHFRadio;
     this.fishFinder = fishFinder;
   }
 }

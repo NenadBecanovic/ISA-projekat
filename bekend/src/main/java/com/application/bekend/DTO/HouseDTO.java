@@ -1,18 +1,23 @@
 package com.application.bekend.DTO;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class HouseDTO {
 
     private Long id;
     private String name;
-//    private Set<Room> rooms = new HashSet<Room>();
+    private Set<RoomDTO> rooms;
     private AddressDTO address;
     private String promoDescription;
     //    private Set<HouseReservation> courses = new HashSet<HouseReservation>();
     private String behaviourRules;
     private float pricePerDay;
-//    private Set<AdditionalServices> services = new HashSet<AdditionalServices>();
+    private Set<AdditionalServicesDTO> services;
     private boolean isCancalletionFree;
     private int cancalletionFee;
+    private double grade;
+    private Set<ImageDTO> images;
 //    private MyUser owner;
 
     public HouseDTO(Long id, String name, AddressDTO addressDTO, String promoDescription, String behaviourRules, float pricePerDay,
@@ -25,6 +30,20 @@ public class HouseDTO {
         this.pricePerDay = pricePerDay;
         this.isCancalletionFree = isCancalletionFree;
         this.cancalletionFee = cancalletionFee;
+    }
+
+    public HouseDTO(Long id, String name, AddressDTO addressDTO, String promoDescription, String behaviourRules, float pricePerDay,
+                    boolean isCancalletionFree, int cancalletionFee, Set<RoomDTO> rooms, Set<AdditionalServicesDTO> services) {
+        this.id = id;
+        this.name = name;
+        this.address = addressDTO;
+        this.promoDescription = promoDescription;
+        this.behaviourRules = behaviourRules;
+        this.pricePerDay = pricePerDay;
+        this.isCancalletionFree = isCancalletionFree;
+        this.cancalletionFee = cancalletionFee;
+        this.rooms = rooms;
+        this.services = services;
     }
 
     public HouseDTO() {
@@ -94,4 +113,35 @@ public class HouseDTO {
         this.cancalletionFee = cancalletionFee;
     }
 
+    public double getGrade() {
+        return grade;
+    }
+
+    public void setGrade(double grade) {
+        this.grade = grade;
+    }
+
+    public Set<ImageDTO> getImages() {
+        return images;
+    }
+
+    public void setImages(Set<ImageDTO> images) {
+        this.images = images;
+    }
+  
+    public Set<RoomDTO> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(Set<RoomDTO> rooms) {
+        this.rooms = rooms;
+    }
+
+    public Set<AdditionalServicesDTO> getServices() {
+        return services;
+    }
+
+    public void setServices(Set<AdditionalServicesDTO> services) {
+        this.services = services;
+    }
 }

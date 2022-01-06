@@ -1,22 +1,24 @@
-import {Boat} from "./boat";
+import {AdditionalService} from "./additional-service";
 
 export class BoatReservation {
 
-  id: number;
-  startDate: Date;
-  endDate: Date;
-  maxGuests: number;
-  additionalServices: String;
-  price: number;
-  isAvailable: boolean;
+  public boatId: number = 0;
+  public id: number;
+  public startDate: string;
+  public endDate: string;
+  public maxGuests: number;
+  public additionalServices: AdditionalService[];
+  public price: number;
+  public available: boolean;
 
-  constructor(id: number, startDate: Date, endDate: Date, maxGuests: number, additionalServices: String, price: number, isAvailable: boolean) {
+  constructor(id: number, startDate: string, endDate: string, maxGuests: number, additionalServices: AdditionalService[],
+              price: number, isAvailable: boolean) {
     this.id = id;
     this.startDate = startDate;
     this.endDate = endDate;
     this.maxGuests = maxGuests;
     this.additionalServices = additionalServices;
     this.price = price;
-    this.isAvailable = isAvailable;
+    this.available = isAvailable;
   }
 }

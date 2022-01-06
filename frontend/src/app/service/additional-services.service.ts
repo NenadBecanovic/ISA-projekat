@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Room} from "../model/room";
 import {AdditionalService} from "../model/additional-service";
+import {HouseReservation} from "../model/house-reservation";
 
 @Injectable({
   providedIn: 'root'
@@ -27,5 +28,17 @@ export class AdditionalServicesService {
 
   public getAllByFishingAdventureId(id: number): Observable<AdditionalService[]>{
     return this._http.get<AdditionalService[]>(`${this.userPath}/getAllByFishingAdventureId/`+id)
+  }
+  
+  public getAllByBoatReservationId(id: number): Observable<AdditionalService[]>{
+    return this._http.get<AdditionalService[]>(`${this.userPath}/getAllByBoatReservationId/`+id)
+  }
+
+  public delete(id: number): Observable<boolean> {
+    return this._http.delete<boolean>(`${this.userPath}/delete/`+id)
+  }
+
+  public save(additionalService: AdditionalService): Observable<AdditionalService> {
+    return this._http.post<AdditionalService>(`${this.userPath}/add`, additionalService)
   }
 }

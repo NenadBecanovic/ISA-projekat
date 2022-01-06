@@ -11,7 +11,7 @@ import {AdditionalServicesService} from "../service/additional-services.service"
 import {ImageService} from "../service/image.service";
 import {HouseReservationService} from "../service/house-reservation.service";
 import {HouseReservationSlide} from "../model/house-reservation-slide";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-house-profile-for-house-owner',
@@ -22,9 +22,9 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
   address: Address = new Address(0,"","","",0,0,31100)
   images: Image[] = new Array<Image>();
   isLoaded: boolean = false;
-  house: House = new House(0,'', this.address, '', '', 0, false, 0);
   rooms: Room[] = new Array<Room>();
   additionalServices: AdditionalService[] = new Array<AdditionalService>();
+  house: House = new House(0,'', this.address, '', '', 0, false, 0, this.rooms, this.additionalServices, 0);
   courses_slides: HouseReservationSlide[] = new Array<HouseReservationSlide>();
   isSlideLoaded: boolean = false;
   lat = 0;
@@ -34,11 +34,14 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
 
   constructor(private _houseService: HouseService, private _addressService: AddressService, private _roomService: RoomService,
               private _additionalServices: AdditionalServicesService, private _imageService: ImageService, private _houseReservationService: HouseReservationService,
-              private _router: Router) {
+              private _router: Router, private _route: ActivatedRoute,) {
   }
 
   ngOnInit(): void {
+    // @ts-ignore
+    this.house.id = +this._route.snapshot.paramMap.get('id');
     this.loadData();
+    console.log(this.house.id)
   }
 
   // https://www.eduforbetterment.com/file-upload-using-material-components-in-angular/
@@ -55,30 +58,27 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
     this._router.navigate(['/modify-house-profile', this.house.id])
   }
 
+  // TODO: obrisati
   editActionDialog(id: number, houseId: number) {
     this._router.navigate(['/edit-house-action', this.house.id, this.house.id])
   }
 
   deleteActionDialog(id: number) {
-    // console.log('usloo')
-    // console.log(id)
     this._houseReservationService.delete(id).subscribe(   // OBAVEZNO SE MORA SUBSCRIBE-OVATI !!!
       (boolean:boolean) =>{
-        // console.log(boolean)
         this.loadData()
       }
     )
   }
 
   loadData() { // ucitavanje iz baze
-    this._houseService.getHouseById(1).subscribe(
+    this._houseService.getHouseById(this.house.id).subscribe(
       (house:House) => {
         this.house = house
         this.address = this.house.address;
         this.lat = this.address.latitude;
         this.lng = this.address.longitude;
         this.freeCancelation = this.house.cancalletionFree;
-        // console.log(this.freeCancelation)
 
         this._roomService.getAllByHouseId(this.house.id).subscribe(
           (rooms: Room[]) => {
@@ -118,7 +118,6 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
             // }
 
             this.isSlideLoaded = true
-            // console.log(courses_slides)
           }
         )
       }

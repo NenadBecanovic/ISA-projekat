@@ -1,4 +1,7 @@
 import {Address} from "./address";
+import {Image} from "./image";
+import {NavigationEquipment} from "./navigation-equipment";
+import {AdditionalService} from "./additional-service";
 
 export class Boat {
 
@@ -9,20 +12,23 @@ export class Boat {
   engineNumber: number;  // broj motora
   enginePower: number;
   maxSpeed: number;
-  // navigationEquipment: NavigationEquipment;
+  navigationEquipmentDTO: NavigationEquipment;
   address: Address;
   promoDescription: String;
   behaviourRules: String;
   capacity: number;
   pricePerDay: number;
-  // services: Array<AdditionalService>;
+  services: AdditionalService[];
   cancalletionFree: boolean;
   cancalletionFee: number;
   fishingEquipment: String;
+  grade: number;
+  images: Image[] = new Array();
   // courses: Array<BoatReservation>;
 
   constructor(id: number, name: String, promoDescription: String, behaviourRules: String, pricePerDay: number, capacity: number,  type: String,
-              length: number, engineNumber: number, enginePower: number, maxSpeed: number, cancalletionFree: boolean, cancalletionFee: number, fishingEquipment: String, address: Address) {
+              length: number, engineNumber: number, enginePower: number, maxSpeed: number, cancalletionFree: boolean, cancalletionFee: number,
+              fishingEquipment: String, address: Address, navigationEquipment: NavigationEquipment, services: AdditionalService[], grade: number) {
     this.id = id;
     this.name = name;
     this.type = type;
@@ -35,11 +41,11 @@ export class Boat {
     this.promoDescription = promoDescription;
     this.behaviourRules = behaviourRules;
     this.pricePerDay = pricePerDay;
-    // this.services = services;
     this.cancalletionFree = cancalletionFree;
     this.cancalletionFee = cancalletionFee;
     this.fishingEquipment = fishingEquipment;
-    // this.navigationEquipment = navigationEquipment;
-    // this.courses = courses;
+    this.grade = grade
+    this.navigationEquipmentDTO = navigationEquipment;
+    this.services = services;
   }
 }

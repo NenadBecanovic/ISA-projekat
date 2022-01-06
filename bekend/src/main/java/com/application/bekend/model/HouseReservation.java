@@ -17,33 +17,14 @@ public class HouseReservation {
     private float price;
     private boolean isAvailable;
 
-    @ManyToMany(mappedBy = "houseReservations")
-    private Set<MyUser> guests = new HashSet<MyUser>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "guest_id")
+    private MyUser guest;
 
     // vodeca strana ManyToMany veze, sto znaci ako nesto uklonimo sa strane House uklonice se i sa druge strane ManyToMany veze
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinTable(name = "house_reservation_table", joinColumns = @JoinColumn(name = "house_appointment_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "house_id", referencedColumnName = "id"))
     private House house;
-
-//    @ManyToMany(fetch = FetchType.LAZY,
-//            cascade =
-//                    {
-//                            CascadeType.DETACH,
-//                            CascadeType.MERGE,
-//                            CascadeType.REFRESH,
-//                            CascadeType.PERSIST
-//                    },
-//            targetEntity = AdditionalServices.class)
-//    @JoinTable(name = "additional_services_house_reservation",
-//            inverseJoinColumns = @JoinColumn(name = "additional_services_id",
-//                    nullable = false,
-//                    updatable = false),
-//            joinColumns = @JoinColumn(name = "house_reservation_id",
-//                    nullable = false,
-//                    updatable = false),
-//            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
-//            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
-//    private  Set<AdditionalServices> additionalServices = new HashSet<>();
 
     @ManyToMany(mappedBy = "houseReservationsServices")
     private Set<AdditionalServices> additionalServices = new HashSet<>();
@@ -117,12 +98,12 @@ public class HouseReservation {
         this.house = house;
     }
 
-    public Set<MyUser> getGuests() {
-        return guests;
+    public MyUser getGuest() {
+        return guest;
     }
 
-    public void setGuests(Set<MyUser> guests) {
-        this.guests = guests;
+    public void setGuest(MyUser guest) {
+        this.guest = guest;
     }
 
     public Set<AdditionalServices> getAdditionalServices() {

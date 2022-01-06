@@ -11,7 +11,8 @@ export class HouseReservation {
   public price: number;
   public available: boolean;
 
-  constructor(id: number, startDate: string, endDate: string, maxGuests: number, additionalServices: AdditionalService[], price: number, isAvailable: boolean) {
+  constructor(id: number, startDate: string, endDate: string, maxGuests: number, additionalServices: AdditionalService[],
+              price: number, isAvailable: boolean) {
     this.id = id;
     this.startDate = startDate;
     this.endDate = endDate;
