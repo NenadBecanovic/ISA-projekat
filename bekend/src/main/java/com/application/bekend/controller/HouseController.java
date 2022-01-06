@@ -10,10 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.*;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping("api/house")
@@ -266,6 +263,19 @@ public class HouseController {
         this.houseService.delete(house.getId());
 
         return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<House> save(@RequestBody House dto) {
+        Address address = new Address(dto.getAddress().getId(), dto.getAddress().getStreet(), dto.getAddress().getCity(), dto.getAddress().getState(),
+                dto.getAddress().getLongitude(), dto.getAddress().getLatitude(), dto.getAddress().getPostalCode());
+        address = this.addresService.save(address);
+
+        House house = new House(dto.getId(), dto.getName(), dto.getGrade(), new HashSet<>(), address, dto.getPromoDescription(), new HashSet<>(),
+                dto.getBehaviourRules(), dto.getPricePerDay(), new HashSet<>(), dto.isCancalletionFree(), dto.getCancalletionFee(), dto.getImages());
+        house = this.houseService.save(house);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
 
