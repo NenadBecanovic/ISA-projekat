@@ -1,6 +1,5 @@
 package com.application.bekend.service;
 
-import com.application.bekend.DTO.AuthUserDTO;
 import com.application.bekend.model.MyUser;
 import com.application.bekend.repository.MyUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +18,12 @@ public class MyUserService implements UserDetailsService {
         return myUserRepository.findMyUserById(id);
     }
 
-    public MyUser findUserByEmail(String email, String username){
+    public MyUser findUserByEmailorUsername(String email, String username){
         return myUserRepository.findMyUserByEmailOrUsername(email, username);
+    }
+
+    public MyUser findUserByEmail(String email){
+        return myUserRepository.findMyUserByEmail(email);
     }
 
     public void activateUser(Long id){

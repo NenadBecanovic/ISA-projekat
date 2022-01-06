@@ -21,6 +21,10 @@ import {MatRadioModule} from "@angular/material/radio";
 import {HomeBoatComponent} from "../home-boat/home-boat.component";
 import {HomeAdventureComponent} from "../home-adventure/home-adventure.component";
 import {FormsModule} from "@angular/forms";
+import {BoatComponent} from "../boat/boat.component";
+import {AdventureComponent} from "../adventure/adventure.component";
+import {HouseComponent} from "../house/house.component";
+import {AgmCoreModule} from "@agm/core";
 
 
 
@@ -31,7 +35,10 @@ import {FormsModule} from "@angular/forms";
     HomeDashboardComponent,
     HomeHouseComponent,
     HomeBoatComponent,
-    HomeAdventureComponent
+    HomeAdventureComponent,
+    AdventureComponent,
+    HouseComponent,
+    BoatComponent
   ],
     imports: [
         RouterModule,
@@ -49,6 +56,9 @@ import {FormsModule} from "@angular/forms";
         MatIconModule,
         MatRadioModule,
         FormsModule,
+        AgmCoreModule.forRoot({
+        apiKey: 'AIzaSyDhUaf84F4NwNDUjw-feRmJusep1T1EB6s'   // za google maps
+        })
     ],
 
   providers: [

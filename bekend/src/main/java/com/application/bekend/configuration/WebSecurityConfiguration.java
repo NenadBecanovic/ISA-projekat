@@ -71,7 +71,7 @@ public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(HttpMethod.GET, "/api/additionalServices/**");
         web.ignoring().antMatchers(HttpMethod.DELETE, "/api/additionalServices/**");
         web.ignoring().antMatchers(HttpMethod.POST, "/api/additionalServices/**");
-
+        web.ignoring().antMatchers(HttpMethod.GET, "/api/user/**");
     }
 
     @Override
@@ -80,8 +80,7 @@ public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter {
         http
                 .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
                 .authorizeRequests()
-//                .antMatchers("api/boatowner/**").hasRole("BOAT_OWNER")
-//                .antMatchers("/users/**").hasAnyRole("USER","ADMINISTRATOR")
+//                .antMatchers("api/user/**").hasRole("USER")
                 .anyRequest()
                 .authenticated().and()
                 .cors().and()

@@ -18,15 +18,22 @@ import {TokenInterceptor} from "../../interceptor/token-interceptor";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatIconModule} from "@angular/material/icon";
 import {MatRadioModule} from "@angular/material/radio";
-
-
-
+import {ClientProfileComponent} from "../client-profile/client-profile.component";
+import {ClientHousesComponent} from "../client-houses/client-houses.component";
+import {ClientBoatsComponent} from "../client-boats/client-boats.component";
+import {ClientAdventuresComponent} from "../client-adventures/client-adventures.component";
+import {ClientHouseReservationsComponent} from "../client-house-reservations/client-house-reservations.component";
 
 
 @NgModule({
   declarations: [
     ClientHomePageComponent,
     DashboardComponent,
+    ClientProfileComponent,
+    ClientHousesComponent,
+    ClientBoatsComponent,
+    ClientAdventuresComponent,
+    ClientHouseReservationsComponent,
   ],
   imports: [
     CommonModule,

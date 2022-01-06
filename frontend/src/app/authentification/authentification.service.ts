@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
+import {Observable} from "rxjs";
+import {Address} from "../model/address";
+import {MyUser} from "../model/my-user";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthentificationService {
 
-  constructor() { }
+  constructor(private _http:HttpClient) { }
 
+  private readonly userPath = 'http://localhost:8080/api/user';
 
   isLoggedIn(): boolean {
     return this.getToken() !== '';
@@ -40,4 +45,9 @@ export class AuthentificationService {
       return undefined;
     }
   }
+
+  public getUserByEmail(): Observable<MyUser>{
+    return this._http.get<MyUser>(`${this.userPath}/findUserByEmail/`+this.getCurrentUser().email)
+  }
+
 }
