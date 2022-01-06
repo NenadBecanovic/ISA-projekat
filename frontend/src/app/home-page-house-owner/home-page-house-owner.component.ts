@@ -37,4 +37,8 @@ export class HomePageHouseOwnerComponent implements OnInit {
       }
     )
   }
+
+  showHouse(id: number) {
+    this._router.navigate(['/house-profile-for-house-owner', id])
+  }
 }

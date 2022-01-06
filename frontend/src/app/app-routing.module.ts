@@ -32,7 +32,7 @@ const routes: Routes = [
   {path:'register', component: RegistrationComponent},
   {path:'email-activation', component: EmailActivationComponent},
   {path:'client', component: ClientHomePageComponent, children: [{path: '', component: DashboardComponent}]},
-  { path:'house-profile-for-house-owner', component: HouseProfileForHouseOwnerComponent},
+  { path:'house-profile-for-house-owner/:id', component: HouseProfileForHouseOwnerComponent},
   { path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}]},
   {path: 'adventure-profile', component: AdventureProfileComponent},
   { path:'boat-profile-for-boat-owner', component: BoatProfileForBoatOwnerComponent},

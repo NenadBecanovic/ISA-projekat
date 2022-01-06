@@ -34,18 +34,15 @@
                     <label style="font-size: 1.2vw; margin-left: 5px;font-family: Poppins;"> {{ house.address.street}}, {{ house.address.city}}, {{ house.address.state}} </label>
                   </div>
                 </div>
-
                 <div style="display:inline;" >
                   <div style="float: left; width: 100%;">
                     <mat-icon style="color: orange;">star</mat-icon>
-                    <label style="font-size: 1.0vw; font-weight: 500; color: orange; margin-left: 5px;font-family: Poppins"> 4.38 </label>
+                    <label style="font-size: 1.0vw; font-weight: 500; color: orange; margin-left: 5px;font-family: Poppins"> {{ house.grade }} </label>
                   </div>
                 </div>
-<!--                <div style="display:inline;" >-->
-<!--                  <div style="float: left; width: 100%;">-->
-<!--                    <label style="font-size: 1.2vw;  margin-left: 5px;font-family: Poppins;"> {{ house.promoDescription }} </label>-->
-<!--                  </div>-->
-<!--                </div>-->
+                <div style="float: right;">
+                  <button mat-raised-button (click)="showHouse(house.id)" class="show-btn">Prikazi</button>
+                </div>
               </mat-grid-tile>
             </mat-grid-list>
           </mat-card>
@@ -57,6 +54,6 @@
   <div class="align-items-center">
     <button mat-raised-button (click)="addActionDialog()" class="btn add-action-button">Dodaj vikendicu</button>
   </div>
- <app-footer></app-footer>
+  <app-footer></app-footer>
 </div>
 

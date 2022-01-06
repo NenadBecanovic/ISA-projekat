@@ -11,7 +11,7 @@ import {AdditionalServicesService} from "../service/additional-services.service"
 import {ImageService} from "../service/image.service";
 import {HouseReservationService} from "../service/house-reservation.service";
 import {HouseReservationSlide} from "../model/house-reservation-slide";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-house-profile-for-house-owner',
@@ -34,11 +34,14 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
 
   constructor(private _houseService: HouseService, private _addressService: AddressService, private _roomService: RoomService,
               private _additionalServices: AdditionalServicesService, private _imageService: ImageService, private _houseReservationService: HouseReservationService,
-              private _router: Router) {
+              private _router: Router, private _route: ActivatedRoute,) {
   }
 
   ngOnInit(): void {
+    // @ts-ignore
+    this.house.id = +this._route.snapshot.paramMap.get('id');
     this.loadData();
+    console.log(this.house.id)
   }
 
   // https://www.eduforbetterment.com/file-upload-using-material-components-in-angular/
@@ -69,7 +72,7 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
   }
 
   loadData() { // ucitavanje iz baze
-    this._houseService.getHouseById(1).subscribe(
+    this._houseService.getHouseById(this.house.id).subscribe(
       (house:House) => {
         this.house = house
         this.address = this.house.address;
