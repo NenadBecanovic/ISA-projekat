@@ -28,7 +28,7 @@ public class House {
     @OneToMany(mappedBy = "house", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Image> images;
 
-    @OneToMany(mappedBy = "house")
+    @OneToMany(mappedBy = "house", fetch = FetchType.EAGER)
     private Set<HouseReservation> courses = new HashSet<>();
     private String behaviourRules;
     private float pricePerDay;

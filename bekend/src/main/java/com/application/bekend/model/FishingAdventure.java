@@ -26,7 +26,7 @@ public class FishingAdventure {
     @ManyToMany(mappedBy = "fishingAdventures")
     private Set<AdventureReservation> adventureReservations = new HashSet<AdventureReservation>();
     private String behaviourRules;
-    private float pricePerDay;
+    private float pricePerHour;
 
     @ManyToMany(mappedBy = "fishingAdventures")
     private Set<AdditionalServices> services = new HashSet<AdditionalServices>();
@@ -38,7 +38,7 @@ public class FishingAdventure {
     private MyUser instructor;
 
     public FishingAdventure(Long id, String name, Address address, String promoDescription, int capacity, String fishingEquipment,
-                            Set<AdventureReservation> adventureReservations, String behaviourRules, float pricePerDay,
+                            Set<AdventureReservation> adventureReservations, String behaviourRules, float pricePerHour,
                             Set<AdditionalServices> services, boolean isCancalletionFree, int cancalletionFee, Set<Image> images) {
         this.id = id;
         this.name = name;
@@ -48,7 +48,7 @@ public class FishingAdventure {
         this.fishingEquipment = fishingEquipment;
         this.adventureReservations = adventureReservations;
         this.behaviourRules = behaviourRules;
-        this.pricePerDay = pricePerDay;
+        this.pricePerHour = pricePerHour;
         this.services = services;
         this.isCancalletionFree = isCancalletionFree;
         this.cancalletionFee = cancalletionFee;
@@ -122,12 +122,12 @@ public class FishingAdventure {
         this.behaviourRules = behaviourRules;
     }
 
-    public float getPricePerDay() {
-        return pricePerDay;
+    public float getPricePerHour() {
+        return pricePerHour;
     }
 
-    public void setPricePerDay(float pricePerDay) {
-        this.pricePerDay = pricePerDay;
+    public void setPricePerHour(float pricePerHour) {
+        this.pricePerHour = pricePerHour;
     }
 
     public Set<AdditionalServices> getServices() {

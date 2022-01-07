@@ -13,7 +13,7 @@ import { AlertService } from 'ngx-alerts';
 export class RegistrationComponent implements OnInit {
 
   address: Address = new Address(0,"","","",0,0, 0)
-  user: MyUser = new MyUser("","","","","","",this.address, "", "");
+  user: MyUser = new MyUser(0,"","","","","","",this.address, "", "");
   passwordCheck: String = "";
   isUser = true;
 

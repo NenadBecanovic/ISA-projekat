@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {House} from "../model/house";
 import {HouseService} from "../service/house.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-home-page-house-owner',
@@ -11,7 +12,7 @@ export class HomePageHouseOwnerComponent implements OnInit {
 
   houses: House[] = new Array();
 
-  constructor(private _houseService: HouseService) { }
+  constructor(private _houseService: HouseService, private _router: Router) { }
 
   ngOnInit(): void {
     this.loadData();
@@ -26,7 +27,7 @@ export class HomePageHouseOwnerComponent implements OnInit {
   }
 
   addActionDialog() {
-
+    this._router.navigate(['/add-house'])
   }
 
   deleteHouse(id: number) {
@@ -35,5 +36,9 @@ export class HomePageHouseOwnerComponent implements OnInit {
         this.loadData()
       }
     )
+  }
+
+  showHouse(id: number) {
+    this._router.navigate(['/house-profile-for-house-owner', id])
   }
 }

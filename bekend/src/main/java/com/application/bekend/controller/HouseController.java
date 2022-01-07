@@ -10,10 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.*;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping("api/house")
@@ -27,14 +24,16 @@ public class HouseController {
     private final AdditionalServicesService additionalServicesService;
     private  final HouseReservationService houseReservationService;
     private final ImageService imageService;
+    private final AddresService addresService;
   
     @Autowired
-    public HouseController(HouseService houseService, RoomService roomService, AdditionalServicesService additionalServicesService, HouseReservationService houseReservationService, ImageService imageService) {
+    public HouseController(HouseService houseService, RoomService roomService, AdditionalServicesService additionalServicesService, HouseReservationService houseReservationService, ImageService imageService, AddresService addresService) {
         this.houseService = houseService;
         this.roomService = roomService;
         this.additionalServicesService = additionalServicesService;
         this.houseReservationService = houseReservationService;
         this.imageService = imageService;
+        this.addresService = addresService;
     }
 
     @GetMapping("/getHouseById/{id}")
@@ -46,12 +45,14 @@ public class HouseController {
         HouseDTO dto = new HouseDTO(house.getId(), house.getName(), addressDTO, house.getPromoDescription(), house.getBehaviourRules(),
                 house.getPricePerDay(), house.isCancalletionFree(), house.getCancalletionFee());
 
-        Set<ImageDTO> dtoSet = new HashSet<>();
-        for(Image i: house.getImages()){
-            ImageDTO imageDTO = modelMapper.map(i, ImageDTO.class);
-            dtoSet.add(imageDTO);
-        }
-        dto.setImages(dtoSet);
+        // TODO: ispraviti
+//        Set<ImageDTO> dtoSet = new HashSet<>();
+//        for(Image i: house.getImages()){
+//            ImageDTO imageDTO = modelMapper.map(i, ImageDTO.class);
+//            dtoSet.add(imageDTO);
+//        }
+//        dto.setImages(dtoSet);
+
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
@@ -122,7 +123,7 @@ public class HouseController {
         House house = this.houseService.getHouseById(dto.getId());
         Address address = house.getAddress();
         Set<Room> rooms = house.getRooms();
-        Set<AdditionalServices> additionalServices = house.getServices();
+        List<AdditionalServices> additionalServices = this.additionalServicesService.getAllByHouseId(dto.getId());
 
         for (Room r : rooms) {
             for (RoomDTO roomDTO : dto.getRooms()) {
@@ -146,14 +147,17 @@ public class HouseController {
             }
         }
 
-        address.setStreet(dto.getAddress().getStreet());
-        address.setCity(dto.getAddress().getCity());
-        address.setState(dto.getAddress().getState());
-        address.setLongitude(dto.getAddress().getLongitude());
-        address.setLatitude(dto.getAddress().getLatitude());
-        address.setPostalCode(dto.getAddress().getPostalCode());
+        Address address1 = this.addresService.getAddressById(dto.getAddress().getId());
+        address1.setId(dto.getAddress().getId());
+        address1.setStreet(dto.getAddress().getStreet());
+        address1.setCity(dto.getAddress().getCity());
+        address1.setState(dto.getAddress().getState());
+        address1.setLongitude(dto.getAddress().getLongitude());
+        address1.setLatitude(dto.getAddress().getLatitude());
+        address1.setPostalCode(dto.getAddress().getPostalCode());
+        this.addresService.save(address1);
 
-        house.setAddress(address);
+        house.setAddress(address1);
         house.setName(dto.getName());
         house.setPromoDescription(dto.getPromoDescription());
         house.setBehaviourRules(dto.getBehaviourRules());
@@ -177,14 +181,12 @@ public class HouseController {
             Set<RoomDTO> roomDTOS = new HashSet<>();
             Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
 
-            for (Room r: h.getRooms())
-            {
+            for (Room r : h.getRooms()) {
                 RoomDTO roomDTO = new RoomDTO(r.getId(), r.getNumberOfBeds());
                 roomDTOS.add(roomDTO);
             }
 
-            for (AdditionalServices a: h.getServices())
-            {
+            for (AdditionalServices a : this.additionalServicesService.getAllByHouseId(h.getId())) {
                 AdditionalServicesDTO additionalServicesDTO = new AdditionalServicesDTO(a.getId(), a.getName(), a.getPrice());
                 additionalServicesDTOS.add(additionalServicesDTO);
             }
@@ -210,9 +212,11 @@ public class HouseController {
         }
 
         house.setRooms(null);
+        this.houseService.save(house);
         // proci kroz sobe i staviti house_id = null (+ izbrisati iz tabele)
 
         house.setOwner(null);
+        this.houseService.save(house);
 
         for (Image i: house.getImages()) {
             Image image = this.imageService.getImageById(i.getId());
@@ -221,6 +225,7 @@ public class HouseController {
         }
 
         house.setImages(null);
+        this.houseService.save(house);
         // proci kroz slike i staviti house_id = null (+ izbrisati i sliku)
 
         // rezervacije
@@ -241,6 +246,7 @@ public class HouseController {
         }
 
         house.setCourses(null);
+        this.houseService.save(house);
 
         // dodatne usluge
         for (AdditionalServices a: house.getServices()) {
@@ -260,6 +266,19 @@ public class HouseController {
         this.houseService.delete(house.getId());
 
         return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<House> save(@RequestBody House dto) {
+        Address address = new Address(dto.getAddress().getId(), dto.getAddress().getStreet(), dto.getAddress().getCity(), dto.getAddress().getState(),
+                dto.getAddress().getLongitude(), dto.getAddress().getLatitude(), dto.getAddress().getPostalCode());
+        address = this.addresService.save(address);
+
+        House house = new House(dto.getId(), dto.getName(), dto.getGrade(), new HashSet<>(), address, dto.getPromoDescription(), new HashSet<>(),
+                dto.getBehaviourRules(), dto.getPricePerDay(), new HashSet<>(), dto.isCancalletionFree(), dto.getCancalletionFee(), dto.getImages());
+        house = this.houseService.save(house);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
 

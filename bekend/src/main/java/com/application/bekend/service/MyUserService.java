@@ -2,6 +2,8 @@ package com.application.bekend.service;
 
 import com.application.bekend.DTO.MyUserDTO;
 import com.application.bekend.model.Address;
+import com.application.bekend.DTO.AuthUserDTO;
+import com.application.bekend.model.House;
 import com.application.bekend.model.MyUser;
 import com.application.bekend.model.RequestForAccountDeleting;
 import com.application.bekend.repository.MyUserRepository;
@@ -12,6 +14,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 @Service
 public class MyUserService implements UserDetailsService {
@@ -59,6 +63,7 @@ public class MyUserService implements UserDetailsService {
         return myUser;
     }
 
+
     public MyUser updateUser(MyUserDTO myUserDTO){
         MyUser myUser = findUserByEmail(myUserDTO.getEmail());
         Address address = this.addresService.updateAddress(myUserDTO.getAddressDTO());
@@ -77,6 +82,16 @@ public class MyUserService implements UserDetailsService {
 
     public RequestForAccountDeleting saveDeleteRequest(RequestForAccountDeleting requestForAccountDeleting){
         return this.requestForAccountDeletingService.save(requestForAccountDeleting);
+    }
+
+    public Set<MyUser> getAllByHouseId(Long id) { return this.myUserRepository.getAllByHouseId(id); }
+
+    public MyUser save(MyUser myUser) {
+        return this.myUserRepository.save(myUser);
+    }
+
+    public MyUser findUserByHouseReservationId(Long id){
+        return myUserRepository.findMyUserByHouseReservationId(id);
     }
 
 }

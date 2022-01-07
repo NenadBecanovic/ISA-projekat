@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -11,6 +13,8 @@ import { EmailActivationComponent } from './email-activation/email-activation.co
 import { AlertModule } from 'ngx-alerts';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HomePageModule} from "./home-page/home-page-module/home-page.module";
+import { HomeDashboardComponent } from './home-page/home-dashboard/home-dashboard.component';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import {TokenInterceptor} from "./interceptor/token-interceptor";
 import {RouterModule} from "@angular/router";
 import { HouseProfileForHouseOwnerComponent } from './house-profile-for-house-owner/house-profile-for-house-owner.component';
@@ -36,10 +40,17 @@ import { MatDividerModule} from '@angular/material/divider';
 import { MatListModule} from '@angular/material/list';
 import { MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import {MatMenuModule} from '@angular/material/menu';
 import { MatSelectModule} from '@angular/material/select';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTabsModule} from '@angular/material/tabs';
 import { SharedModule } from './home-page/shared/shared.module';
+import { FishingInstructorProfileComponent } from './fishing-instructor-profile/fishing-instructor-profile.component';
+import { CalendarDialogComponent } from './fishing-instructor-profile/calendar-dialog/calendar-dialog.component';
+import { DemoUtilsModule } from './fishing-instructor-profile/calendar-dialog/demo-utils/calendar.module';
+import { DefineAvaibilityPeriodComponent } from './fishing-instructor-profile/define-avaibility-period/define-avaibility-period.component';
+import { MakeReservationDialogComponent } from './fishing-instructor-profile/make-reservation-dialog/make-reservation-dialog.component';
+import { AddAdventureDialogComponent } from './fishing-instructor-profile/add-adventure-dialog/add-adventure-dialog.component';
 import {ClientModule} from "./clientHome/client-module/client-module";
 import { BoatProfileForBoatOwnerComponent } from './boat-profile-for-boat-owner/boat-profile-for-boat-owner.component';
 import {AgmCoreModule} from '@agm/core';
@@ -49,6 +60,13 @@ import { AddActionBoatProfileComponent } from './add-action-boat-profile/add-act
 import { ModifyBoatProfileComponent } from './modify-boat-profile/modify-boat-profile.component';
 import { EditHouseActionComponent } from './edit-house-action/edit-house-action.component';
 import { HomePageHouseOwnerComponent } from './home-page-house-owner/home-page-house-owner.component';
+import { AddHouseComponent } from './add-house/add-house.component';
+import { CalendarDialogHouseComponent } from './house-profile-for-house-owner/calendar-dialog/calendar-dialog-house.component';
+import { DefineUnavailablePeriodHouseComponent } from './define-unavailable-period-house/define-unavailable-period-house.component';
+import {DatePipe} from "@angular/common";
+import { CreateReservationForClientComponent } from './create-reservation-for-client/create-reservation-for-client.component';
+import { GuestProfileComponent } from './guest-profile/guest-profile.component';
+import { HouseReportComponent } from './house-report/house-report.component';
 
 
 const MaterialComponents = [
@@ -72,7 +90,8 @@ const MaterialComponents = [
   MatNativeDateModule,
   MatSelectModule,
   MatSnackBarModule,
-  MatTabsModule
+  MatTabsModule,
+  MatMenuModule
 ];
 
 @NgModule({
@@ -83,6 +102,11 @@ const MaterialComponents = [
     EmailActivationComponent,
     HouseProfileForHouseOwnerComponent,
     AdventureProfileComponent,
+    FishingInstructorProfileComponent,
+    CalendarDialogComponent,
+    DefineAvaibilityPeriodComponent,
+    MakeReservationDialogComponent,
+    AddAdventureDialogComponent,
     BoatProfileForBoatOwnerComponent,
     AddActionHouseProfileComponent,
     ModifyHouseProfileComponent,
@@ -90,6 +114,12 @@ const MaterialComponents = [
     ModifyBoatProfileComponent,
     EditHouseActionComponent,
     HomePageHouseOwnerComponent,
+    AddHouseComponent,
+    DefineUnavailablePeriodHouseComponent,
+    CreateReservationForClientComponent,
+    GuestProfileComponent,
+    HouseReportComponent,
+    CalendarDialogHouseComponent,
   ],
   imports: [
     RouterModule,
@@ -104,7 +134,12 @@ const MaterialComponents = [
     NgProgressModule,
     MaterialComponents,
     BrowserAnimationsModule,
-    AlertModule.forRoot({maxMessages: 5, timeout: 5000, positionX: "right", positionY: "top"}),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
+    Ng2SearchPipeModule,
+    DemoUtilsModule,
     MatCarouselModule,
     BsDropdownModule.forRoot(),
     TooltipModule.forRoot(),
@@ -112,14 +147,15 @@ const MaterialComponents = [
     AlertModule.forRoot({maxMessages: 5, timeout: 5000, positionX: "right", positionY: "top"}),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDhUaf84F4NwNDUjw-feRmJusep1T1EB6s'   // za google maps
-    })
+    }),
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true,
-    }
+    },
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

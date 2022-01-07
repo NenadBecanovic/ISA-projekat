@@ -12,7 +12,9 @@ public class HouseReservationDTO {
     private float price;
     private boolean isAvailable;
     private Set<AdditionalServicesDTO> additionalServices;  // unutar DTO objekta mogu biti samo primitivni tipovi ili neki drugi DTO (ne sme biti model)
-
+    private boolean availabilityPeriod = false;
+    private boolean isAction = false;
+    private Long guestId;
 
     public HouseReservationDTO(){};
 
@@ -97,5 +99,29 @@ public class HouseReservationDTO {
 
     public void setAdditionalServices(Set<AdditionalServicesDTO> additionalServices) {
         this.additionalServices = additionalServices;
+    }
+
+    public boolean isAvailabilityPeriod() {
+        return availabilityPeriod;
+    }
+
+    public void setAvailabilityPeriod(boolean availabilityPeriod) {
+        this.availabilityPeriod = availabilityPeriod;
+    }
+
+    public boolean isAction() {
+        return isAction;
+    }
+
+    public void setAction(boolean action) {
+        isAction = action;
+    }
+
+    public Long getGuestId() {
+        return guestId;
+    }
+
+    public void setGuestId(Long guestId) {
+        this.guestId = guestId;
     }
 }

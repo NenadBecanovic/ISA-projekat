@@ -1,0 +1,54 @@
+<body>
+<div class = "container" >
+  <div class = "title"> Kreiranje rezervacije za klijenta</div>
+  <form  style="margin: auto !important" #addActionForm = "ngForm" (ngSubmit)="addAction()">
+    <div class = "user-details" >
+      <div class = "input-box">
+        <br>
+        <div class = "details">Korisnici za koje trenutno traje rezervacija:</div>
+        <mat-form-field appearance="legacy" class="details">
+        <mat-label>Izaberite korisnika:</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let user of finalUsers" [(ngModel)]="selectedUser" [value]="selectedUser" (click)="changeUser(user.id)">
+            {{user.firstName}} {{user.lastName}}
+          </mat-option>
+        </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class = "input-box">
+        <span class="details">Datum i vreme pocetka:</span>
+        <input type="datetime-local" name="startDate" [(ngModel)]="houseReservation.startDate" placeholder="Unesite datum i vreme pocetka" required>
+        <!--min="2022-01-06T00:00"-->
+      </div>
+      <br>
+      <div class = "input-box">
+        <span class="details">Trajanje (u danima):</span>
+        <input type="number" name="duration" [(ngModel)]="this.duration"  required>
+      </div>
+      <br>
+      <div class = "input-box">
+        <span class="details">Maksimalan broj gostiju:</span>
+        <input type="number" name="maxGuests" [(ngModel)]="houseReservation.maxGuests" placeholder="Unesite maksimalan broj gostiju" required>
+      </div>
+      <br>
+      <div class = "input-box">
+        <span class="details">Dodatne usluge:</span>
+        <div *ngFor="let service of additionalServices">
+          <mat-checkbox name="checkbox" [(ngModel)]="service.checked"> {{ service.name}}: {{service.price}} din </mat-checkbox>
+        </div>
+      </div>
+      <br>
+      <div class = "input-box">
+        <span class="details">Cena:</span>
+        <input type="text" name="price"  [(ngModel)]="houseReservation.price" placeholder="Unesite cenu" required>
+      </div>
+    </div>
+    <br> <br>
+    <div class = "button">
+      <input type ="submit" value="Dodaj">
+    </div>
+  </form>
+</div>
+<ngx-alerts></ngx-alerts>
+</body>
