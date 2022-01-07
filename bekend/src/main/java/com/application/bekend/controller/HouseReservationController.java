@@ -226,6 +226,7 @@ public class HouseReservationController {
             this.myUserService.save(guest);
         }
 
+        // TODO: ako je vlasnik zakazao za klijenta, poslati mejl klijentu
 
         // TODO: ako je akcije, poslati mejl svim pretplacenim klijentima
 
@@ -245,10 +246,6 @@ public class HouseReservationController {
             this.additionalServicesService.save(a);
         }
 
-        // nepotrebno
-//        houseReservation.setAdditionalServices(null);   // raskinuta veza s druge strane u tabeli additional_services_house_reservation
-//        houseReservation = this.houseReservationService.save(houseReservation);
-
         houseReservation.setGuest(null);    // TODO: proveriti kad se dodaju gosti sa rezervacijama
         houseReservation.setHouse(null);  // raskinuta veza u tabeli house_reservation_table (sa strane vodece veze u ManyToMany vezi)
         houseReservation = this.houseReservationService.save(houseReservation);
@@ -262,6 +259,7 @@ public class HouseReservationController {
     public ResponseEntity<HouseReservationDTO> getHouseReservationById(@PathVariable("id") Long id) {
         HouseReservation houseReservation = this.houseReservationService.getHouseReservationById(id);
 
+        // TODO: izmeniti oblik za datum !!
         HouseReservationDTO dto = new HouseReservationDTO(houseReservation.getId(), houseReservation.getStartDate().toString(), houseReservation.getEndDate().toString(),
                 houseReservation.getMaxGuests(), houseReservation.getPrice(), houseReservation.isAvailable());
         dto.setAction(houseReservation.isAction());
@@ -271,5 +269,34 @@ public class HouseReservationController {
         }
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @GetMapping("/getHouseReservationsByGuestId/{id}")
+    public ResponseEntity<List<HouseReservationDTO>> getHouseReservationsByGuestId(@PathVariable("id") Long id) {
+        List<HouseReservation> houseReservations = this.houseReservationService.getHouseReservationsByGuestId(id);
+        List<HouseReservationDTO> houseReservationDTOS = new ArrayList<>();
+
+        for (HouseReservation h: houseReservations) {
+            String startDate = (String.valueOf(h.getStartDate().getTime()));
+            String endDate = (String.valueOf(h.getEndDate().getTime()));
+
+            HouseReservationDTO dto = new HouseReservationDTO(h.getHouse().getId(), h.getId(), startDate, endDate, h.getMaxGuests(),
+                    h.getPrice(), h.isAvailable());
+            dto.setAvailabilityPeriod(h.isAvailabilityPeriod());
+            dto.setAction(h.isAction());
+            if (h.getGuest() != null) {
+                dto.setGuestId(h.getGuest().getId());
+            }
+
+            Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
+            for(AdditionalServices add : this.additionalServicesService.getAllByHouseReservationId(h.getId())) {
+                AdditionalServicesDTO newAddSer = new AdditionalServicesDTO(add.getId(), add.getName(), add.getPrice());
+                additionalServicesDTOS.add(newAddSer);
+            }
+            dto.setAdditionalServices(additionalServicesDTOS);
+
+            houseReservationDTOS.add(dto);
+        }
+        return new ResponseEntity<>(houseReservationDTOS, HttpStatus.OK);
     }
 }

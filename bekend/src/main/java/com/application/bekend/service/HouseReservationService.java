@@ -33,4 +33,6 @@ public class HouseReservationService {
     public void delete(Long id){
         houseReservationsRepository.deleteById(id);
     }
+
+    public  List<HouseReservation> getHouseReservationsByGuestId(Long id) { return this.houseReservationsRepository.getHouseReservationsByGuestId(id); }
 }

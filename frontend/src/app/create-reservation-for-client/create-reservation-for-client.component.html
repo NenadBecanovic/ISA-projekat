@@ -7,7 +7,7 @@
         <mat-form-field appearance="legacy" class="details">
         <mat-label>Izaberite korisnika:</mat-label>
         <mat-select>
-          <mat-option *ngFor="let user of users" [(ngModel)]="selectedUser" [value]="selectedUser" (click)="changeUser(user.id)">
+          <mat-option *ngFor="let user of finalUsers" [(ngModel)]="selectedUser" [value]="selectedUser" (click)="changeUser(user.id)">
             {{user.firstName}} {{user.lastName}}
           </mat-option>
         </mat-select>

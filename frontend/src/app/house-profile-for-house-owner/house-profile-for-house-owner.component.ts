@@ -164,7 +164,6 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
 
   checkDate(endDate: string) {
     this.datepipe.transform(this.date, 'dd/MM/yyyy HH:mm:ss');
-
     // console.log(Number(endDate))
     // console.log(Number(Date.parse(this.date.toString()).toString()))
 

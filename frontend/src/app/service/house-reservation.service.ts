@@ -29,6 +29,10 @@ export class HouseReservationService {
     return this._http.get<HouseReservation>(`${this.userPath}/getHouseReservationById/`+id)
   }
 
+  public getHouseReservationsByGuestId(id: number): Observable<HouseReservation[]> {
+    return this._http.get<HouseReservation[]>(`${this.userPath}/getHouseReservationsByGuestId/`+id)
+  }
+
   public save(houseReservation: HouseReservation): Observable<HouseReservation> { // saljem post zahtev (rezervaciju vikendice) na bekend
     return this._http.post<HouseReservation>(`${this.userPath}/add`, houseReservation)
   }

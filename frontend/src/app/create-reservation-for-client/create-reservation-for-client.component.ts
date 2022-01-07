@@ -8,6 +8,7 @@ import {AdditionalServicesService} from "../service/additional-services.service"
 import {MyUser} from "../model/my-user";
 import {MyUserService} from "../service/my-user.service";
 import {Address} from "../model/address";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-create-reservation-for-client',
@@ -24,12 +25,13 @@ export class CreateReservationForClientComponent implements OnInit {
   date: Date = new Date();
   endDate: Date = new Date();
   users: MyUser[] = new Array();
+  finalUsers: MyUser[] = new Array();
   address: Address = new Address(0, '', '', '', 0, 0, 0);
   selectedUser: MyUser = new MyUser(0,'','','','','','', this.address,'','');
 
   constructor(private _route: ActivatedRoute, private _houseReservationService: HouseReservationService,
               private _alertService: AlertService, private _router: Router, private _additionalServicesService: AdditionalServicesService,
-              private _myUserService: MyUserService) { }
+              private _myUserService: MyUserService, public datepipe: DatePipe) { }
 
   ngOnInit(): void {
     // @ts-ignore
@@ -47,6 +49,26 @@ export class CreateReservationForClientComponent implements OnInit {
     this._myUserService.getAllByHouseId(this.houseId).subscribe(
       (users: MyUser[]) => {
         this.users = users
+
+        // proveriti da li za nekog klijenta postoji trenutna rezervacija koja traje
+        for(let user of this.users)
+        {
+          this._houseReservationService.getHouseReservationsByGuestId(user.id).subscribe(
+            (reservations: HouseReservation[]) => {
+              // provera da li postoji termin trenutno, ako postoji dodati user-a u listu usera za koje vlasnik moze da zakaze termin
+              for (let reservation of reservations)
+              {
+                this.datepipe.transform(this.date, 'dd/MM/yyyy HH:mm:ss');
+
+                if (Number(reservation.startDate) < Number(Date.parse(this.date.toString()).toString()) &&  // ako rezervacija trenutno traje
+                  Number(reservation.endDate) > Number(Date.parse(this.date.toString()).toString()) )
+                {
+                  this.finalUsers.push(user)
+                }
+              }
+            }
+          )
+        }
       }
     )
   }
@@ -92,6 +114,6 @@ export class CreateReservationForClientComponent implements OnInit {
 
   changeUser(id: number) {
     this.selectedUser.id = id;
-    // console.log(this.selectedUser)
+    console.log(this.selectedUser)
   }
 }
