@@ -35,6 +35,17 @@ public class MyUserDTO {
         this.phoneNumber = phoneNumber;
     }
 
+    public MyUserDTO(Long id, String firstName, String lastName, String email, String password, String username, AddressDTO addressDTO, String phoneNumber) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.addressDTO = addressDTO;
+        this.phoneNumber = phoneNumber;
+    }
+
     public MyUserDTO() {
     }
 
@@ -109,4 +120,5 @@ public class MyUserDTO {
     public void setId(Long id) {
         this.id = id;
     }
+
 }

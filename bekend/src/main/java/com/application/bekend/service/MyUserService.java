@@ -46,4 +46,8 @@ public class MyUserService implements UserDetailsService {
     public MyUser save(MyUser myUser) {
         return this.myUserRepository.save(myUser);
     }
+
+    public MyUser findUserByHouseReservationId(Long id){
+        return myUserRepository.findMyUserByHouseReservationId(id);
+    }
 }

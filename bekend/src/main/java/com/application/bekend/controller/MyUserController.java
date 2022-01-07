@@ -45,4 +45,16 @@ public class MyUserController {
 
         return new ResponseEntity<>(myUserDTOS, HttpStatus.OK);
     }
+
+    @GetMapping("/findUserByHouseReservationId/{id}")
+    public ResponseEntity<MyUserDTO> findUserByHouseReservationId(@PathVariable("id") Long id) {
+        MyUser myUser = this.myUserService.findUserByHouseReservationId(id);
+
+        AddressDTO addressDTO = new AddressDTO(myUser.getAddress().getId(), myUser.getAddress().getStreet(), myUser.getAddress().getCity(), myUser.getAddress().getState(),
+                myUser.getAddress().getLongitude(), myUser.getAddress().getLatitude(), myUser.getAddress().getPostalCode());
+        MyUserDTO dto = new MyUserDTO(myUser.getId(), myUser.getFirstName(), myUser.getLastName(), myUser.getEmail(), myUser.getPassword(), myUser.getUsername(),
+                addressDTO, myUser.getPhoneNumber());
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
 }

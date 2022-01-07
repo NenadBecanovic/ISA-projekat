@@ -16,6 +16,8 @@ import {MatDialog} from "@angular/material/dialog";
 import {CalendarDialogComponent} from "./calendar-dialog/calendar-dialog.component";
 import {HouseReservation} from "../model/house-reservation";
 import { DatePipe } from '@angular/common'
+import {MyUserService} from "../service/my-user.service";
+import {MyUser} from "../model/my-user";
 
 @Component({
   selector: 'app-house-profile-for-house-owner',
@@ -39,10 +41,11 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
   reservedCourses: HouseReservation[] = new Array();
   allCourses: HouseReservation[] = new Array();
   date: Date = new Date();
+  // user: MyUser = new MyUser(0, '','','','','','',this.address, '','');
 
   constructor(public dialog: MatDialog, private _houseService: HouseService, private _addressService: AddressService, private _roomService: RoomService,
               private _additionalServices: AdditionalServicesService, private _imageService: ImageService, private _houseReservationService: HouseReservationService,
-              private _router: Router, private _route: ActivatedRoute, public datepipe: DatePipe) {
+              private _router: Router, private _route: ActivatedRoute, public datepipe: DatePipe, private _myUserService: MyUserService) {
   }
 
   ngOnInit(): void {
@@ -122,6 +125,11 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
               // dobavljamo sve rezervacije (to su HouseReservations koje nisu available) - spisak/istorija rezervacija
               if (course.available == false && course.availabilityPeriod == false)
               {
+                  this._myUserService.findUserByHouseReservationId(course.id).subscribe(
+                (user: MyUser) => {
+                      course.guest = user
+                    }
+                  )
                   this.reservedCourses.push(course);
               }
             }
@@ -170,4 +178,7 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
     }
   }
 
+  seeGuestProfile(id: number) {
+    this._router.navigate(['/guest-profile', id])
+  }
 }

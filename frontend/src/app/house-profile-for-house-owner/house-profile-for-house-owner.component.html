@@ -223,8 +223,8 @@
                           </div>
                         </div>
                         <div style="float: right">
-<!--                          {{ reserved.guest }}-->
-                          <button mat-icon-button class="btn"> <mat-icon>person</mat-icon> </button>
+                          <label> ({{ reserved.guest.username }}) {{ reserved.guest.firstName }} {{ reserved.guest.lastName }} </label>
+                          <button mat-icon-button class="btn" (click)="seeGuestProfile(reserved.id)" > <mat-icon>person</mat-icon> </button>
                         </div>
                         <div style="display:inline;" >
                           <div style="float: left; width: 100%;">

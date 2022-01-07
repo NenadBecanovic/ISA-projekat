@@ -60,6 +60,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { DefineUnavailablePeriodHouseComponent } from './define-unavailable-period-house/define-unavailable-period-house.component';
 import {DatePipe} from "@angular/common";
 import { CreateReservationForClientComponent } from './create-reservation-for-client/create-reservation-for-client.component';
+import { GuestProfileComponent } from './guest-profile/guest-profile.component';
 
 const MaterialComponents = [
   MatSliderModule,
@@ -107,6 +108,7 @@ const MaterialComponents = [
     CalendarDialogComponent,
     DefineUnavailablePeriodHouseComponent,
     CreateReservationForClientComponent,
+    GuestProfileComponent,
   ],
   imports: [
     RouterModule,

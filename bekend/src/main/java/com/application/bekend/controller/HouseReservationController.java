@@ -50,6 +50,9 @@ public class HouseReservationController {
             HouseReservationDTO houseReservationDTO = new HouseReservationDTO(a.getId(), startDate, endDate, a.getMaxGuests(), a.getPrice(), a.isAvailable());
             houseReservationDTO.setAvailabilityPeriod(a.isAvailabilityPeriod());
             houseReservationDTO.setAction(a.isAction());
+            if (a.getGuest() != null) {
+                houseReservationDTO.setGuestId(a.getGuest().getId());
+            }
 
             Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
             // dobavljamo set dodatnih usluga za onu konkretnu rezervaciju iz baze i pretvaramo u DTO (a mozemo samo i pristupiti setu dodatnih usluga direktno preko rezervacije (a.getAdditionalServices()))
@@ -97,6 +100,9 @@ public class HouseReservationController {
                 HouseReservationDTO houseReservationDTO = new HouseReservationDTO(a.getId(), startDate, endDate, a.getMaxGuests(), a.getPrice(), a.isAvailable());
                 houseReservationDTO.setAvailabilityPeriod(a.isAvailabilityPeriod());
                 houseReservationDTO.setAction(a.isAction());
+                if (a.getGuest() != null) {
+                    houseReservationDTO.setGuestId(a.getGuest().getId());
+                }
 
                 Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
                 // dobavljamo set dodatnih usluga za onu konkretnu rezervaciju iz baze i pretvaramo u DTO (a mozemo samo i pristupiti setu dodatnih usluga direktno preko rezervacije (a.getAdditionalServices()))
@@ -143,6 +149,9 @@ public class HouseReservationController {
             HouseReservationDTO houseReservationDTO = new HouseReservationDTO(a.getId(), startDate, endDate, a.getMaxGuests(), a.getPrice(), a.isAvailable());
             houseReservationDTO.setAvailabilityPeriod(a.isAvailabilityPeriod());
             houseReservationDTO.setAction(a.isAction());
+            if (a.getGuest() != null) {
+                houseReservationDTO.setGuestId(a.getGuest().getId());
+            }
 
             Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
             // dobavljamo set dodatnih usluga za onu konkretnu rezervaciju iz baze i pretvaramo u DTO (a mozemo samo i pristupiti setu dodatnih usluga direktno preko rezervacije (a.getAdditionalServices()))
@@ -255,8 +264,11 @@ public class HouseReservationController {
 
         HouseReservationDTO dto = new HouseReservationDTO(houseReservation.getId(), houseReservation.getStartDate().toString(), houseReservation.getEndDate().toString(),
                 houseReservation.getMaxGuests(), houseReservation.getPrice(), houseReservation.isAvailable());
-        houseReservation.setAction(houseReservation.isAction());
-        houseReservation.setAvailabilityPeriod(houseReservation.isAvailabilityPeriod());
+        dto.setAction(houseReservation.isAction());
+        dto.setAvailabilityPeriod(houseReservation.isAvailabilityPeriod());
+        if (houseReservation.getGuest() != null) {
+            dto.setGuestId(houseReservation.getGuest().getId());
+        }
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }

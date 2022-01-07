@@ -16,4 +16,8 @@ export class MyUserService {
   public getAllByHouseId(id: number): Observable<MyUser[]>{
     return this._http.get<MyUser[]>(`${this.userPath}/getAllByHouseId/`+id)
   }
+
+  public findUserByHouseReservationId(id: number): Observable<MyUser>{
+    return this._http.get<MyUser>(`${this.userPath}/findUserByHouseReservationId/`+id)
+  }
 }

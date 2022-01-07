@@ -1,5 +1,6 @@
 import {AdditionalService} from "./additional-service";
 import {MyUser} from "./my-user";
+import {Address} from "./address";
 
 export class HouseReservation {
 
@@ -14,6 +15,7 @@ export class HouseReservation {
   public availabilityPeriod: boolean = false;
   public action: boolean = false;
   public guestId: number = 0;
+  public guest: MyUser = new MyUser(0, '', '', '', '', '','', new Address(0, '', '', '', 0, 0, 0), '', '');
 
   constructor(id: number, startDate: string, endDate: string, maxGuests: number, additionalServices: AdditionalService[],
               price: number, isAvailable: boolean) {
