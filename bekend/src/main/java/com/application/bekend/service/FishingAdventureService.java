@@ -1,6 +1,7 @@
 package com.application.bekend.service;
 
 import java.io.FileNotFoundException;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -15,6 +16,8 @@ import com.application.bekend.repository.FishingAdventureRepository;
 import com.application.bekend.model.House;
 import com.application.bekend.model.Image;
 import org.springframework.data.domain.Sort;
+
+@Service
 public class FishingAdventureService {
 
     private final FishingAdventureRepository fishingAdventureRepository;

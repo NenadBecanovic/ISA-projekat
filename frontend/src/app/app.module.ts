@@ -116,7 +116,7 @@ const MaterialComponents = [
     EditHouseActionComponent,
     HomePageHouseOwnerComponent,
     AddHouseComponent,
-    AddImageDialogComponent
+    AddImageDialogComponent,
     DefineUnavailablePeriodHouseComponent,
     CreateReservationForClientComponent,
     GuestProfileComponent,

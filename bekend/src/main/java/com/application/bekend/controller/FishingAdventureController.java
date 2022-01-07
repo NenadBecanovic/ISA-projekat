@@ -65,9 +65,4 @@ public class FishingAdventureController {
         return new ResponseEntity<>(instructorFishingAdventures, HttpStatus.OK);
     }
     
-    @PostMapping("/image-upload/{id}")
-    public ResponseEntity uploadImage(@PathVariable("id") Long id,@RequestBody String image) throws IOException {
-    	this.fishingAdventureService.uploadImage(image,id);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
 }

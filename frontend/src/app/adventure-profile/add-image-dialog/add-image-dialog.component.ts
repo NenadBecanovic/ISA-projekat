@@ -10,7 +10,7 @@ import { ImageService } from 'src/app/service/image.service';
 })
 export class AddImageDialogComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<AddImageDialogComponent>, private _adventureService: AdventureProfileService) { }
+  constructor(public dialogRef: MatDialogRef<AddImageDialogComponent>, private _imageService: ImageService) { }
 
   uploadedImage!: string | ArrayBuffer;
   id!: number;
@@ -66,10 +66,11 @@ export class AddImageDialogComponent implements OnInit {
     }
 
     ok(){
-      alert(this.uploadedImage);
-      this._adventureService.uploadImage(this.uploadedImage,this.id).subscribe(
+      //alert(this.uploadedImage);
+      this._imageService.uploadImage(this.uploadedImage,this.id).subscribe(
         (res) => {
-          alert("OK");
+          //alert("OK");
+          this.dialogRef.close();
         },
         (err) => {
   
