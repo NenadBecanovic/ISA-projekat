@@ -30,7 +30,7 @@ public class MyUserController {
         MyUser myUser = this.myUserService.findUserByEmail(email);
         MyUserDTO dto = modelMapper.map(myUser, MyUserDTO.class);
         AddressDTO addressDTO = modelMapper.map(myUser.getAddress(), AddressDTO.class);
-        dto.setAuthority(myUser.getAuthorities().get(0).getName());
+        dto.setAuthority(myUser.getAuthoritiesList().get(0).getName());
         dto.setAddressDTO(addressDTO);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }

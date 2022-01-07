@@ -46,7 +46,7 @@ public class MyUserService implements UserDetailsService {
 
     public void activateUser(Long id){
         MyUser user = findUserById(id);
-        user.setIsActivated(true);
+        user.setActivated(true);
         this.myUserRepository.save(user);
     }
 
