@@ -159,7 +159,7 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
   }
 
   makeReport() {
-
+    this._router.navigate(['/house-report', this.house.id])
   }
 
   checkDate(endDate: string) {

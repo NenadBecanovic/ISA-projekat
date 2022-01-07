@@ -30,6 +30,7 @@ import {
   CreateReservationForClientComponent
 } from "./create-reservation-for-client/create-reservation-for-client.component";
 import {GuestProfileComponent} from "./guest-profile/guest-profile.component";
+import {HouseReportComponent} from "./house-report/house-report.component";
 
 const routes: Routes = [
   {path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}, {path: 'houses', component: HomeHouseComponent},
@@ -53,6 +54,7 @@ const routes: Routes = [
   { path: 'define-unavailable-period-house/:id', component: DefineUnavailablePeriodHouseComponent},
   { path: 'create-reservation-for-client/:id', component: CreateReservationForClientComponent},
   { path: 'guest-profile/:id', component: GuestProfileComponent},
+  { path: 'house-report/:id', component: HouseReportComponent},
 ];
 
 @NgModule({

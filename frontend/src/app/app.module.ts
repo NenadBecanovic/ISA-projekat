@@ -61,6 +61,7 @@ import { DefineUnavailablePeriodHouseComponent } from './define-unavailable-peri
 import {DatePipe} from "@angular/common";
 import { CreateReservationForClientComponent } from './create-reservation-for-client/create-reservation-for-client.component';
 import { GuestProfileComponent } from './guest-profile/guest-profile.component';
+import { HouseReportComponent } from './house-report/house-report.component';
 
 const MaterialComponents = [
   MatSliderModule,
@@ -109,6 +110,7 @@ const MaterialComponents = [
     DefineUnavailablePeriodHouseComponent,
     CreateReservationForClientComponent,
     GuestProfileComponent,
+    HouseReportComponent,
   ],
   imports: [
     RouterModule,
