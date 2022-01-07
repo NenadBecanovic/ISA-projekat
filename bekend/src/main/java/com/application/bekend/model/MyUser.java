@@ -88,8 +88,6 @@ public class MyUser implements UserDetails {
     	
     }
 
-    public MyUser() {
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -132,7 +130,6 @@ public class MyUser implements UserDetails {
     public boolean isEnabled() {
         return isActivated;
     }
-
 
     public void addAuthority(Authority authority){
         this.authorities.add(authority);
@@ -201,7 +198,6 @@ public class MyUser implements UserDetails {
     public void setPenalties(int penalties) {
         this.penalties = penalties;
     }
-
 
     public boolean isDeleted() {
         return isDeleted;
@@ -310,169 +306,4 @@ public class MyUser implements UserDetails {
     public void setSubscriptions_owners(Set<Subscription> subscriptions_owners) {
         this.subscriptions_owners = subscriptions_owners;
     }
-  
-	public Long getId() {
-		return id;
-	}
-
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-
-	public String getLastName() {
-		return lastName;
-	}
-
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-
-	public String getEmail() {
-		return email;
-	}
-
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-
-	public String getPassword() {
-		return password;
-	}
-
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-
-	public String getUsername() {
-		return username;
-	}
-
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
-
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
-
-	public Set<Boat> getBoats() {
-		return boats;
-	}
-
-
-	public void setBoats(Set<Boat> boats) {
-		this.boats = boats;
-	}
-
-
-	public Set<House> getHouses() {
-		return houses;
-	}
-
-
-	public void setHouses(Set<House> houses) {
-		this.houses = houses;
-	}
-
-
-	public Set<FishingAdventure> getFishingAdventures() {
-		return fishingAdventures;
-	}
-
-
-	public void setFishingAdventures(Set<FishingAdventure> fishingAdventures) {
-		this.fishingAdventures = fishingAdventures;
-	}
-
-
-	public Set<HouseReservation> getHouseReservations() {
-		return houseReservations;
-	}
-
-
-	public void setHouseReservations(Set<HouseReservation> houseReservations) {
-		this.houseReservations = houseReservations;
-	}
-
-
-	public Set<BoatReservation> getBoatReservations() {
-		return boatReservations;
-	}
-
-
-	public void setBoatReservations(Set<BoatReservation> boatReservations) {
-		this.boatReservations = boatReservations;
-	}
-
-
-	public Set<AdventureReservation> getAdventureReservations() {
-		return adventureReservations;
-	}
-
-
-	public void setAdventureReservations(Set<AdventureReservation> adventureReservations) {
-		this.adventureReservations = adventureReservations;
-	}
-
-
-	public Address getAddress() {
-		return address;
-	}
-
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
-
-	public List<Authority> getAuthorities() {
-		return authorities;
-	}
-
-	public void setAuthorities(List<Authority> authorities) {
-		this.authorities = authorities;
-	}
-
-	public VerificationRequest getVerificationRequest() {
-		return verificationRequest;
-	}
-
-	public void setVerificationRequest(VerificationRequest verificationRequest) {
-		this.verificationRequest = verificationRequest;
-	}
-
-	public Boolean getIsActivated() {
-		return isActivated;
-	}
-
-	public void setIsActivated(Boolean isActivated) {
-		this.isActivated = isActivated;
-	}
-  
 }

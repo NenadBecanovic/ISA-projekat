@@ -18,7 +18,7 @@ export class ClientProfileComponent implements OnInit {
     this.loadData()
   }
   address: Address = new Address(0,"","","",0,0, 0)
-  user: MyUser = new MyUser("","","","","","",this.address, "", "");
+  user: MyUser = new MyUser(0,"","","","","","",this.address, "", "");
   newPassword: string = '';
   newPasswordCheck: string = '';
   oldPassword: string = '';

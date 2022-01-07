@@ -13,7 +13,7 @@ export class ClientHomePageComponent implements OnInit {
 
   sidebarOpen = false;
   address: Address = new Address(0,"","","",0,0,0)
-  myUser: MyUser = new MyUser("","","","","","",this.address,"",
+  myUser: MyUser = new MyUser(0,"","","","","","",this.address,"",
     "")
 
   constructor(private _authentification: AuthentificationService) { }
