@@ -21,7 +21,7 @@
       >
     </div>
     <small style="margin: 5px"
-      >There are {{ day.events.length }} events on this day</small
+      >Postoji {{ day.events.length }} rezervacija na ovaj dan.</small
     >
   </ng-template>
   
@@ -31,18 +31,21 @@
       [viewDate]="viewDate"
       [events]="events"
       [cellTemplate]="customCellTemplate"
+      (beforeViewRender)="beforeViewRender($event)"
     >
     </mwl-calendar-month-view>
     <mwl-calendar-week-view
       *ngSwitchCase="'week'"
       [viewDate]="viewDate"
       [events]="events"
+      (beforeViewRender)="beforeViewRender($event)"
     >
     </mwl-calendar-week-view>
     <mwl-calendar-day-view
       *ngSwitchCase="'day'"
       [viewDate]="viewDate"
       [events]="events"
+      (beforeViewRender)="beforeViewRender($event)"
     >
     </mwl-calendar-day-view>
   </div>

@@ -36,7 +36,7 @@ export class AddAdventureDialogComponent implements OnInit {
   imageAdded(e: any){
     /* const file = e.target.files[0];
      this.createBase64Image(file);
-     this.newImage=URL.createObjectURL(file);*/
+     this.newImage=URL.createObjectURL(file);
      const file: File = e.files[0];
    const reader = new FileReader();
 
@@ -53,7 +53,7 @@ export class AddAdventureDialogComponent implements OnInit {
        })
    });
 
-   reader.readAsDataURL(file);
+   reader.readAsDataURL(file);*/
  }
  
  createBase64Image(file: Blob){

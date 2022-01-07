@@ -19,11 +19,14 @@ public class FishingAdventure {
     private String promoDescription;
     private int capacity;
     private String fishingEquipment;
+    
+    @OneToMany(mappedBy = "fishingAdventure", fetch = FetchType.EAGER)
+    private Set<Feedback> feedbacks= new HashSet<>();
 
     @OneToMany(mappedBy = "fishingAdventure", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Image> images;
 
-    @ManyToMany(mappedBy = "fishingAdventures")
+    @OneToMany(mappedBy = "fishingAdventure", fetch = FetchType.EAGER)
     private Set<AdventureReservation> adventureReservations = new HashSet<AdventureReservation>();
     private String behaviourRules;
     private float pricePerHour;
@@ -157,4 +160,8 @@ public class FishingAdventure {
     public Set<Image> getImages() { return images; }
 
     public void setImages(Set<Image> images) { this.images = images; }
+    
+    public void addImage(Image image) {
+    	this.images.add(image);
+    }
 }

@@ -27,7 +27,7 @@ public class MyUser implements UserDetails {
     private String username;
     @Column(name = "phoneNumber", nullable = false)
     private String phoneNumber;
-    @Column(name = "grade", nullable = false)
+    @Column(name = "grade", nullable = true)
     private double grade;
     @Column(name = "penalties")
     private int penalties;
@@ -48,9 +48,8 @@ public class MyUser implements UserDetails {
 
     @OneToMany(mappedBy = "guest", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<BoatReservation> boatReservations = new HashSet<BoatReservation>();
-
-    @ManyToMany
-    @JoinTable(name = "fishing_reservations", joinColumns = @JoinColumn(name = "guest_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "fishing_reservation_id", referencedColumnName = "id"))
+    
+    @OneToMany(mappedBy = "guest", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<AdventureReservation> adventureReservations = new HashSet<AdventureReservation>();
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -88,26 +87,6 @@ public class MyUser implements UserDetails {
     	
     }
 
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
-    }
-
-    public List<Authority> getAuthoritiesList(){
-        return authorities;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
     @Override
     @JsonIgnore
     public boolean isAccountNonExpired() {
@@ -135,54 +114,6 @@ public class MyUser implements UserDetails {
         this.authorities.add(authority);
    }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     public double getGrade() {
         return grade;
     }
@@ -191,6 +122,88 @@ public class MyUser implements UserDetails {
         this.grade = grade;
     }
 
+	public Long getId() {
+		return id;
+	}
+
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+
+	public String getLastName() {
+		return lastName;
+	}
+
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+	public String getPassword() {
+		return password;
+	}
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+
+	public String getUsername() {
+		return username;
+	}
+
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public List<Authority> getAuthorities() {
+		return authorities;
+	}
+
+	public Boolean getIsActivated() {
+		return isActivated;
+	}
+
+
+	public void setIsActivated(Boolean isActivated) {
+		this.isActivated = isActivated;
+	}
+  
     public int getPenalties() {
         return penalties;
     }

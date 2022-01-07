@@ -34,6 +34,10 @@ public class AdditionalServices {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "addiotional_services_boat_reservation", joinColumns = @JoinColumn(name = "additional_services_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "boat_reservation_id", referencedColumnName = "id"))
     private Set<BoatReservation> boatReservationsServices = new HashSet<>();
+    
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "addiotional_services_adventure_reservation", joinColumns = @JoinColumn(name = "additional_services_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "adventure_reservation_id", referencedColumnName = "id"))
+    private Set<AdventureReservation> adventureReservationsServices = new HashSet<>();
 
     public AdditionalServices(Long id, String name, float price, Set<Boat> boats, Set<FishingAdventure> fishingAdventures, Set<House> houses) {
         this.id = id;
@@ -43,15 +47,16 @@ public class AdditionalServices {
         this.fishingAdventures = fishingAdventures;
         this.houses = houses;
     }
-
-    public AdditionalServices(Long id, String name, float price, Set<HouseReservation> houseReservationsServices, Set<BoatReservation> boatReservationsServices) {
+/*
+    public AdditionalServices(Long id, String name, float price, Set<HouseReservation> houseReservationsServices, Set<BoatReservation> boatReservationsServices, Set<AdventureReservation> adventureReservationsServices) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.houseReservationsServices = houseReservationsServices;
         this.boatReservationsServices = boatReservationsServices;
+        this.adventureReservationsServices = adventureReservationsServices;
     }
-
+*/
 //    public AdditionalServices(Long id, String name, float price, Set<BoatReservation> boatReservationsServices) {
 //        this.id = id;
 //        this.name = name;

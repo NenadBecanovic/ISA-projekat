@@ -168,13 +168,14 @@
 }
 
 .form-check-label{
+    font-family: "Poppins", sans-serif;
     font-size: 16px;
     font-weight: 300;
     color: #a2a2a2
 }
 
 .adventure-container{
-  font-family: 'Rubik', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 16px;
   font-weight: lighter;
   color: #181e27;
@@ -197,6 +198,7 @@
 }
 
 .filter-sort-container{
+  font-family: "Poppins", sans-serif;
   margin: 0;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.10);
   border-radius: 15px;
@@ -210,6 +212,7 @@
   color:#a2a2a2;
   font-size: 16px;
   font-weight: 300;
+  font-family: "Poppins", sans-serif;
   white-space: nowrap;
   padding:0;
   height: 37px;
@@ -231,16 +234,19 @@
 }
 
 .add-action-button{
+  font-family: "Poppins", sans-serif;
   color:white;
   background-color: #31B4E5;
 }
 
 .add-picture-button{
+  font-family: "Poppins", sans-serif;
   color:white;
   background-color: #31B4E5;
   position: absolute;
-  top: 23vw;
-  left: 95%;
+  top: 36vw;
+  left: 93%;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
+  font-size: 20px;
 }

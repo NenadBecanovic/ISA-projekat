@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import {ImageService} from "../service/image.service";
 import {Image} from "../model/image";
 import { AdditionalServicesService } from '../service/additional-services.service';
+import { AddImageDialogComponent } from './add-image-dialog/add-image-dialog.component';
 
 class ImageSnippet {
   constructor(public src: string, public file: File) {}
@@ -22,22 +23,7 @@ class ImageSnippet {
 })
 export class AdventureProfileComponent implements OnInit {
 
-  slides = [
-    {
-      image: /* "../images/slide1.jpg" */
-        "https://mackenzienz.com/wp-content/uploads/2015/09/Fishing-PAge-BAnner.jpg?fbclid=IwAR1c5dayMLBGnI0cFCy6Z8zFfBjmkX17Z9krEkjT5v2vDbf5xKxvVNgFSmk"
-    },
-    {
-      image:
-        "https://www.offshorewest.com/wp-content/uploads/2017/01/Homepage-Banner-fishing.jpg?fbclid=IwAR3QvNqAVnKMCsDJE0Hk_F50RZCOkcj9pwQy9Mfn_HvWftbAf21PmbvmRo0"
-    }
-  ];
-
   address: Address = new Address(0,"Kotor","Kotor","Crna Gora",0,0,31100)
-  // user: MyUser = new MyUser(0,"Kapetan","Kuka","","","kuka","",this.address, "065454545", "Zelim");
-  // service1: AdditionalService= new AdditionalService(0,"STAPOVI", 2000, false);
-  // service2: AdditionalService= new AdditionalService(0,"STAPOVI", 3000, false);
-  // fishingAdventure: FishingAdventure;
   user: FishingAdventureInstructorDTO = new FishingAdventureInstructorDTO(1,"Kapetan","Kuka","","",this.address, "065454545", "Najjaci sam na svetu");
   additionalServices: AdditionalService[] = new Array<AdditionalService>();
   fishingAdventure: FishingAdventure= new FishingAdventure(0,"", this.address, "", 0, "", "", 0,true, 0);
@@ -71,11 +57,11 @@ export class AdventureProfileComponent implements OnInit {
     });
   }
 
-  imageAdded(e: any){
+  imageAdded(id: number){
      /* const file = e.target.files[0];
       this.createBase64Image(file);
-      this.newImage=URL.createObjectURL(file);*/
-      const file: File = e.files[0];
+      this.newImage=URL.createObjectURL(file);
+    const file: File = e.files[0];
     const reader = new FileReader();
 
     reader.addEventListener('load', (event: any) => {
@@ -91,7 +77,15 @@ export class AdventureProfileComponent implements OnInit {
         })
     });
 
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(file);*/
+    const dialogRef = this.dialog.open(AddImageDialogComponent, {
+      width: '500px',
+      data: {},
+    });
+    dialogRef.componentInstance.id = id;
+    dialogRef.afterClosed().subscribe(result => {
+      
+    });
   }
 
   createBase64Image(file: Blob){
@@ -111,13 +105,13 @@ export class AdventureProfileComponent implements OnInit {
         this.fishingAdventure = fishingAdventure
         this.address = this.fishingAdventure.address;
 
-        this._additionalServices.getAllByBoatId(this.fishingAdventure.id).subscribe(
+        this._additionalServices.getAllByFishingAdventureId(this.fishingAdventure.id).subscribe(
           (additionalServices: AdditionalService[]) => {
             this.additionalServices = additionalServices
           }
         )
 
-        this._imageService.getAllByBoatId(this.fishingAdventure.id).subscribe(
+        this._imageService.getAllByFishingAdventureId(this.fishingAdventure.id).subscribe(
           (images: Image[]) => {
             this.images = images
             this.isLoaded = true;

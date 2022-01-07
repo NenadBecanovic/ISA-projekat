@@ -24,6 +24,10 @@ public class Feedback {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "house_id")
     private House house;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "fishing_adventure_id")
+    private FishingAdventure fishingAdventure;
 
     public Feedback(Long id, int grade, String review) {
         this.id = id;

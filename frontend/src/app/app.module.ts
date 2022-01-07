@@ -61,6 +61,7 @@ import { ModifyBoatProfileComponent } from './modify-boat-profile/modify-boat-pr
 import { EditHouseActionComponent } from './edit-house-action/edit-house-action.component';
 import { HomePageHouseOwnerComponent } from './home-page-house-owner/home-page-house-owner.component';
 import { AddHouseComponent } from './add-house/add-house.component';
+import { AddImageDialogComponent } from './adventure-profile/add-image-dialog/add-image-dialog.component';
 import { CalendarDialogHouseComponent } from './house-profile-for-house-owner/calendar-dialog/calendar-dialog-house.component';
 import { DefineUnavailablePeriodHouseComponent } from './define-unavailable-period-house/define-unavailable-period-house.component';
 import {DatePipe} from "@angular/common";
@@ -115,6 +116,7 @@ const MaterialComponents = [
     EditHouseActionComponent,
     HomePageHouseOwnerComponent,
     AddHouseComponent,
+    AddImageDialogComponent,
     DefineUnavailablePeriodHouseComponent,
     CreateReservationForClientComponent,
     GuestProfileComponent,

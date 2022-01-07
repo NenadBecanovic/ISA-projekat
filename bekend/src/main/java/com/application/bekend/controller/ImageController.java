@@ -10,9 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,15 +58,20 @@ public class ImageController {
     
     @GetMapping("/getAllByFishingAdventureId/{id}")
     public ResponseEntity<List<ImageDTO>> getAllByFishingAdventureId(@PathVariable("id") Long id){
-//        List<Image> images = this.imageService.getAllByFishing_Adventure_Id(id);
+        List<Image> images = this.imageService.getAllByFishingAdventure(id);
         List<ImageDTO> imagesDTOS = new ArrayList<>();
 
-//        for (Image i: images) {
-        for (Image i: new ArrayList<Image>()) {
-        ImageDTO imageDTO = new ImageDTO(i.getId(), i.getImageUrl());
+        for (Image i: images) {
+            ImageDTO imageDTO = new ImageDTO(i.getId(), i.getImageUrl());
             imagesDTOS.add(imageDTO);
         }
 
         return new ResponseEntity<>(imagesDTOS, HttpStatus.OK);
+    }
+    
+    @PostMapping("/adventure-image-upload/{id}")
+    public ResponseEntity uploadAdventureImage(@PathVariable("id") Long id,@RequestBody String image) throws IOException {
+    	this.imageService.uploadAdventureImage(image,id);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

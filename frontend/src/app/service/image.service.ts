@@ -24,4 +24,8 @@ export class ImageService {
   public getAllByFishingAdventureId(id: number): Observable<Image[]>{
     return this._http.get<Image[]>(`${this.userPath}/getAllByFishingAdventureId/`+id)
   }
+
+  public uploadImage(image: any, id: number){
+    return this._http.post(`${this.userPath}/adventure-image-upload/`+id, image);
+  }
 }

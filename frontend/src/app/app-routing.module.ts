@@ -49,7 +49,7 @@ const routes: Routes = [
   {path:'client', component: ClientHomePageComponent, children: [{path: '', component: DashboardComponent}]},
   { path:'house-profile-for-house-owner/:id', component: HouseProfileForHouseOwnerComponent},
   { path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}]},
-  {path: 'adventure-profile', component: AdventureProfileComponent},
+  {path: 'adventure-profile/:id', component: AdventureProfileComponent},
   {path: 'fishing-instructor', component: FishingInstructorProfileComponent},
   { path:'boat-profile-for-boat-owner', component: BoatProfileForBoatOwnerComponent},
   { path:'add-action-house-profile/:id', component: AddActionHouseProfileComponent},

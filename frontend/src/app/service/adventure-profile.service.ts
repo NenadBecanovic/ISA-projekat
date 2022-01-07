@@ -19,12 +19,5 @@ export class AdventureProfileService {
     return this._http.get<FishingAdventure[]>(`${this.userPath}/getFishingAdventuresByInstructor/`+id)
   }
 
-  public uploadImage(image: File){
-    const formData = new FormData();
-
-    formData.append('image', image);
-
-    return this._http.post(`${this.userPath}/image-upload`, formData);
-  }
-
+  
 }
