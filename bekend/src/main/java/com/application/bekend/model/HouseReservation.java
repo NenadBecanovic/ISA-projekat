@@ -16,6 +16,8 @@ public class HouseReservation {
     private int maxGuests;
     private float price;
     private boolean isAvailable;
+    private boolean availabilityPeriod = false;
+    private boolean isAction = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "guest_id")
@@ -110,11 +112,27 @@ public class HouseReservation {
         return additionalServices;
     }
 
+    public boolean isAvailabilityPeriod() {
+        return availabilityPeriod;
+    }
+
+    public void setAvailabilityPeriod(boolean availabilityPeriod) {
+        this.availabilityPeriod = availabilityPeriod;
+    }
+
     public void setAdditionalServices(Set<AdditionalServices> additionalServices) {
         this.additionalServices = additionalServices;
     }
 
     public void addAdditionalService(AdditionalServices additionalServices){
         this.additionalServices.add(additionalServices);
+    }
+
+    public boolean isAction() {
+        return isAction;
+    }
+
+    public void setAction(boolean action) {
+        isAction = action;
     }
 }

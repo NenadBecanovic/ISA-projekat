@@ -5,6 +5,7 @@ import {HouseReservationService} from "../service/house-reservation.service";
 import {AlertService} from "ngx-alerts";
 import {AdditionalService} from "../model/additional-service";
 import {AdditionalServicesService} from "../service/additional-services.service";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-add-action-house-profile',
@@ -23,7 +24,8 @@ export class AddActionHouseProfileComponent implements OnInit {
 
   // _route: ActivatedRoute - da iz mog url-a preuzmem id
   constructor(private _route: ActivatedRoute, private _houseReservationService: HouseReservationService,
-              private _alertService: AlertService, private _router: Router, private _additionalServicesService: AdditionalServicesService) { }
+              private _alertService: AlertService, private _router: Router, private _additionalServicesService: AdditionalServicesService,
+              public datepipe: DatePipe) { }
 
   ngOnInit(): void {
     // @ts-ignore
@@ -41,22 +43,22 @@ export class AddActionHouseProfileComponent implements OnInit {
 
   addAction() {
     this.houseReservation.houseId = this.houseId;
-
-    var startDate = Date.parse(this.houseReservation.startDate)   // parsiranje datuma pocetka u milisekunde
-    this.date =  new Date(startDate)
-    this.endDate.setDate( this.date.getDate() + this.duration );  // na Date se dodaje trajanje (koje je tipa number)
-
-    console.log(this.date)
-    console.log(this.endDate)
-    console.log(this.duration)
-    console.log(this.houseReservation)
-
-    this.houseReservation.endDate = Date.parse(this.endDate.toString()).toString()
-    this.houseReservation.startDate = Date.parse(this.date.toString()).toString()
+    this.houseReservation.action = true;
     this.houseReservation.available = true;
+    this.houseReservation.availabilityPeriod = false;
 
-    // console.log(this.additionalServices)
-    // this.houseReservation.additionalServices
+    var startDate = Date.parse(this.houseReservation.startDate)
+    this.date =  new Date(startDate)
+
+    var actionStart  = Number(this.date)  // parsiranje datuma pocetka u milisekunde
+    var actionEnd = actionStart + this.duration * 86400000
+
+    this.houseReservation.startDate = actionStart.toString()
+    this.houseReservation.endDate = actionEnd.toString()
+
+    // console.log(this.houseReservation.startDate)
+    // console.log(this.houseReservation.endDate)
+
     for (let a of this.additionalServices)
     {
         if (a.checked == true)
@@ -68,17 +70,15 @@ export class AddActionHouseProfileComponent implements OnInit {
     this.houseReservation.additionalServices = this.additionalServicesFinal
     console.log(this.houseReservation)
 
-    // this._alertService.info('Rezervacija je zapoceta');
-
     this._houseReservationService.save(this.houseReservation).subscribe(   // subscribe - da bismo dobili odgovor beka
       (houseReservation: HouseReservation) => {
 
-        // this._alertService.success('Uspesno kreirana rezervacija');  // iskoci tek kad seldeci put udjem u dijalog za pravljenje nove akcije, ne iskoci za onu akciju za koju je potrebno
-        this._router.navigate(['house-profile-for-house-owner'])
+        this._router.navigate(['house-profile-for-house-owner/', this.houseId])
       },
       (error) => {
         this._alertService.danger('Doslo je do greske');
-      },
+      }
+      // (HttpStatusCode.Conflict) = { this._alertService.danger('Vec postoji rezervacija u izabranom terminu')}
     )
   }
 

@@ -14,4 +14,6 @@ public interface HouseReservationRepository extends JpaRepository<HouseReservati
     HouseReservation getHouseReservationById(Long id);
 
     void deleteById(Long id);
+
+    List<HouseReservation> getHouseReservationsByGuestId(Long id);
 }

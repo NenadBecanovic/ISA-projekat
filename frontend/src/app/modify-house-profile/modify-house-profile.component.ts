@@ -73,7 +73,7 @@ export class ModifyHouseProfileComponent implements OnInit {
   editProfile() {
     this._houseService.edit(this.house).subscribe(   // subscribe - da bismo dobili odgovor beka
       (house: House) => {
-        this._router.navigate(['house-profile-for-house-owner'])
+        this._router.navigate(['house-profile-for-house-owner/', this.house.id])
       },
       (error) => {
         // console.log(error)

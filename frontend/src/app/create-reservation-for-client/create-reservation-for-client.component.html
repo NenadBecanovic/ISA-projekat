@@ -1,8 +1,21 @@
 <body>
 <div class = "container" >
-  <div class = "title"> Dodavanje akcije</div>
+  <div class = "title"> Kreiranje rezervacije za klijenta</div>
   <form  style="margin: auto !important" #addActionForm = "ngForm" (ngSubmit)="addAction()">
     <div class = "user-details" >
+      <div class = "input-box">
+        <br>
+        <div class = "details">Korisnici za koje trenutno traje rezervacija:</div>
+        <mat-form-field appearance="legacy" class="details">
+        <mat-label>Izaberite korisnika:</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let user of finalUsers" [(ngModel)]="selectedUser" [value]="selectedUser" (click)="changeUser(user.id)">
+            {{user.firstName}} {{user.lastName}}
+          </mat-option>
+        </mat-select>
+        </mat-form-field>
+      </div>
+
       <div class = "input-box">
         <span class="details">Datum i vreme pocetka:</span>
         <input type="datetime-local" name="startDate" [(ngModel)]="houseReservation.startDate" placeholder="Unesite datum i vreme pocetka" required>
