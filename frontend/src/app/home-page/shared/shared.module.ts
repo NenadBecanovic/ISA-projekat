@@ -4,6 +4,7 @@ import {HeaderComponent} from "./header/header.component";
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { FooterComponent } from './footer/footer.component';
 import {MatDividerModule} from "@angular/material/divider";
+import {MatMenuModule} from '@angular/material/menu';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import {MatDividerModule} from "@angular/material/divider";
   imports: [
     NgbCollapseModule,
     CommonModule,
-    MatDividerModule
+    MatDividerModule,
+    MatMenuModule
   ]
 })
 export class SharedModule { }

@@ -24,6 +24,9 @@ public interface AdditionalServicesRepository extends JpaRepository<AdditionalSe
     Set<AdditionalServices> getAllByBoatReservationId(Long id);
 
     AdditionalServices getAdditionalServicesById(Long id);
+    
+    @Query("select a from AdditionalServices a join fetch a.fishingAdventures h where h.id = ?1")
+    List<AdditionalServices> getAllByFishingAdventureId(Long id);
 
     void deleteById(Long id);
 }
