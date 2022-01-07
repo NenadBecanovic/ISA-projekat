@@ -51,6 +51,7 @@ import { DemoUtilsModule } from './fishing-instructor-profile/calendar-dialog/de
 import { DefineAvaibilityPeriodComponent } from './fishing-instructor-profile/define-avaibility-period/define-avaibility-period.component';
 import { MakeReservationDialogComponent } from './fishing-instructor-profile/make-reservation-dialog/make-reservation-dialog.component';
 import { AddAdventureDialogComponent } from './fishing-instructor-profile/add-adventure-dialog/add-adventure-dialog.component';
+
 import {ClientModule} from "./clientHome/client-module/client-module";
 import { BoatProfileForBoatOwnerComponent } from './boat-profile-for-boat-owner/boat-profile-for-boat-owner.component';
 import {AgmCoreModule} from '@agm/core';
@@ -65,16 +66,14 @@ import { EditHouseActionComponent } from './edit-house-action/edit-house-action.
 import { HomePageHouseOwnerComponent } from './home-page-house-owner/home-page-house-owner.component';
 import { AddHouseComponent } from './add-house/add-house.component';
 
-import { CalendarDialogComponent } from './house-profile-for-house-owner/calendar-dialog/calendar-dialog.component';
-import {DemoUtilsModule} from "./house-profile-for-house-owner/calendar-dialog/demo-utils/calendar.module";
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+
+import { CalendarDialogHouseComponent } from './house-profile-for-house-owner/calendar-dialog/calendar-dialog.component';
+import {DemoUtilsHouseModule} from "./house-profile-for-house-owner/calendar-dialog/demo-utils/calendar.module";
 import { DefineUnavailablePeriodHouseComponent } from './define-unavailable-period-house/define-unavailable-period-house.component';
 import {DatePipe} from "@angular/common";
 import { CreateReservationForClientComponent } from './create-reservation-for-client/create-reservation-for-client.component';
 import { GuestProfileComponent } from './guest-profile/guest-profile.component';
 import { HouseReportComponent } from './house-report/house-report.component';
-
 
 const MaterialComponents = [
   MatSliderModule,
@@ -126,7 +125,7 @@ const MaterialComponents = [
     HomePageHouseOwnerComponent,
     AddHouseComponent,
     
-    CalendarDialogComponent,
+    CalendarDialogHouseComponent,
     DefineUnavailablePeriodHouseComponent,
     CreateReservationForClientComponent,
     GuestProfileComponent,
@@ -159,11 +158,7 @@ const MaterialComponents = [
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDhUaf84F4NwNDUjw-feRmJusep1T1EB6s'   // za google maps
     }),
-    DemoUtilsModule,
-    CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory,
-    }),
+    DemoUtilsHouseModule,
   ],
   providers: [
     {

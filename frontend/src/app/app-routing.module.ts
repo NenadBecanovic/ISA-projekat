@@ -29,6 +29,7 @@ import {  CreateReservationForClientComponent} from "./create-reservation-for-cl
 import {GuestProfileComponent} from "./guest-profile/guest-profile.component";
 import {HouseReportComponent} from "./house-report/house-report.component";
 
+
 const routes: Routes = [
   {path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}, {path: 'houses', component: HomeHouseComponent},
       {path: 'boats', component: HomeBoatComponent}, {path: 'adventures', component: HomeAdventureComponent}, {path: 'house/:id', component: HouseComponent},
