@@ -14,10 +14,7 @@ import com.application.bekend.model.FishingAdventure;
 import com.application.bekend.repository.FishingAdventureRepository;
 import com.application.bekend.model.House;
 import com.application.bekend.model.Image;
-
 import org.springframework.data.domain.Sort;
-
-@Service
 public class FishingAdventureService {
 
     private final FishingAdventureRepository fishingAdventureRepository;

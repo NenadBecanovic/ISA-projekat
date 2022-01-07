@@ -1,0 +1,103 @@
+.script-menu >::ng-deep .mat-grid-tile-content{
+  display: block;
+  overflow-y: scroll;
+}
+
+.script-menu1 >::ng-deep .mat-grid-tile-content{
+  display: block;
+
+}
+
+#house-profile {
+  object-fit: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  overflow-x: hidden;
+}
+
+.house-promo-desc{
+  margin: 0;
+  border-radius: 15px;
+  border-width: 0px;
+  width: 80vw;
+  padding-top: 20px;
+  margin-bottom: 30px;
+}
+
+.house-name{
+  font-weight: bold;
+}
+
+.house-address{
+  font-weight: lighter;
+}
+
+.house-container{
+  font-family: 'Rubik', sans-serif;
+  font-size: 20px;
+  font-weight: lighter;
+  color: #181e27;
+}
+
+.basic-title{
+  display:inline-block;
+  font-size: 20px;
+  font-weight: Bold;
+  margin-bottom: 18px;
+}
+
+.filter-sort-container{
+  margin: 0;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.10);
+  border-radius: 15px;
+  border-width: 0px;
+  width: 30vw;
+  padding-top: 20px;
+  margin-bottom: 30px;
+}
+
+.form-check-label{
+  font-size: 17px;
+  font-weight: 300;
+  color: #000000;
+}
+
+.house-view-title-container{
+  position: relative;
+  width: 100%;
+  margin-top: 34px;
+  margin-bottom: 34px;
+  padding-left: 5vw;
+  padding-right: 5vw;
+}
+
+/*.reserve-button{*/
+/*  color:white;*/
+/*  background-color: #31B4E5;*/
+/*  font-size: 20px;*/
+/*  align-items: center;*/
+/*}*/
+
+.add-picture-button{
+  color:white;
+  background-color: #31B4E5;
+  position: absolute;
+  top: 36vw;
+  left: 93%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  font-size: 20px;
+}
+
+.add-action-button{
+  color:white;
+  background-color: #31B4E5;
+  font-size: 20px;
+  align-items: center;
+}
+
+
+
+

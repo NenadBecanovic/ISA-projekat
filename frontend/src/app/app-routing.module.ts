@@ -23,7 +23,18 @@ import {AddActionBoatProfileComponent} from "./add-action-boat-profile/add-actio
 import {ModifyBoatProfileComponent} from "./modify-boat-profile/modify-boat-profile.component";
 import {EditHouseActionComponent} from "./edit-house-action/edit-house-action.component";
 import {HomePageHouseOwnerComponent} from "./home-page-house-owner/home-page-house-owner.component";
+import {ClientProfileComponent} from "./clientHome/client-profile/client-profile.component";
+import {ClientHousesComponent} from "./clientHome/client-houses/client-houses.component";
+import {ClientBoatsComponent} from "./clientHome/client-boats/client-boats.component";
+import {ClientAdventuresComponent} from "./clientHome/client-adventures/client-adventures.component";
+import {ClientHouseComponent} from "./clientHome/client-house/client-house.component";
+import {ClientBoatComponent} from "./clientHome/client-boat/client-boat.component";
 import {AddHouseComponent} from "./add-house/add-house.component";
+import { DefineUnavailablePeriodHouseComponent} from "./define-unavailable-period-house/define-unavailable-period-house.component";
+import {  CreateReservationForClientComponent} from "./create-reservation-for-client/create-reservation-for-client.component";
+import {GuestProfileComponent} from "./guest-profile/guest-profile.component";
+import {HouseReportComponent} from "./house-report/house-report.component";
+
 
 const routes: Routes = [
   {path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}, {path: 'houses', component: HomeHouseComponent},
@@ -32,6 +43,9 @@ const routes: Routes = [
   {path:'login', component: LoginComponent},
   {path:'register', component: RegistrationComponent},
   {path:'email-activation', component: EmailActivationComponent},
+  {path:'client', component: ClientHomePageComponent, children: [{path: '', component: DashboardComponent},{path: 'profile', component: ClientProfileComponent},
+      {path: 'houses', component: ClientHousesComponent}, {path: 'boats', component: ClientBoatsComponent}, {path: 'adventures', component: ClientAdventuresComponent},
+      {path: 'house/:id', component: ClientHouseComponent},{path: 'boat/:id', component: ClientBoatComponent}]},
   {path:'client', component: ClientHomePageComponent, children: [{path: '', component: DashboardComponent}]},
   { path:'house-profile-for-house-owner/:id', component: HouseProfileForHouseOwnerComponent},
   { path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}]},
@@ -45,6 +59,11 @@ const routes: Routes = [
   { path:'edit-house-action/:id/:houseId', component: EditHouseActionComponent},
   { path:'home-page-house-owner', component: HomePageHouseOwnerComponent},
   { path:'add-house', component: AddHouseComponent},
+  { path: 'define-unavailable-period-house/:id', component: DefineUnavailablePeriodHouseComponent},
+  { path: 'create-reservation-for-client/:id', component: CreateReservationForClientComponent},
+  { path: 'guest-profile/:id', component: GuestProfileComponent},
+  { path: 'house-report/:id', component: HouseReportComponent},
+
 ];
 
 @NgModule({

@@ -51,21 +51,24 @@ import { DemoUtilsModule } from './fishing-instructor-profile/calendar-dialog/de
 import { DefineAvaibilityPeriodComponent } from './fishing-instructor-profile/define-avaibility-period/define-avaibility-period.component';
 import { MakeReservationDialogComponent } from './fishing-instructor-profile/make-reservation-dialog/make-reservation-dialog.component';
 import { AddAdventureDialogComponent } from './fishing-instructor-profile/add-adventure-dialog/add-adventure-dialog.component';
-
 import {ClientModule} from "./clientHome/client-module/client-module";
 import { BoatProfileForBoatOwnerComponent } from './boat-profile-for-boat-owner/boat-profile-for-boat-owner.component';
 import {AgmCoreModule} from '@agm/core';
 import { AddActionHouseProfileComponent } from './add-action-house-profile/add-action-house-profile.component';
 import { ModifyHouseProfileComponent } from './modify-house-profile/modify-house-profile.component';
-import { AdventureComponent } from './home-page/adventure/adventure.component';
-import { HouseComponent } from './home-page/house/house.component';
-import { BoatComponent } from './home-page/boat/boat.component';
 import { AddActionBoatProfileComponent } from './add-action-boat-profile/add-action-boat-profile.component';
 import { ModifyBoatProfileComponent } from './modify-boat-profile/modify-boat-profile.component';
 import { EditHouseActionComponent } from './edit-house-action/edit-house-action.component';
 import { HomePageHouseOwnerComponent } from './home-page-house-owner/home-page-house-owner.component';
 import { AddHouseComponent } from './add-house/add-house.component';
 import { AddImageDialogComponent } from './adventure-profile/add-image-dialog/add-image-dialog.component';
+import { CalendarDialogHouseComponent } from './house-profile-for-house-owner/calendar-dialog/calendar-dialog-house.component';
+import { DefineUnavailablePeriodHouseComponent } from './define-unavailable-period-house/define-unavailable-period-house.component';
+import {DatePipe} from "@angular/common";
+import { CreateReservationForClientComponent } from './create-reservation-for-client/create-reservation-for-client.component';
+import { GuestProfileComponent } from './guest-profile/guest-profile.component';
+import { HouseReportComponent } from './house-report/house-report.component';
+
 
 const MaterialComponents = [
   MatSliderModule,
@@ -108,15 +111,17 @@ const MaterialComponents = [
     BoatProfileForBoatOwnerComponent,
     AddActionHouseProfileComponent,
     ModifyHouseProfileComponent,
-    AdventureComponent,
-    HouseComponent,
-    BoatComponent,
     AddActionBoatProfileComponent,
     ModifyBoatProfileComponent,
     EditHouseActionComponent,
     HomePageHouseOwnerComponent,
     AddHouseComponent,
     AddImageDialogComponent
+    DefineUnavailablePeriodHouseComponent,
+    CreateReservationForClientComponent,
+    GuestProfileComponent,
+    HouseReportComponent,
+    CalendarDialogHouseComponent,
   ],
   imports: [
     RouterModule,
@@ -144,14 +149,15 @@ const MaterialComponents = [
     AlertModule.forRoot({maxMessages: 5, timeout: 5000, positionX: "right", positionY: "top"}),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDhUaf84F4NwNDUjw-feRmJusep1T1EB6s'   // za google maps
-    })
+    }),
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true,
-    }
+    },
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

@@ -2,6 +2,7 @@ package com.application.bekend.DTO;
 
 public class MyUserDTO {
 
+    private Long id;
     private String firstName;
     private String lastName;
     private String email;
@@ -11,6 +12,8 @@ public class MyUserDTO {
     private AddressDTO addressDTO;
     private String phoneNumber;
     private String reasonForRegistration;
+    private boolean passwordChange;
+    private int penalties;
 
     public MyUserDTO(String firstName, String lastName, String email, String password, String username, String authority, AddressDTO addressDTO, String phoneNumber, String reasonForRegistration) {
         this.firstName = firstName;
@@ -22,6 +25,27 @@ public class MyUserDTO {
         this.addressDTO = addressDTO;
         this.phoneNumber = phoneNumber;
         this.reasonForRegistration = reasonForRegistration;
+    }
+
+    public MyUserDTO(String firstName, String lastName, String email, String password, String username, AddressDTO addressDTO, String phoneNumber) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.addressDTO = addressDTO;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public MyUserDTO(Long id, String firstName, String lastName, String email, String password, String username, AddressDTO addressDTO, String phoneNumber) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.addressDTO = addressDTO;
+        this.phoneNumber = phoneNumber;
     }
 
     public MyUserDTO() {
@@ -90,4 +114,29 @@ public class MyUserDTO {
     public String getReasonForRegistration() { return reasonForRegistration; }
 
     public void setReasonForRegistration(String reasonForRegistration) { this.reasonForRegistration = reasonForRegistration; }
+
+    public boolean isPasswordChange() {
+        return passwordChange;
+    }
+
+    public void setPasswordChange(boolean passwordChange) {
+        this.passwordChange = passwordChange;
+    }
+
+    public int getPenalties() {
+        return penalties;
+    }
+
+    public void setPenalties(int penalties) {
+        this.penalties = penalties;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 }

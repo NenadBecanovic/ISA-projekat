@@ -91,6 +91,7 @@
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   font-size: 20px;
+  padding: 5px 10px;
 }
 
 .modify-profile-button{
@@ -103,6 +104,7 @@
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   font-size: 20px;
+  padding: 5px 10px;
 }
 
 .add-action-button{
@@ -117,6 +119,66 @@
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+  padding: 5px 10px;
+}
+
+.report {
+  font-family: "Poppins", sans-serif;
+  color:white;
+  background-color: #31B4E5;
+  font-size: 20px;
+  align-items: center;
+  /*position: center;*/
+  /*position: absolute;*/
+  /*left: 50%;*/
+  /*-ms-transform: translate(-50%, -50%);*/
+  /*transform: translate(-50%, -50%);*/
+  /*padding: 5px 10px;*/
+}
+
+.show-calendar {
+  font-family: "Poppins", sans-serif;
+  color:white;
+  background-color: #31B4E5;
+  font-size: 20px;
+  /*align-items: center;*/
+  /*position: center;*/
+  margin: 0;
+  position: absolute;
+  left: 30%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  padding: 5px 10px;
+}
+
+.define-period {
+  font-family: "Poppins", sans-serif;
+  color:white;
+  background-color: #31B4E5;
+  font-size: 20px;
+  /*align-items: center;*/
+  /*position: center;*/
+  margin: 0;
+  position: absolute;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  padding: 5px 10px;
+}
+
+.create-reservation {
+  font-family: "Poppins", sans-serif;
+  color:white;
+  background-color: #31B4E5;
+  font-size: 20px;
+  /*align-items: center;*/
+  /*position: center;*/
+  margin: 0;
+  position: absolute;
+  left: 70%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  padding: 5px 10px;
 }
 
 .myMatCarousel2{
@@ -151,4 +213,23 @@
 agm-map{
   height: 400px;
   zoom: 100%;
+}
+
+.script-menu >::ng-deep .mat-grid-tile-content{
+  display: block;
+  overflow-y: scroll;
+}
+
+.script-menu1 >::ng-deep .mat-grid-tile-content{
+  display: block;
+  /*padding: 5px;*/
+}
+
+.house-container1 {
+  font-size: 16px;
+  font-weight: lighter;
+  color: #181e27;
+  font-family: "Poppins", sans-serif;
+  margin: auto;
+  margin-left: 19vw;
 }

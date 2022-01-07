@@ -14,7 +14,7 @@ public class VerificationToken {
 
     private Timestamp expiryDate;
 
-    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private MyUser user;
 
