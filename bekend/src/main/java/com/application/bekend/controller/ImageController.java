@@ -55,11 +55,12 @@ public class ImageController {
     
     @GetMapping("/getAllByFishingAdventureId/{id}")
     public ResponseEntity<List<ImageDTO>> getAllByFishingAdventureId(@PathVariable("id") Long id){
-        List<Image> images = this.imageService.getAllByFishing_Adventure_Id(id);
+//        List<Image> images = this.imageService.getAllByFishing_Adventure_Id(id);
         List<ImageDTO> imagesDTOS = new ArrayList<>();
 
-        for (Image i: images) {
-            ImageDTO imageDTO = new ImageDTO(i.getId(), i.getImageUrl());
+//        for (Image i: images) {
+        for (Image i: new ArrayList<Image>()) {
+        ImageDTO imageDTO = new ImageDTO(i.getId(), i.getImageUrl());
             imagesDTOS.add(imageDTO);
         }
 

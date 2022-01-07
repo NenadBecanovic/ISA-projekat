@@ -7,17 +7,17 @@ import {HouseReservationService} from "../../service/house-reservation.service";
 @Component({
   selector: 'app-calendar-dialog',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './calendar-dialog.component.html',
-  styleUrls: ['./calendar-dialog.component.css']
+  templateUrl: './calendar-dialog-house.component.html',
+  styleUrls: ['./calendar-dialog-house.component.css']
 })
-export class CalendarDialogComponent implements OnInit {
+export class CalendarDialogHouseComponent implements OnInit {
 
   view: CalendarView = CalendarView.Month;
   viewDate: Date = new Date();
   events: CalendarEvent[] = [];
   courses: HouseReservation[] = new Array();
 
-  constructor(public dialogRef: MatDialogRef<CalendarDialogComponent>, private _houseReservationService: HouseReservationService) { }
+  constructor(public dialogRef: MatDialogRef<CalendarDialogHouseComponent>, private _houseReservationService: HouseReservationService) { }
 
   ngOnInit() {
     this.loadData();

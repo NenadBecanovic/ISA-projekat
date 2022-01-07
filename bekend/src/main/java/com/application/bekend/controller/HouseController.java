@@ -18,6 +18,7 @@ import java.util.*;
 public class HouseController {
 
     private final HouseService houseService;
+    @Autowired
     private ModelMapper modelMapper;
     private final RoomService roomService;
     private final AdditionalServicesService additionalServicesService;

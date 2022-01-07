@@ -12,7 +12,6 @@ import java.util.*;
 @Entity
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class MyUser implements UserDetails {
 
     @Id

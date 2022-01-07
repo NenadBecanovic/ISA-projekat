@@ -13,7 +13,7 @@ import {HouseReservationService} from "../service/house-reservation.service";
 import {HouseReservationSlide} from "../model/house-reservation-slide";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
-import {CalendarDialogComponent} from "./calendar-dialog/calendar-dialog.component";
+import {CalendarDialogHouseComponent} from "./calendar-dialog/calendar-dialog-house.component";
 import {HouseReservation} from "../model/house-reservation";
 import { DatePipe } from '@angular/common'
 import {MyUserService} from "../service/my-user.service";
@@ -144,7 +144,7 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
   }
 
   showCalendar() {
-    const dialogRef = this.dialog.open(CalendarDialogComponent, {
+    const dialogRef = this.dialog.open(CalendarDialogHouseComponent, {
       width: '1500px',
       data: {},
     });

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CalendarDialogComponent } from './calendar-dialog.component';
+import { CalendarDialogHouseComponent } from './calendar-dialog-house.component';
 
 describe('CalendarDialogComponent', () => {
-  let component: CalendarDialogComponent;
-  let fixture: ComponentFixture<CalendarDialogComponent>;
+  let component: CalendarDialogHouseComponent;
+  let fixture: ComponentFixture<CalendarDialogHouseComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CalendarDialogComponent ]
+      declarations: [ CalendarDialogHouseComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CalendarDialogComponent);
+    fixture = TestBed.createComponent(CalendarDialogHouseComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
