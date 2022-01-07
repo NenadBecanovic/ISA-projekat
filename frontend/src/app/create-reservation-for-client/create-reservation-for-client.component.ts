@@ -61,10 +61,12 @@ export class CreateReservationForClientComponent implements OnInit {
 
     var startDate = Date.parse(this.houseReservation.startDate)
     this.date =  new Date(startDate)
-    this.endDate.setDate( this.date.getDate() + this.duration );
 
-    this.houseReservation.endDate = Date.parse(this.endDate.toString()).toString()
-    this.houseReservation.startDate = Date.parse(this.date.toString()).toString()
+    var actionStart  = Number(this.date)  // parsiranje datuma pocetka u milisekunde
+    var actionEnd = actionStart + this.duration * 86400000
+
+    this.houseReservation.startDate = actionStart.toString()
+    this.houseReservation.endDate = actionEnd.toString()
 
     for (let a of this.additionalServices)
     {

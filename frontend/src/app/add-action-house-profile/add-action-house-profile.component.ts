@@ -44,33 +44,21 @@ export class AddActionHouseProfileComponent implements OnInit {
   addAction() {
     this.houseReservation.houseId = this.houseId;
     this.houseReservation.action = true;
-
-    // this.datepipe.transform(this.date, 'dd/MM/yyyy HH:mm:ss');
-    //
-    // var currentTimeInMilliseconds=Date.now(); // unix timestamp in milliseconds
-    // console.log(currentTimeInMilliseconds)
-
-    // this.houseReservation.startDate = this.date.now().toString()
-    // this.endDate.setDate( this.date.getDate() + this.duration );
-
-    // var endDate = Number(this.houseReservation.startDate) + (this.duration * 86400000);  // na Date se dodaje trajanje (koje je tipa number)
-    // this.houseReservation.endDate = endDate.toString();
-
-    var startDate = Date.parse(this.houseReservation.startDate)   // parsiranje datuma pocetka u milisekunde
-    this.date =  new Date(startDate)
-    this.endDate.setDate( this.date.getDate() + this.duration );  // na Date se dodaje trajanje (koje je tipa number)
-
-    this.houseReservation.endDate = Date.parse(this.endDate.toString()).toString()
-    this.houseReservation.startDate = Date.parse(this.date.toString()).toString()
-
-    console.log(this.houseReservation.startDate)
-    console.log(this.houseReservation.endDate)
-
     this.houseReservation.available = true;
     this.houseReservation.availabilityPeriod = false;
 
-    // console.log(this.additionalServices)
-    // this.houseReservation.additionalServices
+    var startDate = Date.parse(this.houseReservation.startDate)
+    this.date =  new Date(startDate)
+
+    var actionStart  = Number(this.date)  // parsiranje datuma pocetka u milisekunde
+    var actionEnd = actionStart + this.duration * 86400000
+
+    this.houseReservation.startDate = actionStart.toString()
+    this.houseReservation.endDate = actionEnd.toString()
+
+    // console.log(this.houseReservation.startDate)
+    // console.log(this.houseReservation.endDate)
+
     for (let a of this.additionalServices)
     {
         if (a.checked == true)
