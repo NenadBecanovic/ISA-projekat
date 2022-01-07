@@ -6,12 +6,14 @@ export class MyUser {
   firstName: String;
   lastName: String;
   email: String;
-  password: String;
+  password: string;
   username: String;
   authority: String;
   addressDTO: Address;
   phoneNumber: String;
   reasonForRegistration: String;
+  passwordChange: boolean = false;
+  penalties: number = 0;
 
   constructor(id: number, firstName: String, lastName: String, email: String, password: String, username: String, authority: String, addressDTO: Address, phoneNumber: String, reasonForRegistration: String) {
     this.id = id;

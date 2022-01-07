@@ -56,9 +56,6 @@ import { BoatProfileForBoatOwnerComponent } from './boat-profile-for-boat-owner/
 import {AgmCoreModule} from '@agm/core';
 import { AddActionHouseProfileComponent } from './add-action-house-profile/add-action-house-profile.component';
 import { ModifyHouseProfileComponent } from './modify-house-profile/modify-house-profile.component';
-import { AdventureComponent } from './home-page/adventure/adventure.component';
-import { HouseComponent } from './home-page/house/house.component';
-import { BoatComponent } from './home-page/boat/boat.component';
 import { AddActionBoatProfileComponent } from './add-action-boat-profile/add-action-boat-profile.component';
 import { ModifyBoatProfileComponent } from './modify-boat-profile/modify-boat-profile.component';
 import { EditHouseActionComponent } from './edit-house-action/edit-house-action.component';
@@ -70,6 +67,7 @@ import {DatePipe} from "@angular/common";
 import { CreateReservationForClientComponent } from './create-reservation-for-client/create-reservation-for-client.component';
 import { GuestProfileComponent } from './guest-profile/guest-profile.component';
 import { HouseReportComponent } from './house-report/house-report.component';
+
 
 const MaterialComponents = [
   MatSliderModule,
@@ -112,9 +110,6 @@ const MaterialComponents = [
     BoatProfileForBoatOwnerComponent,
     AddActionHouseProfileComponent,
     ModifyHouseProfileComponent,
-    AdventureComponent,
-    HouseComponent,
-    BoatComponent,
     AddActionBoatProfileComponent,
     ModifyBoatProfileComponent,
     EditHouseActionComponent,

@@ -1,5 +1,6 @@
 package com.application.bekend.security.auth;
 
+import com.application.bekend.model.MyUser;
 import com.application.bekend.security.TokenUtils;
 import com.application.bekend.service.MyUserService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,10 +30,11 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         final HttpServletRequest httpRequest = (HttpServletRequest) httpServletRequest;
         final String authToken = tokenUtils.getToken(httpRequest);
-        final String username = tokenUtils.getUsernameFromToken(authToken);
+        final String email = tokenUtils.getEmailFromToken(authToken);
 
-        if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
-            final UserDetails userDetails = this.userService.loadUserByUsername(username);
+
+        if(email != null && SecurityContextHolder.getContext().getAuthentication() == null){
+            final UserDetails userDetails = this.userService.findUserByEmail(email);
             if(tokenUtils.validateToken(authToken, userDetails)){
                 final UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));

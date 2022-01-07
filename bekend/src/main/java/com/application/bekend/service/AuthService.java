@@ -73,7 +73,10 @@ public class AuthService {
         myUser.setAddress(address);
         Authority authority = this.authorityService.findAuthorityByName(myUserDTO.getAuthority());
         myUser.addAuthority(authority);
-        myUser.setIsActivated(false);
+        myUser.setDeleted(false);
+        myUser.setPenalties(0);
+        myUser.setGrade(0);
+        myUser.setActivated(false);
         myUser.setPhoneNumber(myUserDTO.getPhoneNumber());
         MyUser user = this.save(myUser);
 

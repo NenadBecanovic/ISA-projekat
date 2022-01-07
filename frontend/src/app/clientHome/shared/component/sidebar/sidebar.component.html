@@ -1,21 +1,19 @@
 <mat-nav-list>
   <div class="profile-card">
     <div class="header">
-      <h2>{{'Vladimir' +' '+currentUser.lastName}}</h2>
-      <h4>{{currentUser.email}}</h4>
+      <h5>{{currentUser.firstName +' '+currentUser.lastName}}</h5>
+      <h6>{{currentUser.email}}</h6>
     </div>
 
   </div>
 
   <mat-divider></mat-divider>
   <mat-divider></mat-divider>
-  <h2 matSubheader>Profil</h2>
-  <a mat-list-item routerLinkActive="list-item-active"   routerLink="/admin">Profil</a>
   <h2 matSubheader>Pregled</h2>
 
-  <a mat-list-item routerLinkActive="list-item-active" routerLink="/admin">Vikendice</a>
-  <a mat-list-item routerLinkActive="list-item-active" routerLink="/admin/users">Brodovi</a>
-  <a mat-list-item routerLinkActive="list-item-active" routerLink="/articles">Instruktori</a>
+  <a mat-list-item routerLinkActive="list-item-active" routerLink="houses">Vikendice</a>
+  <a mat-list-item routerLinkActive="list-item-active" routerLink="boats">Brodovi</a>
+<!--  <a mat-list-item routerLinkActive="list-item-active" routerLink="/articles">Instruktori</a>-->
 
   <mat-divider></mat-divider>
 

@@ -34,5 +34,10 @@ public class HouseReservationService {
         houseReservationsRepository.deleteById(id);
     }
 
+    public List<HouseReservation> getHouseReservationByUserId(Long id) {
+        return houseReservationsRepository.findHouseReservationByGuestId(id);
+    }
+
     public  List<HouseReservation> getHouseReservationsByGuestId(Long id) { return this.houseReservationsRepository.getHouseReservationsByGuestId(id); }
+
 }

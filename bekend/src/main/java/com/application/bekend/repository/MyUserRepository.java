@@ -19,6 +19,8 @@ public interface MyUserRepository extends JpaRepository<MyUser, Long> {
 
     MyUser findMyUserByUsername(String username);
 
+    MyUser findMyUserByEmail(String email);
+
     @Query("select user from MyUser user join fetch user.houseReservations houseReservations where houseReservations.house.id = ?1")
     Set<MyUser> getAllByHouseId(Long id);
 
@@ -26,3 +28,4 @@ public interface MyUserRepository extends JpaRepository<MyUser, Long> {
     MyUser findMyUserByHouseReservationId(Long id);
 
 }
+

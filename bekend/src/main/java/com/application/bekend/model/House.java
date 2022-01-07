@@ -33,7 +33,7 @@ public class House {
     private String behaviourRules;
     private float pricePerDay;
 
-    @ManyToMany(mappedBy = "houses")
+    @ManyToMany(mappedBy = "houses", fetch = FetchType.EAGER)
     private Set<AdditionalServices> services = new HashSet<>();
     private boolean isCancalletionFree;
     private int cancalletionFee;
@@ -179,5 +179,7 @@ public class House {
     public void setFeedbacks(Set<Feedback> feedbacks) {
         this.feedbacks = feedbacks;
     }
+
+
 
 }

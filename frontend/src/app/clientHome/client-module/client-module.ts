@@ -18,15 +18,35 @@ import {TokenInterceptor} from "../../interceptor/token-interceptor";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatIconModule} from "@angular/material/icon";
 import {MatRadioModule} from "@angular/material/radio";
-
-
-
+import {ClientProfileComponent} from "../client-profile/client-profile.component";
+import {ClientHousesComponent} from "../client-houses/client-houses.component";
+import {ClientBoatsComponent} from "../client-boats/client-boats.component";
+import {ClientAdventuresComponent} from "../client-adventures/client-adventures.component";
+import {ClientHouseReservationsComponent} from "../client-house-reservations/client-house-reservations.component";
+import {FormsModule} from "@angular/forms";
+import {AlertModule} from "ngx-alerts";
+import {DeleteAccountComponent} from "../delete-account/delete-account.component";
+import {MatButtonModule} from "@angular/material/button";
+import {ClientHouseComponent} from "../client-house/client-house.component";
+import {AgmCoreModule} from "@agm/core";
+import {MatCarouselModule} from "ng-mat-carousel";
+import {YesNoDialogComponent} from "../yes-no-dialog/yes-no-dialog.component";
+import {ClientBoatComponent} from "../client-boat/client-boat.component";
 
 
 @NgModule({
   declarations: [
     ClientHomePageComponent,
     DashboardComponent,
+    ClientProfileComponent,
+    ClientHousesComponent,
+    ClientBoatsComponent,
+    ClientAdventuresComponent,
+    ClientHouseReservationsComponent,
+    DeleteAccountComponent,
+    ClientHouseComponent,
+    YesNoDialogComponent,
+    ClientBoatComponent,
   ],
   imports: [
     CommonModule,
@@ -42,7 +62,12 @@ import {MatRadioModule} from "@angular/material/radio";
     MatProgressSpinnerModule,
     MatGridListModule,
     MatIconModule,
-    MatRadioModule
+    MatRadioModule,
+    FormsModule,
+    AlertModule,
+    MatButtonModule,
+    AgmCoreModule,
+    MatCarouselModule
 
   ],
   providers:[

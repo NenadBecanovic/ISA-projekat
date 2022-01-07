@@ -1,6 +1,5 @@
 package com.application.bekend.controller;
 import com.application.bekend.DTO.ActivationDTO;
-import com.application.bekend.DTO.AuthUserDTO;
 import com.application.bekend.DTO.MyUserDTO;
 import com.application.bekend.DTO.UserTokenStateDTO;
 import com.application.bekend.model.MyUser;
@@ -14,11 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,19 +48,23 @@ public class AuthentificationController {
     @RequestMapping(value="/login", method = RequestMethod.POST)
     public ResponseEntity<UserTokenStateDTO> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest){
 
-        String username = this.myUserService.findUserByEmail(authenticationRequest.getEmail(), "").getUsername();
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(username,
-                        authenticationRequest.getPassword()));
+        String username = this.myUserService.findUserByEmailorUsername(authenticationRequest.getEmail(), "").getUsername();
+        try {
+            Authentication authentication = authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(username,
+                            authenticationRequest.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            MyUser user  = (MyUser) authentication.getPrincipal();
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        MyUser user  = (MyUser) authentication.getPrincipal();
 
+            String jwt = tokenUtils.generateToken(user);
+            long expiresIn = tokenUtils.getExpiredIn();
 
-        String jwt = tokenUtils.generateToken(user);
-        long expiresIn = tokenUtils.getExpiredIn();
+            return ResponseEntity.ok(new UserTokenStateDTO(jwt, expiresIn));
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
-        return ResponseEntity.ok(new UserTokenStateDTO(jwt, expiresIn));
     }
 
     @PostMapping("/register")
@@ -86,7 +89,8 @@ public class AuthentificationController {
 
         // proveravamo da nije istekao expiru date
         VerificationToken verificationToken = this.verificationTokenService.findByToken(activationDTO.getToken());
-        if(verificationToken.getUser() == user){
+
+        if(verificationToken.getUser().getEmail().equals(user.getEmail())){
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             if(verificationToken.getExpiryDate().after(timestamp)){
                 this.myUserService.activateUser(user.getId());

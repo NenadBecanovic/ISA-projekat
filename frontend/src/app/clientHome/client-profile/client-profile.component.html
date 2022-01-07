@@ -1,0 +1,47 @@
+<body>
+<h1 mat-dialog-title class="ms-3">Izmena profila</h1>
+<div mat-dialog-content>
+  <div class=" d-flex flex-row">
+    <div class="d-flex flex-column ms-3 me-5 justify-content-center">
+      <span>Ime</span>
+      <input type="text" class="form-control" required name="name" [(ngModel)]="user.firstName">
+      <span>Ulica i broj</span>
+      <input type="text" class="form-control" required name="street" [(ngModel)]="user.addressDTO.street">
+      <span>Država</span>
+      <input type="text" class="form-control" required name="state" [(ngModel)]="user.addressDTO.state">
+      <span>Email</span>
+      <input type="text" class="form-control" required name="time" readonly [(ngModel)]="user.email">
+      <span>Korisnicko ime</span>
+      <input type="text" class="form-control" required name="username" [(ngModel)]="user.username">
+      <span>Uloga</span>
+      <input type="text" class="form-control" required readonly name="authority" [(ngModel)]="user.authority">
+      <span *ngIf="passwordCheck" >Stara lozinka</span>
+      <input type="password" *ngIf="passwordCheck" class="form-control" required name="oldPassword" [(ngModel)]="oldPassword">
+    </div>
+    <div class="d-flex flex-column ms-5 justify-content-center">
+      <span>Prezime</span>
+      <input type="text" class="form-control" required name="surname" [(ngModel)]="user.lastName">
+      <span>Grad</span>
+      <input type="text" class="form-control" required name="city" [(ngModel)]="user.addressDTO.city">
+      <span>Poštanski broj</span>
+      <input type="number" class="form-control" required name="posatlCode"  [(ngModel)]="user.addressDTO.postalCode">
+      <span>Broj telefona</span>
+      <input type="text" class="form-control" required name="number" [(ngModel)]="user.phoneNumber">
+      <span>Broj penala</span>
+      <input type="text" class="form-control"  readonly name="penalties" [(ngModel)]="user.penalties">
+      <input type="text" class="form-control"  readonly name="penalties" [(ngModel)]="user.penalties">
+      <span>Promena lozinke</span>
+      <button (click)="changePassword()" > {{password}} </button>
+      <span *ngIf="passwordCheck" >Nova lozinka</span>
+      <input type="password" *ngIf="passwordCheck" class="form-control" required name="newPassword" [(ngModel)]="newPassword">
+      <span *ngIf="passwordCheck" >Nova lozinka potvrda</span>
+      <input type="password"  *ngIf="passwordCheck" class="form-control" required name="newPasswordCheck" [(ngModel)]="newPasswordCheck">
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions style="margin: 20px auto auto 188px;">
+  <button mat-button  (click)="onNoClick()">Otkaži</button>
+  <button mat-button cdkFocusInitial style="margin-left: 10px" (click)="ok()">Sačuvaj</button>
+</div>
+<ngx-alerts></ngx-alerts>
+</body>

@@ -12,6 +12,8 @@ public class MyUserDTO {
     private AddressDTO addressDTO;
     private String phoneNumber;
     private String reasonForRegistration;
+    private boolean passwordChange;
+    private int penalties;
 
     public MyUserDTO(String firstName, String lastName, String email, String password, String username, String authority, AddressDTO addressDTO, String phoneNumber, String reasonForRegistration) {
         this.firstName = firstName;
@@ -112,6 +114,22 @@ public class MyUserDTO {
     public String getReasonForRegistration() { return reasonForRegistration; }
 
     public void setReasonForRegistration(String reasonForRegistration) { this.reasonForRegistration = reasonForRegistration; }
+
+    public boolean isPasswordChange() {
+        return passwordChange;
+    }
+
+    public void setPasswordChange(boolean passwordChange) {
+        this.passwordChange = passwordChange;
+    }
+
+    public int getPenalties() {
+        return penalties;
+    }
+
+    public void setPenalties(int penalties) {
+        this.penalties = penalties;
+    }
 
     public Long getId() {
         return id;

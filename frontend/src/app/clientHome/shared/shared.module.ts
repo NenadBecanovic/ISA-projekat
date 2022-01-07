@@ -13,8 +13,6 @@ import {RouterModule} from "@angular/router";
 import {MatListModule} from "@angular/material/list";
 
 
-
-
 @NgModule({
     declarations: [
         SidebarComponent,

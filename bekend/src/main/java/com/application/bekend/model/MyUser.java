@@ -4,14 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
 import java.util.*;
 
 @Entity
-@Data
-@AllArgsConstructor
 public class MyUser implements UserDetails {
 
     @Id
@@ -29,8 +27,12 @@ public class MyUser implements UserDetails {
     private String username;
     @Column(name = "phoneNumber", nullable = false)
     private String phoneNumber;
-    @Column(name = "grade", nullable = true)
-    private String grade;
+    @Column(name = "grade", nullable = false)
+    private double grade;
+    @Column(name = "penalties")
+    private int penalties;
+    @Column(name = "isDeleted")
+    private boolean isDeleted;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Boat> boats = new HashSet<Boat>();
@@ -58,18 +60,20 @@ public class MyUser implements UserDetails {
     @OneToMany(mappedBy = "myUser", fetch = FetchType.EAGER)
     private Set<Feedback> feedbacks= new HashSet<>();
 
-
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_authorities", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
     private List<Authority> authorities = new ArrayList<>();
 
-
     @OneToOne(mappedBy = "user")
     private VerificationRequest verificationRequest;
 
-
     private Boolean isActivated;
+
+    @OneToMany(mappedBy = "subscribedUser", fetch = FetchType.LAZY)
+    private Set<Subscription> subscriptions_guests = new HashSet<>();
+
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
+    private Set<Subscription> subscriptions_owners = new HashSet<>();
 
     public MyUser(Long id, String firstName, String lastName, String email, String password, String username) {
         this.id = id;
@@ -84,6 +88,27 @@ public class MyUser implements UserDetails {
     	
     }
 
+    public MyUser() {
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
+
+    public List<Authority> getAuthoritiesList(){
+        return authorities;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
 
     @Override
     @JsonIgnore
@@ -113,7 +138,179 @@ public class MyUser implements UserDetails {
         this.authorities.add(authority);
    }
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public double getGrade() {
+        return grade;
+    }
+
+    public void setGrade(double grade) {
+        this.grade = grade;
+    }
+
+    public int getPenalties() {
+        return penalties;
+    }
+
+    public void setPenalties(int penalties) {
+        this.penalties = penalties;
+    }
+
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public Set<Boat> getBoats() {
+        return boats;
+    }
+
+    public void setBoats(Set<Boat> boats) {
+        this.boats = boats;
+    }
+
+    public Set<House> getHouses() {
+        return houses;
+    }
+
+    public void setHouses(Set<House> houses) {
+        this.houses = houses;
+    }
+
+    public Set<FishingAdventure> getFishingAdventures() {
+        return fishingAdventures;
+    }
+
+    public void setFishingAdventures(Set<FishingAdventure> fishingAdventures) {
+        this.fishingAdventures = fishingAdventures;
+    }
+
+    public Set<HouseReservation> getHouseReservations() {
+        return houseReservations;
+    }
+
+    public void setHouseReservations(Set<HouseReservation> houseReservations) {
+        this.houseReservations = houseReservations;
+    }
+
+    public Set<BoatReservation> getBoatReservations() {
+        return boatReservations;
+    }
+
+    public void setBoatReservations(Set<BoatReservation> boatReservations) {
+        this.boatReservations = boatReservations;
+    }
+
+    public Set<AdventureReservation> getAdventureReservations() {
+        return adventureReservations;
+    }
+
+    public void setAdventureReservations(Set<AdventureReservation> adventureReservations) {
+        this.adventureReservations = adventureReservations;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public Set<Feedback> getFeedbacks() {
+        return feedbacks;
+    }
+
+    public void setFeedbacks(Set<Feedback> feedbacks) {
+        this.feedbacks = feedbacks;
+    }
+
+    public void setAuthorities(List<Authority> authorities) {
+        this.authorities = authorities;
+    }
+
+    public VerificationRequest getVerificationRequest() {
+        return verificationRequest;
+    }
+
+    public void setVerificationRequest(VerificationRequest verificationRequest) {
+        this.verificationRequest = verificationRequest;
+    }
+
+    public Boolean getActivated() {
+        return isActivated;
+    }
+
+    public void setActivated(Boolean activated) {
+        isActivated = activated;
+    }
+
+    public Set<Subscription> getSubscriptions_guests() {
+        return subscriptions_guests;
+    }
+
+    public void setSubscriptions_guests(Set<Subscription> subscriptions_guests) {
+        this.subscriptions_guests = subscriptions_guests;
+    }
+
+    public Set<Subscription> getSubscriptions_owners() {
+        return subscriptions_owners;
+    }
+
+    public void setSubscriptions_owners(Set<Subscription> subscriptions_owners) {
+        this.subscriptions_owners = subscriptions_owners;
+    }
+  
 	public Long getId() {
 		return id;
 	}
@@ -258,26 +455,21 @@ public class MyUser implements UserDetails {
 		return authorities;
 	}
 
-
 	public void setAuthorities(List<Authority> authorities) {
 		this.authorities = authorities;
 	}
-
 
 	public VerificationRequest getVerificationRequest() {
 		return verificationRequest;
 	}
 
-
 	public void setVerificationRequest(VerificationRequest verificationRequest) {
 		this.verificationRequest = verificationRequest;
 	}
 
-
 	public Boolean getIsActivated() {
 		return isActivated;
 	}
-
 
 	public void setIsActivated(Boolean isActivated) {
 		this.isActivated = isActivated;

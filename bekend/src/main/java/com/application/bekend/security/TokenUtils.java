@@ -39,7 +39,7 @@ public class TokenUtils {
     public String generateToken(MyUser user){
         final Map<String, Object> claims = new HashMap<>();
         claims.put("roles", user.getAuthorities());
-        claims.put("sub", user.getUsername());
+        claims.put("sub", user.getEmail());
         claims.put("created", new Date(System.currentTimeMillis()));
         return Jwts.builder().setClaims(claims)
                 .setExpiration(generateExpirationDate())
@@ -56,22 +56,21 @@ public class TokenUtils {
 
     public Boolean validateToken(String token, UserDetails userDetails){
         MyUser user = (MyUser) userDetails;
-        final String username = getUsernameFromToken(token);
+        final String email = getEmailFromToken(token);
         final Date created = getIssuedAtDateFromToken(token);
 
-        return (username != null && username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return (email != null && email.equals(((MyUser) userDetails).getEmail()) && !isTokenExpired(token));
     }
 
-    public String getUsernameFromToken(String token){
-        String username;
+    public String getEmailFromToken(String token){
+        String email;
         try{
             final Claims claims = this.getAllClaimsFromToken(token);
-            username = claims.getSubject();
+            email = claims.getSubject();
         }catch (Exception e){
-            username = null;
+            email = null;
         }
-
-        return username;
+        return email;
     }
 
     public Date getIssuedAtDateFromToken(String token){

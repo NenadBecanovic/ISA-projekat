@@ -271,6 +271,20 @@ public class HouseReservationController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    @GetMapping("/getHouseReservationByUserId/{id}")
+    public ResponseEntity<List<HouseReservationDTO>> getHouseReservationByUserId(@PathVariable("id") Long id) {
+        List<HouseReservation> houseReservations = this.houseReservationService.getHouseReservationByUserId(id);
+        List<HouseReservationDTO> houseReservationDTOS = new ArrayList<>();
+
+        for(HouseReservation houseReservation: houseReservations){
+            HouseReservationDTO dto = new HouseReservationDTO(houseReservation.getId(), houseReservation.getStartDate().toString(), houseReservation.getEndDate().toString(),
+                    houseReservation.getMaxGuests(), houseReservation.getPrice(), houseReservation.isAvailable());
+            houseReservationDTOS.add(dto);
+        }
+
+        return new ResponseEntity<>(houseReservationDTOS, HttpStatus.OK);
+    }
+
     @GetMapping("/getHouseReservationsByGuestId/{id}")
     public ResponseEntity<List<HouseReservationDTO>> getHouseReservationsByGuestId(@PathVariable("id") Long id) {
         List<HouseReservation> houseReservations = this.houseReservationService.getHouseReservationsByGuestId(id);
@@ -299,4 +313,5 @@ public class HouseReservationController {
         }
         return new ResponseEntity<>(houseReservationDTOS, HttpStatus.OK);
     }
+
 }
