@@ -58,26 +58,6 @@ export class AdventureProfileComponent implements OnInit {
   }
 
   imageAdded(id: number){
-     /* const file = e.target.files[0];
-      this.createBase64Image(file);
-      this.newImage=URL.createObjectURL(file);
-    const file: File = e.files[0];
-    const reader = new FileReader();
-
-    reader.addEventListener('load', (event: any) => {
-
-      this.selectedFile = new ImageSnippet(event.target.result, file);
-
-      this._adventureService.uploadImage(this.selectedFile.file).subscribe(
-        (res) => {
-          alert("OK");
-        },
-        (err) => {
-
-        })
-    });
-
-    reader.readAsDataURL(file);*/
     const dialogRef = this.dialog.open(AddImageDialogComponent, {
       width: '500px',
       data: {},
@@ -86,17 +66,6 @@ export class AdventureProfileComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       
     });
-  }
-
-  createBase64Image(file: Blob){
-    /*  const reader= new FileReader();
-      reader.onload = (e) =>{
-        let img = e.target.result;
-        img.replace("data:image\/(png|jpg|jpeg);base64", "");
-      //  console.log(img);
-        this.form.backendImage = img;
-      }
-      reader.readAsDataURL(file);*/
   }
 
   loadData() { // ucitavanje iz baze

@@ -21,31 +21,6 @@ export class AddImageDialogComponent implements OnInit {
   onNoClick(): void {
     this.dialogRef.close();
   }
-/*
-  public onImageUpload(event: any) {
-    this.uploadedImage = event.target.files[0];
-  }
-
-
-  imageUploadAction() {
-    
-    this._imageService.uploadImage(this.uploadedImage).subscribe(
-      (res) => {
-        alert("OK");
-      },
-      (err) => {
-
-      })
-    /*
-    this.httpClient.post('http://localhost:8080/upload/image/', imageFormData, { observe: 'response' })
-      .subscribe((response: { status: number; }) => {
-        if (response.status === 200) {
-        } else {
-
-        }
-      }
-      );
-    }*/
   
     imageAdded(e: any){
       const file = e.target.files[0];
