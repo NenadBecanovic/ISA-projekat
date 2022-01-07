@@ -44,6 +44,7 @@ public class HouseController {
         HouseDTO dto = new HouseDTO(house.getId(), house.getName(), addressDTO, house.getPromoDescription(), house.getBehaviourRules(),
                 house.getPricePerDay(), house.isCancalletionFree(), house.getCancalletionFee());
 
+        // TODO: ispraviti
 //        Set<ImageDTO> dtoSet = new HashSet<>();
 //        for(Image i: house.getImages()){
 //            ImageDTO imageDTO = modelMapper.map(i, ImageDTO.class);

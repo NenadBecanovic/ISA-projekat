@@ -23,6 +23,12 @@ import {ModifyBoatProfileComponent} from "./modify-boat-profile/modify-boat-prof
 import {EditHouseActionComponent} from "./edit-house-action/edit-house-action.component";
 import {HomePageHouseOwnerComponent} from "./home-page-house-owner/home-page-house-owner.component";
 import {AddHouseComponent} from "./add-house/add-house.component";
+import {
+  DefineUnavailablePeriodHouseComponent
+} from "./define-unavailable-period-house/define-unavailable-period-house.component";
+import {
+  CreateReservationForClientComponent
+} from "./create-reservation-for-client/create-reservation-for-client.component";
 
 const routes: Routes = [
   {path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}, {path: 'houses', component: HomeHouseComponent},
@@ -43,6 +49,8 @@ const routes: Routes = [
   { path:'edit-house-action/:id/:houseId', component: EditHouseActionComponent},
   { path:'home-page-house-owner', component: HomePageHouseOwnerComponent},
   { path:'add-house', component: AddHouseComponent},
+  { path: 'define-unavailable-period-house/:id', component: DefineUnavailablePeriodHouseComponent},
+  { path: 'create-reservation-for-client/:id', component: CreateReservationForClientComponent}
 ];
 
 @NgModule({

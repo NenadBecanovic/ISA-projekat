@@ -17,6 +17,14 @@ export class HouseReservationService {
     return this._http.get<HouseReservationSlide[]>(`${this.userPath}/getAllByHouseId/`+id)
   }
 
+  public getAllActionsByHouseId(id: number): Observable<HouseReservationSlide[]> {
+    return this._http.get<HouseReservationSlide[]>(`${this.userPath}/getAllActionsByHouseId/`+id)
+  }
+
+  public getAllByHouseIdPlane(id: number): Observable<HouseReservation[]> {
+    return this._http.get<HouseReservation[]>(`${this.userPath}/getAllByHouseIdPlane/`+id)
+  }
+
   public getHouseReservationById(id: number): Observable<HouseReservation> {
     return this._http.get<HouseReservation>(`${this.userPath}/getHouseReservationById/`+id)
   }

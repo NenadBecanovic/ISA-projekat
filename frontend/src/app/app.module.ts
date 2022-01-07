@@ -53,6 +53,13 @@ import { ModifyBoatProfileComponent } from './modify-boat-profile/modify-boat-pr
 import { EditHouseActionComponent } from './edit-house-action/edit-house-action.component';
 import { HomePageHouseOwnerComponent } from './home-page-house-owner/home-page-house-owner.component';
 import { AddHouseComponent } from './add-house/add-house.component';
+import { CalendarDialogComponent } from './house-profile-for-house-owner/calendar-dialog/calendar-dialog.component';
+import {DemoUtilsModule} from "./house-profile-for-house-owner/calendar-dialog/demo-utils/calendar.module";
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { DefineUnavailablePeriodHouseComponent } from './define-unavailable-period-house/define-unavailable-period-house.component';
+import {DatePipe} from "@angular/common";
+import { CreateReservationForClientComponent } from './create-reservation-for-client/create-reservation-for-client.component';
 
 const MaterialComponents = [
   MatSliderModule,
@@ -97,6 +104,9 @@ const MaterialComponents = [
     EditHouseActionComponent,
     HomePageHouseOwnerComponent,
     AddHouseComponent,
+    CalendarDialogComponent,
+    DefineUnavailablePeriodHouseComponent,
+    CreateReservationForClientComponent,
   ],
   imports: [
     RouterModule,
@@ -119,14 +129,20 @@ const MaterialComponents = [
     AlertModule.forRoot({maxMessages: 5, timeout: 5000, positionX: "right", positionY: "top"}),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDhUaf84F4NwNDUjw-feRmJusep1T1EB6s'   // za google maps
-    })
+    }),
+    DemoUtilsModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true,
-    }
+    },
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

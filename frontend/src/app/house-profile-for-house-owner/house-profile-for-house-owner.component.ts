@@ -12,6 +12,10 @@ import {ImageService} from "../service/image.service";
 import {HouseReservationService} from "../service/house-reservation.service";
 import {HouseReservationSlide} from "../model/house-reservation-slide";
 import {ActivatedRoute, Router} from "@angular/router";
+import {MatDialog} from "@angular/material/dialog";
+import {CalendarDialogComponent} from "./calendar-dialog/calendar-dialog.component";
+import {HouseReservation} from "../model/house-reservation";
+import { DatePipe } from '@angular/common'
 
 @Component({
   selector: 'app-house-profile-for-house-owner',
@@ -26,22 +30,25 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
   additionalServices: AdditionalService[] = new Array<AdditionalService>();
   house: House = new House(0,'', this.address, '', '', 0, false, 0, this.rooms, this.additionalServices, 0);
   courses_slides: HouseReservationSlide[] = new Array<HouseReservationSlide>();
+  final_courses: HouseReservation[] = new Array<HouseReservation>();
   isSlideLoaded: boolean = false;
   lat = 0;
   lng = 0;
   freeCancelation: boolean = false;
   duration: number = 0;
+  reservedCourses: HouseReservation[] = new Array();
+  allCourses: HouseReservation[] = new Array();
+  date: Date = new Date();
 
-  constructor(private _houseService: HouseService, private _addressService: AddressService, private _roomService: RoomService,
+  constructor(public dialog: MatDialog, private _houseService: HouseService, private _addressService: AddressService, private _roomService: RoomService,
               private _additionalServices: AdditionalServicesService, private _imageService: ImageService, private _houseReservationService: HouseReservationService,
-              private _router: Router, private _route: ActivatedRoute,) {
+              private _router: Router, private _route: ActivatedRoute, public datepipe: DatePipe) {
   }
 
   ngOnInit(): void {
     // @ts-ignore
     this.house.id = +this._route.snapshot.paramMap.get('id');
     this.loadData();
-    console.log(this.house.id)
   }
 
   // https://www.eduforbetterment.com/file-upload-using-material-components-in-angular/
@@ -99,29 +106,68 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
           }
         )
 
-        this._houseReservationService.getAllByHouseId(this.house.id).subscribe(
+        this._houseReservationService.getAllActionsByHouseId(this.house.id).subscribe(
           (courses_slides: HouseReservationSlide[]) => {
             this.courses_slides = courses_slides
-
-            // for (let c of this.courses_slides)
-            // {
-            //     for (let h of c.houseReservationDTOList)
-            //     {
-            //       console.log(h)
-            //
-            //       // for (let a of h.additionalServices)
-            //       //   {
-            //       //     console.log('ISPIS')
-            //       //     // console.log(a.name, a.price)
-            //       //   }
-            //     }
-            // }
-
             this.isSlideLoaded = true
+          }
+        )
+
+        this._houseReservationService.getAllByHouseIdPlane(this.house.id).subscribe(
+          (allCourses: HouseReservation[]) => {
+            this.allCourses = allCourses
+
+            for (let course of allCourses)
+            {
+              // dobavljamo sve rezervacije (to su HouseReservations koje nisu available) - spisak/istorija rezervacija
+              if (course.available == false && course.availabilityPeriod == false)
+              {
+                  this.reservedCourses.push(course);
+              }
+            }
           }
         )
       }
     )
+  }
+
+  defineUnavailablePeriod() {
+    this._router.navigate(['/define-unavailable-period-house', this.house.id])
+  }
+
+  showCalendar() {
+    const dialogRef = this.dialog.open(CalendarDialogComponent, {
+      width: '1500px',
+      data: {},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
+  }
+
+  createReservation() {
+    this._router.navigate(['/create-reservation-for-client', this.house.id])
+  }
+
+  makeReport() {
 
   }
+
+  checkDate(endDate: string) {
+    this.datepipe.transform(this.date, 'dd/MM/yyyy HH:mm:ss');
+
+    // console.log(Number(endDate))
+    // console.log(Number(Date.parse(this.date.toString()).toString()))
+
+    if (Number(endDate) < Number(Date.parse(this.date.toString()).toString()))
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+
 }

@@ -121,6 +121,35 @@
         </div>
         <br> <br>
 
+          <!-- KALENDAR -->
+<!--            <div class="align-items-center">-->
+<!--              <button mat-raised-button (click)="showCalendar()" class="btn ">Prikazi kalendar</button>-->
+<!--            </div>-->
+
+<!--            <div class="align-items-center">-->
+<!--              <button mat-raised-button (click)="defineUnavailablePeriod()" class="btn ">Definisi period nedostupnosti</button>-->
+<!--            </div>-->
+
+
+        <table class="align-items-center">
+          <tr class="align-items-center">
+            <td>
+              <div class="align-items-center">
+              <button mat-raised-button (click)="showCalendar()" class="btn show-calendar">Prikazi kalendar</button>
+              </div>
+            </td>
+            <td>
+              <div class="align-items-center">
+              <button mat-raised-button (click)="defineUnavailablePeriod()" class="btn define-period">Definisi period nedostupnosti</button>
+              </div>
+            </td>
+            <td>
+
+            </td>
+          </tr>
+        </table>
+
+        <br> <br>
         <!-- AKCIJE  -->
         <div>
           <div>
@@ -128,7 +157,7 @@
           </div>
           <div class="myMatCarousel2">
             <mat-carousel *ngIf="isSlideLoaded" timings="250ms ease-in" [autoplay]="false" [maintainAspectRatio]="false" color="accent" [loop]="true" [hideArrows]="false"
-                          [hideIndicators]="true" [useKeyboard]="true" [useMouseWheel]="false" orientation="ltr" >
+                          [hideIndicators]="true" [useKeyboard]="true" [useMouseWheel]="false" orientation="ltr">
               <mat-carousel-slide #matCarouselSlide overlayColor="white" *ngFor="let courses of courses_slides; let i = index">
                 <div class="myMatCarouselSlide2">
                   <ng-container *ngFor="let course of courses.houseReservationDTOList ; let j = index">
@@ -160,9 +189,67 @@
         </div>
         <!-- AKCIJE KRAJ -->
         <br>
-
         <div class="align-items-center">
           <button mat-raised-button (click)="addActionDialog()" class="btn add-action-button">Dodaj akciju</button>
+        </div>
+        <br><br><br>
+
+        <div>
+          <label style="font-size: 30px; font-weight: 500; margin-left: 30px" >Spisak/istorija rezervacija:</label>
+        </div>
+        <br>
+
+        <!--  SPISAK SVIH REZERVACIJA  -->
+        <div style="margin-top: 10px" class="">
+          <mat-grid-list cols="8" rowHeight="1.5:1" class="house-container1">
+            <mat-grid-tile [colspan]="6"  >
+              <div style="width: 100%; display: flex">
+                <input type="text" style="width: 50vw"  placeholder="Unesite korisnika">
+<!--                <input type="text" style="width: 50vw"  placeholder="Unesite adresu">-->
+<!--                <input type="number" style="width: 50vw" placeholder="Unesite ocenu">-->
+                <button mat-icon-button class="btn delete-action-button"> <mat-icon>search</mat-icon> </button>
+              </div>
+            </mat-grid-tile>
+
+            <div class="d-flex flex-column">
+              <mat-grid-tile [rowspan]="7" [colspan]="6" style="margin-top: 3vw;"  class="script-menu" >
+                <div style="max-height: 100%; border: 2px solid #2691d9;  border-radius: 6px; margin-bottom: 1px" *ngFor="let reserved of reservedCourses; let i = index">
+                  <mat-card style="width: 100%;">
+                    <mat-grid-list cols="4" rowHeight="1.5:1" >
+                      <mat-grid-tile  [colspan]="4" class="script-menu1">
+                        <div style="display:inline;" >
+                          <div style="float: left; width: 75%;">
+                            <label style="font-size: 2vw; font-weight: 500; margin-left: 5px;font-family: Poppins;" ><strong> {{reserved.id }}  </strong></label>
+                          </div>
+                        </div>
+                        <div style="float: right">
+<!--                          {{ reserved.guest }}-->
+                          <button mat-icon-button class="btn"> <mat-icon>person</mat-icon> </button>
+                        </div>
+                        <div style="display:inline;" >
+                          <div style="float: left; width: 100%;">
+                            <label style="font-family: Poppins"> {{ reserved.startDate | date:'dd/MM/yyyy HH:mm:ss'}}  - {{ reserved.endDate | date:'dd/MM/yyyy HH:mm:ss' }} </label>
+                          </div>
+                        </div>
+                        <div style="display:inline;" >
+                          <div style="float: left; width: 100%;">
+                            <label style="font-family: Poppins"> Cena: {{ reserved.price }} din </label>
+                          </div>
+                        </div>
+                        <div style="float: right">
+                          <button *ngIf="checkDate(reserved.endDate)" class="btn report" (click)="makeReport()"> Popuni izvestaj </button>
+                        </div>
+                      </mat-grid-tile>
+                    </mat-grid-list>
+                  </mat-card>
+                </div>
+              </mat-grid-tile>
+            </div>
+          </mat-grid-list>
+        </div>
+
+        <div class="align-items-center">
+          <button mat-raised-button (click)="createReservation()" class="btn add-action-button">Kreiraj rezervaciju za klijenta</button>
         </div>
         <br>
 
