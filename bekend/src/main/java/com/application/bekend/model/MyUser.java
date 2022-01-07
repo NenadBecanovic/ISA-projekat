@@ -47,9 +47,8 @@ public class MyUser implements UserDetails {
 
     @OneToMany(mappedBy = "guest", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<BoatReservation> boatReservations = new HashSet<BoatReservation>();
-
-    @ManyToMany
-    @JoinTable(name = "fishing_reservations", joinColumns = @JoinColumn(name = "guest_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "fishing_reservation_id", referencedColumnName = "id"))
+    
+    @OneToMany(mappedBy = "guest", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<AdventureReservation> adventureReservations = new HashSet<AdventureReservation>();
 
     @ManyToOne(fetch = FetchType.EAGER)

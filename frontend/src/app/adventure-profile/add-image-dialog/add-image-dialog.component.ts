@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AdventureProfileService } from 'src/app/service/adventure-profile.service';
+import { ImageService } from 'src/app/service/image.service';
 
 @Component({
   selector: 'app-add-image-dialog',
@@ -11,7 +12,8 @@ export class AddImageDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<AddImageDialogComponent>, private _adventureService: AdventureProfileService) { }
 
-  uploadedImage!: File;
+  uploadedImage!: string | ArrayBuffer;
+  id!: number;
   
   ngOnInit() {
   }
@@ -19,22 +21,22 @@ export class AddImageDialogComponent implements OnInit {
   onNoClick(): void {
     this.dialogRef.close();
   }
-
+/*
   public onImageUpload(event: any) {
     this.uploadedImage = event.target.files[0];
   }
 
 
   imageUploadAction() {
-    /*
-    this._adventureService.uploadImage(imageFormData).subscribe(
+    
+    this._imageService.uploadImage(this.uploadedImage).subscribe(
       (res) => {
         alert("OK");
       },
       (err) => {
 
       })
-
+    /*
     this.httpClient.post('http://localhost:8080/upload/image/', imageFormData, { observe: 'response' })
       .subscribe((response: { status: number; }) => {
         if (response.status === 200) {
@@ -42,10 +44,35 @@ export class AddImageDialogComponent implements OnInit {
 
         }
       }
-      );*/
-    }
+      );
+    }*/
   
+    imageAdded(e: any){
+      const file = e.target.files[0];
+      this.createBase64Image(file);
+    //  this.form.Image=URL.createObjectURL(file);
+    }
+    
+    createBase64Image(file: File){
+        const reader= new FileReader();
+        reader.onload = (e) =>{
+          if (!e.target?.result) return;
+          let img = e.target.result;
+          //img.replace("data:image\/(png|jpg|jpeg);base64", "");
+          console.log(img);
+          this.uploadedImage = img;
+        }
+        reader.readAsDataURL(file);
+    }
+
     ok(){
-      alert("OK")
+      alert(this.uploadedImage);
+      this._adventureService.uploadImage(this.uploadedImage,this.id).subscribe(
+        (res) => {
+          alert("OK");
+        },
+        (err) => {
+  
+        })
     }
 }

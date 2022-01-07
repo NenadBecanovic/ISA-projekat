@@ -14,26 +14,28 @@ public class AdventureReservation {
     private Date startDate;
     private Date endDate;
     private int maxGuests;
-    private String additionalServices;
     private float price;
     private boolean isAvailable;
 
-    @ManyToMany(mappedBy = "adventureReservations")
-    private Set<MyUser> guests = new HashSet<MyUser>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "guest_id")
+    private MyUser guest;
 
-    @ManyToMany
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinTable(name = "adventure_reservation_table", joinColumns = @JoinColumn(name = "adventure_appointment_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "adventure_id", referencedColumnName = "id"))
-    private Set<FishingAdventure> fishingAdventures = new HashSet<FishingAdventure>();
-
-    public AdventureReservation(Long id, Date startDate, Date endDate, int maxGuests, String additionalServices, float price, boolean isAvailable, Set<FishingAdventure> fishingAdventures) {
+    private FishingAdventure fishingAdventure;
+    
+    @ManyToMany(mappedBy = "adventureReservationsServices")
+    private Set<AdditionalServices> additionalServices = new HashSet<>();
+    
+    public AdventureReservation(Long id, Date startDate, Date endDate, int maxGuests, float price, boolean isAvailable, FishingAdventure fishingAdventure) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
         this.maxGuests = maxGuests;
-        this.additionalServices = additionalServices;
         this.price = price;
         this.isAvailable = isAvailable;
-        this.fishingAdventures = fishingAdventures;
+        this.fishingAdventure = fishingAdventure;
     }
 
     public AdventureReservation() {
@@ -71,12 +73,16 @@ public class AdventureReservation {
         this.maxGuests = maxGuests;
     }
 
-    public String getAdditionalServices() {
+    public Set<AdditionalServices> getAdditionalServices() {
         return additionalServices;
     }
 
-    public void setAdditionalServices(String additionalServices) {
+    public void setAdditionalServices(Set<AdditionalServices> additionalServices) {
         this.additionalServices = additionalServices;
+    }
+
+    public void addAdditionalService(AdditionalServices additionalServices){
+        this.additionalServices.add(additionalServices);
     }
 
     public float getPrice() {
@@ -95,11 +101,11 @@ public class AdventureReservation {
         isAvailable = available;
     }
 
-    public Set<FishingAdventure> getFishingAdventures() {
-        return fishingAdventures;
+    public FishingAdventure getFishingAdventure() {
+        return fishingAdventure;
     }
 
-    public void setFishingAdventures(Set<FishingAdventure> fishingAdventures) {
-        this.fishingAdventures = fishingAdventures;
+    public void setFishingAdventure(FishingAdventure fishingAdventure) {
+        this.fishingAdventure = fishingAdventure;
     }
 }

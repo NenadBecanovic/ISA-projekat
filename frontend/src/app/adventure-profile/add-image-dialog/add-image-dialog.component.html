@@ -2,9 +2,9 @@
 <div mat-dialog-content>
   <form>
     <div class="form-group">
-      <input type="file" (change)="ok()">
+      <input type="file" (change)="imageAdded($event)">
       <input type="button" (click)="ok()" value="Dodaj sliku" class="btn1">
-      <input type="button" (click)="ok()" value="Odustani" class="btn1">
+      <input type="button" (click)="onNoClick()" value="Odustani" class="btn1">
     </div>
   </form>
 </div>

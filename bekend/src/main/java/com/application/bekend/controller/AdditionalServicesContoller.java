@@ -115,7 +115,7 @@ public class AdditionalServicesContoller {
 
     @PostMapping("/add")
     public ResponseEntity<AdditionalServices> save(@RequestBody AdditionalServicesDTO dto) {
-        AdditionalServices additionalServices = new AdditionalServices(dto.getId(), dto.getName(), dto.getPrice(), new HashSet<>(), new HashSet<>());
+        AdditionalServices additionalServices = new AdditionalServices(dto.getId(), dto.getName(), dto.getPrice(), new HashSet<>(), new HashSet<>(), new HashSet<>());
         House house = this.houseService.getHouseById(dto.getHouseId());
         Boat boat = this.boatService.getBoatById(dto.getBoatId());
 
