@@ -89,7 +89,8 @@ public class AuthentificationController {
 
         // proveravamo da nije istekao expiru date
         VerificationToken verificationToken = this.verificationTokenService.findByToken(activationDTO.getToken());
-        if(verificationToken.getUser() == user){
+
+        if(verificationToken.getUser().getEmail().equals(user.getEmail())){
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             if(verificationToken.getExpiryDate().after(timestamp)){
                 this.myUserService.activateUser(user.getId());
