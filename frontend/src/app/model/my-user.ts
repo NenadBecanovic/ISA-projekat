@@ -12,6 +12,7 @@ export class MyUser {
   phoneNumber: String;
   reasonForRegistration: String;
   passwordChange: boolean = false;
+  penalties: number = 0;
 
   constructor(firstName: String, lastName: String, email: String, password: string, username: String, authority: String, addressDTO: Address, phoneNumber: String, reasonForRegistration: String) {
     this.firstName = firstName;

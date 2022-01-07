@@ -19,6 +19,7 @@ export class ClientHousesComponent implements OnInit {
   houseFilterGrade: number = 0;
   houseNameSearch: string = "";
   houseAddressSearch: string = "";
+  onGoingSearch: boolean = true;
 
   constructor(private _houseService: HouseService, private _router: Router) { }
 
@@ -73,12 +74,10 @@ export class ClientHousesComponent implements OnInit {
   }
 
   goToHouse(id: number) {
-
-    this._router.navigate(['/house',id])
+    this._router.navigate(['client/house',id])
   }
 
   searchHouses(){
-
     this.houses = this.houseSearch.filter(s => s.name.toLowerCase().includes(this.houseNameSearch.toLowerCase()) &&
       (s.address.street+" "+ s.address.city + " " + s.address.state).toLowerCase().includes(this.houseAddressSearch.toLowerCase()))
     this.housesFilter = this.houses;

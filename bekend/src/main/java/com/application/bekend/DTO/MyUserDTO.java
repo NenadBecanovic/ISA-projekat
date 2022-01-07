@@ -12,6 +12,7 @@ public class MyUserDTO {
     private String phoneNumber;
     private String reasonForRegistration;
     private boolean passwordChange;
+    private int penalties;
 
     public MyUserDTO(String firstName, String lastName, String email, String password, String username, String authority, AddressDTO addressDTO, String phoneNumber, String reasonForRegistration) {
         this.firstName = firstName;
@@ -98,5 +99,13 @@ public class MyUserDTO {
 
     public void setPasswordChange(boolean passwordChange) {
         this.passwordChange = passwordChange;
+    }
+
+    public int getPenalties() {
+        return penalties;
+    }
+
+    public void setPenalties(int penalties) {
+        this.penalties = penalties;
     }
 }

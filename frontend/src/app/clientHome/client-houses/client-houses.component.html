@@ -2,12 +2,17 @@
 
   <mat-grid-list cols="8" rowHeight="2:1" >
     <mat-grid-tile [colspan]="3">
-
+      <div style="display:inline;" >
+        <div style="float: right; width: 100%;">
+          <label style="font-size: 1.2vw; margin-left: 5px" >Pronadjite dostupne vikendice:</label>
+        </div>
+      </div>
     </mat-grid-tile>
     <mat-grid-tile [colspan]="4" style="margin-top: 10px" >
       <div style="width: 100%; display: flex">
-        <input type="text" style="width: 45%" [(ngModel)]="houseNameSearch" placeholder="Unesite naziv">
-        <input type="text" style="width: 45%" [(ngModel)]="houseAddressSearch" placeholder="Unesite adresu">
+        <input type="datetime-local" name="startDate" style="width: 30%" placeholder="Unesite datum i vreme pocetka" required>
+        <input type="number" name="duration"  [min]="1" [step] =1 style="width: 30%" placeholder="Unesite broj dana">
+        <input type="number" name="duration"  [min]="1" [step] =1 style="width: 30%" placeholder="Unesite broj gostiju">
         <button (click)="searchHouses()">
           <mat-icon >search</mat-icon>
         </button>
@@ -55,7 +60,7 @@
     <mat-grid-tile [rowspan]="7" [colspan]="4" style="margin-top: 0;border:2px solid #2691d9; "  class="script-menu" >
       <div  style="width: 98%; max-height: 110%; border: 2px solid #2691d9;
   border-radius: 5px; margin-bottom: 5px"  *ngFor="let house of houses" >
-        <mat-card (click)="goToHouse(house.id)" style="width: 100%; height: 100%; padding: 5px">
+        <mat-card  style="width: 100%; height: 100%; padding: 5px">
           <mat-grid-list cols="4" rowHeight="1.1:1" >
             <mat-grid-tile >
 
@@ -68,7 +73,8 @@
                   <label style="font-size: 1.2vw; font-weight: 500; margin-left: 5px" ><strong>{{house.name}}</strong></label>
                 </div>
                 <div style="float: left; width: 10%;">
-                  <label style="font-size: 1.0vw; font-weight: 500; color: orange; margin-left: 5px" >{{house.grade}} </label>
+                  <label style="font-size: 1.0vw; font-weight: 500; color: orange; margin-left: 5px" *ngIf="house.grade > 0" >{{house.grade}} </label>
+                  <label style="font-size: 1.0vw; font-weight: 500; color: orange; margin-left: 5px" *ngIf="house.grade == 0" > Bez ocene </label>
                 </div>
                 <div style="float: left; width: 15%">
                   <mat-icon style="color: orange;">star</mat-icon>
@@ -86,8 +92,11 @@
               </div>
               <div style="display:inline;" >
 
-                <div style="float: left; width: 100%;">
-                  <label style="font-size: 1.2vw;  margin-left: 5px" >{{house.promoDescription}}</label>
+                <div style="float: left; width: 30%;">
+                  <button mat-raised-button color="primary" (click)="goToHouse(house.id)">Pogledaj vikendicu</button>
+                </div>
+                <div style="float: left; width: 30%;">
+                  <button mat-raised-button color="primary" [disabled]="onGoingSearch" >Zakazi rezervaciju</button>
                 </div>
               </div>
             </mat-grid-tile>

@@ -26,6 +26,12 @@ import {ClientHouseReservationsComponent} from "../client-house-reservations/cli
 import {FormsModule} from "@angular/forms";
 import {AlertModule} from "ngx-alerts";
 import {DeleteAccountComponent} from "../delete-account/delete-account.component";
+import {MatButtonModule} from "@angular/material/button";
+import {ClientHouseComponent} from "../client-house/client-house.component";
+import {AgmCoreModule} from "@agm/core";
+import {MatCarouselModule} from "ng-mat-carousel";
+import {YesNoDialogComponent} from "../yes-no-dialog/yes-no-dialog.component";
+import {ClientBoatComponent} from "../client-boat/client-boat.component";
 
 
 @NgModule({
@@ -38,26 +44,32 @@ import {DeleteAccountComponent} from "../delete-account/delete-account.component
     ClientAdventuresComponent,
     ClientHouseReservationsComponent,
     DeleteAccountComponent,
+    ClientHouseComponent,
+    YesNoDialogComponent,
+    ClientBoatComponent,
   ],
-    imports: [
-        CommonModule,
-        RouterModule,
-        SharedModule,
-        MatSidenavModule,
-        MatDividerModule,
-        FlexModule,
-        MatCardModule,
-        MatTableModule,
-        MatPaginatorModule,
-        MatProgressBarModule,
-        MatProgressSpinnerModule,
-        MatGridListModule,
-        MatIconModule,
-        MatRadioModule,
-        FormsModule,
-        AlertModule
+  imports: [
+    CommonModule,
+    RouterModule,
+    SharedModule,
+    MatSidenavModule,
+    MatDividerModule,
+    FlexModule,
+    MatCardModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatGridListModule,
+    MatIconModule,
+    MatRadioModule,
+    FormsModule,
+    AlertModule,
+    MatButtonModule,
+    AgmCoreModule,
+    MatCarouselModule
 
-    ],
+  ],
   providers:[
     DashboardService,
     {
