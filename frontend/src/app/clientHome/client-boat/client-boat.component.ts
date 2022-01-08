@@ -11,6 +11,10 @@ import {AdditionalServicesService} from "../../service/additional-services.servi
 import {ImageService} from "../../service/image.service";
 import {BoatReservationService} from "../../service/boat-reservation.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {MyUser} from "../../model/my-user";
+import {Subscription} from "../../model/subscription";
+import {MyUserService} from "../../service/my-user.service";
+import {AuthentificationService} from "../../authentification/authentification.service";
 
 @Component({
   selector: 'app-client-boat',
@@ -22,6 +26,9 @@ export class ClientBoatComponent implements OnInit {
   lat = 0;
   lng = 0;
   address: Address = new Address(0,"Luka 11","Novi Sad","Srbija",0,0,21000)
+  user: MyUser = new MyUser(0,"","","","","","",this.address, "", "");
+  currentUser: MyUser = new MyUser(0,"","","","","","",this.address, "", "");
+  subscription: Subscription = new Subscription(0,this.user,this.user)
   navigationEquipment: NavigationEquipment = new NavigationEquipment(0,true, true, true, true);
   additionalServices: AdditionalService[] = new Array<AdditionalService>();
   boat: Boat = new Boat(0, '', '', '', 0, 0, '', 0, 0, 0, 0, false, 0, '', this.address, this.navigationEquipment, this.additionalServices, 0);
@@ -32,9 +39,11 @@ export class ClientBoatComponent implements OnInit {
   isLoaded: boolean = false;
   freeCancelation: boolean = false;
   id: number = 0;
+  isSubscribed: Boolean = false;
 
   constructor(private _boatService: BoatService, private _additionalServices: AdditionalServicesService, private _imageService: ImageService,
-              private _boatReservationService: BoatReservationService, private _router: Router, private _route: ActivatedRoute) {
+              private _boatReservationService: BoatReservationService, private _router: Router, private _route: ActivatedRoute,
+              private _myUserService: MyUserService, private _authentification: AuthentificationService) {
   }
 
   ngOnInit(): void {
@@ -72,11 +81,42 @@ export class ClientBoatComponent implements OnInit {
           }
         )
 
+        this._myUserService.findUserByHouseid(this.boat.id).subscribe(
+          (myUser: MyUser) => {
+            this.user = myUser
+          }
+        )
+
+        this._authentification.getUserByEmail().subscribe(   // subscribe - da bismo dobili odgovor beka
+          (user: MyUser) => {
+            this.currentUser = user;
+          },
+          (error) => {
+          },
+        )
+
+
+
+        this._myUserService.checkIfUserIsSubscribes(this.currentUser.id, this.user.id).subscribe(
+          (isSubscribed: Boolean) => {
+            this.isSubscribed = isSubscribed
+          }
+        )
+
       }
     )
   }
 
   subscribe() {
+    if(confirm("Da li sigurne zelite da se pretplatite")) {
 
+      this.subscription.owner = this.user;
+      this.subscription.subscribedUser = this.currentUser
+      this._myUserService.saveSubscription(this.subscription).subscribe(
+        (sub: Subscription) => {
+          this.subscription = sub;
+        }
+      )
+    }
   }
 }

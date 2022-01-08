@@ -44,9 +44,11 @@ public class AuthService {
         saved.ifPresent(u -> {      // ako je user sacuvan (nije null)
                     try {
                         String token = UUID.randomUUID().toString();
-                        verificationTokenService.save(saved.get(), token);  // kreiranje verifikacionog tokena
+                          // kreiranje verifikacionog tokena
 
-                        this.emailService.sendHTMLMail(saved.get());  // send verification email
+                        this.emailService.sendHTMLMail(saved.get());
+                        verificationTokenService.save(saved.get(), token);
+                        MyUser user = this.save(myUser);// send verification email
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -78,11 +80,10 @@ public class AuthService {
         myUser.setGrade(0);
         myUser.setActivated(false);
         myUser.setPhoneNumber(myUserDTO.getPhoneNumber());
-        MyUser user = this.save(myUser);
 
         // poslati mejl za obicnog usera
         if(myUserDTO.getAuthority().equals("ROLE_USER")){
-            this.sendVerificationEmail(user);
+            this.sendVerificationEmail(myUser);
         }else{
             // poslati zahtev za verifikaciju za ostale korisnike
             VerificationRequest verificationRequest = new VerificationRequest(myUser, false, myUserDTO.getReasonForRegistration());

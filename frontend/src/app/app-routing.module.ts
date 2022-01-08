@@ -34,6 +34,7 @@ import { DefineUnavailablePeriodHouseComponent} from "./define-unavailable-perio
 import {  CreateReservationForClientComponent} from "./create-reservation-for-client/create-reservation-for-client.component";
 import {GuestProfileComponent} from "./guest-profile/guest-profile.component";
 import {HouseReportComponent} from "./house-report/house-report.component";
+import {ClientSubscriptionsComponent} from "./clientHome/client-subscriptions/client-subscriptions.component";
 
 
 const routes: Routes = [
@@ -45,7 +46,7 @@ const routes: Routes = [
   {path:'email-activation', component: EmailActivationComponent},
   {path:'client', component: ClientHomePageComponent, children: [{path: '', component: DashboardComponent},{path: 'profile', component: ClientProfileComponent},
       {path: 'houses', component: ClientHousesComponent}, {path: 'boats', component: ClientBoatsComponent}, {path: 'adventures', component: ClientAdventuresComponent},
-      {path: 'house/:id', component: ClientHouseComponent},{path: 'boat/:id', component: ClientBoatComponent}]},
+      {path: 'house/:id', component: ClientHouseComponent},{path: 'boat/:id', component: ClientBoatComponent}, {path: 'subscriptions', component: ClientSubscriptionsComponent}]},
   {path:'client', component: ClientHomePageComponent, children: [{path: '', component: DashboardComponent}]},
   { path:'house-profile-for-house-owner/:id', component: HouseProfileForHouseOwnerComponent},
   { path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}]},

@@ -3,6 +3,7 @@ package com.application.bekend.controller;
 
 import com.application.bekend.DTO.*;
 import com.application.bekend.model.RequestForAccountDeleting;
+import com.application.bekend.model.Subscription;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -92,5 +93,59 @@ public class MyUserController {
                 addressDTO, myUser.getPhoneNumber());
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+
+    @PostMapping("/saveSubscription")
+    public ResponseEntity<SubscriptionDTO> updateUser(@RequestBody SubscriptionDTO dto){
+        MyUser user = modelMapper.map(dto.getSubscribedUser(), MyUser.class);
+        MyUser owner = modelMapper.map(dto.getOwner(), MyUser.class);
+        if(user.getEmail() == owner.getEmail()){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        Subscription subscription = new Subscription();
+        subscription.setSubscribedUser(user);
+        subscription.setOwner(owner);
+        this.myUserService.save(subscription);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @GetMapping("/findUserByHouseId/{id}")
+    public ResponseEntity<MyUserDTO> findUserByHouseId(@PathVariable("id") Long id){
+        MyUser myUser = this.myUserService.findUserByHouseId(id);
+        MyUserDTO dto =  modelMapper.map(myUser, MyUserDTO.class);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @GetMapping("/checkIfUserIsSubscribed/{userId}/{ownerId}")
+    public ResponseEntity<Boolean> checkIfUserIsSubscribed(@PathVariable("userId") Long userId, @PathVariable("ownerId") Long ownerId){
+        Boolean isSubscribed = this.myUserService.checkIfUserIsSubscribed(userId, ownerId);
+
+        return new ResponseEntity<>(isSubscribed, HttpStatus.OK);
+    }
+
+    @GetMapping("/findUserByBoatId/{id}")
+    public ResponseEntity<MyUserDTO> findUserByBoatId(@PathVariable("id") Long id){
+        MyUser myUser = this.myUserService.findUserByBoatId(id);
+        MyUserDTO dto =  modelMapper.map(myUser, MyUserDTO.class);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @GetMapping("/findAllSubscriptionsByUserId/{id}")
+    public ResponseEntity<List<SubscriptionDTO>> findAllSubscriptionsByUserId(@PathVariable("id") Long id){
+        List<Subscription> subscriptions = this.myUserService.findAllBySubscribedUserId(id);
+        List<SubscriptionDTO> subscriptionDTOS = new ArrayList<>();
+        for(Subscription subscription: subscriptions){
+            SubscriptionDTO dto = modelMapper.map(subscription, SubscriptionDTO.class);
+            subscriptionDTOS.add(dto);
+        }
+
+        return new ResponseEntity<>(subscriptionDTOS, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteSubscriptionById/{id}")
+    public ResponseEntity<Boolean> deleteSubscriptionById(@PathVariable("id") Long id){
+        this.myUserService.deleteSubscriptionById(id);
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 }

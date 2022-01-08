@@ -12,6 +12,10 @@ import {AdditionalServicesService} from "../../service/additional-services.servi
 import {ImageService} from "../../service/image.service";
 import {HouseReservationService} from "../../service/house-reservation.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {MyUserService} from "../../service/my-user.service";
+import {MyUser} from "../../model/my-user";
+import {Subscription} from "../../model/subscription";
+import {AuthentificationService} from "../../authentification/authentification.service";
 
 @Component({
   selector: 'app-client-house',
@@ -19,7 +23,11 @@ import {ActivatedRoute, Router} from "@angular/router";
   styleUrls: ['./client-house.component.css']
 })
 export class ClientHouseComponent implements OnInit {
+
   address: Address = new Address(0,"","","",0,0,31100)
+  user: MyUser = new MyUser(0,"","","","","","",this.address, "", "");
+  currentUser: MyUser = new MyUser(0,"","","","","","",this.address, "", "");
+  subscription: Subscription = new Subscription(0,this.user,this.user)
   images: Image[] = new Array<Image>();
   isLoaded: boolean = false;
   rooms: Room[] = new Array<Room>();
@@ -32,10 +40,12 @@ export class ClientHouseComponent implements OnInit {
   freeCancelation: boolean = false;
   duration: number = 0;
   id: number = 0;
+  isSubscribed: Boolean = false;
+
 
   constructor(private _houseService: HouseService, private _addressService: AddressService, private _roomService: RoomService,
               private _additionalServices: AdditionalServicesService, private _imageService: ImageService, private _houseReservationService: HouseReservationService,
-              private _router: Router, private _route: ActivatedRoute) {
+              private _router: Router, private _route: ActivatedRoute, private _myUserService: MyUserService, private _authentification: AuthentificationService) {
   }
 
   ngOnInit(): void {
@@ -79,6 +89,26 @@ export class ClientHouseComponent implements OnInit {
             this.isSlideLoaded = true
           }
         )
+
+        this._myUserService.findUserByHouseid(this.house.id).subscribe(
+          (myUser: MyUser) => {
+            this.user = myUser
+          }
+        )
+
+        this._authentification.getUserByEmail().subscribe(   // subscribe - da bismo dobili odgovor beka
+          (user: MyUser) => {
+            this.currentUser = user;
+          },
+          (error) => {
+          },
+        )
+
+        this._myUserService.checkIfUserIsSubscribes(this.currentUser.id, this.user.id).subscribe(
+          (isSubscribed: Boolean) => {
+            this.isSubscribed = isSubscribed
+          }
+        )
       }
     )
 
@@ -88,6 +118,13 @@ export class ClientHouseComponent implements OnInit {
 
     if(confirm("Da li sigurne zelite da se pretplatite")) {
 
+      this.subscription.owner = this.user;
+      this.subscription.subscribedUser = this.currentUser
+      this._myUserService.saveSubscription(this.subscription).subscribe(
+        (sub: Subscription) => {
+          this.subscription = sub;
+        }
+      )
     }
   }
 }

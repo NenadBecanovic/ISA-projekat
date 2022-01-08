@@ -8,25 +8,25 @@ import java.util.Set;
 public class Address {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String street;
     private String city;
     private String state;
-    private float longitude;
-    private float latitude;
-    private int postalCode;
+    private Float longitude;
+    private Float latitude;
+    private Integer postalCode;
 
-    @OneToMany(mappedBy = "address", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "address", fetch = FetchType.LAZY)
     private Set<MyUser> users= new HashSet<MyUser>();
 
-    @OneToMany(mappedBy = "address", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "address", fetch = FetchType.LAZY)
     private Set<Boat> boats= new HashSet<Boat>();
 
-    @OneToMany(mappedBy = "address", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "address", fetch = FetchType.LAZY)
     private Set<House> houses= new HashSet<House>();
 
-    public Address(Long id, String street, String city, String state, float longitude, float latitude, int postalCode) {
+    public Address(Long id, String street, String city, String state, Float longitude, Float latitude, Integer postalCode) {
         this.id = id;
         this.street = street;
         this.city = city;
