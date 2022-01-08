@@ -37,8 +37,8 @@ export class AuthService {
       }));
   }
 
-  public register(myUser: MyUser): Observable<MyUser>{
-    return  this._http.post<MyUser>(`${this.userPath}/register`, myUser);
+  public register(myUser: MyUser): Observable<Boolean>{
+    return  this._http.post<Boolean>(`${this.userPath}/register`, myUser);
   }
 
   public confirmEmail(urlParams: any) {

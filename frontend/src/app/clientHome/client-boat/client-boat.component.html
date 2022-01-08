@@ -18,7 +18,7 @@
       <div class="d-flex left align-items-center" style="margin-left: 10px">
         <span class="house-name display-5" style="margin-left: 10px">
           {{boat.name}}
-          <button mat-raised-button (click)="subscribe()" class="btn modify-profile-button">Pretplati se</button>
+          <button mat-raised-button [disabled]="!isSubscribed" (click)="subscribe()" class="btn modify-profile-button">Pretplati se</button>
         </span>
       </div>
       <!-- adresa broda -->

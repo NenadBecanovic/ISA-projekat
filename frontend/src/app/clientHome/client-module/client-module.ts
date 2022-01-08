@@ -32,6 +32,7 @@ import {AgmCoreModule} from "@agm/core";
 import {MatCarouselModule} from "ng-mat-carousel";
 import {YesNoDialogComponent} from "../yes-no-dialog/yes-no-dialog.component";
 import {ClientBoatComponent} from "../client-boat/client-boat.component";
+import {ClientSubscriptionsComponent} from "../client-subscriptions/client-subscriptions.component";
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import {ClientBoatComponent} from "../client-boat/client-boat.component";
     ClientHouseComponent,
     YesNoDialogComponent,
     ClientBoatComponent,
+    ClientSubscriptionsComponent,
   ],
   imports: [
     CommonModule,

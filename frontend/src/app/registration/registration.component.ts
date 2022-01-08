@@ -30,11 +30,11 @@ export class RegistrationComponent implements OnInit {
         return;
       }
       this.authService.register(this.user).subscribe(   // subscribe - da bismo dobili odgovor beka
-        (user: MyUser) => {
+        (isCraated: Boolean) => {
           this.alertService.success('User created');
         },
         (error) => {
-          this.alertService.danger('Something went wrong');
+          this.alertService.danger('Email nije validan');
         },
       )
   }
