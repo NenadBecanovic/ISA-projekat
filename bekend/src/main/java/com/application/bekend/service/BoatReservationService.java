@@ -32,4 +32,6 @@ public class BoatReservationService {
     public void delete(Long id){
         boatReservationRepository.deleteById(id);
     }
+
+    public List<BoatReservation> getBoatReservationsByGuestId(Long id) { return this.boatReservationRepository.getBoatReservationsByGuestId(id); }
 }

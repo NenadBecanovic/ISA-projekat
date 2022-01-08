@@ -68,6 +68,10 @@ import {DatePipe} from "@angular/common";
 import { CreateReservationForClientComponent } from './create-reservation-for-client/create-reservation-for-client.component';
 import { GuestProfileComponent } from './guest-profile/guest-profile.component';
 import { HouseReportComponent } from './house-report/house-report.component';
+import { HomePageBoatOwnerComponent } from './home-page-boat-owner/home-page-boat-owner.component';
+import { DefineUnavailablePeriodBoatComponent } from './define-unavailable-period-boat/define-unavailable-period-boat.component';
+import { GuestProfileBoatComponent } from './guest-profile-boat/guest-profile-boat.component';
+import { CreateReservationForClientBoatComponent } from './create-reservation-for-client-boat/create-reservation-for-client-boat.component';
 
 
 const MaterialComponents = [
@@ -122,6 +126,11 @@ const MaterialComponents = [
     GuestProfileComponent,
     HouseReportComponent,
     CalendarDialogHouseComponent,
+    BoatProfileForBoatOwnerComponent,
+    HomePageBoatOwnerComponent,
+    DefineUnavailablePeriodBoatComponent,
+    GuestProfileBoatComponent,
+    CreateReservationForClientBoatComponent,
   ],
   imports: [
     RouterModule,

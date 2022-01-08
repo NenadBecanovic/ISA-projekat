@@ -16,13 +16,15 @@ public class BoatReservation {
     private int maxGuests;
     private float price;
     private boolean isAvailable;
+    private boolean availabilityPeriod = false;
+    private boolean isAction = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "guest_id")
     private MyUser guest;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinTable(name = "boat_reservation_table", joinColumns = @JoinColumn(name = "boat_appointment_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "boat_id", referencedColumnName = "id"))
+    @JoinColumn(name = "boat_id")
     private Boat boat;
 
     @ManyToMany(mappedBy = "boatReservationsServices")
@@ -111,5 +113,21 @@ public class BoatReservation {
 
     public void setAdditionalServices(Set<AdditionalServices> additionalServices) {
         this.additionalServices = additionalServices;
+    }
+
+    public boolean isAvailabilityPeriod() {
+        return availabilityPeriod;
+    }
+
+    public void setAvailabilityPeriod(boolean availabilityPeriod) {
+        this.availabilityPeriod = availabilityPeriod;
+    }
+
+    public boolean isAction() {
+        return isAction;
+    }
+
+    public void setAction(boolean action) {
+        isAction = action;
     }
 }

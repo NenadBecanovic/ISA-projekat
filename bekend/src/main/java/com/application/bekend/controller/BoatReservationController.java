@@ -5,6 +5,7 @@ import com.application.bekend.model.*;
 import com.application.bekend.service.AdditionalServicesService;
 import com.application.bekend.service.BoatReservationService;
 import com.application.bekend.service.BoatService;
+import com.application.bekend.service.MyUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,12 +23,14 @@ public class BoatReservationController {
     private final BoatReservationService boatReservationService;
     private final AdditionalServicesService additionalServicesService;
     private final BoatService boatService;
+    private final MyUserService myUserService;
 
     @Autowired
-    public BoatReservationController(BoatReservationService boatReservationService, AdditionalServicesService additionalServicesService, BoatService boatService) {
+    public BoatReservationController(BoatReservationService boatReservationService, AdditionalServicesService additionalServicesService, BoatService boatService, MyUserService myUserService) {
         this.boatReservationService = boatReservationService;
         this.additionalServicesService = additionalServicesService;
         this.boatService = boatService;
+        this.myUserService = myUserService;
     }
 
     @GetMapping("/getAllByBoatId/{id}")
@@ -74,12 +77,28 @@ public class BoatReservationController {
     }
 
     @PostMapping("/add")
+    @Transactional
     public ResponseEntity<BoatReservation> save(@RequestBody BoatReservationDTO dto) {
         Boat boat = this.boatService.getBoatById(dto.getBoatId());
+
+        List<BoatReservation> boatReservations = this.boatReservationService.getAllByBoat_Id(boat.getId());
+        for (BoatReservation h: boatReservations) {
+            Long start =  h.getStartDate().getTime();
+            Long end = h.getEndDate().getTime();
+
+            if (Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getEndDate()) <=  end ||
+                    Long.parseLong(dto.getStartDate()) <= start && Long.parseLong(dto.getEndDate()) >= start  ||
+                    Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getStartDate()) <= end  )
+            {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+        }
 
         Date startDate = new Date(Long.parseLong(dto.getStartDate()));
         Date endDate = new Date(Long.parseLong(dto.getEndDate()));
         BoatReservation boatReservation = new BoatReservation(dto.getId(), startDate, endDate, dto.getMaxGuests(), dto.getPrice(), dto.isAvailable(), boat);
+        boatReservation.setAvailabilityPeriod(dto.isAvailabilityPeriod());
+        boatReservation.setAction(dto.isAction());
 
         boatReservation = this.boatReservationService.save(boatReservation); // sacuvali smo rezervaciju i povratna vrednost metode je tacno ta rezervacija iz baze (sa ispravno generisanim id-em ...)
         // ovaj korak je obavezan jer se rezervacija koju dodajemo ovde (***) mora nalaziti u bazi
@@ -104,6 +123,22 @@ public class BoatReservationController {
         boat.addBoatReservation(boatReservation);
         this.boatService.save(boat);
 
+        if (dto.getGuestId() != null && dto.getGuestId() != 0) {
+            MyUser guest = this.myUserService.findUserById(dto.getGuestId());
+            boatReservation.setGuest(guest);
+            this.boatService.save(boat);
+
+            Set<BoatReservation> boatReservations1 = guest.getBoatReservations();
+            //if (guest.)  // greska   // TODO : treba da bude transactional metoda ????
+            boatReservations1.add(boatReservation);
+            guest.setBoatReservations(boatReservations1);
+            this.myUserService.save(guest);
+        }
+
+        // TODO: ako je vlasnik zakazao za klijenta, poslati mejl klijentu
+
+        // TODO: ako je akcije, poslati mejl svim pretplacenim klijentima
+
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -126,4 +161,116 @@ public class BoatReservationController {
 
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
+
+    @GetMapping("/getAllActionsByBoatId/{id}")
+    public ResponseEntity<List<BoatReservationSlideDTO>> getAllActionsByBoatId(@PathVariable("id") Long id) {
+        List<BoatReservation> boatReservations = this.boatReservationService.getAllByBoat_Id(id);
+
+        List<BoatReservationDTO> boatReservationDTOS = new ArrayList<>();
+        List<BoatReservationSlideDTO> boatReservationSlideDTOS = new ArrayList<>();
+
+        for (BoatReservation a : boatReservations) {
+            if (a.isAction() == true && a.isAvailable() == true) {   // ako je akcija koja je slobodna (nije zauzeta)
+                String startDate = (String.valueOf(a.getStartDate().getTime()));
+                String endDate = (String.valueOf(a.getEndDate().getTime()));
+
+                BoatReservationDTO boatReservationDTO = new BoatReservationDTO(a.getId(), startDate, endDate, a.getMaxGuests(), a.getPrice(), a.isAvailable());
+                boatReservationDTO.setAvailabilityPeriod(a.isAvailabilityPeriod());
+                boatReservationDTO.setAction(a.isAction());
+                if (a.getGuest() != null) {
+                    boatReservationDTO.setGuestId(a.getGuest().getId());
+                }
+
+                Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
+                // dobavljamo set dodatnih usluga za onu konkretnu rezervaciju iz baze i pretvaramo u DTO (a mozemo samo i pristupiti setu dodatnih usluga direktno preko rezervacije (a.getAdditionalServices()))
+                for (AdditionalServices add : this.additionalServicesService.getAllByHouseReservationId(a.getId())) {  // a.getAdditionalServices()
+                    AdditionalServicesDTO newAddSer = new AdditionalServicesDTO(add.getId(), add.getName(), add.getPrice());
+                    additionalServicesDTOS.add(newAddSer);
+                }
+
+                boatReservationDTO.setAdditionalServices(additionalServicesDTOS);
+                boatReservationDTOS.add(boatReservationDTO);  // lista svih HouseReservationDTO - treba nam zbog slidera (3 po 3 cemo slati)
+            }
+        }
+
+        List<BoatReservationDTO> reservationDTOS = new ArrayList<>();
+        int i = 1;
+        for (BoatReservationDTO dto : boatReservationDTOS) {
+            reservationDTOS.add(dto);
+            if (i % 3 == 0) {
+                BoatReservationSlideDTO boatReservationSlideDTO = new BoatReservationSlideDTO(reservationDTOS);
+                boatReservationSlideDTOS.add(boatReservationSlideDTO);
+                reservationDTOS = new ArrayList<>();
+            }
+            i = i + 1;
+        }
+
+        if (reservationDTOS.size() != 0) {
+            BoatReservationSlideDTO boatReservationSlideDTO = new BoatReservationSlideDTO(reservationDTOS);
+            boatReservationSlideDTOS.add(boatReservationSlideDTO);
+        }
+
+        return new ResponseEntity<>(boatReservationSlideDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping("/getAllByBoatIdPlane/{id}")  // TODO: iskoristiti za prikaz svih rezervacija na kalendaru (nije potreban slajder)
+    public ResponseEntity<List<BoatReservationDTO>> getAllByBoatIdPlane(@PathVariable("id") Long id) {
+        List<BoatReservation> boatReservations = this.boatReservationService.getAllByBoat_Id(id);
+
+        List<BoatReservationDTO> boatReservationDTOS = new ArrayList<>();
+
+        for (BoatReservation a : boatReservations) {
+            String startDate = (String.valueOf(a.getStartDate().getTime()));
+            String endDate = (String.valueOf(a.getEndDate().getTime()));
+
+            BoatReservationDTO boatReservationDTO = new BoatReservationDTO(a.getId(), startDate, endDate, a.getMaxGuests(), a.getPrice(), a.isAvailable());
+            boatReservationDTO.setAvailabilityPeriod(a.isAvailabilityPeriod());
+            boatReservationDTO.setAction(a.isAction());
+            if (a.getGuest() != null) {
+                boatReservationDTO.setGuestId(a.getGuest().getId());
+            }
+
+            Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
+            // dobavljamo set dodatnih usluga za onu konkretnu rezervaciju iz baze i pretvaramo u DTO (a mozemo samo i pristupiti setu dodatnih usluga direktno preko rezervacije (a.getAdditionalServices()))
+            for(AdditionalServices add : this.additionalServicesService.getAllByHouseReservationId(a.getId())){  // a.getAdditionalServices()
+                AdditionalServicesDTO newAddSer = new AdditionalServicesDTO(add.getId(), add.getName(), add.getPrice());
+                additionalServicesDTOS.add(newAddSer);
+            }
+
+            boatReservationDTO.setAdditionalServices(additionalServicesDTOS);
+            boatReservationDTOS.add(boatReservationDTO);
+        }
+
+        return new ResponseEntity<>(boatReservationDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping("/getBoatReservationsByGuestId/{id}")
+    public ResponseEntity<List<BoatReservationDTO>> getBoatReservationsByGuestId(@PathVariable("id") Long id) {
+        List<BoatReservation> boatReservations = this.boatReservationService.getBoatReservationsByGuestId(id);
+        List<BoatReservationDTO> boatReservationDTOS = new ArrayList<>();
+
+        for (BoatReservation h: boatReservations) {
+            String startDate = (String.valueOf(h.getStartDate().getTime()));
+            String endDate = (String.valueOf(h.getEndDate().getTime()));
+
+            BoatReservationDTO dto = new BoatReservationDTO(h.getBoat().getId(), h.getId(), startDate, endDate, h.getMaxGuests(),
+                    h.getPrice(), h.isAvailable());
+            dto.setAvailabilityPeriod(h.isAvailabilityPeriod());
+            dto.setAction(h.isAction());
+            if (h.getGuest() != null) {
+                dto.setGuestId(h.getGuest().getId());
+            }
+
+            Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
+            for(AdditionalServices add : this.additionalServicesService.getAllByBoatReservationId(h.getId())) {
+                AdditionalServicesDTO newAddSer = new AdditionalServicesDTO(add.getId(), add.getName(), add.getPrice());
+                additionalServicesDTOS.add(newAddSer);
+            }
+            dto.setAdditionalServices(additionalServicesDTOS);
+
+            boatReservationDTOS.add(dto);
+        }
+        return new ResponseEntity<>(boatReservationDTOS, HttpStatus.OK);
+    }
+
 }

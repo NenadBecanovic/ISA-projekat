@@ -88,12 +88,18 @@ public class MyUserService implements UserDetailsService {
 
     public Set<MyUser> getAllByHouseId(Long id) { return this.myUserRepository.getAllByHouseId(id); }
 
+    public Set<MyUser> getAllByBoatId(Long id) { return this.myUserRepository.getAllByBoatId(id); }
+
     public MyUser save(MyUser myUser) {
         return this.myUserRepository.save(myUser);
     }
 
     public MyUser findUserByHouseReservationId(Long id){
         return myUserRepository.findMyUserByHouseReservationId(id);
+    }
+
+    public MyUser findUserByBoatReservationId(Long id){
+        return myUserRepository.findUserByBoatReservationId(id);
     }
 
     public Subscription save(Subscription subscription) {
@@ -107,6 +113,7 @@ public class MyUserService implements UserDetailsService {
     public MyUser findUserByBoatId(Long id) {
         return myUserRepository.findMyUserByBoatId(id);
     }
+
     public Boolean checkIfUserIsSubscribed(Long userId, Long ownerId){
         return this.subscriptionService.checkIfUserIsSubscribed(userId, ownerId);
     }

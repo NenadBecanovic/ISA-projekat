@@ -35,6 +35,13 @@ import {  CreateReservationForClientComponent} from "./create-reservation-for-cl
 import {GuestProfileComponent} from "./guest-profile/guest-profile.component";
 import {HouseReportComponent} from "./house-report/house-report.component";
 import {ClientSubscriptionsComponent} from "./clientHome/client-subscriptions/client-subscriptions.component";
+import {
+  DefineUnavailablePeriodBoatComponent
+} from "./define-unavailable-period-boat/define-unavailable-period-boat.component";
+import {GuestProfileBoatComponent} from "./guest-profile-boat/guest-profile-boat.component";
+import {
+  CreateReservationForClientBoatComponent
+} from "./create-reservation-for-client-boat/create-reservation-for-client-boat.component";
 
 
 const routes: Routes = [
@@ -52,7 +59,7 @@ const routes: Routes = [
   { path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}]},
   {path: 'adventure-profile/:id', component: AdventureProfileComponent},
   {path: 'fishing-instructor', component: FishingInstructorProfileComponent},
-  { path:'boat-profile-for-boat-owner', component: BoatProfileForBoatOwnerComponent},
+  { path:'boat-profile-for-boat-owner/:id', component: BoatProfileForBoatOwnerComponent},
   { path:'add-action-house-profile/:id', component: AddActionHouseProfileComponent},
   { path:'modify-house-profile/:id', component: ModifyHouseProfileComponent},
   { path:'add-action-boat-profile/:id', component: AddActionBoatProfileComponent},
@@ -64,7 +71,9 @@ const routes: Routes = [
   { path: 'create-reservation-for-client/:id', component: CreateReservationForClientComponent},
   { path: 'guest-profile/:id', component: GuestProfileComponent},
   { path: 'house-report/:id', component: HouseReportComponent},
-
+  { path: 'define-unavailable-period-boat/:id', component: DefineUnavailablePeriodBoatComponent},
+  { path: 'guest-profile-boat/:id', component: GuestProfileBoatComponent},
+  { path: 'create-reservation-for-client-boat/:id', component: CreateReservationForClientBoatComponent},
 ];
 
 @NgModule({

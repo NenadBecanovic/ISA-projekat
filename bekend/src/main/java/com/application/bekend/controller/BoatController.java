@@ -43,14 +43,18 @@ public class BoatController {
 
         AddressDTO addressDTO = new AddressDTO(boat.getAddress().getId(), boat.getAddress().getStreet(), boat.getAddress().getCity(),
                 boat.getAddress().getState(), boat.getAddress().getLongitude(), boat.getAddress().getLatitude(), boat.getAddress().getPostalCode());
-        if(boat.getNavigationEquipment() != null){
-            NavigationEquipmentDTO navigationEquipmentDTO = new NavigationEquipmentDTO(boat.getNavigationEquipment().getId(), boat.getNavigationEquipment().isFishFinder(),
-                    boat.getNavigationEquipment().isRadar(), boat.getNavigationEquipment().isVhfradio(), boat.getNavigationEquipment().isGps());
+
+        NavigationEquipment navigationEquipment = this.navigationEquipmentService.getNavigationEquipmentByBoatId(id);
+        NavigationEquipmentDTO navigationEquipmentDTO = new NavigationEquipmentDTO();
+
+        if(navigationEquipment != null){
+            navigationEquipmentDTO = new NavigationEquipmentDTO(navigationEquipment.getId(), navigationEquipment.isFishFinder(),
+                    navigationEquipment.isRadar(), navigationEquipment.isVhfradio(), navigationEquipment.isGps());
         }
 
         BoatDTO dto = new BoatDTO(boat.getId(), boat.getName(), boat.getType(), boat.getLength(), boat.getEngineNumber(), boat.getEnginePower(), boat.getMaxSpeed(),
                 boat.getPromoDescription(), boat.getCapacity(), boat.getBehaviourRules(), boat.getFishingEquipment(), boat.getPricePerDay(), boat.isCancalletionFree(),
-                boat.getCancalletionFee(), addressDTO, new NavigationEquipmentDTO());
+                boat.getCancalletionFee(), addressDTO, navigationEquipmentDTO);
 
         dto.setGrade(boat.getGrade());
 

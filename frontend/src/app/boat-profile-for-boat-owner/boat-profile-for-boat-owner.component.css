@@ -99,6 +99,7 @@
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   font-size: 20px;
+  padding: 5px 10px;
 }
 
 .add-picture-button{
@@ -111,6 +112,7 @@
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   font-size: 20px;
+  padding: 5px 10px;
 }
 
 .add-action-button{
@@ -125,6 +127,37 @@
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+  padding: 5px 10px;
+}
+
+.show-calendar {
+  font-family: "Poppins", sans-serif;
+  color:white;
+  background-color: #31B4E5;
+  font-size: 20px;
+  /*align-items: center;*/
+  /*position: center;*/
+  margin: 0;
+  position: absolute;
+  left: 30%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  padding: 5px 10px;
+}
+
+.define-period {
+  font-family: "Poppins", sans-serif;
+  color:white;
+  background-color: #31B4E5;
+  font-size: 20px;
+  /*align-items: center;*/
+  /*position: center;*/
+  margin: 0;
+  position: absolute;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  padding: 5px 10px;
 }
 
 .myMatCarousel2{
@@ -177,4 +210,23 @@ agm-map {
 
 .moveRight {
   margin-left: 1vw;
+}
+
+.script-menu >::ng-deep .mat-grid-tile-content{
+  display: block;
+  overflow-y: scroll;
+}
+
+.script-menu1 >::ng-deep .mat-grid-tile-content{
+  display: block;
+  /*padding: 5px;*/
+}
+
+.house-container2 {
+  font-size: 16px;
+  font-weight: lighter;
+  color: #181e27;
+  font-family: "Poppins", sans-serif;
+  margin: auto;
+  margin-left: 19vw;
 }
