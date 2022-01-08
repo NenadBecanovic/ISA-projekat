@@ -2,10 +2,9 @@ package com.application.bekend.service;
 
 import com.application.bekend.DTO.MyUserDTO;
 import com.application.bekend.model.Address;
-import com.application.bekend.DTO.AuthUserDTO;
-import com.application.bekend.model.House;
 import com.application.bekend.model.MyUser;
 import com.application.bekend.model.RequestForAccountDeleting;
+import com.application.bekend.model.Subscription;
 import com.application.bekend.repository.MyUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -25,15 +25,17 @@ public class MyUserService implements UserDetailsService {
 
     private final AddresService addresService;
     private final RequestForAccountDeletingService requestForAccountDeletingService;
+    private final SubscriptionService subscriptionService;
 
     private PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }       // za enkodovanje lozinke
 
     @Autowired
-    public MyUserService(AddresService addresService, RequestForAccountDeletingService requestForAccountDeletingService) {
+    public MyUserService(AddresService addresService, RequestForAccountDeletingService requestForAccountDeletingService, SubscriptionService subscriptionService) {
         this.addresService = addresService;
         this.requestForAccountDeletingService = requestForAccountDeletingService;
+        this.subscriptionService = subscriptionService;
     }
 
     public MyUser findUserById(Long id){
@@ -92,6 +94,29 @@ public class MyUserService implements UserDetailsService {
 
     public MyUser findUserByHouseReservationId(Long id){
         return myUserRepository.findMyUserByHouseReservationId(id);
+    }
+
+    public Subscription save(Subscription subscription) {
+        return this.subscriptionService.save(subscription);
+    }
+
+    public MyUser findUserByHouseId(Long id) {
+        return myUserRepository.findMyUserByHouseId(id);
+    }
+
+    public MyUser findUserByBoatId(Long id) {
+        return myUserRepository.findMyUserByBoatId(id);
+    }
+    public Boolean checkIfUserIsSubscribed(Long userId, Long ownerId){
+        return this.subscriptionService.checkIfUserIsSubscribed(userId, ownerId);
+    }
+
+    public List<Subscription> findAllBySubscribedUserId(Long id){
+        return this.subscriptionService.findAllBySubscribedUserId(id);
+    }
+
+    public void deleteSubscriptionById(Long id){
+        this.subscriptionService.deleteSubscriptionById(id);
     }
 
 }

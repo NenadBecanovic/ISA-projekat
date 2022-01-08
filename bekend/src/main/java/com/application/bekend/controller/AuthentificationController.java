@@ -68,16 +68,15 @@ public class AuthentificationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<MyUser> register(@RequestBody MyUserDTO myUserDTO){
+    public ResponseEntity<Boolean> register(@RequestBody MyUserDTO myUserDTO){
         MyUser user = this.authService.findMyUserByEmailOrUsername(myUserDTO.getEmail(), myUserDTO.getUsername());
         if(user != null){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
-
         // ukoliko ne postoji korisnik sa istim email-om ili username-om, idemo na registraciju
         this.authService.register(myUserDTO);
 
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(true,HttpStatus.CREATED);
     }
 
     @PostMapping("/email/verification")

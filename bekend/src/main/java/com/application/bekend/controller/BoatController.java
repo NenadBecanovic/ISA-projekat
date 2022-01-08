@@ -43,11 +43,14 @@ public class BoatController {
 
         AddressDTO addressDTO = new AddressDTO(boat.getAddress().getId(), boat.getAddress().getStreet(), boat.getAddress().getCity(),
                 boat.getAddress().getState(), boat.getAddress().getLongitude(), boat.getAddress().getLatitude(), boat.getAddress().getPostalCode());
-        NavigationEquipmentDTO navigationEquipmentDTO = new NavigationEquipmentDTO(boat.getNavigationEquipment().getId(), boat.getNavigationEquipment().isFishFinder(),
-                boat.getNavigationEquipment().isRadar(), boat.getNavigationEquipment().isVhfradio(), boat.getNavigationEquipment().isGps());
+        if(boat.getNavigationEquipment() != null){
+            NavigationEquipmentDTO navigationEquipmentDTO = new NavigationEquipmentDTO(boat.getNavigationEquipment().getId(), boat.getNavigationEquipment().isFishFinder(),
+                    boat.getNavigationEquipment().isRadar(), boat.getNavigationEquipment().isVhfradio(), boat.getNavigationEquipment().isGps());
+        }
+
         BoatDTO dto = new BoatDTO(boat.getId(), boat.getName(), boat.getType(), boat.getLength(), boat.getEngineNumber(), boat.getEnginePower(), boat.getMaxSpeed(),
                 boat.getPromoDescription(), boat.getCapacity(), boat.getBehaviourRules(), boat.getFishingEquipment(), boat.getPricePerDay(), boat.isCancalletionFree(),
-                boat.getCancalletionFee(), addressDTO, navigationEquipmentDTO);
+                boat.getCancalletionFee(), addressDTO, new NavigationEquipmentDTO());
 
         dto.setGrade(boat.getGrade());
 
