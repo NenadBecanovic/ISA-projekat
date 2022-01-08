@@ -108,4 +108,13 @@ public class AdventureReservation {
     public void setFishingAdventure(FishingAdventure fishingAdventure) {
         this.fishingAdventure = fishingAdventure;
     }
+
+	public MyUser getGuest() {
+		return guest;
+	}
+
+	public void setGuest(MyUser guest) {
+		this.guest = guest;
+	}
+    
 }

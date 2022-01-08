@@ -5,7 +5,7 @@ import { FishingAdventure } from '../model/fishing-adventure';
 import { MyUser } from '../model/my-user';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { AdventureProfileService } from '../service/adventure-profile.service';
-import { AdventureReservationsDialogComponent } from '../fishing-instructor-profile/adventure-reservations-dialog/adventure-reservations-dialog.component';
+import { AdventureReservationsDialogComponent } from './adventure-reservations-dialog/adventure-reservations-dialog.component';
 import { FishingAdventureInstructorDTO } from '../model/fishing-adventure-instructorDTO';
 import { Router } from '@angular/router';
 import {ImageService} from "../service/image.service";
@@ -64,7 +64,7 @@ export class AdventureProfileComponent implements OnInit {
     });
     dialogRef.componentInstance.id = id;
     dialogRef.afterClosed().subscribe(result => {
-      
+      window.location.reload();
     });
   }
 
