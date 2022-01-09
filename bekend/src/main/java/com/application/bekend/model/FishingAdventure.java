@@ -190,4 +190,9 @@ public class FishingAdventure {
 	public void setInstructor(MyUser instructor) {
 		this.instructor = instructor;
 	}
+	
+	public void addAdventureReservation(AdventureReservation adventureReservation)
+    {
+        this.adventureReservations.add(adventureReservation);
+    }
 }

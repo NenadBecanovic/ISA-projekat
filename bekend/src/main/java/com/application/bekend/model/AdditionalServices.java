@@ -136,4 +136,8 @@ public class AdditionalServices {
     public void addBoatReservation(BoatReservation boatReservation){
         this.boatReservationsServices.add(boatReservation);
     }
+    
+    public void addAdventureReservation(AdventureReservation adventureReservation){
+        this.adventureReservationsServices.add(adventureReservation);
+    }
 }

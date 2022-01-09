@@ -113,17 +113,17 @@
               <div class="carousel-inner">
                 <div class="carousel-item active">
                   <div class="row">
-
-                    <div class="col-md-4 mb-3">
+                    <div class="action-card mb-3" *ngFor="let action of this.actions">
                       <div class="card">
                         <div class="card-body">
-                          <h4 class="card-title">Pecaroška avantura 16.12.2021. 6:00h</h4>
-                          <p class="card-text">{{fishingAdventure.address.street}}, {{fishingAdventure.address.city}},
-                            {{fishingAdventure.address.state}}</p>
-                          <p class="card-text">Trajanje: 6h</p>
-                          <p class="card-text">Broj osoba: 5</p>
-                          <p class="card-text">Dodatne usluge: {{fishingAdventure.fishingEquipment}}</p>
-                          <p class="card-text">Cena: {{fishingAdventure.pricePerHour}}din/h</p>
+                          <h4 class="card-title">Početak: {{ action.startDate | date:'dd/MM/yyyy HH:mm:ss'}}</h4>
+                          <h4 class="card-title">Kraj: {{ action.endDate | date:'dd/MM/yyyy HH:mm:ss'}}</h4>
+                          <p class="card-text">Broj osoba: {{action.maxGuests}}</p>
+                          <p class="card-text">Dodatne usluge:</p>
+                          <li *ngFor="let service of action.additionalServices">
+                            {{service.name}} = {{service.price}}din <br>
+                          </li>
+                          <p class="card-text">Cena: {{action.price}} din/h</p>
                         </div>
                         <div class="d-flex right me-3 mb-3 align-items-center justify-content-end">
                           <button type="button" class="btn add-action-button"
@@ -131,41 +131,6 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-4 mb-3">
-                      <div class="card">
-                        <div class="card-body">
-                          <h4 class="card-title">Pecaroška avantura 16.12.2021. 6:00h</h4>
-                          <p class="card-text">{{fishingAdventure.address.street}}, {{fishingAdventure.address.city}},
-                            {{fishingAdventure.address.state}}</p>
-                          <p class="card-text">Trajanje: 6h</p>
-                          <p class="card-text">Broj osoba: 5</p>
-                          <p class="card-text">Dodatne usluge: {{fishingAdventure.fishingEquipment}}</p>
-                          <p class="card-text">Cena: {{fishingAdventure.pricePerHour}}din/h</p>
-                        </div>
-                        <div class="d-flex right me-3 mb-3 align-items-center justify-content-end">
-                          <button type="button" class="btn add-action-button"
-                            (click)="addActionDialog()">REZERVIŠI</button>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <div class="card">
-                        <div class="card-body">
-                          <h4 class="card-title">Pecaroška avantura 16.12.2021. 6:00h</h4>
-                          <p class="card-text">{{fishingAdventure.address.street}}, {{fishingAdventure.address.city}},
-                            {{fishingAdventure.address.state}}</p>
-                          <p class="card-text">Trajanje: 6h</p>
-                          <p class="card-text">Broj osoba: 5</p>
-                          <p class="card-text">Dodatne usluge: {{fishingAdventure.fishingEquipment}}</p>
-                          <p class="card-text">Cena: {{fishingAdventure.pricePerHour}}din/h</p>
-                        </div>
-                        <div class="d-flex right me-3 mb-3 align-items-center justify-content-end">
-                          <button type="button" class="btn add-action-button"
-                            (click)="addActionDialog()">REZERVIŠI</button>
-                        </div>
-                      </div>
-                    </div>
-
                   </div>
                 </div>
               </div>

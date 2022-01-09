@@ -6,10 +6,10 @@ import { MyUser } from "./my-user";
 
 export class AdventureReservation {
     
-    adventureId: number;
+    adventureId: number=0;
     id: number;
-    startDate: String;
-    endDate: String;
+    startDate: string;
+    endDate: string;
     maxGuests: number;
     price: number;
     isAvailable: boolean;
@@ -19,9 +19,8 @@ export class AdventureReservation {
     guestId: number = 0;
     guest: AdventureUserInfo = new AdventureUserInfo(0, '', '');
 
-    constructor(adventureId: number, id: number, startDate: String, endDate: String, maxGuests: number,price: number, 
-        isAvailable: boolean, additionalServices: Array<AdditionalService>, avaibilityPeriod: boolean, isAction: boolean, guestId: number){
-        this.adventureId = adventureId;
+    constructor(id: number, startDate: string, endDate: string, maxGuests: number, additionalServices: AdditionalService[],
+        price: number, isAvailable: boolean){
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -29,8 +28,5 @@ export class AdventureReservation {
         this.price = price;
         this.isAvailable = isAvailable;
         this.additionalServices = additionalServices;
-        this.availabilityPeriod = avaibilityPeriod;
-        this.isAction = isAction;
-        this.guestId = guestId;
     }
 }
