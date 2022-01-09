@@ -16,6 +16,16 @@ export class HouseReservation {
   public action: boolean = false;
   public guestId: number = 0;
   public guest: MyUser = new MyUser(0, '', '', '', '', '','', new Address(0, '', '', '', 0, 0, 0), '', '');
+  public totalPrice: number = 0;
+  public houserOwnerName: string = '';
+  public milisStartDate: number = 0;
+  public milisEndDate: number = 0;
+  public hasAppealEntity: Boolean = false;
+  public hasFeedbackOwner: Boolean = false;
+  public hasFeedbackEntity: Boolean = false;
+  public hasAppealOwner: Boolean = false;
+  public ownerId: number = 0;
+
 
   constructor(id: number, startDate: string, endDate: string, maxGuests: number, additionalServices: AdditionalService[],
               price: number, isAvailable: boolean) {

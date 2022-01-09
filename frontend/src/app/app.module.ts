@@ -69,7 +69,6 @@ import { CreateReservationForClientComponent } from './create-reservation-for-cl
 import { GuestProfileComponent } from './guest-profile/guest-profile.component';
 import { HouseReportComponent } from './house-report/house-report.component';
 
-
 const MaterialComponents = [
   MatSliderModule,
   MatToolbarModule,

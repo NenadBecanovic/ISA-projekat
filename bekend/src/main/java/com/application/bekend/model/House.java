@@ -25,6 +25,9 @@ public class House {
     @OneToMany(mappedBy = "house", fetch = FetchType.EAGER)
     private Set<Feedback> feedbacks= new HashSet<>();
 
+    @OneToMany(mappedBy = "house", fetch = FetchType.LAZY)
+    private Set<Appeal> appeals= new HashSet<>();
+
     @OneToMany(mappedBy = "house", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Image> images;
 
@@ -180,6 +183,11 @@ public class House {
         this.feedbacks = feedbacks;
     }
 
+    public Set<Appeal> getAppeals() {
+        return appeals;
+    }
 
-
+    public void setAppeals(Set<Appeal> appeals) {
+        this.appeals = appeals;
+    }
 }

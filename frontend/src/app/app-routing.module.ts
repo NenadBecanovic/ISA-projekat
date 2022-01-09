@@ -35,6 +35,9 @@ import {  CreateReservationForClientComponent} from "./create-reservation-for-cl
 import {GuestProfileComponent} from "./guest-profile/guest-profile.component";
 import {HouseReportComponent} from "./house-report/house-report.component";
 import {ClientSubscriptionsComponent} from "./clientHome/client-subscriptions/client-subscriptions.component";
+import {
+  HouseReservationHistoryComponent
+} from "./clientHome/reservation/house-reservation-history/house-reservation-history.component";
 
 
 const routes: Routes = [
@@ -46,7 +49,8 @@ const routes: Routes = [
   {path:'email-activation', component: EmailActivationComponent},
   {path:'client', component: ClientHomePageComponent, children: [{path: '', component: DashboardComponent},{path: 'profile', component: ClientProfileComponent},
       {path: 'houses', component: ClientHousesComponent}, {path: 'boats', component: ClientBoatsComponent}, {path: 'adventures', component: ClientAdventuresComponent},
-      {path: 'house/:id', component: ClientHouseComponent},{path: 'boat/:id', component: ClientBoatComponent}, {path: 'subscriptions', component: ClientSubscriptionsComponent}]},
+      {path: 'house/:id', component: ClientHouseComponent},{path: 'boat/:id', component: ClientBoatComponent}, {path: 'subscriptions', component: ClientSubscriptionsComponent},
+      {path: 'houseReservation', component: HouseReservationHistoryComponent}]},
   {path:'client', component: ClientHomePageComponent, children: [{path: '', component: DashboardComponent}]},
   { path:'house-profile-for-house-owner/:id', component: HouseProfileForHouseOwnerComponent},
   { path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}]},

@@ -40,6 +40,9 @@ public class FishingAdventure {
     @JoinColumn(name = "instructor_id")
     private MyUser instructor;
 
+    @OneToMany(mappedBy = "fishingAdventure", fetch = FetchType.EAGER)
+    private Set<Appeal> appeals = new HashSet<>();
+
     public FishingAdventure(Long id, String name, Address address, String promoDescription, int capacity, String fishingEquipment,
                             Set<AdventureReservation> adventureReservations, String behaviourRules, float pricePerHour,
                             Set<AdditionalServices> services, boolean isCancalletionFree, int cancalletionFee, Set<Image> images) {
@@ -163,5 +166,29 @@ public class FishingAdventure {
     
     public void addImage(Image image) {
     	this.images.add(image);
+    }
+
+    public Set<Feedback> getFeedbacks() {
+        return feedbacks;
+    }
+
+    public void setFeedbacks(Set<Feedback> feedbacks) {
+        this.feedbacks = feedbacks;
+    }
+
+    public MyUser getInstructor() {
+        return instructor;
+    }
+
+    public void setInstructor(MyUser instructor) {
+        this.instructor = instructor;
+    }
+
+    public Set<Appeal> getAppeals() {
+        return appeals;
+    }
+
+    public void setAppeals(Set<Appeal> appeals) {
+        this.appeals = appeals;
     }
 }

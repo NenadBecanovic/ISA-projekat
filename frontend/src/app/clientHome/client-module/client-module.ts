@@ -33,6 +33,12 @@ import {MatCarouselModule} from "ng-mat-carousel";
 import {YesNoDialogComponent} from "../yes-no-dialog/yes-no-dialog.component";
 import {ClientBoatComponent} from "../client-boat/client-boat.component";
 import {ClientSubscriptionsComponent} from "../client-subscriptions/client-subscriptions.component";
+import {
+  HouseReservationHistoryComponent
+} from "../reservation/house-reservation-history/house-reservation-history.component";
+import {CreateFeedbackComponent} from "../dialog/create-feedback/create-feedback.component";
+import {CreateAppealEntityComponent} from "../dialog/create-appeal-entity/create-appeal-entity.component";
+import {MatSelectModule} from "@angular/material/select";
 
 
 @NgModule({
@@ -49,6 +55,9 @@ import {ClientSubscriptionsComponent} from "../client-subscriptions/client-subsc
     YesNoDialogComponent,
     ClientBoatComponent,
     ClientSubscriptionsComponent,
+    HouseReservationHistoryComponent,
+    CreateFeedbackComponent,
+    CreateAppealEntityComponent,
   ],
   imports: [
     CommonModule,
@@ -69,7 +78,8 @@ import {ClientSubscriptionsComponent} from "../client-subscriptions/client-subsc
     AlertModule,
     MatButtonModule,
     AgmCoreModule,
-    MatCarouselModule
+    MatCarouselModule,
+    MatSelectModule
 
   ],
   providers:[

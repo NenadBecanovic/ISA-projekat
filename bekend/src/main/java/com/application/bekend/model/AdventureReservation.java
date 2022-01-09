@@ -16,6 +16,8 @@ public class AdventureReservation {
     private int maxGuests;
     private float price;
     private boolean isAvailable;
+    private Boolean hasFeedbackOwner = false;
+    private Boolean hasAppealOwner = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "guest_id")
@@ -107,5 +109,29 @@ public class AdventureReservation {
 
     public void setFishingAdventure(FishingAdventure fishingAdventure) {
         this.fishingAdventure = fishingAdventure;
+    }
+
+    public Boolean getHasFeedbackOwner() {
+        return hasFeedbackOwner;
+    }
+
+    public void setHasFeedbackOwner(Boolean hasFeedbackOwner) {
+        this.hasFeedbackOwner = hasFeedbackOwner;
+    }
+
+    public Boolean getHasAppealOwner() {
+        return hasAppealOwner;
+    }
+
+    public void setHasAppealOwner(Boolean hasAppealOwner) {
+        this.hasAppealOwner = hasAppealOwner;
+    }
+
+    public MyUser getGuest() {
+        return guest;
+    }
+
+    public void setGuest(MyUser guest) {
+        this.guest = guest;
     }
 }

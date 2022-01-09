@@ -3,38 +3,45 @@ package com.application.bekend.model;
 import javax.persistence.*;
 
 @Entity
-public class Feedback {
+public class Appeal {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int grade;
     private String review;
-    private Boolean isApproved;
+    private boolean isAnswered;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "myUser_id")
-    private MyUser myUser;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id")
+    private MyUser ownerId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sender_id")
+    private MyUser senderId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "boat_id")
     private Boat boat;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "house_id")
     private House house;
-    
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "fishing_adventure_id")
     private FishingAdventure fishingAdventure;
 
-    public Feedback(Long id, int grade, String review) {
+    public Appeal(Long id, String review, MyUser ownerId, MyUser senderId, Boat boat, House house, FishingAdventure fishingAdventure) {
         this.id = id;
-        this.grade = grade;
         this.review = review;
+        this.ownerId = ownerId;
+        this.senderId = senderId;
+        this.boat = boat;
+        this.house = house;
+        this.fishingAdventure = fishingAdventure;
     }
 
-    public Feedback() {
+    public Appeal() {
     }
 
     public Long getId() {
@@ -45,14 +52,6 @@ public class Feedback {
         this.id = id;
     }
 
-    public int getGrade() {
-        return grade;
-    }
-
-    public void setGrade(int grade) {
-        this.grade = grade;
-    }
-
     public String getReview() {
         return review;
     }
@@ -61,12 +60,20 @@ public class Feedback {
         this.review = review;
     }
 
-    public MyUser getMyUser() {
-        return myUser;
+    public MyUser getOwnerId() {
+        return ownerId;
     }
 
-    public void setMyUser(MyUser myUser) {
-        this.myUser = myUser;
+    public void setOwnerId(MyUser ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public MyUser getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(MyUser senderId) {
+        this.senderId = senderId;
     }
 
     public Boat getBoat() {
@@ -93,11 +100,11 @@ public class Feedback {
         this.fishingAdventure = fishingAdventure;
     }
 
-    public Boolean getApproved() {
-        return isApproved;
+    public boolean isAnswered() {
+        return isAnswered;
     }
 
-    public void setApproved(Boolean approved) {
-        isApproved = approved;
+    public void setAnswered(boolean answered) {
+        isAnswered = answered;
     }
 }
