@@ -56,5 +56,8 @@ export class MyUserService {
     return this._http.delete<Boolean>(`${this.userPath}/deleteSubscriptionById/`+ subscriptionId)
   }
 
+  public findUserByFishingAdventureReservationId(id: number): Observable<MyUser>{
+    return this._http.get<MyUser>(`${this.userPath}/findUserByFishingAdventureReservationId/`+id)
+  }
 
 }

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AdditionalService } from 'src/app/model/additional-service';
-import { ReservationDTO } from 'src/app/model/reservationDTO';
 
 @Component({
   selector: 'app-make-reservation-dialog',

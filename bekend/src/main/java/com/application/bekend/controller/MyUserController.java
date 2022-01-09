@@ -148,4 +148,13 @@ public class MyUserController {
         this.myUserService.deleteSubscriptionById(id);
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
+    
+    @GetMapping("/findUserByFishingAdventureReservationId/{id}")
+    public ResponseEntity<AdventureReservationUserInfoDTO> findUserByFishingAdventureReservationId(@PathVariable("id") Long id) {
+        MyUser myUser = this.myUserService.findUserById(id);
+
+        AdventureReservationUserInfoDTO adventureUserDTO = new AdventureReservationUserInfoDTO(myUser.getId(), myUser.getFirstName(), myUser.getLastName());
+
+        return new ResponseEntity<>(adventureUserDTO, HttpStatus.OK);
+    }
 }
