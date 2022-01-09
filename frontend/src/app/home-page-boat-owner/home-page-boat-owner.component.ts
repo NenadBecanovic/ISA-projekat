@@ -4,6 +4,9 @@ import {Boat} from "../model/boat";
 import {HouseService} from "../service/house.service";
 import {Router} from "@angular/router";
 import {BoatService} from "../service/boat.service";
+import {MyUser} from "../model/my-user";
+import {AuthentificationService} from "../authentification/authentification.service";
+import {Address} from "../model/address";
 
 @Component({
   selector: 'app-home-page-boat-owner',
@@ -13,8 +16,10 @@ import {BoatService} from "../service/boat.service";
 export class HomePageBoatOwnerComponent implements OnInit {
 
   boats: Boat[] = new Array();
+  address: Address = new Address(0,"","","",0,0,31100)
+  user: MyUser = new MyUser(0, '','','','','','',this.address, '','');
 
-  constructor(private _boatService: BoatService, private _router: Router) { }
+  constructor(private _boatService: BoatService, private _router: Router, private _authentification: AuthentificationService) { }
 
   ngOnInit(): void {
     this.loadData();
@@ -33,6 +38,14 @@ export class HomePageBoatOwnerComponent implements OnInit {
   }
 
   private loadData() {
+    this._authentification.getUserByEmail().subscribe(
+      (user: MyUser) => {
+        this.user = user;
+      },
+      (error) => {
+      },
+    )
+
     this._boatService.findAll().subscribe(
       (boats: Boat[]) => {
         this.boats = boats

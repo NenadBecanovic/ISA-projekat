@@ -30,10 +30,15 @@ export class LoginComponent implements OnInit {
           this._router.navigate(['client']);
           // this.getLoggedUser();
         } else if (this._authenticationService.isLoggedInAdmin()) {
-          // this.getLoggedUser();
+
+        } else if (this._authenticationService.isLoggedInHouseOwner()) {
+          this._router.navigate(['home-page-house-owner']);
+        } else if (this._authenticationService.isLoggedInBoatOwner()) {
+          this._router.navigate(['home-page-boat-owner']);
         }
 
-      },
+      }
+      ,
       (error)=> {
         console.log('error occuried');
         this.alertService.danger('Pogresni kredencijali');

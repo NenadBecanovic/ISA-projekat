@@ -18,6 +18,7 @@ import {HouseReservation} from "../model/house-reservation";
 import { DatePipe } from '@angular/common'
 import {MyUserService} from "../service/my-user.service";
 import {MyUser} from "../model/my-user";
+import {AuthentificationService} from "../authentification/authentification.service";
 
 @Component({
   selector: 'app-house-profile-for-house-owner',
@@ -25,6 +26,7 @@ import {MyUser} from "../model/my-user";
   styleUrls: ['./house-profile-for-house-owner.component.css']
 })
 export class HouseProfileForHouseOwnerComponent implements OnInit {
+
   address: Address = new Address(0,"","","",0,0,31100)
   images: Image[] = new Array<Image>();
   isLoaded: boolean = false;
@@ -45,7 +47,7 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
 
   constructor(public dialog: MatDialog, private _houseService: HouseService, private _addressService: AddressService, private _roomService: RoomService,
               private _additionalServices: AdditionalServicesService, private _imageService: ImageService, private _houseReservationService: HouseReservationService,
-              private _router: Router, private _route: ActivatedRoute, public datepipe: DatePipe, private _myUserService: MyUserService) {
+              private _router: Router, private _route: ActivatedRoute, public datepipe: DatePipe, private _myUserService: MyUserService, private _authentification: AuthentificationService) {
   }
 
   ngOnInit(): void {
@@ -82,6 +84,14 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
   }
 
   loadData() { // ucitavanje iz baze
+    // this._authentification.getUserByEmail().subscribe(   // subscribe - da bismo dobili odgovor beka
+    //   (user: MyUser) => {
+    //     this.user = user;
+    //   },
+    //   (error) => {
+    //   },
+    // )
+
     this._houseService.getHouseById(this.house.id).subscribe(
       (house:House) => {
         this.house = house
