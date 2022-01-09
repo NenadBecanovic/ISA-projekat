@@ -29,15 +29,17 @@ public class BoatController {
     private final AddresService addresService;
     private final ImageService imageService;
     private final BoatReservationService boatReservationService;
+    private final MyUserService myUserService;
 
     @Autowired
-    public BoatController(BoatService boatService, AdditionalServicesService additionalServicesService, NavigationEquipmentService navigationEquipmentService, AddresService addresService, ImageService imageService, BoatReservationService boatReservationService) {
+    public BoatController(BoatService boatService, AdditionalServicesService additionalServicesService, NavigationEquipmentService navigationEquipmentService, AddresService addresService, ImageService imageService, BoatReservationService boatReservationService, MyUserService myUserService) {
         this.boatService = boatService;
         this.additionalServicesService = additionalServicesService;
         this.navigationEquipmentService = navigationEquipmentService;
         this.addresService = addresService;
         this.imageService = imageService;
         this.boatReservationService = boatReservationService;
+        this.myUserService = myUserService;
     }
     @Autowired
     private ModelMapper modelMapper;
@@ -60,7 +62,7 @@ public class BoatController {
         BoatDTO dto = new BoatDTO(boat.getId(), boat.getName(), boat.getType(), boat.getLength(), boat.getEngineNumber(), boat.getEnginePower(), boat.getMaxSpeed(),
                 boat.getPromoDescription(), boat.getCapacity(), boat.getBehaviourRules(), boat.getFishingEquipment(), boat.getPricePerDay(), boat.isCancalletionFree(),
                 boat.getCancalletionFee(), addressDTO, navigationEquipmentDTO);
-
+        dto.setOwnerId(boat.getOwner().getId());
         dto.setGrade(boat.getGrade());
 
         Set<ImageDTO> dtoSet = new HashSet<>();
@@ -208,6 +210,9 @@ public class BoatController {
         Boat boat = new Boat(dto.getId(), dto.getName(), dto.getType(), dto.getLength(), dto.getEngineNumber(), dto.getEnginePower(), dto.getMaxSpeed(),
                 navigationEquipment, address, dto.getPromoDescription(), dto.getCapacity(), dto.getGrade(), new HashSet<>(), dto.getBehaviourRules(),
                 dto.getFishingEquipment(), dto.getPricePerDay(), new HashSet<>(), dto.isCancalletionFree(), dto.getCancalletionFee(), dtoSet);
+
+        MyUser owner = this.myUserService.findUserById(dto.getOwnerId());
+        boat.setOwner(owner);
         boat = this.boatService.save(boat);
 
         return new ResponseEntity<>(HttpStatus.CREATED);

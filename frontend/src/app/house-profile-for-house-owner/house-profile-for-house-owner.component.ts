@@ -32,7 +32,7 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
   isLoaded: boolean = false;
   rooms: Room[] = new Array<Room>();
   additionalServices: AdditionalService[] = new Array<AdditionalService>();
-  house: House = new House(0,'', this.address, '', '', 0, false, 0, this.rooms, this.additionalServices, 0);
+  house: House = new House(0,'', this.address, '', '', 0, false, 0, this.rooms, this.additionalServices, 0, 0);
   courses_slides: HouseReservationSlide[] = new Array<HouseReservationSlide>();
   final_courses: HouseReservation[] = new Array<HouseReservation>();
   isSlideLoaded: boolean = false;
@@ -84,14 +84,6 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
   }
 
   loadData() { // ucitavanje iz baze
-    // this._authentification.getUserByEmail().subscribe(   // subscribe - da bismo dobili odgovor beka
-    //   (user: MyUser) => {
-    //     this.user = user;
-    //   },
-    //   (error) => {
-    //   },
-    // )
-
     this._houseService.getHouseById(this.house.id).subscribe(
       (house:House) => {
         this.house = house

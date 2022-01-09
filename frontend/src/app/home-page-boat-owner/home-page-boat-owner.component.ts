@@ -49,6 +49,15 @@ export class HomePageBoatOwnerComponent implements OnInit {
     this._boatService.findAll().subscribe(
       (boats: Boat[]) => {
         this.boats = boats
+        console.log(boats)
+
+        for(let h of boats)
+        {
+          if(h.ownerId == this.user.id)
+          {
+            this.boats.push(h);
+          }
+        }
       }
     )
   }

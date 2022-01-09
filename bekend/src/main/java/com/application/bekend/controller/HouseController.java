@@ -25,15 +25,17 @@ public class HouseController {
     private  final HouseReservationService houseReservationService;
     private final ImageService imageService;
     private final AddresService addresService;
+    private final MyUserService myUserService;
   
     @Autowired
-    public HouseController(HouseService houseService, RoomService roomService, AdditionalServicesService additionalServicesService, HouseReservationService houseReservationService, ImageService imageService, AddresService addresService) {
+    public HouseController(HouseService houseService, RoomService roomService, AdditionalServicesService additionalServicesService, HouseReservationService houseReservationService, ImageService imageService, AddresService addresService, MyUserService myUserService) {
         this.houseService = houseService;
         this.roomService = roomService;
         this.additionalServicesService = additionalServicesService;
         this.houseReservationService = houseReservationService;
         this.imageService = imageService;
         this.addresService = addresService;
+        this.myUserService = myUserService;
     }
 
     @GetMapping("/getHouseById/{id}")
@@ -44,6 +46,7 @@ public class HouseController {
 
         HouseDTO dto = new HouseDTO(house.getId(), house.getName(), addressDTO, house.getPromoDescription(), house.getBehaviourRules(),
                 house.getPricePerDay(), house.isCancalletionFree(), house.getCancalletionFee());
+        dto.setOwnerId(house.getOwner().getId());
 
         // TODO: ispraviti
 //        Set<ImageDTO> dtoSet = new HashSet<>();
@@ -193,6 +196,7 @@ public class HouseController {
 
             HouseDTO houseDTO = new HouseDTO(h.getId(), h.getName(), addressDTO, h.getPromoDescription(), h.getBehaviourRules(), h.getPricePerDay(),
                     h.isCancalletionFree(), h.getCancalletionFee(), roomDTOS, additionalServicesDTOS);
+            houseDTO.setOwnerId(h.getOwner().getId());
             housesDtos.add(houseDTO);
         }
 
@@ -282,9 +286,13 @@ public class HouseController {
 
         House house = new House(dto.getId(), dto.getName(), dto.getGrade(), new HashSet<>(), address, dto.getPromoDescription(), new HashSet<>(),
                 dto.getBehaviourRules(), dto.getPricePerDay(), new HashSet<>(), dto.isCancalletionFree(), dto.getCancalletionFee(), dtoSet);
+
+        MyUser owner = this.myUserService.findUserById(dto.getOwnerId());
+        house.setOwner(owner);
         house = this.houseService.save(house);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
 }
 

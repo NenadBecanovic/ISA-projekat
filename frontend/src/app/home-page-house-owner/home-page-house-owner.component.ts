@@ -31,10 +31,17 @@ export class HomePageHouseOwnerComponent implements OnInit {
       (error) => {
       },
     )
+
     this._houseService.getAll().subscribe(
       (houses: House[]) => {
-        this.houses = houses
-      }
+            for(let h of houses)
+            {
+              if(h.ownerId == this.user.id)
+              {
+                this.houses.push(h);
+              }
+            }
+          }
     )
   }
 

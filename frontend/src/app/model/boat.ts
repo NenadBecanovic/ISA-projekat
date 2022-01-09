@@ -25,10 +25,11 @@ export class Boat {
   grade: number;
   images: Image[] = new Array();
   // courses: Array<BoatReservation>;
+  ownerId: number;
 
   constructor(id: number, name: String, promoDescription: String, behaviourRules: String, pricePerDay: number, capacity: number,  type: String,
               length: number, engineNumber: number, enginePower: number, maxSpeed: number, cancalletionFree: boolean, cancalletionFee: number,
-              fishingEquipment: String, address: Address, navigationEquipment: NavigationEquipment, services: AdditionalService[], grade: number) {
+              fishingEquipment: String, address: Address, navigationEquipment: NavigationEquipment, services: AdditionalService[], grade: number, ownerId: number) {
     this.id = id;
     this.name = name;
     this.type = type;
@@ -47,5 +48,6 @@ export class Boat {
     this.grade = grade
     this.navigationEquipmentDTO = navigationEquipment;
     this.services = services;
+    this.ownerId = ownerId;
   }
 }

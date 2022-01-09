@@ -19,7 +19,7 @@ export class DefineUnavailablePeriodBoatComponent implements OnInit {
   adress: Address = new Address(0, '', '', '', 0, 0, 0);
   additionalServices: AdditionalService[] = new Array();
   navigationEquipment: NavigationEquipment = new NavigationEquipment(0, false, false, false, false);
-  boat: Boat = new Boat(0, '', '', '', 0, 0, '', 0, 0, 0, 0, false, 0, '', this.adress, this.navigationEquipment, this.additionalServices, 0);
+  boat: Boat = new Boat(0, '', '', '', 0, 0, '', 0, 0, 0, 0, false, 0, '', this.adress, this.navigationEquipment, this.additionalServices, 0, 0);
   boatReservation: BoatReservation = new BoatReservation(0, '', '', 0, this.additionalServices, 0, true);
   date: Date = new Date();
   endDate: Date = new Date();

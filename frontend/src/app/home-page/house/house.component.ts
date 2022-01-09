@@ -26,7 +26,7 @@ export class HouseComponent implements OnInit {
   isLoaded: boolean = false;
   rooms: Room[] = new Array();
   additionalServices: AdditionalService[] = new Array();
-  house: House = new House(0, '', this.address, '', '', 0, false, 0, this.rooms, this.additionalServices, 0);
+  house: House = new House(0, '', this.address, '', '', 0, false, 0, this.rooms, this.additionalServices, 0, 0);
   courses_slides: HouseReservationSlide[] = new Array<HouseReservationSlide>();
   isSlideLoaded: boolean = false;
   lat = 0;

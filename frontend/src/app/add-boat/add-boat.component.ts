@@ -9,6 +9,8 @@ import {AlertService} from "ngx-alerts";
 import {Router} from "@angular/router";
 import {BoatService} from "../service/boat.service";
 import {House} from "../model/house";
+import {MyUser} from "../model/my-user";
+import {AuthentificationService} from "../authentification/authentification.service";
 
 @Component({
   selector: 'app-add-boat',
@@ -20,15 +22,28 @@ export class AddBoatComponent implements OnInit {
   address: Address = new Address(0,"","","",0,0,0)
   navigationEquipment: NavigationEquipment = new NavigationEquipment(0,false, false, false, false);
   additionalServices: AdditionalService[] = new Array<AdditionalService>();
-  boat: Boat = new Boat(0, '', '', '', 0, 0, '', 0, 0, 0, 0, false, 0, '', this.address, this.navigationEquipment, this.additionalServices, 0);
+  boat: Boat = new Boat(0, '', '', '', 0, 0, '', 0, 0, 0, 0, false, 0, '', this.address, this.navigationEquipment, this.additionalServices, 0, 0);
+  user: MyUser = new MyUser(0, '','','','','','', this.address, '','');
 
-  constructor(private _boatService: BoatService, private _alertService: AlertService, private _router: Router) { }
+  constructor(private _boatService: BoatService, private _alertService: AlertService, private _router: Router, private _authentification: AuthentificationService) { }
 
   ngOnInit(): void {
+    this.loadData();
+  }
+
+  private loadData() {
+    this._authentification.getUserByEmail().subscribe(
+      (user: MyUser) => {
+        this.user = user;
+      },
+      (error) => {
+      },
+    )
   }
 
   createProfile() {
     this.boat.grade = 0;
+    this.boat.ownerId = this.user.id;
 
     this._boatService.save(this.boat).subscribe(
       (boat: Boat) => {
