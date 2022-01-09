@@ -15,7 +15,6 @@ import {Router} from "@angular/router";
 })
 export class AddHouseComponent implements OnInit {
 
-  // newAdditionalService: AdditionalService = new AdditionalService(0, '', 0, false);
   showNewService: boolean = false;
   additionalServices: AdditionalService[] = new Array();
   // showNewRoom: boolean = false;
@@ -30,9 +29,7 @@ export class AddHouseComponent implements OnInit {
   }
 
   createProfile() {
-    // this.newAdditionalService.houseId = this.id;
-    // this.newAdditionalService.checked = false;
-    this.house.grade = 1;
+    this.house.grade = 0;
 
     this._houseService.save(this.house).subscribe(   // subscribe - da bismo dobili odgovor beka
       (house: House) => {

@@ -17,7 +17,7 @@ export class BoatService {
   public getBoatById(id: number): Observable<Boat>{
     return this._http.get<Boat>(`${this.userPath}/getBoatById/`+id)
   }
-  
+
   public findAll(): Observable<Boat[]>{
     return this._http.get<Boat[]>(`${this.userPath}/findAll`)
   }
@@ -28,5 +28,13 @@ export class BoatService {
 
   public edit(boat: Boat): Observable<Boat>{
     return this._http.put<Boat>(`${this.userPath}/edit/`+ boat.id, boat)
+  }
+
+  public delete(id: number): Observable <boolean> {
+    return this._http.delete<boolean>(`${this.userPath}/delete/` + id)
+  }
+
+  public save(boat: Boat): Observable<Boat> {
+    return this._http.post<Boat>(`${this.userPath}/add`, boat)
   }
 }

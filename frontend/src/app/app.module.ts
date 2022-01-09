@@ -72,6 +72,7 @@ import { HomePageBoatOwnerComponent } from './home-page-boat-owner/home-page-boa
 import { DefineUnavailablePeriodBoatComponent } from './define-unavailable-period-boat/define-unavailable-period-boat.component';
 import { GuestProfileBoatComponent } from './guest-profile-boat/guest-profile-boat.component';
 import { CreateReservationForClientBoatComponent } from './create-reservation-for-client-boat/create-reservation-for-client-boat.component';
+import { AddBoatComponent } from './add-boat/add-boat.component';
 
 
 const MaterialComponents = [
@@ -131,6 +132,7 @@ const MaterialComponents = [
     DefineUnavailablePeriodBoatComponent,
     GuestProfileBoatComponent,
     CreateReservationForClientBoatComponent,
+    AddBoatComponent,
   ],
   imports: [
     RouterModule,

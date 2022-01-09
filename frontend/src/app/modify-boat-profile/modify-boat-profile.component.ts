@@ -98,7 +98,7 @@ export class ModifyBoatProfileComponent implements OnInit {
 
     this._boatService.edit(this.boat).subscribe(
       (boat: Boat) => {
-        this._router.navigate(['boat-profile-for-boat-owner'])
+        this._router.navigate(['boat-profile-for-boat-owner', boat.id])
       },
       (error) => {
         // console.log(error)

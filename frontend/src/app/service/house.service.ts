@@ -36,8 +36,7 @@ export class HouseService {
       return this._http.get<House[]>(`${this.userPath}/getAll`)
     }
 
-  public delete (id: number):
-    Observable < boolean > {
+  public delete(id: number): Observable <boolean> {
       return this._http.delete<boolean>(`${this.userPath}/delete/` + id)
     }
 

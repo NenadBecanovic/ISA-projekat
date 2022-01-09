@@ -30,4 +30,9 @@ public class BoatService {
     public Boat save(Boat boat) {
         return this.boatRepository.save(boat);
     }
+
+    public void delete(Long id){
+        boatRepository.deleteById(id);
+    }
+
 }

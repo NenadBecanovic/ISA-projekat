@@ -68,7 +68,7 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
   }
 
   loadData() { // ucitavanje iz baze
-    this._boatService.getBoatById(1).subscribe(
+    this._boatService.getBoatById(this.boat.id).subscribe(
       (boat: Boat) => {
         this.boat = boat
         this.address = this.boat.address;

@@ -119,7 +119,7 @@ public class HouseController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<HouseDTO> save(@RequestBody HouseDTO dto) {
+    public ResponseEntity<HouseDTO> edit(@RequestBody HouseDTO dto) {
         House house = this.houseService.getHouseById(dto.getId());
         Address address = house.getAddress();
         Set<Room> rooms = house.getRooms();
@@ -269,13 +269,19 @@ public class HouseController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<House> save(@RequestBody House dto) {
+    public ResponseEntity<House> add(@RequestBody HouseDTO dto) {
         Address address = new Address(dto.getAddress().getId(), dto.getAddress().getStreet(), dto.getAddress().getCity(), dto.getAddress().getState(),
                 dto.getAddress().getLongitude(), dto.getAddress().getLatitude(), dto.getAddress().getPostalCode());
         address = this.addresService.save(address);
 
+        Set<Image> dtoSet = new HashSet<>();
+        for(ImageDTO i: dto.getImages()){
+            Image image = modelMapper.map(i, Image.class);
+            dtoSet.add(image);
+        }
+
         House house = new House(dto.getId(), dto.getName(), dto.getGrade(), new HashSet<>(), address, dto.getPromoDescription(), new HashSet<>(),
-                dto.getBehaviourRules(), dto.getPricePerDay(), new HashSet<>(), dto.isCancalletionFree(), dto.getCancalletionFee(), dto.getImages());
+                dto.getBehaviourRules(), dto.getPricePerDay(), new HashSet<>(), dto.isCancalletionFree(), dto.getCancalletionFee(), dtoSet);
         house = this.houseService.save(house);
 
         return new ResponseEntity<>(HttpStatus.CREATED);

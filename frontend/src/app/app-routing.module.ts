@@ -42,6 +42,8 @@ import {GuestProfileBoatComponent} from "./guest-profile-boat/guest-profile-boat
 import {
   CreateReservationForClientBoatComponent
 } from "./create-reservation-for-client-boat/create-reservation-for-client-boat.component";
+import {HomePageBoatOwnerComponent} from "./home-page-boat-owner/home-page-boat-owner.component";
+import {AddBoatComponent} from "./add-boat/add-boat.component";
 
 
 const routes: Routes = [
@@ -74,6 +76,8 @@ const routes: Routes = [
   { path: 'define-unavailable-period-boat/:id', component: DefineUnavailablePeriodBoatComponent},
   { path: 'guest-profile-boat/:id', component: GuestProfileBoatComponent},
   { path: 'create-reservation-for-client-boat/:id', component: CreateReservationForClientBoatComponent},
+  { path:'home-page-boat-owner', component: HomePageBoatOwnerComponent},
+  { path:'add-boat', component: AddBoatComponent},
 ];
 
 @NgModule({

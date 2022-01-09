@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface NavigationEquipmentRepository extends JpaRepository<NavigationEquipment, Long> {
 
     NavigationEquipment getNavigationEquipmentByBoatId(Long id);
+
+    void deleteById(Long id);
 }
