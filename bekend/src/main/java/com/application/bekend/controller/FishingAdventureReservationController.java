@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +21,9 @@ import com.application.bekend.DTO.AdventureReservationDTO;
 import com.application.bekend.DTO.HouseReservationDTO;
 import com.application.bekend.DTO.HouseReservationSlideDTO;
 import com.application.bekend.model.AdditionalServices;
+import com.application.bekend.model.Address;
 import com.application.bekend.model.AdventureReservation;
+import com.application.bekend.model.House;
 import com.application.bekend.model.HouseReservation;
 import com.application.bekend.service.AdditionalServicesService;
 import com.application.bekend.service.FishingAdventureReservationService;
@@ -57,21 +61,20 @@ public class FishingAdventureReservationController {
             String endDate = (String.valueOf(a.getEndDate().getTime()));
 
             AdventureReservationDTO adventureReservationDTO = new AdventureReservationDTO(a.getId(), startDate, endDate, a.getMaxGuests(), a.getPrice(), a.isAvailable());
-            houseReservationDTO.setAvailabilityPeriod(a.isAvailabilityPeriod());
-            houseReservationDTO.setAction(a.isAction());
+            adventureReservationDTO.setAvailabilityPeriod(a.isAvailabilityPeriod());
+            adventureReservationDTO.setAction(a.isAction());
             if (a.getGuest() != null) {
             	adventureReservationDTO.setGuestId(a.getGuest().getId());
             }
 
             Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
-            // dobavljamo set dodatnih usluga za onu konkretnu rezervaciju iz baze i pretvaramo u DTO (a mozemo samo i pristupiti setu dodatnih usluga direktno preko rezervacije (a.getAdditionalServices()))
             for(AdditionalServices add : this.additionalServicesService.getAllByHouseReservationId(a.getId())){  // a.getAdditionalServices()
-                AdditionalServicesDTO newAddSer = new AdditionalServicesDTO(add.getId(), add.getName(), add.getPrice());
-                additionalServicesDTOS.add(newAddSer);
+                AdditionalServicesDTO newAdditionalService = new AdditionalServicesDTO(add.getId(), add.getName(), add.getPrice());
+                additionalServicesDTOS.add(newAdditionalService);
             }
 
-            houseReservationDTO.setAdditionalServices(additionalServicesDTOS);
-            houseReservationDTOS.add(houseReservationDTO);  // lista svih HouseReservationDTO - treba nam zbog slidera (3 po 3 cemo slati)
+            adventureReservationDTO.setAdditionalServices(additionalServicesDTOS);
+            adventureReservationDTOS.add(adventureReservationDTO);  
         }
 
         return new ResponseEntity<>(adventureReservationDTOS, HttpStatus.OK);

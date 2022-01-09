@@ -1,25 +1,236 @@
-<h1 mat-dialog-title>Hi</h1>
+<h1 mat-dialog-title>Rezervacije</h1>
 <div mat-dialog-content>
-  <div class="suspicious-customers-style mt-3 d-flex flex-row">
-    <div class="d-flex flex-column ms-3 justify-content-center">
+  <div class="suspicious-customers-style mt-3 d-flex flex-row" *ngFor="let reservation of allReservations">
+    <div class="d-flex flex-column ms-3 justify-content-top">
         <span class="basic-title mb-1 nowrap">
-            Name & surname
+            Naziv avanture
         </span>
-        <span class="me-2">Name surname</span>
+        <span class="me-2 nowrap">{{reservation.name}}</span>
+        <span class="me-2 nowrap">Pocetak: 15.12.2022. 6:00</span>
+        <span class="me-2 nowrap">Kraj: 15.12.2022. 9:00</span>
     </div>
-    <div class="d-flex ms-5 flex-column justify-content-center">
+    <div class="d-flex ms-5 flex-column justify-content-top">
         <span class="basic-title mb-1">
-            Username
+            Korisnik
         </span>
-        <span class="me-2">username</span>
+        <span class="me-2">{{reservation.guest.firstName}} {{reservation.guest.lastName}}</span>
     </div>
-    <div class="d-flex ms-5 flex-column justify-content-center">
+    <div class="d-flex ms-5 flex-column justify-content-top">
         <span class="basic-title mb-1">
-            Monthly cancellations
+            Broj ljudi
         </span>
-        <span class="me-2">rez</span>
+        <span class="me-2">{{reservation.maxGuests}}</span>
     </div>
-    <button type="button" class="btn btn-danger ms-5 justify-end align-items-center" >
+    <div class="d-flex ms-5 flex-column justify-content-top">
+        <span class="basic-title mb-1">
+            Dodatne usluge
+        </span>
+        <li *ngFor="let service of reservation.additionalServices">
+            {{service.name}} = {{service.price}}din <br>
+        </li>
+    </div>
+    <div class="d-flex ms-5 flex-column justify-content-top">
+        <span class="basic-title mb-1">
+            Cena
+        </span>
+        <span class="me-2">{{reservation.price}}</span>
+    </div>
+    <button type="button" class="btn btn-danger ms-5 mt-5 mb-5 justify-end align-items-center" >
+        <img src=""/>
+        <span>Popuni izvestaj</span>
+    </button>
+  </div>
+  <div class="suspicious-customers-style mt-3 d-flex flex-row">
+    <div class="d-flex flex-column ms-3 justify-content-top">
+        <span class="basic-title mb-1 nowrap">
+            Naziv avanture
+        </span>
+        <span class="me-2 no-wrap">Pocetak: 15.12.2022. 6:00</span>
+        <span class="me-2 no-wrap">Kraj: 15.12.2022. 9:00</span>
+    </div>
+    <div class="d-flex ms-5 flex-column justify-content-top">
+        <span class="basic-title mb-1">
+            Korisnik
+        </span>
+        <span class="me-2">Mika Mikic</span>
+    </div>
+    <div class="d-flex ms-5 flex-column justify-content-top">
+        <span class="basic-title mb-1">
+            Broj ljudi
+        </span>
+        <span class="me-2">5</span>
+    </div>
+    <div class="d-flex ms-5 flex-column justify-content-top">
+        <span class="basic-title mb-1">
+            Dodatne usluge
+        </span>
+        <span class="me-2">ROSTILJ 2000</span>
+        <span class="me-2">PIVO 2000</span>
+        <span class="me-2">STAPOVI 2500</span>
+    </div>
+    <div class="d-flex ms-5 flex-column justify-content-top">
+        <span class="basic-title mb-1">
+            Cena
+        </span>
+        <span class="me-2">10000</span>
+    </div>
+    <button type="button" class="btn btn-danger ms-5 mt-5 mb-5 justify-end align-items-center" >
+        <img src=""/>
+        <span>Popuni izvestaj</span>
+    </button>
+  </div>
+  <div class="suspicious-customers-style mt-3 d-flex flex-row">
+    <div class="d-flex flex-column ms-3 justify-content-top">
+        <span class="basic-title mb-1 nowrap">
+            Naziv avanture
+        </span>
+        <span class="me-2 no-wrap">Pocetak: 15.12.2022. 6:00</span>
+        <span class="me-2 no-wrap">Kraj: 15.12.2022. 9:00</span>
+    </div>
+    <div class="d-flex ms-5 flex-column justify-content-top">
+        <span class="basic-title mb-1">
+            Korisnik
+        </span>
+        <span class="me-2">Mika Mikic</span>
+    </div>
+    <div class="d-flex ms-5 flex-column justify-content-top">
+        <span class="basic-title mb-1">
+            Broj ljudi
+        </span>
+        <span class="me-2">5</span>
+    </div>
+    <div class="d-flex ms-5 flex-column justify-content-top">
+        <span class="basic-title mb-1">
+            Dodatne usluge
+        </span>
+        <span class="me-2">ROSTILJ 2000</span>
+        <span class="me-2">PIVO 2000</span>
+        <span class="me-2">STAPOVI 2500</span>
+    </div>
+    <div class="d-flex ms-5 flex-column justify-content-top">
+        <span class="basic-title mb-1">
+            Cena
+        </span>
+        <span class="me-2">10000</span>
+    </div>
+    <button type="button" class="btn btn-danger ms-5 mt-5 mb-5 justify-end align-items-center" >
+        <img src=""/>
+        <span>Popuni izvestaj</span>
+    </button>
+  </div>
+  <div class="suspicious-customers-style mt-3 d-flex flex-row">
+    <div class="d-flex flex-column ms-3 justify-content-top">
+        <span class="basic-title mb-1 nowrap">
+            Naziv avanture
+        </span>
+        <span class="me-2 no-wrap">Pocetak: 15.12.2022. 6:00</span>
+        <span class="me-2 no-wrap">Kraj: 15.12.2022. 9:00</span>
+    </div>
+    <div class="d-flex ms-5 flex-column justify-content-top">
+        <span class="basic-title mb-1">
+            Korisnik
+        </span>
+        <span class="me-2">Mika Mikic</span>
+    </div>
+    <div class="d-flex ms-5 flex-column justify-content-top">
+        <span class="basic-title mb-1">
+            Broj ljudi
+        </span>
+        <span class="me-2">5</span>
+    </div>
+    <div class="d-flex ms-5 flex-column justify-content-top">
+        <span class="basic-title mb-1">
+            Dodatne usluge
+        </span>
+        <span class="me-2">ROSTILJ 2000</span>
+        <span class="me-2">PIVO 2000</span>
+        <span class="me-2">STAPOVI 2500</span>
+    </div>
+    <div class="d-flex ms-5 flex-column justify-content-top">
+        <span class="basic-title mb-1">
+            Cena
+        </span>
+        <span class="me-2">10000</span>
+    </div>
+    <button type="button" class="btn btn-danger ms-5 mt-5 mb-5 justify-end align-items-center" >
+        <img src=""/>
+        <span>Popuni izvestaj</span>
+    </button>
+  </div>
+  <div class="suspicious-customers-style mt-3 d-flex flex-row">
+    <div class="d-flex flex-column ms-3 justify-content-top">
+        <span class="basic-title mb-1 nowrap">
+            Naziv avanture
+        </span>
+        <span class="me-2 no-wrap">Pocetak: 15.12.2022. 6:00</span>
+        <span class="me-2 no-wrap">Kraj: 15.12.2022. 9:00</span>
+    </div>
+    <div class="d-flex ms-5 flex-column justify-content-top">
+        <span class="basic-title mb-1">
+            Korisnik
+        </span>
+        <span class="me-2">Mika Mikic</span>
+    </div>
+    <div class="d-flex ms-5 flex-column justify-content-top">
+        <span class="basic-title mb-1">
+            Broj ljudi
+        </span>
+        <span class="me-2">5</span>
+    </div>
+    <div class="d-flex ms-5 flex-column justify-content-top">
+        <span class="basic-title mb-1">
+            Dodatne usluge
+        </span>
+        <span class="me-2">ROSTILJ 2000</span>
+        <span class="me-2">PIVO 2000</span>
+        <span class="me-2">STAPOVI 2500</span>
+    </div>
+    <div class="d-flex ms-5 flex-column justify-content-top">
+        <span class="basic-title mb-1">
+            Cena
+        </span>
+        <span class="me-2">10000</span>
+    </div>
+    <button type="button" class="btn btn-danger ms-5 mt-5 mb-5 justify-end align-items-center" >
+        <img src=""/>
+        <span>Popuni izvestaj</span>
+    </button>
+  </div>
+  <div class="suspicious-customers-style mt-3 d-flex flex-row">
+    <div class="d-flex flex-column ms-3 justify-content-top">
+        <span class="basic-title mb-1 nowrap">
+            Naziv avanture
+        </span>
+        <span class="me-2 no-wrap">Pocetak: 15.12.2022. 6:00</span>
+        <span class="me-2 no-wrap">Kraj: 15.12.2022. 9:00</span>
+    </div>
+    <div class="d-flex ms-5 flex-column justify-content-top">
+        <span class="basic-title mb-1">
+            Korisnik
+        </span>
+        <span class="me-2">Mika Mikic</span>
+    </div>
+    <div class="d-flex ms-5 flex-column justify-content-top">
+        <span class="basic-title mb-1">
+            Broj ljudi
+        </span>
+        <span class="me-2">5</span>
+    </div>
+    <div class="d-flex ms-5 flex-column justify-content-top">
+        <span class="basic-title mb-1">
+            Dodatne usluge
+        </span>
+        <span class="me-2">ROSTILJ 2000</span>
+        <span class="me-2">PIVO 2000</span>
+        <span class="me-2">STAPOVI 2500</span>
+    </div>
+    <div class="d-flex ms-5 flex-column justify-content-top">
+        <span class="basic-title mb-1">
+            Cena
+        </span>
+        <span class="me-2">10000</span>
+    </div>
+    <button type="button" class="btn btn-danger ms-5 mt-5 mb-5 justify-end align-items-center" >
         <img src=""/>
         <span>Popuni izvestaj</span>
     </button>

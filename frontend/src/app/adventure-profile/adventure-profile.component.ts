@@ -12,6 +12,8 @@ import {ImageService} from "../service/image.service";
 import {Image} from "../model/image";
 import { AdditionalServicesService } from '../service/additional-services.service';
 import { AddImageDialogComponent } from './add-image-dialog/add-image-dialog.component';
+import { AdventureReservationService } from '../service/adventure-reservation.service';
+import { AdventureReservation } from '../model/adventure-reservation';
 
 class ImageSnippet {
   constructor(public src: string, public file: File) {}
@@ -31,7 +33,8 @@ export class AdventureProfileComponent implements OnInit {
   images: Image[] = new Array<Image>();
   isLoaded: boolean = false;
 
-  constructor(public dialog: MatDialog, private _adventureService: AdventureProfileService, private _additionalServices: AdditionalServicesService, private _imageService: ImageService, private _router: Router) {
+  constructor(public dialog: MatDialog, private _adventureService: AdventureProfileService, private _additionalServices: AdditionalServicesService, private _imageService: ImageService, private _router: Router,
+    private _adventureReservationService: AdventureReservationService) {
    }
 
   ngOnInit() {
@@ -46,12 +49,13 @@ export class AdventureProfileComponent implements OnInit {
     alert("AKCIJA");
   }
 
-  showReservationsDialog(){
+  showReservationsDialog(id: number){
     const dialogRef = this.dialog.open(AdventureReservationsDialogComponent, {
-      width: '500px',
+      width: '1000px',
+      height: '500px',
       data: {},
     });
-
+    dialogRef.componentInstance.adventureId = id;
     dialogRef.afterClosed().subscribe(result => {
       
     });

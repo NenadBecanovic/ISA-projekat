@@ -3,13 +3,16 @@ package com.application.bekend.controller;
 import com.application.bekend.DTO.AddressDTO;
 import com.application.bekend.DTO.BoatDTO;
 import com.application.bekend.DTO.FishingAdventureDTO;
-import com.application.bekend.DTO.FishingAdventureForInstructorProfileDTO;
+import com.application.bekend.DTO.NewFishingAdventureDTO;
 import com.application.bekend.model.Address;
 import com.application.bekend.model.Boat;
 import com.application.bekend.model.FishingAdventure;
 import com.application.bekend.model.House;
+import com.application.bekend.service.AdditionalServicesService;
+import com.application.bekend.service.AddresService;
 import com.application.bekend.service.BoatService;
 import com.application.bekend.service.FishingAdventureService;
+import com.application.bekend.service.ImageService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,10 +34,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class FishingAdventureController {
 
     private final FishingAdventureService fishingAdventureService;
+    private final AddresService addressService;
+    private final AdditionalServicesService additionalServicesService;
+    private final ImageService imageService;
 
     @Autowired
-    public FishingAdventureController(FishingAdventureService fishingAdventureService) {
+    public FishingAdventureController(FishingAdventureService fishingAdventureService, AddresService addressService, AdditionalServicesService additionalServicesService, ImageService imageService) {
         this.fishingAdventureService = fishingAdventureService;
+        this.addressService = addressService;
+        this.additionalServicesService = additionalServicesService;
+        this.imageService = imageService;
     }
 
     @GetMapping("/getFishingAdventureById/{id}")
@@ -63,6 +72,20 @@ public class FishingAdventureController {
         }
         
         return new ResponseEntity<>(instructorFishingAdventures, HttpStatus.OK);
+    }
+    
+    @PostMapping("/add")
+    public ResponseEntity<FishingAdventure> save(@RequestBody NewFishingAdventureDTO newFishingAdventure) throws IOException {
+        Address address = new Address(newFishingAdventure.getAddress().getId(), newFishingAdventure.getAddress().getStreet(), newFishingAdventure.getAddress().getCity(), newFishingAdventure.getAddress().getState(),
+        		newFishingAdventure.getAddress().getLongitude(), newFishingAdventure.getAddress().getLatitude(), newFishingAdventure.getAddress().getPostalCode());
+        address = this.addressService.save(address);
+        System.out.print(address.getCity());
+        FishingAdventure fishingAdventure = new FishingAdventure(Long.valueOf(0),newFishingAdventure.getName(),address,newFishingAdventure.getPromoDescription(),newFishingAdventure.getCapacity(),newFishingAdventure.getFishingEquipment(),
+        						new HashSet<>(),newFishingAdventure.getBehaviourRules(), newFishingAdventure.getPricePerHour(),new HashSet<>(),newFishingAdventure.isCancellationFree(),
+        						newFishingAdventure.getCancellationFee(), new HashSet<>());
+        fishingAdventure = this.fishingAdventureService.save(fishingAdventure);
+        imageService.uploadAdventureImage(newFishingAdventure.getImage(), fishingAdventure.getId());
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
     
 }

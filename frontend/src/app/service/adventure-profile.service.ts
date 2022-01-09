@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FishingAdventure } from '../model/fishing-adventure';
+import { NewFishingAdventure } from '../model/new-fishing-adventure';
 
 @Injectable({
   providedIn: 'root'
@@ -19,5 +20,9 @@ export class AdventureProfileService {
     return this._http.get<FishingAdventure[]>(`${this.userPath}/getFishingAdventuresByInstructor/`+id)
   }
 
+  public save(fishingAdventure: NewFishingAdventure): Observable<FishingAdventure> {
+    alert("SAVE")
+    return this._http.post<FishingAdventure>(`${this.userPath}/add`, fishingAdventure)
+  }
   
 }

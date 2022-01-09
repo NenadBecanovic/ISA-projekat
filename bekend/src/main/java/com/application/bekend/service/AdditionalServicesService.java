@@ -1,9 +1,12 @@
 package com.application.bekend.service;
 
+import com.application.bekend.DTO.AdditionalServicesDTO;
 import com.application.bekend.model.AdditionalServices;
+import com.application.bekend.model.FishingAdventure;
 import com.application.bekend.repository.AdditionalServicesRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -33,4 +36,14 @@ public class AdditionalServicesService {
     public List<AdditionalServices> getAllByFishingAdventureId(Long id) { return additionalServicesRepository.getAllByFishingAdventureId(id); };
 
     public void deleteById(Long id) { this.additionalServicesRepository.deleteById(id); }
+    
+    public void addMultipleFishingAdventureServices(FishingAdventure fishingAdventure, Set<AdditionalServicesDTO> newAdditionalServices) {
+    	for(AdditionalServicesDTO a : newAdditionalServices) {
+    		AdditionalServices additionalServices = new AdditionalServices(a.getId(), a.getName(), a.getPrice(), new HashSet<>(), new HashSet<>(), new HashSet<>());
+    		Set<FishingAdventure> fishingAdventures = additionalServices.getFishingAdventures();
+    		fishingAdventures.add(fishingAdventure);
+            additionalServices.setFishingAdventures(fishingAdventures);
+            additionalServices = save(additionalServices);
+    	}
+    }
 }

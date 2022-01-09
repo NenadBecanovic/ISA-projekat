@@ -11,7 +11,7 @@ public class AdventureReservationDTO {
     private int maxGuests;
     private float price;
     private boolean isAvailable;
-    private Set<AdditionalServicesDTO> additionalServices;  // unutar DTO objekta mogu biti samo primitivni tipovi ili neki drugi DTO (ne sme biti model)
+    private Set<AdditionalServicesDTO> additionalServices;
     private boolean availabilityPeriod = false;
     private boolean isAction = false;
     private Long guestId;
