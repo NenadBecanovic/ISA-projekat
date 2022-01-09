@@ -44,8 +44,8 @@ export class ModifyBoatProfileComponent implements OnInit {
 
         this._additionalServices.getAllByBoatId(this.id).subscribe(
           (additionalServices: AdditionalService[]) => {
-            this.additionalServices = additionalServices
             this.boat.services = additionalServices
+            this.additionalServices = additionalServices
           }
         )
       }

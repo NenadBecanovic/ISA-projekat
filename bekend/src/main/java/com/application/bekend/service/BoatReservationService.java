@@ -34,4 +34,6 @@ public class BoatReservationService {
     }
 
     public List<BoatReservation> getBoatReservationsByGuestId(Long id) { return this.boatReservationRepository.getBoatReservationsByGuestId(id); }
+
+    public List<BoatReservation> getBoatReservationByBoatOwnerId(Long id) { return this.boatReservationRepository.getBoatReservationByBoatOwnerId(id); }
 }

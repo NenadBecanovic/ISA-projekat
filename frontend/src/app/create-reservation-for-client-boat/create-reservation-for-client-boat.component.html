@@ -18,13 +18,13 @@
 
       <div class = "input-box">
         <span class="details">Datum i vreme pocetka:</span>
-        <input type="datetime-local" name="startDate" [(ngModel)]="boatReservation.startDate" placeholder="Unesite datum i vreme pocetka" required>
+        <input type="datetime-local" name="startDate" [(ngModel)]="boatReservation.startDate" (change)="dateChanged()" placeholder="Unesite datum i vreme pocetka" required>
         <!--min="2022-01-06T00:00"-->
       </div>
       <br>
       <div class = "input-box">
         <span class="details">Trajanje (u danima):</span>
-        <input type="number" name="duration" [(ngModel)]="this.duration"  required>
+        <input type="number" name="duration" [(ngModel)]="this.duration" (change)="dateChanged()" required>
       </div>
       <br>
       <div class = "input-box">
@@ -32,7 +32,7 @@
         <input type="number" name="maxGuests" [(ngModel)]="boatReservation.maxGuests" placeholder="Unesite maksimalan broj gostiju" required>
       </div>
       <br>
-      <div class = "input-box">
+      <div class = "input-box" *ngIf="allDataSelected">
         <span class="details">Dodatne usluge:</span>
         <div *ngFor="let service of additionalServices">
           <mat-checkbox name="checkbox" [(ngModel)]="service.checked"> {{ service.name}}: {{service.price}} din </mat-checkbox>

@@ -11,6 +11,8 @@ import {MyUser} from "../model/my-user";
 import {Address} from "../model/address";
 import {BoatReservation} from "../model/boat-reservation";
 import {BoatReservationService} from "../service/boat-reservation.service";
+import {AuthentificationService} from "../authentification/authentification.service";
+import {fakeAsync} from "@angular/core/testing";
 
 @Component({
   selector: 'app-create-reservation-for-client-boat',
@@ -30,10 +32,15 @@ export class CreateReservationForClientBoatComponent implements OnInit {
   finalUsers: MyUser[] = new Array();
   address: Address = new Address(0, '', '', '', 0, 0, 0);
   selectedUser: MyUser = new MyUser(0,'','','','','','', this.address,'','');
+  address1: Address = new Address(0,"","","",0,0,0)
+  user: MyUser = new MyUser(0, '','','','','','',this.address1, '','');
+  allDataSelected: boolean = false;
+  additionalServicesOriginal: AdditionalService[] = new Array();
+  additionalServicesAfterCheck: AdditionalService[] = new Array();
 
   constructor(private _route: ActivatedRoute, private _boatReservationService: BoatReservationService,
               private _alertService: AlertService, private _router: Router, private _additionalServicesService: AdditionalServicesService,
-              private _myUserService: MyUserService, public datepipe: DatePipe) { }
+              private _myUserService: MyUserService, public datepipe: DatePipe, private _authentification: AuthentificationService) { }
 
   ngOnInit(): void {
     // @ts-ignore
@@ -45,7 +52,16 @@ export class CreateReservationForClientBoatComponent implements OnInit {
     this._additionalServicesService.getAllByBoatId(this.boatId).subscribe(
       (additionalServices: AdditionalService[]) => {
         this.additionalServices = additionalServices
+        this.additionalServicesOriginal = additionalServices
       }
+    )
+
+    this._authentification.getUserByEmail().subscribe(
+      (user: MyUser) => {
+        this.user = user;
+      },
+      (error) => {
+      },
     )
 
     this._myUserService.getAllByBoatId(this.boatId).subscribe(
@@ -65,7 +81,9 @@ export class CreateReservationForClientBoatComponent implements OnInit {
                 if (Number(reservation.startDate) < Number(Date.parse(this.date.toString()).toString()) &&  // ako rezervacija trenutno traje
                   Number(reservation.endDate) > Number(Date.parse(this.date.toString()).toString()) )
                 {
-                  this.finalUsers.push(user)
+                  if (this.userAlreadyInArray(user) == false) {
+                    this.finalUsers.push(user)
+                  }
                 }
               }
             }
@@ -73,6 +91,17 @@ export class CreateReservationForClientBoatComponent implements OnInit {
         }
       }
     )
+  }
+
+  userAlreadyInArray(user: MyUser){
+    for (let u of this.finalUsers)
+    {
+      if (u.id == user.id)
+      {
+        return true;
+      }
+    }
+    return false;
   }
 
   addAction() {
@@ -105,7 +134,6 @@ export class CreateReservationForClientBoatComponent implements OnInit {
 
     this._boatReservationService.save(this.boatReservation).subscribe(
       (boatReservation: BoatReservation) => {
-
         this._router.navigate(['boat-profile-for-boat-owner/', this.boatId])
       },
       (error) => {
@@ -116,5 +144,61 @@ export class CreateReservationForClientBoatComponent implements OnInit {
 
   changeUser(id: number) {
     this.selectedUser.id = id;
+  }
+
+  dateChanged() {
+    if (this.boatReservation.startDate != '' && this.duration != 0) {
+      this.allDataSelected = true;
+      this.ckeckOwnerAsCaptainAdditionalService();
+    } else {
+      this.allDataSelected = false;
+    }
+  }
+
+  ckeckOwnerAsCaptainAdditionalService() {
+    // u dodatnim uslugama svih rezervacija svih vlasnikovih kuca, proveriti da li se i on nalazi u tom terminu
+
+    this.additionalServices = new Array();
+    this.additionalServicesAfterCheck = new Array();
+    this.additionalServices = this.additionalServicesOriginal
+
+    var startDate = Date.parse(this.boatReservation.startDate)
+    this.date =  new Date(startDate)
+    var actionStart  = Number(this.date)
+    var actionEnd = actionStart + this.duration * 86400000
+
+    this._boatReservationService.getBoatReservationByBoatOwnerId(this.user.id).subscribe(
+      (boatReservations: BoatReservation[]) => {
+        for(let b of boatReservations)
+        {
+          // ako postoje termini u periodu kada zakazujemo novi termin, potrebno je proveriti zauzetost vlasnika
+          if (actionStart >= Number(b.startDate) && actionEnd <= Number(b.endDate) ||
+            actionStart <= Number(b.startDate) && actionEnd >= Number(b.startDate) ||
+            actionStart >= Number(b.startDate) && actionStart <= Number(b.endDate))
+          {
+            for(let a of b.additionalServices)
+            {
+              // if u dodatnim uslugama postoji vlasnik kao kapetan izbaciti tu uslugu iz additionalServices +  return;
+              // doslo je do preklapanja, izbaciti dodatnu uslugu kapetana
+              if (a.name == "prisustvo kapetana"){
+                this.deleteCaptainAsAdditionalService();
+                return;
+              }
+            }
+          }
+        }
+      }
+    )
+  }
+
+  deleteCaptainAsAdditionalService() {
+    for(let service of this.additionalServices)
+    {
+      if(service.name != "prisustvo kapetana")
+      {
+        this.additionalServicesAfterCheck.push(service)
+      }
+    }
+    this.additionalServices = this.additionalServicesAfterCheck
   }
 }

@@ -17,4 +17,6 @@ public interface BoatReservationRepository extends JpaRepository<BoatReservation
     void deleteById(Long id);
 
     List<BoatReservation> getBoatReservationsByGuestId(Long id);
+
+    List<BoatReservation> getBoatReservationByBoatOwnerId(Long id);
 }

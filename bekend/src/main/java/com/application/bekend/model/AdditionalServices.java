@@ -47,6 +47,12 @@ public class AdditionalServices {
         this.fishingAdventures = fishingAdventures;
         this.houses = houses;
     }
+
+    public AdditionalServices(String name, float price, Set<Boat> boats) {
+        this.name = name;
+        this.price = price;
+        this.boats = boats;
+    }
 /*
     public AdditionalServices(Long id, String name, float price, Set<HouseReservation> houseReservationsServices, Set<BoatReservation> boatReservationsServices, Set<AdventureReservation> adventureReservationsServices) {
         this.id = id;

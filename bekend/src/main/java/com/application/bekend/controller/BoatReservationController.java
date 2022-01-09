@@ -273,4 +273,33 @@ public class BoatReservationController {
         return new ResponseEntity<>(boatReservationDTOS, HttpStatus.OK);
     }
 
+    @GetMapping("/getBoatReservationByBoatOwnerId/{id}")
+    public ResponseEntity<List<BoatReservationDTO>> getBoatReservationByBoatOwnerId(@PathVariable("id") Long id) {
+        List<BoatReservation> boatReservations = this.boatReservationService.getBoatReservationByBoatOwnerId(id);
+        List<BoatReservationDTO> boatReservationDTOS = new ArrayList<>();
+
+        for (BoatReservation h: boatReservations) {
+            String startDate = (String.valueOf(h.getStartDate().getTime()));
+            String endDate = (String.valueOf(h.getEndDate().getTime()));
+
+            BoatReservationDTO dto = new BoatReservationDTO(h.getBoat().getId(), h.getId(), startDate, endDate, h.getMaxGuests(),
+                    h.getPrice(), h.isAvailable());
+            dto.setAvailabilityPeriod(h.isAvailabilityPeriod());
+            dto.setAction(h.isAction());
+            if (h.getGuest() != null) {
+                dto.setGuestId(h.getGuest().getId());
+            }
+
+            Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
+            for(AdditionalServices add : this.additionalServicesService.getAllByBoatReservationId(h.getId())) {
+                AdditionalServicesDTO newAddSer = new AdditionalServicesDTO(add.getId(), add.getName(), add.getPrice());
+                additionalServicesDTOS.add(newAddSer);
+            }
+            dto.setAdditionalServices(additionalServicesDTOS);
+
+            boatReservationDTOS.add(dto);
+        }
+        return new ResponseEntity<>(boatReservationDTOS, HttpStatus.OK);
+    }
+
 }

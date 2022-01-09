@@ -213,7 +213,19 @@ public class BoatController {
 
         MyUser owner = this.myUserService.findUserById(dto.getOwnerId());
         boat.setOwner(owner);
-        boat = this.boatService.save(boat);
+        boat = this.boatService.save(boat);  // sacuvani brod iz baze (sa odgovarajucim id-jem)
+
+        // dodatna usluga kapetana
+        AdditionalServices captainService = new AdditionalServices("prisustno kapetana", dto.getPricePerDay()/2, new HashSet<>());
+        Set<Boat> additionalServicesBoats = captainService.getBoats();
+        additionalServicesBoats.add(boat);
+        captainService.setBoats(additionalServicesBoats);
+        captainService = this.additionalServicesService.save(captainService);
+
+        Set<AdditionalServices> boatServices = boat.getServices();
+        boatServices.add(captainService);
+        boat.setServices(boatServices);
+        this.boatService.save(boat);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

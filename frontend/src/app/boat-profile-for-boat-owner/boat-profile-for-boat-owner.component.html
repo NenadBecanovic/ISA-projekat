@@ -172,36 +172,6 @@
         </tr>
       </table>
       <br> <br>
-<!--      &lt;!&ndash; LOKACIJA PRIMER 2 - NISU ISKORISTENI DINAMICKI PODACI ! &ndash;&gt;-->
-<!--      <section class="section pb-5">-->
-<!--        <div class="row">-->
-<!--          &lt;!&ndash;Grid column&ndash;&gt;-->
-<!--          <div class="col-lg-5 mb-4" style="height: 400px">-->
-<!--            <div class="card">-->
-<!--              <div class="card-body">-->
-<!--                <div class="form-header blue accent-1">-->
-<!--                  <h3><i class="fas fa-envelope"></i> Lokacija:</h3>-->
-<!--                </div>-->
-<!--                <p> {{boat.address.street}}, {{boat.address.city}}, {{boat.address.state}} </p>-->
-<!--                <br>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          &lt;!&ndash;Grid column&ndash;&gt;-->
-
-<!--          &lt;!&ndash;Grid column&ndash;&gt;-->
-<!--          <div class="col-lg-7">-->
-<!--            &lt;!&ndash;Google map&ndash;&gt;-->
-<!--            <div id="map-container-google-11" class="z-depth-1-half map-container-6" style="height: 400px">-->
-<!--              <iframe src="https://maps.google.com/maps?q=new%20delphi&t=&z=13&ie=UTF8&iwloc=&output=embed"-->
-<!--                      frameborder="0" style="border:0" allowfullscreen></iframe>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          &lt;!&ndash;Grid column&ndash;&gt;-->
-<!--        </div>-->
-<!--      </section>-->
-<!--      &lt;!&ndash; LOKACIJA PRIMER 2 - KRAJ&ndash;&gt;-->
-
 
       <!-- AKCIJE  -->
       <div>
@@ -220,7 +190,7 @@
                         <h4 class="card-title"> {{ '*' + course.id + '*' }} <br> {{ course.startDate | date:'dd/MM/yyyy HH:mm:ss'}}  - {{ course.endDate | date:'dd/MM/yyyy HH:mm:ss' }} </h4>
                         <br>
                         <p class="card-text">Maksimalan broj osoba: {{ course.maxGuests }}</p>
-                        <p class="card-text">Dodatne usluge: </p>
+                        <p class="card-text" *ngIf="boatServicesLoaded">Dodatne usluge: </p>
                           <li *ngFor="let a of course.additionalServices">
                             {{a.name}} : {{a.price}} din <br>
                           </li>

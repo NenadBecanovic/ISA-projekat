@@ -42,4 +42,8 @@ export class BoatReservationService {
   public getBoatReservationsByGuestId(id: number): Observable<BoatReservation[]> {
     return this._http.get<BoatReservation[]>(`${this.userPath}/getBoatReservationsByGuestId/`+id)
   }
+
+  public getBoatReservationByBoatOwnerId(id: number): Observable<BoatReservation[]> {
+    return this._http.get<BoatReservation[]>(`${this.userPath}/getBoatReservationByBoatOwnerId/`+id)
+  }
 }

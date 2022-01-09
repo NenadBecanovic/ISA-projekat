@@ -6,6 +6,9 @@ import {AlertService} from "ngx-alerts";
 import {AdditionalServicesService} from "../service/additional-services.service";
 import {BoatReservationService} from "../service/boat-reservation.service";
 import {DatePipe} from "@angular/common";
+import {MyUser} from "../model/my-user";
+import {AuthentificationService} from "../authentification/authentification.service";
+import {Address} from "../model/address";
 
 @Component({
   selector: 'app-add-action-boat-profile',
@@ -15,16 +18,23 @@ import {DatePipe} from "@angular/common";
 export class AddActionBoatProfileComponent implements OnInit {
 
   boatId: number = 0;
+  // captainOfBoatAdditionalService: AdditionalService = new AdditionalService(0, 'prisustvo vlasnika broda kao kapetana', 2000, false);
   additionalServices: AdditionalService[] = new Array();
+  additionalServicesOriginal: AdditionalService[] = new Array();
   additionalServicesFinal: AdditionalService[] = new Array();
+  additionalServicesAfterCheck: AdditionalService[] = new Array();
   boatReservation: BoatReservation = new BoatReservation(0, '', '', 0, this.additionalServices, 0, true);
   duration: number = 0;
   date: Date = new Date();
   endDate: Date = new Date();
+  address: Address = new Address(0,"","","",0,0,0)
+  user: MyUser = new MyUser(0, '','','','','','',this.address, '','');
+  allDataSelected: boolean = false;
+  // doneChecking: boolean = false;
 
   constructor(private _route: ActivatedRoute, private _boatReservationService: BoatReservationService,
               private _alertService: AlertService, private _router: Router, private _additionalServicesService: AdditionalServicesService,
-              public datepipe: DatePipe) { }
+              public datepipe: DatePipe, private _authentification: AuthentificationService) { }
 
   ngOnInit(): void {
     // @ts-ignore
@@ -36,7 +46,16 @@ export class AddActionBoatProfileComponent implements OnInit {
     this._additionalServicesService.getAllByBoatId(this.boatId).subscribe(
       (additionalServices: AdditionalService[]) => {
         this.additionalServices = additionalServices
+        this.additionalServicesOriginal = additionalServices
       }
+    )
+
+    this._authentification.getUserByEmail().subscribe(
+      (user: MyUser) => {
+        this.user = user;
+      },
+      (error) => {
+      },
     )
   }
 
@@ -75,4 +94,59 @@ export class AddActionBoatProfileComponent implements OnInit {
     )
   }
 
+  dateChanged() {
+    if (this.boatReservation.startDate != '' && this.duration != 0) {
+      this.allDataSelected = true;
+      this.ckeckOwnerAsCaptainAdditionalService();
+    } else {
+      this.allDataSelected = false;
+    }
+  }
+
+  ckeckOwnerAsCaptainAdditionalService() {
+    // u dodatnim uslugama svih rezervacija svih vlasnikovih kuca, proveriti da li se i on nalazi u tom terminu
+
+    this.additionalServices = new Array();
+    this.additionalServicesAfterCheck = new Array();
+    this.additionalServices = this.additionalServicesOriginal
+
+    var startDate = Date.parse(this.boatReservation.startDate)
+    this.date =  new Date(startDate)
+    var actionStart  = Number(this.date)
+    var actionEnd = actionStart + this.duration * 86400000
+
+    this._boatReservationService.getBoatReservationByBoatOwnerId(this.user.id).subscribe(
+      (boatReservations: BoatReservation[]) => {
+          for(let b of boatReservations)
+          {
+            // ako postoje termini u periodu kada zakazujemo novi termin, potrebno je proveriti zauzetost vlasnika
+            if (actionStart >= Number(b.startDate) && actionEnd <= Number(b.endDate) ||
+              actionStart <= Number(b.startDate) && actionEnd >= Number(b.startDate) ||
+              actionStart >= Number(b.startDate) && actionStart <= Number(b.endDate))
+            {
+                for(let a of b.additionalServices)
+                {
+                // if u dodatnim uslugama postoji vlasnik kao kapetan izbaciti tu uslugu iz additionalServices +  return;
+                // doslo je do preklapanja, izbaciti dodatnu uslugu kapetana
+                  if (a.name == "prisustvo kapetana"){
+                    this.deleteCaptainAsAdditionalService();
+                    return;
+                  }
+                }
+            }
+          }
+      }
+    )
+  }
+
+  deleteCaptainAsAdditionalService() {
+      for(let service of this.additionalServices)
+      {
+        if(service.name != "prisustvo kapetana")
+        {
+          this.additionalServicesAfterCheck.push(service)
+        }
+      }
+      this.additionalServices = this.additionalServicesAfterCheck
+  }
 }

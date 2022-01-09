@@ -16,7 +16,7 @@ import {Address} from "../model/address";
 export class HomePageBoatOwnerComponent implements OnInit {
 
   boats: Boat[] = new Array();
-  address: Address = new Address(0,"","","",0,0,31100)
+  address: Address = new Address(0,"","","",0,0,0)
   user: MyUser = new MyUser(0, '','','','','','',this.address, '','');
 
   constructor(private _boatService: BoatService, private _router: Router, private _authentification: AuthentificationService) { }
@@ -48,9 +48,6 @@ export class HomePageBoatOwnerComponent implements OnInit {
 
     this._boatService.findAll().subscribe(
       (boats: Boat[]) => {
-        this.boats = boats
-        console.log(boats)
-
         for(let h of boats)
         {
           if(h.ownerId == this.user.id)

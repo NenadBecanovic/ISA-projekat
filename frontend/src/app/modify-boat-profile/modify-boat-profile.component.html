@@ -103,18 +103,29 @@
       <br><br>
       <table class = "input-box">
         <tr>
-          <th>Dodatna usluga</th>
-          <th>Cena</th>
+          <th style="width: 60%">Dodatna usluga i cena</th>
         </tr>
         <tr *ngFor="let serv of additionalServices;let index = index;">
-          <td>
-            <input type="text" name=b{{index}} [(ngModel)]="additionalServices[index].name" placeholder="Unesite naziv usluge">
+          <td  *ngIf="additionalServices[index].name == 'prisustvo kapetana'; else elseBlockShow">
+            <input type="text" name=b{{index}} [(ngModel)]="additionalServices[index].name" placeholder="Unesite naziv usluge" disabled>
           </td>
+          <td>
+            <ng-template #elseBlockShow>
+              <input type="text" name=b{{index}} [(ngModel)]="additionalServices[index].name" placeholder="Unesite naziv usluge">
+            </ng-template>
+          </td>
+
           <td>
             <input type="number" name=c{{index}} [(ngModel)]="additionalServices[index].price" placeholder="Unesite cenu usluge">
           </td>
+
+          <td *ngIf="additionalServices[index].name == 'prisustvo kapetana'; else elseBlockShow1">
+            <button mat-icon-button (click)="deleteAdditionalService(additionalServices[index].id)" disabled> <mat-icon>delete</mat-icon> </button>
+          </td>
           <td>
-            <button mat-icon-button (click)="deleteAdditionalService(additionalServices[index].id)"> <mat-icon>delete</mat-icon> </button>
+            <ng-template #elseBlockShow1>
+              <button mat-icon-button (click)="deleteAdditionalService(additionalServices[index].id)"> <mat-icon>delete</mat-icon> </button>
+            </ng-template>
           </td>
         </tr>
       </table>

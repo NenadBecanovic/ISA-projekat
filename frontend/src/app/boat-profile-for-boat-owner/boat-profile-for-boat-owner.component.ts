@@ -36,6 +36,7 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
   freeCancelation: boolean = false;
   reservedCourses: BoatReservation[] = new Array();
   allCourses: BoatReservation[] = new Array();
+  boatServicesLoaded: boolean = false;
 
   constructor(private _boatService: BoatService, private _additionalServices: AdditionalServicesService, private _imageService: ImageService,
               private _boatReservationService: BoatReservationService, private _router: Router, private _route: ActivatedRoute, private _myUserService: MyUserService) {
@@ -78,6 +79,7 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
 
         this._additionalServices.getAllByBoatId(this.boat.id).subscribe(
           (additionalServices: AdditionalService[]) => {
+            this.boatServicesLoaded = true;
             this.additionalServices = additionalServices
           }
         )
