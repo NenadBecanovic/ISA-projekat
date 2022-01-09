@@ -39,7 +39,9 @@ public class AdditionalServicesService {
     
     public void addMultipleFishingAdventureServices(FishingAdventure fishingAdventure, Set<AdditionalServicesDTO> newAdditionalServices) {
     	for(AdditionalServicesDTO a : newAdditionalServices) {
-    		AdditionalServices additionalServices = new AdditionalServices(a.getId(), a.getName(), a.getPrice(), new HashSet<>(), new HashSet<>(), new HashSet<>());
+    		AdditionalServices additionalServices = new AdditionalServices();
+    		additionalServices.setName(a.getName());
+    		additionalServices.setPrice(a.getPrice());
     		Set<FishingAdventure> fishingAdventures = additionalServices.getFishingAdventures();
     		fishingAdventures.add(fishingAdventure);
             additionalServices.setFishingAdventures(fishingAdventures);

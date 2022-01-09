@@ -85,6 +85,7 @@ public class FishingAdventureController {
         						newFishingAdventure.getCancellationFee(), new HashSet<>());
         fishingAdventure = this.fishingAdventureService.save(fishingAdventure);
         imageService.uploadAdventureImage(newFishingAdventure.getImage(), fishingAdventure.getId());
+        additionalServicesService.addMultipleFishingAdventureServices(fishingAdventure, newFishingAdventure.getAdditionalServices());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
     

@@ -35,7 +35,7 @@ export class AddAdventureDialogComponent implements OnInit {
 
   addService(){
     if(this.additionalService.name != '' && this.additionalService.price != 0){
-      this.newFishingAdventure.additionalServices.push(this.additionalService);
+      this.newFishingAdventure.additionalServices.push(new AdditionalService(0,this.additionalService.name,this.additionalService.price,false));
       this.additionalService.name = '';
       this.additionalService.price = 0;
     }
