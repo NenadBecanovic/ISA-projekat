@@ -76,7 +76,6 @@ import { AddBoatComponent } from './add-boat/add-boat.component';
 import { BoatReportComponent } from './boat-report/boat-report.component';
 import { AddFishingAdventureActionDialogComponent } from './adventure-profile/add-action-dialog/add-action-dialog.component';
 
-
 const MaterialComponents = [
   MatSliderModule,
   MatToolbarModule,

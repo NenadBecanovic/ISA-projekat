@@ -49,6 +49,9 @@ public class Boat {
     @JoinColumn(name = "owner_id")
     private MyUser owner;
 
+    @OneToMany(mappedBy = "boat", fetch = FetchType.EAGER)
+    private Set<Appeal> appeals = new HashSet<>();
+
     public Boat(Long id, String name, String type, float length, int engineNumber, float enginePower, float maxSpeed,
                 NavigationEquipment navigationEquipment, Address address, String promoDescription, int capacity,
                 double grade, Set<BoatReservation> courses, String behaviourRules, String fishingEquipment, float pricePerDay,
@@ -249,5 +252,13 @@ public class Boat {
     public void addBoatReservation(BoatReservation boatReservation)
     {
         this.courses.add(boatReservation);
+    }
+
+    public Set<Appeal> getAppeals() {
+        return appeals;
+    }
+
+    public void setAppeals(Set<Appeal> appeals) {
+        this.appeals = appeals;
     }
 }

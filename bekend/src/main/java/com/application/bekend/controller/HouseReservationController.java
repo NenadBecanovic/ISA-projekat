@@ -9,6 +9,7 @@ import com.application.bekend.service.AdditionalServicesService;
 import com.application.bekend.service.HouseReservationService;
 import com.application.bekend.service.HouseService;
 import com.application.bekend.service.MyUserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,13 +28,15 @@ public class HouseReservationController {
     private final HouseService houseService;
     private final AdditionalServicesService additionalServicesService;
     private final MyUserService myUserService;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public HouseReservationController(HouseReservationService houseReservationService, HouseService houseService, AdditionalServicesService additionalServicesService, MyUserService myUserService) {
+    public HouseReservationController(HouseReservationService houseReservationService, HouseService houseService, AdditionalServicesService additionalServicesService, MyUserService myUserService, ModelMapper modelMapper) {
         this.houseReservationService = houseReservationService;
         this.houseService = houseService;
         this.additionalServicesService = additionalServicesService;
         this.myUserService = myUserService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/getAllByHouseId/{id}")
@@ -296,6 +299,9 @@ public class HouseReservationController {
             String startDate = (String.valueOf(h.getStartDate().getTime()));
             String endDate = (String.valueOf(h.getEndDate().getTime()));
 
+            Long startDateMilis = h.getStartDate().getTime();
+            Long endDateMilis = h.getEndDate().getTime();
+
             HouseReservationDTO dto = new HouseReservationDTO(h.getHouse().getId(), h.getId(), startDate, endDate, h.getMaxGuests(),
                     h.getPrice(), h.isAvailable());
             dto.setAvailabilityPeriod(h.isAvailabilityPeriod());
@@ -303,6 +309,16 @@ public class HouseReservationController {
             if (h.getGuest() != null) {
                 dto.setGuestId(h.getGuest().getId());
             }
+
+            dto.setMilisStartDate(startDateMilis);
+            dto.setMilisEndDate(endDateMilis);
+            dto.setHasAppealEntity(h.getHasAppealEntity());
+            dto.setHasAppealOwner(h.getHasAppealOwner());
+            dto.setHasFeedbackEntity(h.getHasFeedbackEntity());
+            dto.setHasFeedbackOwner(h.getHasFeedbackOwner());
+
+            dto.setTotalPrice(this.houseReservationService.findTotalPriceForHouseReservation(h));
+            dto.setHouseName(h.getHouse().getName());
 
             Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
             for(AdditionalServices add : this.additionalServicesService.getAllByHouseReservationId(h.getId())) {
@@ -315,5 +331,18 @@ public class HouseReservationController {
         }
         return new ResponseEntity<>(houseReservationDTOS, HttpStatus.OK);
     }
+
+
+    @PutMapping("/editReservation/{id}")
+    public ResponseEntity<HouseReservationDTO> editHouseReservation(@PathVariable("id") Long id, @RequestBody HouseReservationDTO houseReservationDTO) {
+        HouseReservationDTO houseReservationEdit = this.houseReservationService.editHouseReservation(houseReservationDTO, id);
+        return new ResponseEntity<>(houseReservationEdit, HttpStatus.OK);
+    }
+
+
+
+
+
+
 
 }

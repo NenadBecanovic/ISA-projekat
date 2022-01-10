@@ -1,0 +1,24 @@
+<body>
+<h1 mat-dialog-title style="font-size: large">Prilozite zalbu</h1>
+<div mat-dialog-content>
+  <div class="flex-row">
+    <div class="flex-column ">
+      <span>Unesite razlog</span>
+      <textarea type="text"
+                name="message"
+                rows="5"
+                (change)="doTextareaValueChange($event)"
+                class="form-control" >
+      </textarea>
+    </div>
+
+  </div>
+</div>
+<div mat-dialog-actions style="margin: 20px auto auto 115px;">
+  <button mat-button (click)="close()" >Otkaži</button>
+  <button mat-button cdkFocusInitial style="margin-left: 10px" (click)="ok()" >Sačuvaj</button>
+</div>
+<ngx-alerts></ngx-alerts>
+</body>
+
+

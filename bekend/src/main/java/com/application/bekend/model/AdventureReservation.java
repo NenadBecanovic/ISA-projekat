@@ -16,6 +16,8 @@ public class AdventureReservation {
     private int maxGuests;
     private float price;
     private boolean isAvailable;
+    private Boolean hasFeedbackOwner = false;
+    private Boolean hasAppealOwner = false;
     private boolean availabilityPeriod = false;
     private boolean isAction = false;
 
@@ -111,6 +113,30 @@ public class AdventureReservation {
         this.fishingAdventure = fishingAdventure;
     }
 
+    public Boolean getHasFeedbackOwner() {
+        return hasFeedbackOwner;
+    }
+
+    public void setHasFeedbackOwner(Boolean hasFeedbackOwner) {
+        this.hasFeedbackOwner = hasFeedbackOwner;
+    }
+
+    public Boolean getHasAppealOwner() {
+        return hasAppealOwner;
+    }
+
+    public void setHasAppealOwner(Boolean hasAppealOwner) {
+        this.hasAppealOwner = hasAppealOwner;
+    }
+
+    public MyUser getGuest() {
+        return guest;
+    }
+
+    public void setGuest(MyUser guest) {
+        this.guest = guest;
+    }
+    
 	public MyUser getGuest() {
 		return guest;
 	}

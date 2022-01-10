@@ -15,6 +15,14 @@ public class HouseReservationDTO {
     private boolean availabilityPeriod = false;
     private boolean isAction = false;
     private Long guestId;
+    private Double totalPrice;
+    private String houseName;
+    private Long milisStartDate;
+    private Long milisEndDate;
+    private boolean hasFeedbackOwner = false;
+    private boolean hasFeedbackEntity = false;
+    private boolean hasAppealOwner = false;
+    private boolean hasAppealEntity = false;
 
     public HouseReservationDTO(){};
 
@@ -123,5 +131,69 @@ public class HouseReservationDTO {
 
     public void setGuestId(Long guestId) {
         this.guestId = guestId;
+    }
+
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public String getHouseName() {
+        return houseName;
+    }
+
+    public void setHouseName(String houseName) {
+        this.houseName = houseName;
+    }
+
+    public Long getMilisStartDate() {
+        return milisStartDate;
+    }
+
+    public void setMilisStartDate(Long milisStartDate) {
+        this.milisStartDate = milisStartDate;
+    }
+
+    public Long getMilisEndDate() {
+        return milisEndDate;
+    }
+
+    public void setMilisEndDate(Long milisEndDate) {
+        this.milisEndDate = milisEndDate;
+    }
+
+    public boolean isHasFeedbackOwner() {
+        return hasFeedbackOwner;
+    }
+
+    public void setHasFeedbackOwner(boolean hasFeedbackOwner) {
+        this.hasFeedbackOwner = hasFeedbackOwner;
+    }
+
+    public boolean isHasFeedbackEntity() {
+        return hasFeedbackEntity;
+    }
+
+    public void setHasFeedbackEntity(boolean hasFeedbackEntity) {
+        this.hasFeedbackEntity = hasFeedbackEntity;
+    }
+
+    public boolean isHasAppealOwner() {
+        return hasAppealOwner;
+    }
+
+    public void setHasAppealOwner(boolean hasAppealOwner) {
+        this.hasAppealOwner = hasAppealOwner;
+    }
+
+    public boolean isHasAppealEntity() {
+        return hasAppealEntity;
+    }
+
+    public void setHasAppealEntity(boolean hasAppealEntity) {
+        this.hasAppealEntity = hasAppealEntity;
     }
 }
