@@ -85,6 +85,22 @@ public class MyUserController {
         return new ResponseEntity<>(myUserDTOS, HttpStatus.OK);
     }
 
+    @GetMapping("/getAllByBoatId/{id}")
+    public ResponseEntity<Set<MyUserDTO>> getAllByBoatId(@PathVariable("id") Long id) {
+        Set<MyUserDTO> myUserDTOS = new HashSet<>();
+
+        for (MyUser user: this.myUserService.getAllByBoatId(id)) {
+            AddressDTO addressDTO = new AddressDTO(user.getAddress().getId(), user.getAddress().getStreet(), user.getAddress().getCity(), user.getAddress().getState(),
+                    user.getAddress().getLongitude(), user.getAddress().getLatitude(), user.getAddress().getPostalCode());
+
+            MyUserDTO dto = new MyUserDTO(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getUsername(), addressDTO, user.getPhoneNumber());
+            dto.setId(user.getId());
+            myUserDTOS.add(dto);
+        }
+
+        return new ResponseEntity<>(myUserDTOS, HttpStatus.OK);
+    }
+
     @GetMapping("/findUserByHouseReservationId/{id}")
     public ResponseEntity<MyUserDTO> findUserByHouseReservationId(@PathVariable("id") Long id) {
         MyUser myUser = this.myUserService.findUserByHouseReservationId(id);
@@ -97,6 +113,17 @@ public class MyUserController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    @GetMapping("/findUserByBoatReservationId/{id}")
+    public ResponseEntity<MyUserDTO> findUserByBoatReservationId(@PathVariable("id") Long id) {
+        MyUser myUser = this.myUserService.findUserByBoatReservationId(id);
+
+        AddressDTO addressDTO = new AddressDTO(myUser.getAddress().getId(), myUser.getAddress().getStreet(), myUser.getAddress().getCity(), myUser.getAddress().getState(),
+                myUser.getAddress().getLongitude(), myUser.getAddress().getLatitude(), myUser.getAddress().getPostalCode());
+        MyUserDTO dto = new MyUserDTO(myUser.getId(), myUser.getFirstName(), myUser.getLastName(), myUser.getEmail(), myUser.getPassword(), myUser.getUsername(),
+                addressDTO, myUser.getPhoneNumber());
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
 
     @PostMapping("/saveSubscription")
     public ResponseEntity<SubscriptionDTO> updateUser(@RequestBody SubscriptionDTO dto){
@@ -187,5 +214,14 @@ public class MyUserController {
         }
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+    
+    @GetMapping("/findUserByFishingAdventureReservationId/{id}")
+    public ResponseEntity<AdventureReservationUserInfoDTO> findUserByFishingAdventureReservationId(@PathVariable("id") Long id) {
+        MyUser myUser = this.myUserService.findUserById(id);
+
+        AdventureReservationUserInfoDTO adventureUserDTO = new AdventureReservationUserInfoDTO(myUser.getId(), myUser.getFirstName(), myUser.getLastName());
+
+        return new ResponseEntity<>(adventureUserDTO, HttpStatus.OK);
     }
 }

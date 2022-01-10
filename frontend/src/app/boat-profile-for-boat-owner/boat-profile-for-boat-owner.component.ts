@@ -8,11 +8,12 @@ import {BoatService} from "../service/boat.service";
 import {AdditionalServicesService} from "../service/additional-services.service";
 import {ImageService} from "../service/image.service";
 import {Image} from "../model/image";
-import {HouseReservationService} from "../service/house-reservation.service";
 import {BoatReservationService} from "../service/boat-reservation.service";
-import {HouseReservationSlide} from "../model/house-reservation-slide";
 import {BoatReservationSlide} from "../model/boat-reservation-slide";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {MyUser} from "../model/my-user";
+import {MyUserService} from "../service/my-user.service";
+import {DatePipe} from "@angular/common";
 
 
 @Component({
@@ -27,19 +28,26 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
   address: Address = new Address(0,"Luka 11","Novi Sad","Srbija",0,0,21000)
   navigationEquipment: NavigationEquipment = new NavigationEquipment(0,true, true, true, true);
   additionalServices: AdditionalService[] = new Array<AdditionalService>();
-  boat: Boat = new Boat(0, '', '', '', 0, 0, '', 0, 0, 0, 0, false, 0, '', this.address, this.navigationEquipment, this.additionalServices, 0);
+  boat: Boat = new Boat(0, '', '', '', 0, 0, '', 0, 0, 0, 0, false, 0, '', this.address, this.navigationEquipment, this.additionalServices, 0, 0);
   courses: BoatReservation[] = new Array<BoatReservation>();
   courses_slides: BoatReservationSlide[] = new Array<BoatReservationSlide>();
   isSlideLoaded: boolean = false;
   images: Image[] = new Array<Image>();
   isLoaded: boolean = false;
   freeCancelation: boolean = false;
+  reservedCourses: BoatReservation[] = new Array();
+  allCourses: BoatReservation[] = new Array();
+  boatServicesLoaded: boolean = false;
+  date: Date = new Date();
 
   constructor(private _boatService: BoatService, private _additionalServices: AdditionalServicesService, private _imageService: ImageService,
-              private _boatReservationService: BoatReservationService, private _router: Router) {
+              private _boatReservationService: BoatReservationService, private _router: Router, private _route: ActivatedRoute,
+              private _myUserService: MyUserService, public datepipe: DatePipe) {
   }
 
   ngOnInit(): void {
+    // @ts-ignore
+    this.boat.id = +this._route.snapshot.paramMap.get('id');
     this.loadData();
   }
 
@@ -64,7 +72,7 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
   }
 
   loadData() { // ucitavanje iz baze
-    this._boatService.getBoatById(1).subscribe(
+    this._boatService.getBoatById(this.boat.id).subscribe(
       (boat: Boat) => {
         this.boat = boat
         this.address = this.boat.address;
@@ -74,6 +82,7 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
 
         this._additionalServices.getAllByBoatId(this.boat.id).subscribe(
           (additionalServices: AdditionalService[]) => {
+            this.boatServicesLoaded = true;
             this.additionalServices = additionalServices
           }
         )
@@ -85,10 +94,31 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
           }
         )
 
-        this._boatReservationService.getAllByBoatId(this.boat.id).subscribe(
+        this._boatReservationService.getAllActionsByBoatId(this.boat.id).subscribe(
           (courses_slides: BoatReservationSlide[]) => {
             this.courses_slides = courses_slides
+            console.log(this.courses_slides)
             this.isSlideLoaded = true
+          }
+        )
+
+        this._boatReservationService.getAllByBoatIdPlane(this.boat.id).subscribe(
+          (allCourses: BoatReservation[]) => {
+            this.allCourses = allCourses
+
+            for (let course of allCourses)
+            {
+              // dobavljamo sve rezervacije (to su HouseReservations koje nisu available) - spisak/istorija rezervacija
+              if (course.available == false && course.availabilityPeriod == false)
+              {
+                this._myUserService.findUserByBoatReservationId(course.id).subscribe(
+                  (user: MyUser) => {
+                    course.guest = user
+                  }
+                )
+                this.reservedCourses.push(course);
+              }
+            }
           }
         )
 
@@ -96,4 +126,36 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
     )
   }
 
+  defineUnavailablePeriod() {
+    this._router.navigate(['/define-unavailable-period-boat', this.boat.id])
+  }
+
+  showCalendar() {
+
+  }
+
+  createReservation() {
+    this._router.navigate(['/create-reservation-for-client-boat', this.boat.id])
+  }
+
+  checkDate(endDate: string) {
+    this.datepipe.transform(this.date, 'dd/MM/yyyy HH:mm:ss');
+
+    if (Number(endDate) < Number(Date.parse(this.date.toString()).toString()))
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+  makeReport(id: number) {
+    this._router.navigate(['/boat-report', id, this.boat.id])
+  }
+
+  seeGuestProfile(id: number) {
+    this._router.navigate(['/guest-profile-boat', id])
+  }
 }

@@ -153,38 +153,25 @@
           <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
         </agm-map>
       </div>
-      <br>
+      <br><br>
 
-<!--      &lt;!&ndash; LOKACIJA PRIMER 2 - NISU ISKORISTENI DINAMICKI PODACI ! &ndash;&gt;-->
-<!--      <section class="section pb-5">-->
-<!--        <div class="row">-->
-<!--          &lt;!&ndash;Grid column&ndash;&gt;-->
-<!--          <div class="col-lg-5 mb-4" style="height: 400px">-->
-<!--            <div class="card">-->
-<!--              <div class="card-body">-->
-<!--                <div class="form-header blue accent-1">-->
-<!--                  <h3><i class="fas fa-envelope"></i> Lokacija:</h3>-->
-<!--                </div>-->
-<!--                <p> {{boat.address.street}}, {{boat.address.city}}, {{boat.address.state}} </p>-->
-<!--                <br>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          &lt;!&ndash;Grid column&ndash;&gt;-->
-
-<!--          &lt;!&ndash;Grid column&ndash;&gt;-->
-<!--          <div class="col-lg-7">-->
-<!--            &lt;!&ndash;Google map&ndash;&gt;-->
-<!--            <div id="map-container-google-11" class="z-depth-1-half map-container-6" style="height: 400px">-->
-<!--              <iframe src="https://maps.google.com/maps?q=new%20delphi&t=&z=13&ie=UTF8&iwloc=&output=embed"-->
-<!--                      frameborder="0" style="border:0" allowfullscreen></iframe>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          &lt;!&ndash;Grid column&ndash;&gt;-->
-<!--        </div>-->
-<!--      </section>-->
-<!--      &lt;!&ndash; LOKACIJA PRIMER 2 - KRAJ&ndash;&gt;-->
-
+      <table class="align-items-center">
+        <tr class="align-items-center">
+          <td>
+            <div class="align-items-center">
+              <button mat-raised-button (click)="showCalendar()" class="btn show-calendar">Prikazi kalendar</button>
+            </div>
+          </td>
+          <td>
+            <div class="align-items-center">
+              <button mat-raised-button (click)="defineUnavailablePeriod()" class="btn define-period">Definisi period nedostupnosti</button>
+            </div>
+          </td>
+          <td>
+          </td>
+        </tr>
+      </table>
+      <br> <br>
 
       <!-- AKCIJE  -->
       <div>
@@ -203,7 +190,7 @@
                         <h4 class="card-title"> {{ '*' + course.id + '*' }} <br> {{ course.startDate | date:'dd/MM/yyyy HH:mm:ss'}}  - {{ course.endDate | date:'dd/MM/yyyy HH:mm:ss' }} </h4>
                         <br>
                         <p class="card-text">Maksimalan broj osoba: {{ course.maxGuests }}</p>
-                        <p class="card-text">Dodatne usluge: </p>
+                        <p class="card-text" *ngIf="boatServicesLoaded">Dodatne usluge: </p>
                           <li *ngFor="let a of course.additionalServices">
                             {{a.name}} : {{a.price}} din <br>
                           </li>
@@ -225,9 +212,71 @@
       <div class="align-items-center">
         <button mat-raised-button (click)="addActionDialog()" class="btn add-action-button">Dodaj akciju</button>
       </div>
+    <br><br><br>
+
+    <div>
+      <label style="font-size: 30px; font-weight: 500; margin-left: 30px">Spisak/istorija rezervacija:</label>
     </div>
     <br>
 
+    <!--  SPISAK SVIH REZERVACIJA  -->
+    <div style="margin-top: 10px;" class="">
+      <mat-grid-list cols="8" rowHeight="1.5:1" class="house-container2">
+        <mat-grid-tile [colspan]="6"  >
+          <div style="width: 100%; display: flex">
+            <input type="text" style="width: 50vw"  placeholder="Unesite korisnika">
+            <button mat-icon-button class="btn delete-action-button"> <mat-icon>search</mat-icon> </button>
+          </div>
+        </mat-grid-tile>
+
+        <div class="d-flex flex-column">
+          <mat-grid-tile [rowspan]="7" [colspan]="6" style="margin-top: 3vw;"  class="script-menu" >
+            <div style="max-height: 100%; border: 2px solid #2691d9;  border-radius: 6px; margin-bottom: 1px" *ngFor="let reserved of reservedCourses; let i = index">
+              <mat-card style="width: 100%;">
+                <mat-grid-list cols="4" rowHeight="1.2:1" >
+                  <mat-grid-tile  [colspan]="4" class="script-menu1">
+                    <div style="display:inline;">
+                      <div style="float: left; width: 75%;">
+                        <label style="font-size: 2vw; font-weight: 500; margin-left: 5px;font-family: Poppins;" ><strong> {{reserved.id }}  </strong></label>
+                      </div>
+                    </div>
+                    <div style="float: right">
+                      <label>({{ reserved.guest.username }})</label>
+                      <button mat-icon-button class="btn" (click)="seeGuestProfile(reserved.id)"> <mat-icon>person</mat-icon> </button>
+                    </div>
+                    <div style="float: right">
+                    </div>
+                    <div style="float: left; width: 75%;">
+                      <label>{{ reserved.guest.firstName }} {{ reserved.guest.lastName }}</label>
+                    </div>
+                    <div style="display:inline;" >
+                      <div style="float: left; width: 100%;">
+                        <label style="font-family: Poppins"> {{ reserved.startDate | date:'dd/MM/yyyy HH:mm:ss'}}  - {{ reserved.endDate | date:'dd/MM/yyyy HH:mm:ss' }} </label>
+                      </div>
+                    </div>
+                    <div style="display:inline;" >
+                      <div style="float: left; width: 100%;">
+                        <label style="font-family: Poppins"> Cena: {{ reserved.price }} din </label>
+                      </div>
+                    </div>
+                    <div style="float: right">
+                      <button *ngIf="checkDate(reserved.endDate)" class="btn report" (click)="makeReport(reserved.id)"> Popuni izvestaj </button>
+                    </div>
+                  </mat-grid-tile>
+                </mat-grid-list>
+              </mat-card>
+            </div>
+          </mat-grid-tile>
+        </div>
+      </mat-grid-list>
+    </div>
+
+    <div class="align-items-center">
+      <button mat-raised-button (click)="createReservation()" class="btn add-action-button">Kreiraj rezervaciju za klijenta</button>
+    </div>
+    <br>
+
+    </div>
   </div>
   <app-footer></app-footer>
 </div>

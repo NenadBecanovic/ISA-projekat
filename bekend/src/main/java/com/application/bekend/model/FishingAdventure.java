@@ -19,6 +19,8 @@ public class FishingAdventure {
     private String promoDescription;
     private int capacity;
     private String fishingEquipment;
+    @Column(name = "grade", nullable = true)
+    private double grade;
     
     @OneToMany(mappedBy = "fishingAdventure", fetch = FetchType.EAGER)
     private Set<Feedback> feedbacks= new HashSet<>();
@@ -190,5 +192,34 @@ public class FishingAdventure {
 
     public void setAppeals(Set<Appeal> appeals) {
         this.appeals = appeals;
+    }
+    
+	public double getGrade() {
+		return grade;
+	}
+
+	public void setGrade(double grade) {
+		this.grade = grade;
+	}
+
+	public Set<Feedback> getFeedbacks() {
+		return feedbacks;
+	}
+
+	public void setFeedbacks(Set<Feedback> feedbacks) {
+		this.feedbacks = feedbacks;
+	}
+
+	public MyUser getInstructor() {
+		return instructor;
+	}
+
+	public void setInstructor(MyUser instructor) {
+		this.instructor = instructor;
+	}
+	
+	public void addAdventureReservation(AdventureReservation adventureReservation)
+    {
+        this.adventureReservations.add(adventureReservation);
     }
 }

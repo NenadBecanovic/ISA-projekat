@@ -35,6 +35,9 @@ public class HouseReservation {
     @ManyToMany(mappedBy = "houseReservationsServices")
     private Set<AdditionalServices> additionalServices = new HashSet<>();
 
+    @OneToOne(mappedBy = "houseReservation")
+    private Report report;
+
     public HouseReservation(Long id, Date startDate, Date endDate, int maxGuests, float price, boolean isAvailable, House house) {
         this.id = id;
         this.startDate = startDate;
@@ -170,5 +173,13 @@ public class HouseReservation {
 
     public void setHasAppealEntity(Boolean hasAppealEntity) {
         this.hasAppealEntity = hasAppealEntity;
+    }
+    
+    public Report getReport() {
+        return report;
+    }
+
+    public void setReport(Report report) {
+        this.report = report;
     }
 }

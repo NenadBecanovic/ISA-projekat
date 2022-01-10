@@ -8,7 +8,7 @@ import java.util.Set;
 public class AdditionalServices {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private float price;
@@ -46,6 +46,12 @@ public class AdditionalServices {
         this.boats = boats;
         this.fishingAdventures = fishingAdventures;
         this.houses = houses;
+    }
+
+    public AdditionalServices(String name, float price, Set<Boat> boats) {
+        this.name = name;
+        this.price = price;
+        this.boats = boats;
     }
 /*
     public AdditionalServices(Long id, String name, float price, Set<HouseReservation> houseReservationsServices, Set<BoatReservation> boatReservationsServices, Set<AdventureReservation> adventureReservationsServices) {
@@ -135,5 +141,9 @@ public class AdditionalServices {
 
     public void addBoatReservation(BoatReservation boatReservation){
         this.boatReservationsServices.add(boatReservation);
+    }
+    
+    public void addAdventureReservation(AdventureReservation adventureReservation){
+        this.adventureReservationsServices.add(adventureReservation);
     }
 }

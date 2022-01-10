@@ -15,7 +15,7 @@ export class CalendarDialogComponent implements OnInit {
   view: CalendarView = CalendarView.Month;
 
   viewDate: Date = new Date();
-
+  
   events: CalendarEvent[] = [
     {
       title: 'Rezervacija taj korisnik tada i tada,taj dan',
@@ -25,7 +25,7 @@ export class CalendarDialogComponent implements OnInit {
     {
       title: 'Rezervacija wohoooo',
       color: colors.yellow,
-      start: new Date("2022-1-"+7)
+      start: new Date(1642753380000)
     },
   ];
 

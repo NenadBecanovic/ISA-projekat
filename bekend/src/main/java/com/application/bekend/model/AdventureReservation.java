@@ -18,13 +18,15 @@ public class AdventureReservation {
     private boolean isAvailable;
     private Boolean hasFeedbackOwner = false;
     private Boolean hasAppealOwner = false;
+    private boolean availabilityPeriod = false;
+    private boolean isAction = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "guest_id")
     private MyUser guest;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinTable(name = "adventure_reservation_table", joinColumns = @JoinColumn(name = "adventure_appointment_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "adventure_id", referencedColumnName = "id"))
+    @JoinColumn(name = "fishing_adventure_id")
     private FishingAdventure fishingAdventure;
     
     @ManyToMany(mappedBy = "adventureReservationsServices")
@@ -134,4 +136,28 @@ public class AdventureReservation {
     public void setGuest(MyUser guest) {
         this.guest = guest;
     }
+    
+	public MyUser getGuest() {
+		return guest;
+	}
+
+	public void setGuest(MyUser guest) {
+		this.guest = guest;
+	}
+
+	public boolean isAvailabilityPeriod() {
+		return availabilityPeriod;
+	}
+
+	public void setAvailabilityPeriod(boolean availabilityPeriod) {
+		this.availabilityPeriod = availabilityPeriod;
+	}
+
+	public boolean isAction() {
+		return isAction;
+	}
+
+	public void setAction(boolean isAction) {
+		this.isAction = isAction;
+	}
 }

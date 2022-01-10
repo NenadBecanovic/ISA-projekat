@@ -63,7 +63,9 @@ export class CreateReservationForClientComponent implements OnInit {
                 if (Number(reservation.startDate) < Number(Date.parse(this.date.toString()).toString()) &&  // ako rezervacija trenutno traje
                   Number(reservation.endDate) > Number(Date.parse(this.date.toString()).toString()) )
                 {
-                  this.finalUsers.push(user)
+                  if (this.userAlreadyInArray(user) == false) {
+                    this.finalUsers.push(user)
+                  }
                 }
               }
             }
@@ -71,6 +73,17 @@ export class CreateReservationForClientComponent implements OnInit {
         }
       }
     )
+  }
+
+  userAlreadyInArray(user: MyUser){
+    for (let u of this.finalUsers)
+    {
+      if (u.id == user.id)
+      {
+        return true;
+      }
+    }
+    return false;
   }
 
   addAction() {

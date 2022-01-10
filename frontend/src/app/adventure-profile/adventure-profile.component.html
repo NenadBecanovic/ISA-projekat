@@ -26,7 +26,7 @@
             </span>
           </div>
           <div class="d-flex right align-items-center justify-content-end">
-            <button mat-raised-button (click)="addActionDialog()" class="btn add-action-button">Dodaj akciju</button>
+            <button mat-raised-button (click)="editAdventureDialog()" class="btn add-action-button">Izmeni avanturu</button>
           </div>
         </div>
         <div class="d-flex flex-row">
@@ -64,13 +64,13 @@
             <div class="form-check">
               <label class="form-check-label wrap" for="flexCheckChinese">
                 Dodatne usluge: <br>
-                <!--li *ngFor="let service of fishingAdventure.services">
+                <li *ngFor="let service of additionalServices">
                   {{service.name}} = {{service.price}}din <br>
-                </li-->
+                </li>
               </label>
             </div>
             <div class="form-check last-form-check">
-              <a class="reservations-link" (click)="showReservationsDialog()"><u>Vidi rezervacije</u></a>
+              <a class="reservations-link" (click)="showReservationsDialog(fishingAdventure.id)"><u>Vidi rezervacije</u></a>
             </div>
           </div>
           <div class="d-flex ms-5 flex-column">
@@ -90,31 +90,48 @@
             </div>
             <div class="form-check last-form-check">
               <label class="form-check-label wrap" for="flexCheckChinese">
-                Opis: <br> {{user.description}}
+                Opis: <br> {{user.personalDescription}}
               </label>
             </div>
           </div>
         </div>
+        <div>
+          <div>
+            <br> <label style="font-size: 30px; font-weight: 500;" class="ms-3" >Lokacija:</label>
+          </div>
+          <agm-map [latitude]="fishingAdventure.address.latitude" [longitude]="fishingAdventure.address.longitude">
+            <agm-marker [latitude]="fishingAdventure.address.latitude" [longitude]="fishingAdventure.address.longitude"></agm-marker>
+          </agm-map>
+        </div>
+        <br>
         <div class="d-flex flex-column">
           <div class="d-flex flex-row">
-            <span class=" basic-title text-center">Akcije</span>
+            <div class="d-flex left align-items-center">
+              <span style="font-size: 30px; font-weight: 500;" class=" ms-3">
+                Akcije
+              </span>
+            </div>
+            <div class="d-flex right align-items-center justify-content-end">
+              <button mat-raised-button (click)="addActionDialog()" class="btn add-action-button">Dodaj akciju</button>
+            </div>
           </div>
           <div class="col-12 d-flex flex-row">
             <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
               <div class="carousel-inner">
                 <div class="carousel-item active">
                   <div class="row">
-
-                    <div class="col-md-4 mb-3">
+                    <div class="action-card mb-3" *ngFor="let action of this.actions;let i = index">
                       <div class="card">
                         <div class="card-body">
-                          <h4 class="card-title">Pecaroška avantura 16.12.2021. 6:00h</h4>
-                          <p class="card-text">{{fishingAdventure.address.street}}, {{fishingAdventure.address.city}},
-                            {{fishingAdventure.address.state}}</p>
-                          <p class="card-text">Trajanje: 6h</p>
-                          <p class="card-text">Broj osoba: 5</p>
-                          <p class="card-text">Dodatne usluge: {{fishingAdventure.fishingEquipment}}</p>
-                          <p class="card-text">Cena: {{fishingAdventure.pricePerHour}}din/h</p>
+                          <h4 class="card-title">Početak: {{ action.startDate | date:'dd/MM/yyyy HH:mm:ss'}}</h4>
+                          <h4 class="card-title">Kraj: {{ action.endDate | date:'dd/MM/yyyy HH:mm:ss'}}</h4>
+                          <p class="card-text">Broj osoba: {{action.maxGuests}}</p>
+                          <p class="card-text">Dodatne usluge:</p>
+                          <li *ngFor="let service of action.additionalServices">
+                            {{service.name}} = {{service.price}}din <br>
+                          </li>
+                          <p class="card-text">Cena: {{action.price}} din</p>
+                          <p class="card-text">Ušteda: {{savings[i]}} din</p>
                         </div>
                         <div class="d-flex right me-3 mb-3 align-items-center justify-content-end">
                           <button type="button" class="btn add-action-button"
@@ -122,41 +139,6 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-4 mb-3">
-                      <div class="card">
-                        <div class="card-body">
-                          <h4 class="card-title">Pecaroška avantura 16.12.2021. 6:00h</h4>
-                          <p class="card-text">{{fishingAdventure.address.street}}, {{fishingAdventure.address.city}},
-                            {{fishingAdventure.address.state}}</p>
-                          <p class="card-text">Trajanje: 6h</p>
-                          <p class="card-text">Broj osoba: 5</p>
-                          <p class="card-text">Dodatne usluge: {{fishingAdventure.fishingEquipment}}</p>
-                          <p class="card-text">Cena: {{fishingAdventure.pricePerHour}}din/h</p>
-                        </div>
-                        <div class="d-flex right me-3 mb-3 align-items-center justify-content-end">
-                          <button type="button" class="btn add-action-button"
-                            (click)="addActionDialog()">REZERVIŠI</button>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <div class="card">
-                        <div class="card-body">
-                          <h4 class="card-title">Pecaroška avantura 16.12.2021. 6:00h</h4>
-                          <p class="card-text">{{fishingAdventure.address.street}}, {{fishingAdventure.address.city}},
-                            {{fishingAdventure.address.state}}</p>
-                          <p class="card-text">Trajanje: 6h</p>
-                          <p class="card-text">Broj osoba: 5</p>
-                          <p class="card-text">Dodatne usluge: {{fishingAdventure.fishingEquipment}}</p>
-                          <p class="card-text">Cena: {{fishingAdventure.pricePerHour}}din/h</p>
-                        </div>
-                        <div class="d-flex right me-3 mb-3 align-items-center justify-content-end">
-                          <button type="button" class="btn add-action-button"
-                            (click)="addActionDialog()">REZERVIŠI</button>
-                        </div>
-                      </div>
-                    </div>
-
                   </div>
                 </div>
               </div>

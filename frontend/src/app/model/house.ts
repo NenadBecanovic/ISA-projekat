@@ -18,9 +18,10 @@ export class House {
   cancalletionFee: number;
   grade: number;
   images: Image[] = new Array();
+  ownerId: number;
 
   constructor(id: number, name: String, addressDTO: Address, promoDescription: String, behaviourRules: String, pricePerDay: number,
-              cancalletionFree: boolean, cancalletionFee: number, rooms: Room[], additionalServices: AdditionalService[], grade: number) {
+              cancalletionFree: boolean, cancalletionFee: number, rooms: Room[], additionalServices: AdditionalService[], grade: number, ownerId: number) {
     this.id = id;
     this.name = name;
     this.address = addressDTO;
@@ -32,6 +33,7 @@ export class House {
     this.cancalletionFree = cancalletionFree;
     this.cancalletionFee = cancalletionFee;
     this.grade = grade;
+    this.ownerId = ownerId;
   }
 }
 

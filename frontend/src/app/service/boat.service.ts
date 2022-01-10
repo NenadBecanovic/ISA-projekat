@@ -29,4 +29,12 @@ export class BoatService {
   public edit(boat: Boat): Observable<Boat>{
     return this._http.put<Boat>(`${this.userPath}/edit/`+ boat.id, boat)
   }
+
+  public delete(id: number): Observable <boolean> {
+    return this._http.delete<boolean>(`${this.userPath}/delete/` + id)
+  }
+
+  public save(boat: Boat): Observable<Boat> {
+    return this._http.post<Boat>(`${this.userPath}/add`, boat)
+  }
 }

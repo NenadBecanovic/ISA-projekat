@@ -20,17 +20,22 @@ public class BoatReservation {
     private Boolean hasFeedbackEntity = false;
     private Boolean hasAppealOwner = false;
     private Boolean hasAppealEntity = false;
+    private boolean availabilityPeriod = false;
+    private boolean isAction = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "guest_id")
     private MyUser guest;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinTable(name = "boat_reservation_table", joinColumns = @JoinColumn(name = "boat_appointment_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "boat_id", referencedColumnName = "id"))
+    @JoinColumn(name = "boat_id")
     private Boat boat;
 
     @ManyToMany(mappedBy = "boatReservationsServices")
     private Set<AdditionalServices> additionalServices = new HashSet<>();
+
+    @OneToOne(mappedBy = "boatReservation")
+    private Report report;
 
     public BoatReservation(Long id, Date startDate, Date endDate, int maxGuests, float price, boolean isAvailable,Boat boat) {
         this.id = id;
@@ -147,5 +152,29 @@ public class BoatReservation {
 
     public void setHasAppealEntity(Boolean hasAppealEntity) {
         this.hasAppealEntity = hasAppealEntity;
+    }
+    
+    public boolean isAvailabilityPeriod() {
+        return availabilityPeriod;
+    }
+
+    public void setAvailabilityPeriod(boolean availabilityPeriod) {
+        this.availabilityPeriod = availabilityPeriod;
+    }
+
+    public boolean isAction() {
+        return isAction;
+    }
+
+    public void setAction(boolean action) {
+        isAction = action;
+    }
+
+    public Report getReport() {
+        return report;
+    }
+
+    public void setReport(Report report) {
+        this.report = report;
     }
 }

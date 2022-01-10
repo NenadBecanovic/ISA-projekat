@@ -23,7 +23,7 @@ export class ModifyHouseProfileComponent implements OnInit {
   address: Address = new Address(0, '', '','', 0, 0, 0);
   rooms: Room[] = new Array();
   additionalServices: AdditionalService[] = new Array();
-  house: House = new House(0, '', this.address, '', '', 0, false, 0, this.rooms, this.additionalServices, 0);
+  house: House = new House(0, '', this.address, '', '', 0, false, 0, this.rooms, this.additionalServices, 0, 0);
   newAdditionalService: AdditionalService = new AdditionalService(0, '', 0, false);
   showNewService: boolean = false;
   showNewRoom: boolean = false;

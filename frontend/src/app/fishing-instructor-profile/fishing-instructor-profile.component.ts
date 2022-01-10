@@ -23,7 +23,6 @@ export class FishingInstructorProfileComponent implements OnInit {
   additionalServices: AdditionalService[] = new Array<AdditionalService>();
   adventures: FishingAdventure[] = new Array<FishingAdventure>();
   instructor: FishingAdventureInstructorDTO = new FishingAdventureInstructorDTO(1,"Kapetan","Kuka","","",this.address, "065454545", "Najjaci sam na svetu");
-  adventure: FishingAdventure = new FishingAdventure(2,"Avanturica", this.address, "Mnogo dobra",5,"SVA","Be good",30,false,10);
   filterTerm!: string;
 
   constructor(public dialog: MatDialog, private _adventureService: AdventureProfileService, private _router: Router) {
@@ -36,12 +35,13 @@ export class FishingInstructorProfileComponent implements OnInit {
 
   addAdventure(){
     const dialogRef = this.dialog.open(AddAdventureDialogComponent, {
-      width: '600px',
+      width: '800px',
       data: {},
+      backdropClass: 'dialog-background'
     });
-
+    dialogRef.componentInstance.newFishingAdventure.instructorId = this.instructor.id;
     dialogRef.afterClosed().subscribe(result => {
-      
+      window.location.reload();
     });
   }
 
@@ -61,9 +61,8 @@ export class FishingInstructorProfileComponent implements OnInit {
       width: '650px',
       data: {},
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      
+    dialogRef.componentInstance.instructorId = this.instructor.id;
+    dialogRef.afterClosed().subscribe(result => {     
     });
   }
 
@@ -72,8 +71,8 @@ export class FishingInstructorProfileComponent implements OnInit {
       width: '320px',
       data: {},
     });
-    dialogRef.componentInstance.adventureId = a.id;
-    //dialogRef.componentInstance.additionalServices = a.services;
+    dialogRef.componentInstance.adventure = a;
+    dialogRef.componentInstance.instructorId = this.instructor.id;
     dialogRef.afterClosed().subscribe(result => {
       
     });

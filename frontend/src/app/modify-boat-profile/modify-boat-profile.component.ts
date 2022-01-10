@@ -24,7 +24,7 @@ export class ModifyBoatProfileComponent implements OnInit {
   address: Address = new Address(0, '', '','', 0, 0, 0);
   additionalServices: AdditionalService[] = new Array();
   navigationEquipment: NavigationEquipment = new NavigationEquipment(0, false, false, false, false);
-  boat: Boat = new Boat(0, '', '', '', 0, 0,'', 0,0,0,0,false,0, '', this.address, this.navigationEquipment, this.additionalServices, 0);
+  boat: Boat = new Boat(0, '', '', '', 0, 0,'', 0,0,0,0,false,0, '', this.address, this.navigationEquipment, this.additionalServices, 0, 0);
   newAdditionalService: AdditionalService = new AdditionalService(0, '', 0, false);
   showNewService: boolean = false;
 
@@ -44,8 +44,8 @@ export class ModifyBoatProfileComponent implements OnInit {
 
         this._additionalServices.getAllByBoatId(this.id).subscribe(
           (additionalServices: AdditionalService[]) => {
-            this.additionalServices = additionalServices
             this.boat.services = additionalServices
+            this.additionalServices = additionalServices
           }
         )
       }
@@ -98,7 +98,7 @@ export class ModifyBoatProfileComponent implements OnInit {
 
     this._boatService.edit(this.boat).subscribe(
       (boat: Boat) => {
-        this._router.navigate(['boat-profile-for-boat-owner'])
+        this._router.navigate(['boat-profile-for-boat-owner', boat.id])
       },
       (error) => {
         // console.log(error)

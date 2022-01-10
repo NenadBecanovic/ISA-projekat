@@ -32,8 +32,9 @@ public class FishingAdventureService {
     
     public List<FishingAdventure> getFishingAdventuresByInstructor(Long id){ return fishingAdventureRepository.getFishingAdventuresByInstructor(id); }
 
-
     public List<FishingAdventure> findAll(){return this.fishingAdventureRepository.findAll();}
+    
+    public FishingAdventure save(FishingAdventure fishingAdventure) {return this.fishingAdventureRepository.save(fishingAdventure);}
     
     public void uploadImage(String newImage, Long id) throws IOException {
 		FishingAdventure fishingAdventure = fishingAdventureRepository.getById(id);

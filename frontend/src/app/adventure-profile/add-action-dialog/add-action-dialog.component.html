@@ -1,0 +1,47 @@
+<h1 mat-dialog-title>Nova akcija</h1>
+<div mat-dialog-content>
+  <form  style="margin: auto !important" #addActionForm = "ngForm" (ngSubmit)="addAction()">
+    <div class = "user-details" >
+      <div class = "input-box">
+        <span class="details">Datum i vreme pocetka:</span>
+        <input type="datetime-local" name="startDate" [(ngModel)]="adventureAction.startDate" placeholder="Unesite datum i vreme pocetka" required>
+        <!--min="2022-01-06T00:00"-->
+      </div>
+      <br>
+      <div class = "input-box">
+        <span class="details">Trajanje:</span>
+        <div class="d-flex flex-row">
+          <div class="me-2">
+            <small>Sati</small>
+            <input type="number" name="durationHours" [(ngModel)]="this.durationHours"  required>
+          </div>
+          <div>
+            <small>Minuti</small>
+            <input type="number" name="durationMinutes" [(ngModel)]="this.durationMinutes"  required>
+          </div>
+        </div> 
+      </div>
+      <br>
+      <div class = "input-box">
+        <span class="details">Maksimalan broj gostiju:</span>
+        <input type="number" name="maxGuests" [(ngModel)]="adventureAction.maxGuests" placeholder="Unesite maksimalan broj gostiju" required>
+      </div>
+      <br>
+      <div class = "input-box">
+        <span class="details">Dodatne usluge:</span>
+        <div *ngFor="let service of additionalServices">
+          <mat-checkbox name="checkbox" [(ngModel)]="service.checked"> {{ service.name}}: {{service.price}} din </mat-checkbox>
+        </div>
+      </div>
+      <br>
+      <div class = "input-box">
+        <span class="details">Cena avanture:</span>
+        <input type="number" name="price"  [(ngModel)]="adventureAction.price" placeholder="Unesite cenu" required>
+      </div>
+    </div>
+    <br> <br>
+    <div class = "button">
+      <input type ="submit" value="Dodaj">
+    </div>
+  </form>
+</div>

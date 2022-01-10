@@ -19,7 +19,7 @@ export class DefineUnavailablePeriodHouseComponent implements OnInit {
   adress: Address = new Address(0,'', '', '', 0, 0, 0);
   rooms: Room[] = new Array();
   additionalServices: AdditionalService[] = new Array();
-  house: House = new House(0, '', this.adress, '', '', 0, false, 0, this.rooms, this.additionalServices, 0);
+  house: House = new House(0, '', this.adress, '', '', 0, false, 0, this.rooms, this.additionalServices, 0, 0);
   houseReservation: HouseReservation = new HouseReservation(0, '', '', 0, this.additionalServices, 0, true);
   date: Date = new Date();
   endDate: Date = new Date();

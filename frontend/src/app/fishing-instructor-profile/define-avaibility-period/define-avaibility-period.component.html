@@ -1,27 +1,22 @@
 <h1 mat-dialog-title class="ms-3">Period odmora</h1>
 <div mat-dialog-content>
-  <div class="mt-3 d-flex flex-row">
-    <div class="d-flex flex-column ms-3 justify-content-center">
-        <span>OD:</span>
-        <mat-form-field appearance="fill">
-            <mat-label>Angular forms</mat-label>
-            <input matInput [matDatepicker]="picker1" [(ngModel)]="dateFrom">
-            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-            <mat-datepicker #picker1></mat-datepicker>
-          </mat-form-field>
+  <form  style="margin: auto !important" #addActionForm = "ngForm" (ngSubmit)="addPeriod()">
+    <div class = "user-details" >
+      <div class = "input-box">
+        <span class="details">Datum i vreme pocetka nedostupnog perioda:</span>
+        <input type="datetime-local" name="startDate" [(ngModel)]="adventureAvaibilityReservation.startDate" placeholder="Unesite datum i vreme pocetka" required>
+      </div>
+      <br>
+      <div class = "input-box">
+        <span class="details">Datum i vreme kraja nedostupnog perioda:</span>
+        <input type="datetime-local" name="endDate" [(ngModel)]="adventureAvaibilityReservation.endDate" required>
+      </div>
+      <br>
+
     </div>
-    <div class="d-flex ms-5 flex-column justify-content-center">
-        <span>DO:</span>
-        <mat-form-field appearance="fill">
-            <mat-label>Angular forms</mat-label>
-            <input matInput [matDatepicker]="picker2" [(ngModel)]="dateTo">
-            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-            <mat-datepicker #picker2></mat-datepicker>
-          </mat-form-field>
+    <br> <br>
+    <div class = "button">
+      <input type ="submit" value="Dodaj">
     </div>
-  </div>
-</div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Otkaži</button>
-  <button mat-button cdkFocusInitial (click)="ok()">Sačuvaj</button>
+  </form>
 </div>

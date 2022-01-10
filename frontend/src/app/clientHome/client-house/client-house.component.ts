@@ -32,7 +32,7 @@ export class ClientHouseComponent implements OnInit {
   isLoaded: boolean = false;
   rooms: Room[] = new Array<Room>();
   additionalServices: AdditionalService[] = new Array<AdditionalService>();
-  house: House = new House(0,'', this.address, '', '', 0, false, 0, this.rooms, this.additionalServices, 0);
+  house: House = new House(0,'', this.address, '', '', 0, false, 0, this.rooms, this.additionalServices, 0, 0);
   courses_slides: HouseReservationSlide[] = new Array<HouseReservationSlide>();
   isSlideLoaded: boolean = false;
   lat = 0;

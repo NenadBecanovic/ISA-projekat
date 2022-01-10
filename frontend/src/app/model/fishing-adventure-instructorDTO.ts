@@ -8,9 +8,9 @@ export class FishingAdventureInstructorDTO {
   username: String;
   addressDTO: Address;
   phoneNumber: String;
-  description: String;
+  personalDescription: String;
 
-  constructor(id: number, firstName: String, lastName: String, email: String, username: String, addressDTO: Address, phoneNumber: String, description: String){
+  constructor(id: number, firstName: String, lastName: String, email: String, username: String, addressDTO: Address, phoneNumber: String, personalDescription: String){
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -18,6 +18,6 @@ export class FishingAdventureInstructorDTO {
     this.username = username;
     this.addressDTO = addressDTO;
     this.phoneNumber = phoneNumber;
-    this.description = description;
+    this.personalDescription = personalDescription;
   }
 }
