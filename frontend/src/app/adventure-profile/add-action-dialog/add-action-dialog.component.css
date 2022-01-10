@@ -6,7 +6,7 @@
 }
 
 body {
-  /*height: fit-content;*/
+  height: fit-content;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,9 +15,9 @@ body {
 }
 
 .container{
-  max-width: 650px;
+  max-width: 600px;
   width: 100%;
-  height: 60%;
+  height: 100%;
   background: #fff;
   padding: 30px 30px;
   border-radius: 5px;
@@ -35,7 +35,7 @@ body {
   position: absolute;
   bottom: 0;
   height: 3px;
-  width: 270px;
+  width: 220px;
   background: linear-gradient(120deg,#2980b9, #8e44ad);
   text-align: center;
 }
@@ -132,14 +132,13 @@ form .button input:hover {
     max-width: 100%;
   }
   form .user-details .input-box{
-    margin-bottom: 15px;
     width: 100%;
   }
-
+/*
   .container form .user-details{
     max-height: 300px;
     overflow-y: scroll;
-  }
+  }*/
   .user-details::-webkit-scrollbar{
     width: 0;
   }

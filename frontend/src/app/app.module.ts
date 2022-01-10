@@ -74,6 +74,7 @@ import { GuestProfileBoatComponent } from './guest-profile-boat/guest-profile-bo
 import { CreateReservationForClientBoatComponent } from './create-reservation-for-client-boat/create-reservation-for-client-boat.component';
 import { AddBoatComponent } from './add-boat/add-boat.component';
 import { BoatReportComponent } from './boat-report/boat-report.component';
+import { AddFishingAdventureActionDialogComponent } from './adventure-profile/add-action-dialog/add-action-dialog.component';
 
 
 const MaterialComponents = [
@@ -135,6 +136,7 @@ const MaterialComponents = [
     CreateReservationForClientBoatComponent,
     AddBoatComponent,
     BoatReportComponent,
+    AddFishingAdventureActionDialogComponent
   ],
   imports: [
     RouterModule,
