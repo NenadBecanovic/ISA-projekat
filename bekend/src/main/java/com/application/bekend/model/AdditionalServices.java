@@ -140,4 +140,13 @@ public class AdditionalServices {
     public void addAdventureReservation(AdventureReservation adventureReservation){
         this.adventureReservationsServices.add(adventureReservation);
     }
+
+	public Set<AdventureReservation> getAdventureReservationsServices() {
+		return adventureReservationsServices;
+	}
+
+	public void setAdventureReservationsServices(Set<AdventureReservation> adventureReservationsServices) {
+		this.adventureReservationsServices = adventureReservationsServices;
+	}
+    
 }

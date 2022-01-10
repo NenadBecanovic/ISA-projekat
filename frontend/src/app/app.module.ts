@@ -68,6 +68,7 @@ import {DatePipe} from "@angular/common";
 import { CreateReservationForClientComponent } from './create-reservation-for-client/create-reservation-for-client.component';
 import { GuestProfileComponent } from './guest-profile/guest-profile.component';
 import { HouseReportComponent } from './house-report/house-report.component';
+import { EditAdventureProfileDialogComponent } from './adventure-profile/edit-adventure-profile-dialog/edit-adventure-profile-dialog.component';
 import { AddFishingAdventureActionDialogComponent } from './adventure-profile/add-action-dialog/add-action-dialog.component';
 
 
@@ -123,6 +124,7 @@ const MaterialComponents = [
     GuestProfileComponent,
     HouseReportComponent,
     CalendarDialogHouseComponent,
+    EditAdventureProfileDialogComponent,
     AddFishingAdventureActionDialogComponent
   ],
   imports: [

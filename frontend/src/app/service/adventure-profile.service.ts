@@ -25,4 +25,7 @@ export class AdventureProfileService {
     return this._http.post<FishingAdventure>(`${this.userPath}/add`, fishingAdventure)
   }
   
+  public edit(fishingAdventure :FishingAdventure):Observable <FishingAdventure> {
+    return this._http.put<FishingAdventure>(`${this.userPath}/edit/` + fishingAdventure.id, fishingAdventure)
+  }
 }

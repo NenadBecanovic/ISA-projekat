@@ -3,9 +3,11 @@ package com.application.bekend.controller;
 import com.application.bekend.DTO.AdditionalServicesDTO;
 import com.application.bekend.model.AdditionalServices;
 import com.application.bekend.model.Boat;
+import com.application.bekend.model.FishingAdventure;
 import com.application.bekend.model.House;
 import com.application.bekend.service.AdditionalServicesService;
 import com.application.bekend.service.BoatService;
+import com.application.bekend.service.FishingAdventureService;
 import com.application.bekend.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,12 +26,14 @@ public class AdditionalServicesContoller {
     private final AdditionalServicesService additionalServicesService;
     private final HouseService houseService;
     private final BoatService boatService;
+    private final FishingAdventureService fishingAdventureService;
 
     @Autowired
-    public AdditionalServicesContoller(AdditionalServicesService additionalServicesService, HouseService houseService, BoatService boatService) {
+    public AdditionalServicesContoller(AdditionalServicesService additionalServicesService, HouseService houseService, BoatService boatService, FishingAdventureService fishingAdventureService) {
         this.additionalServicesService = additionalServicesService;
         this.houseService = houseService;
         this.boatService = boatService;
+        this.fishingAdventureService = fishingAdventureService;
     }
 
     @GetMapping("/getAllByHouseId/{id}")
@@ -107,7 +111,9 @@ public class AdditionalServicesContoller {
 
         additionalServices.setBoats(null);
         additionalServices.setBoatReservationsServices(null);
-
+        
+        additionalServices.setFishingAdventures(null);
+        additionalServices.setAdventureReservationsServices(null);
         this.additionalServicesService.deleteById(id);  // brisanje iz additional_services
 
         return new ResponseEntity<>(true, HttpStatus.OK);
@@ -118,6 +124,7 @@ public class AdditionalServicesContoller {
         AdditionalServices additionalServices = new AdditionalServices(dto.getId(), dto.getName(), dto.getPrice(), new HashSet<>(), new HashSet<>(), new HashSet<>());
         House house = this.houseService.getHouseById(dto.getHouseId());
         Boat boat = this.boatService.getBoatById(dto.getBoatId());
+        FishingAdventure adventure = this.fishingAdventureService.getFishingAdventureById(dto.getBoatId());
 
         if (house != null) {
             Set<House> houses = additionalServices.getHouses();
@@ -128,6 +135,11 @@ public class AdditionalServicesContoller {
             Set<Boat> boats = additionalServices.getBoats();
             boats.add(boat);
             additionalServices.setBoats(boats);
+        }
+        else if (adventure != null) {
+            Set<FishingAdventure> adventures = additionalServices.getFishingAdventures();
+            adventures.add(adventure);
+            additionalServices.setFishingAdventures(adventures);
         }
 
         this.additionalServicesService.save(additionalServices);
