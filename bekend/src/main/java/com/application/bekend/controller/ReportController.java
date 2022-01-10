@@ -3,6 +3,7 @@ package com.application.bekend.controller;
 import com.application.bekend.DTO.ReportDTO;
 import com.application.bekend.model.*;
 import com.application.bekend.service.BoatReservationService;
+import com.application.bekend.service.FishingAdventureReservationService;
 import com.application.bekend.service.HouseReservationService;
 import com.application.bekend.service.MyUserService;
 import com.application.bekend.service.ReportService;
@@ -22,12 +23,15 @@ public class ReportController {
     private final HouseReservationService houseReservationService;
     private final BoatReservationService boatReservationService;
     private final MyUserService myUserService;
+    private final FishingAdventureReservationService adventureReservationService;
 
-    public ReportController(ReportService reportService, HouseReservationService houseReservationService, BoatReservationService boatReservationService, MyUserService myUserService) {
+    public ReportController(ReportService reportService, HouseReservationService houseReservationService, BoatReservationService boatReservationService, MyUserService myUserService,
+    		FishingAdventureReservationService adventureReservationService) {
         this.reportService = reportService;
         this.houseReservationService = houseReservationService;
         this.boatReservationService = boatReservationService;
         this.myUserService = myUserService;
+        this.adventureReservationService = adventureReservationService;
     }
 
     @PostMapping("/add")
@@ -54,6 +58,18 @@ public class ReportController {
             if (report.isMissedReservation())
             {
                 MyUser user = this.myUserService.findUserByBoatReservationId(boatReservation.getId());
+                int penalities = user.getPenalties();
+                penalities = penalities + 1;
+                user.setPenalties(penalities);
+                this.myUserService.save(user);
+            }
+        } else if (dto.getAdventureReservationId() != null && dto.getAdventureReservationId() != 0) {
+            AdventureReservation adventureReservation = this.adventureReservationService.getFishingAdventureReservationById(dto.getAdventureReservationId());
+            report.setAdventureReservation(adventureReservation);
+            adventureReservation.setHasReport(true);
+            if (report.isMissedReservation())
+            {
+                MyUser user = this.myUserService.findUserByAdventureReservationId(adventureReservation.getId());
                 int penalities = user.getPenalties();
                 penalities = penalities + 1;
                 user.setPenalties(penalities);

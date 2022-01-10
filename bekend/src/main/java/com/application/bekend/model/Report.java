@@ -19,14 +19,19 @@ public class Report {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "boatReservation_id")
     private BoatReservation boatReservation;
+    
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "adventureReservation_id")
+    private AdventureReservation adventureReservation;
 
-    public Report(Long id, String comment, boolean showedUp, boolean penaltyProposal, HouseReservation houseReservation, BoatReservation boatReservation) {
+    public Report(Long id, String comment, boolean showedUp, boolean penaltyProposal, HouseReservation houseReservation, BoatReservation boatReservation, AdventureReservation adventureReservation) {
         this.id = id;
         this.comment = comment;
         this.missedReservation = showedUp;
         this.penaltyProposal = penaltyProposal;
         this.houseReservation = houseReservation;
         this.boatReservation = boatReservation;
+        this.adventureReservation = adventureReservation;
     }
 
     public Report(Long id, String comment, boolean showedUp, boolean penaltyProposal) {
@@ -85,4 +90,12 @@ public class Report {
     public void setBoatReservation(BoatReservation boatReservation) {
         this.boatReservation = boatReservation;
     }
+
+	public AdventureReservation getAdventureReservation() {
+		return adventureReservation;
+	}
+
+	public void setAdventureReservation(AdventureReservation adventureReservation) {
+		this.adventureReservation = adventureReservation;
+	}
 }

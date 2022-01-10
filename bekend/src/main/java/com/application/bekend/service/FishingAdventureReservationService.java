@@ -40,6 +40,10 @@ public class FishingAdventureReservationService {
         return fishingAdventureReservationsRepository.getAllByFishingAdventure_Id(id);
     }
 	
+	public AdventureReservation getFishingAdventureReservationById(Long id) {
+        return this.fishingAdventureReservationsRepository.getFishingAdventureReservationById(id);
+    }
+	
 	public AdventureReservation save(AdventureReservation adventureReservation) {
         return this.fishingAdventureReservationsRepository.save(adventureReservation);
     }

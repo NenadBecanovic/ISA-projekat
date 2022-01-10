@@ -38,5 +38,9 @@ public interface MyUserRepository extends JpaRepository<MyUser, Long> {
 
     @Query("select user from MyUser user join fetch user.boats boat where boat.id = ?1")
     MyUser findMyUserByBoatId(Long id);
+    
+    @Query("select user from MyUser user join fetch user.adventureReservations adventureReservations where adventureReservations.id = ?1")
+    MyUser findUserByAdventureReservationId(Long id);
 }
+
 
