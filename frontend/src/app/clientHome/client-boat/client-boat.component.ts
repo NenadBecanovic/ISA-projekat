@@ -14,7 +14,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {MyUser} from "../../model/my-user";
 import {Subscription} from "../../model/subscription";
 import {MyUserService} from "../../service/my-user.service";
-import {AuthentificationService} from "../../authentification/authentification.service";
+import {AuthentificationService} from "../../auth/authentification/authentification.service";
 
 @Component({
   selector: 'app-client-boat',

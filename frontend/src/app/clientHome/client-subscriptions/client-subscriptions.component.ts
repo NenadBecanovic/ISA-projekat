@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {DeleteRequest} from "../../model/delete-request";
 import {MyUser} from "../../model/my-user";
 import {Address} from "../../model/address";
-import {AuthentificationService} from "../../authentification/authentification.service";
+import {AuthentificationService} from "../../auth/authentification/authentification.service";
 import {MyUserService} from "../../service/my-user.service";
 import {Subscription} from "../../model/subscription";
 

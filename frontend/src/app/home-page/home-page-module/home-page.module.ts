@@ -16,7 +16,7 @@ import {ScrollingModule} from "@angular/cdk/scrolling";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatIconModule} from "@angular/material/icon";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
-import {TokenInterceptor} from "../../interceptor/token-interceptor";
+import {TokenInterceptor} from "../../auth/interceptor/token-interceptor";
 import {MatRadioModule} from "@angular/material/radio";
 import {HomeBoatComponent} from "../home-boat/home-boat.component";
 import {HomeAdventureComponent} from "../home-adventure/home-adventure.component";

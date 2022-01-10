@@ -14,7 +14,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
-import {TokenInterceptor} from "../../interceptor/token-interceptor";
+import {TokenInterceptor} from "../../auth/interceptor/token-interceptor";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatIconModule} from "@angular/material/icon";
 import {MatRadioModule} from "@angular/material/radio";

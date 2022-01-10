@@ -15,7 +15,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {MyUserService} from "../../service/my-user.service";
 import {MyUser} from "../../model/my-user";
 import {Subscription} from "../../model/subscription";
-import {AuthentificationService} from "../../authentification/authentification.service";
+import {AuthentificationService} from "../../auth/authentification/authentification.service";
 
 @Component({
   selector: 'app-client-house',
