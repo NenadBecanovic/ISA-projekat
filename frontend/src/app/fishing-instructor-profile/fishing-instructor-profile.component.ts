@@ -39,7 +39,7 @@ export class FishingInstructorProfileComponent implements OnInit {
       data: {},
       backdropClass: 'dialog-background'
     });
-
+    dialogRef.componentInstance.newFishingAdventure.instructorId = this.instructor.id;
     dialogRef.afterClosed().subscribe(result => {
       window.location.reload();
     });
@@ -61,9 +61,8 @@ export class FishingInstructorProfileComponent implements OnInit {
       width: '650px',
       data: {},
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      
+    dialogRef.componentInstance.instructorId = this.instructor.id;
+    dialogRef.afterClosed().subscribe(result => {     
     });
   }
 
@@ -72,8 +71,8 @@ export class FishingInstructorProfileComponent implements OnInit {
       width: '320px',
       data: {},
     });
-    dialogRef.componentInstance.adventureId = a.id;
-    //dialogRef.componentInstance.additionalServices = a.services;
+    dialogRef.componentInstance.adventure = a;
+    dialogRef.componentInstance.instructorId = this.instructor.id;
     dialogRef.afterClosed().subscribe(result => {
       
     });

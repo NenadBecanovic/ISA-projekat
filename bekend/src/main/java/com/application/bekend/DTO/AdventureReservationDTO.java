@@ -12,17 +12,20 @@ public class AdventureReservationDTO {
     private float price;
     private boolean isAvailable;
     private Set<AdditionalServicesDTO> additionalServices;
-    private boolean availabilityPeriod = false;
-    private boolean isAction = false;
+    private boolean availabilityPeriod;
+    private boolean isAction;
     private Long guestId;
 	public AdventureReservationDTO(Long id, String startDate, String endDate, int maxGuests, float price, boolean isAvailable) {
-		super();
 		this.id = id;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.maxGuests = maxGuests;
 		this.price = price;
 		this.isAvailable = isAvailable;
+	}
+	
+	public AdventureReservationDTO() {
+		
 	}
 	public Long getAdventureId() {
 		return adventureId;
@@ -60,10 +63,10 @@ public class AdventureReservationDTO {
 	public void setPrice(float price) {
 		this.price = price;
 	}
-	public boolean isAvailable() {
+	public boolean getIsAvailable() {
 		return isAvailable;
 	}
-	public void setAvailable(boolean isAvailable) {
+	public void setIsAvailable(boolean isAvailable) {
 		this.isAvailable = isAvailable;
 	}
 	public Set<AdditionalServicesDTO> getAdditionalServices() {
@@ -72,16 +75,16 @@ public class AdventureReservationDTO {
 	public void setAdditionalServices(Set<AdditionalServicesDTO> additionalServices) {
 		this.additionalServices = additionalServices;
 	}
-	public boolean isAvailabilityPeriod() {
+	public boolean getIsAvailabilityPeriod() {
 		return availabilityPeriod;
 	}
-	public void setAvailabilityPeriod(boolean availabilityPeriod) {
+	public void setIAvailabilityPeriod(boolean availabilityPeriod) {
 		this.availabilityPeriod = availabilityPeriod;
 	}
-	public boolean isAction() {
+	public boolean getIsAction() {
 		return isAction;
 	}
-	public void setAction(boolean isAction) {
+	public void setIsAction(boolean isAction) {
 		this.isAction = isAction;
 	}
 	public Long getGuestId() {

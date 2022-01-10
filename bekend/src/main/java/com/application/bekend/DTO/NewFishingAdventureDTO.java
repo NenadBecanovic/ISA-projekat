@@ -14,6 +14,7 @@ public class NewFishingAdventureDTO {
 	private int cancellationFee;
 	private Set<AdditionalServicesDTO> additionalServices;
 	private String image;
+	private Long instructorId;
 	
 	public NewFishingAdventureDTO() {
 		
@@ -122,5 +123,13 @@ public class NewFishingAdventureDTO {
 
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+	public Long getInstructorId() {
+		return instructorId;
+	}
+
+	public void setInstructorId(Long instructorId) {
+		this.instructorId = instructorId;
 	}
 }

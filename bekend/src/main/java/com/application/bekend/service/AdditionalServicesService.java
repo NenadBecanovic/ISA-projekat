@@ -48,4 +48,6 @@ public class AdditionalServicesService {
             additionalServices = save(additionalServices);
     	}
     }
+    
+    public Set<AdditionalServices> getAllByAdventureReservationId(Long id) { return additionalServicesRepository.getAllByAdventureReservationId(id); }
 }
