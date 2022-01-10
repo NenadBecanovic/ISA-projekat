@@ -168,6 +168,7 @@ public class HouseReservationController {
     }
 
     @PostMapping("/add")
+    @Transactional
     public ResponseEntity<HouseReservation> save(@RequestBody HouseReservationDTO dto) {
         House house = this.houseService.getHouseById(dto.getHouseId());
 
@@ -221,6 +222,7 @@ public class HouseReservationController {
             this.houseService.save(house);
 
             Set<HouseReservation> houseReservations1 = guest.getHouseReservations();
+            //if (guest.)  // greska   // TODO : treba da bude transactional metoda ????
             houseReservations1.add(houseReservation);
             guest.setHouseReservations(houseReservations1);
             this.myUserService.save(guest);

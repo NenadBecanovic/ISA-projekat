@@ -31,7 +31,7 @@ export class ClientBoatComponent implements OnInit {
   subscription: Subscription = new Subscription(0,this.user,this.user)
   navigationEquipment: NavigationEquipment = new NavigationEquipment(0,true, true, true, true);
   additionalServices: AdditionalService[] = new Array<AdditionalService>();
-  boat: Boat = new Boat(0, '', '', '', 0, 0, '', 0, 0, 0, 0, false, 0, '', this.address, this.navigationEquipment, this.additionalServices, 0);
+  boat: Boat = new Boat(0, '', '', '', 0, 0, '', 0, 0, 0, 0, false, 0, '', this.address, this.navigationEquipment, this.additionalServices, 0, 0);
   courses: BoatReservation[] = new Array<BoatReservation>();
   courses_slides: BoatReservationSlide[] = new Array<BoatReservationSlide>();
   isSlideLoaded: boolean = false;

@@ -18,7 +18,7 @@ public class HouseDTO {
     private int cancalletionFee;
     private double grade;
     private Set<ImageDTO> images;
-//    private MyUser owner;
+    private Long ownerId;
 
     public HouseDTO(Long id, String name, AddressDTO addressDTO, String promoDescription, String behaviourRules, float pricePerDay,
                     boolean isCancalletionFree, int cancalletionFee) {
@@ -143,5 +143,13 @@ public class HouseDTO {
 
     public void setServices(Set<AdditionalServicesDTO> services) {
         this.services = services;
+    }
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
     }
 }

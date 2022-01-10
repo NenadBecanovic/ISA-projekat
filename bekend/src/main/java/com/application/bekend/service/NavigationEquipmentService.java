@@ -19,4 +19,12 @@ public class NavigationEquipmentService {
     public NavigationEquipment save(NavigationEquipment navigationEquipment) {
         return this.navigationEquipmentRepository.save(navigationEquipment);
     }
+
+    public NavigationEquipment getNavigationEquipmentByBoatId(Long id) {
+        return this.navigationEquipmentRepository.getNavigationEquipmentByBoatId(id);
+    }
+
+    public void delete(Long id){
+        this.navigationEquipmentRepository.deleteById(id);
+    }
 }

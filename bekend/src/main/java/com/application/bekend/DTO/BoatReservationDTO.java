@@ -13,6 +13,9 @@ public class BoatReservationDTO {
     private float price;
     private boolean isAvailable;
     private Set<AdditionalServicesDTO> additionalServices;
+    private boolean availabilityPeriod = false;
+    private boolean isAction = false;
+    private Long guestId;
 
     public BoatReservationDTO(Long boatId, Long id, String startDate, String endDate, int maxGuests, float price, boolean isAvailable) {
         this.boatId = boatId;
@@ -97,5 +100,29 @@ public class BoatReservationDTO {
 
     public void setAdditionalServices(Set<AdditionalServicesDTO> additionalServices) {
         this.additionalServices = additionalServices;
+    }
+
+    public boolean isAvailabilityPeriod() {
+        return availabilityPeriod;
+    }
+
+    public void setAvailabilityPeriod(boolean availabilityPeriod) {
+        this.availabilityPeriod = availabilityPeriod;
+    }
+
+    public boolean isAction() {
+        return isAction;
+    }
+
+    public void setAction(boolean action) {
+        isAction = action;
+    }
+
+    public Long getGuestId() {
+        return guestId;
+    }
+
+    public void setGuestId(Long guestId) {
+        this.guestId = guestId;
     }
 }

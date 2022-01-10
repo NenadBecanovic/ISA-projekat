@@ -22,6 +22,7 @@ public class BoatDTO {
     private Set<ImageDTO> images;
     private NavigationEquipmentDTO navigationEquipmentDTO;
     private Set<AdditionalServicesDTO> services;
+    private Long ownerId;
 
     public BoatDTO(Long id, String name, String type, float length, int engineNumber, float enginePower, float maxSpeed,
                    String promoDescription, int capacity, String behaviourRules, String fishingEquipment, float pricePerDay,
@@ -216,5 +217,13 @@ public class BoatDTO {
 
     public void setNavigationEquipmentDTO(NavigationEquipmentDTO navigationEquipmentDTO) {
         this.navigationEquipmentDTO = navigationEquipmentDTO;
+    }
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
     }
 }

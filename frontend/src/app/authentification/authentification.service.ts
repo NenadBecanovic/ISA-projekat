@@ -38,6 +38,14 @@ export class AuthentificationService {
     return this.getToken() !== '' && this.getCurrentUser().roles.indexOf('ROLE_ADMINISTRATOR') !== -1;
   }
 
+  isLoggedInHouseOwner(): boolean {
+    return this.getToken() !== '' && this.getCurrentUser().roles.indexOf('ROLE_HOUSE_OWNER') !== -1;
+  }
+
+  isLoggedInBoatOwner(): boolean {
+    return this.getToken() !== '' && this.getCurrentUser().roles.indexOf('ROLE_BOAT_OWNER') !== -1;
+  }
+
   getCurrentUser(): any {
     if (localStorage['currentUser']) {
       return JSON.parse(localStorage['currentUser']);

@@ -7,6 +7,8 @@ import {MatCheckboxChange} from "@angular/material/checkbox";
 import {HouseService} from "../service/house.service";
 import {AlertService} from "ngx-alerts";
 import {Router} from "@angular/router";
+import {MyUser} from "../model/my-user";
+import {AuthentificationService} from "../authentification/authentification.service";
 
 @Component({
   selector: 'app-add-house',
@@ -15,24 +17,35 @@ import {Router} from "@angular/router";
 })
 export class AddHouseComponent implements OnInit {
 
-  // newAdditionalService: AdditionalService = new AdditionalService(0, '', 0, false);
   showNewService: boolean = false;
   additionalServices: AdditionalService[] = new Array();
   // showNewRoom: boolean = false;
   rooms: Room[] = new Array();
   address: Address = new Address(0, '', '', '', 0, 0, 0);
-  house: House = new House(0, '', this.address, '', '',0,false, 0, this.rooms, this.additionalServices, 0);
+  house: House = new House(0, '', this.address, '', '',0,false, 0, this.rooms, this.additionalServices, 0, 0);
   // newRoom: Room = new Room(0, 0, this.house);
+  user: MyUser = new MyUser(0, '','','','','','', this.address, '','');
 
-  constructor(private _houseService: HouseService, private _alertService: AlertService, private _router: Router) { }
+  constructor(private _houseService: HouseService, private _alertService: AlertService, private _router: Router,
+              private _authentification: AuthentificationService) { }
 
   ngOnInit(): void {
+    this.loadData();
+  }
+
+  private loadData() {
+    this._authentification.getUserByEmail().subscribe(
+      (user: MyUser) => {
+        this.user = user;
+      },
+      (error) => {
+      },
+    )
   }
 
   createProfile() {
-    // this.newAdditionalService.houseId = this.id;
-    // this.newAdditionalService.checked = false;
-    this.house.grade = 1;
+    this.house.grade = 0;
+    this.house.ownerId = this.user.id;
 
     this._houseService.save(this.house).subscribe(   // subscribe - da bismo dobili odgovor beka
       (house: House) => {

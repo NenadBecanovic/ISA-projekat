@@ -8,4 +8,7 @@ import org.springframework.stereotype.Repository;
 public interface BoatRepository extends JpaRepository<Boat, Long> {
 
     Boat getBoatById(Long id);
+
+    void deleteById(Long id);
+
 }

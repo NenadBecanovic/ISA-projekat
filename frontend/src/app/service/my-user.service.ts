@@ -28,8 +28,16 @@ export class MyUserService {
     return this._http.get<MyUser[]>(`${this.userPath}/getAllByHouseId/`+id)
   }
 
+  public getAllByBoatId(id: number): Observable<MyUser[]>{
+    return this._http.get<MyUser[]>(`${this.userPath}/getAllByBoatId/`+id)
+  }
+
   public findUserByHouseReservationId(id: number): Observable<MyUser>{
     return this._http.get<MyUser>(`${this.userPath}/findUserByHouseReservationId/`+id)
+  }
+
+  public findUserByBoatReservationId(id: number): Observable<MyUser>{
+    return this._http.get<MyUser>(`${this.userPath}/findUserByBoatReservationId/`+id)
   }
 
   public findUserByHouseid(id: number): Observable<MyUser>{
