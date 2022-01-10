@@ -1,13 +1,18 @@
 package com.application.bekend.controller;
 
+import com.application.bekend.DTO.AdditionalServicesDTO;
 import com.application.bekend.DTO.AddressDTO;
 import com.application.bekend.DTO.BoatDTO;
 import com.application.bekend.DTO.FishingAdventureDTO;
+import com.application.bekend.DTO.HouseDTO;
 import com.application.bekend.DTO.NewFishingAdventureDTO;
+import com.application.bekend.DTO.RoomDTO;
+import com.application.bekend.model.AdditionalServices;
 import com.application.bekend.model.Address;
 import com.application.bekend.model.Boat;
 import com.application.bekend.model.FishingAdventure;
 import com.application.bekend.model.House;
+import com.application.bekend.model.Room;
 import com.application.bekend.service.AdditionalServicesService;
 import com.application.bekend.service.AddresService;
 import com.application.bekend.service.BoatService;
@@ -18,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +31,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -87,6 +94,47 @@ public class FishingAdventureController {
         imageService.uploadAdventureImage(newFishingAdventure.getImage(), fishingAdventure.getId());
         additionalServicesService.addMultipleFishingAdventureServices(fishingAdventure, newFishingAdventure.getAdditionalServices());
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+    
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<FishingAdventureDTO> save(@RequestBody FishingAdventureDTO fishingAdventureDTO) {
+        FishingAdventure fishingAdventure = this.fishingAdventureService.getFishingAdventureById(fishingAdventureDTO.getId());
+        List<AdditionalServices> additionalServices = this.additionalServicesService.getAllByFishingAdventureId(fishingAdventureDTO.getId());
+
+        for (AdditionalServices a: additionalServices)
+        {
+            for (AdditionalServicesDTO additionalServicesDTO: fishingAdventureDTO.getAdditionalServices())
+            {
+                if(a.getId() == additionalServicesDTO.getId())
+                {
+                    a.setName(additionalServicesDTO.getName());
+                    a.setPrice(additionalServicesDTO.getPrice());
+                    this.additionalServicesService.save(a);
+                }
+            }
+        }
+
+        Address address = this.addressService.getAddressById(fishingAdventureDTO.getAddress().getId());
+        address.setId(fishingAdventureDTO.getAddress().getId());
+        address.setStreet(fishingAdventureDTO.getAddress().getStreet());
+        address.setCity(fishingAdventureDTO.getAddress().getCity());
+        address.setState(fishingAdventureDTO.getAddress().getState());
+        address.setLongitude(fishingAdventureDTO.getAddress().getLongitude());
+        address.setLatitude(fishingAdventureDTO.getAddress().getLatitude());
+        address.setPostalCode(fishingAdventureDTO.getAddress().getPostalCode());
+        this.addressService.save(address);
+
+        fishingAdventure.setAddress(address);
+        fishingAdventure.setName(fishingAdventureDTO.getName());
+        fishingAdventure.setPromoDescription(fishingAdventureDTO.getPromoDescription());
+        fishingAdventure.setBehaviourRules(fishingAdventureDTO.getBehaviourRules());
+        fishingAdventure.setPricePerHour(fishingAdventureDTO.getPricePerHour());
+        fishingAdventure.setCancalletionFee(fishingAdventureDTO.getCancalletionFee());
+        fishingAdventure.setCancalletionFree(fishingAdventureDTO.isCancalletionFree());
+
+        this.fishingAdventureService.save(fishingAdventure);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
     
 }

@@ -27,15 +27,6 @@ export class AddFishingAdventureActionDialogComponent implements OnInit {
               private _alertService: AlertService) { }
 
   ngOnInit() {
-    this.loadData();
-  }
-
-  loadData(){
-    this._additionalServicesService.getAllByFishingAdventureId(this.adventure.id).subscribe(
-      (additionalServices: AdditionalService[]) => {
-        this.additionalServices = additionalServices
-      }
-    )
   }
 
   addAction() {

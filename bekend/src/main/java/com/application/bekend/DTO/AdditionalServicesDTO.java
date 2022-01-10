@@ -4,6 +4,7 @@ public class AdditionalServicesDTO {
 
     private Long boatId;
     private Long houseId;
+    private Long adventureId;
     private Long id;
     private String name;
     private float price;
@@ -15,13 +16,14 @@ public class AdditionalServicesDTO {
         this.price = price;
     }
 
-    public AdditionalServicesDTO(Long id, String name, float price, boolean checked, Long houseId, Long boatId) {
+    public AdditionalServicesDTO(Long id, String name, float price, boolean checked, Long houseId, Long boatId, Long adventureId) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.checked = checked;
         this.houseId = houseId;
         this.boatId = boatId;
+        this.adventureId = adventureId;
     }
 
     public AdditionalServicesDTO(Long id, String name, float price, boolean checked) {
@@ -81,4 +83,13 @@ public class AdditionalServicesDTO {
     public void setBoatId(Long boatId) {
         this.boatId = boatId;
     }
+
+	public Long getAdventureId() {
+		return adventureId;
+	}
+
+	public void setAdventureId(Long adventureId) {
+		this.adventureId = adventureId;
+	}
+    
 }

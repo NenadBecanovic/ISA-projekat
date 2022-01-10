@@ -1,0 +1,68 @@
+<h1 mat-dialog-title class="ms-3">Nova avantura</h1>
+<div mat-dialog-content>
+  <div class=" d-flex flex-row">
+    <div class="d-flex flex-column ms-3 justify-content-center">
+        <span>Naziv avanture</span>
+        <input type="text" class="form-control" name="name" [(ngModel)]="adventure.name">
+        <span>Ulica i broj</span>
+        <input type="text" class="form-control" name="street" [(ngModel)]="adventure.address.street">
+        <span>Grad</span>
+        <input type="text" class="form-control" name="city" [(ngModel)]="adventure.address.city">
+        <span>Država</span>
+        <input type="text" class="form-control" name="state" [(ngModel)]="adventure.address.state">
+        <span>Poštanski broj</span>
+        <input type="number" class="form-control" name="time"  [(ngModel)]="adventure.address.postalCode">
+        <span>Geografska dužina</span>
+        <input type="number" class="form-control" name="time" [(ngModel)]="adventure.address.longitude">
+        <span>Geografska širina</span>
+        <input type="number" class="form-control" name="time" [(ngModel)]="adventure.address.latitude">
+    </div>
+    <div class="d-flex flex-column ms-5 ">
+        <span>Oprema</span>
+        <input type="text" class="form-control" name="time" [(ngModel)]="adventure.fishingEquipment">
+        <span>Pravila ponašanja</span>
+        <input type="text" class="form-control" name="time" [(ngModel)]="adventure.behaviourRules">
+        <span>Kapacitet</span>
+        <input type="number" class="form-control" name="time" [(ngModel)]="adventure.capacity">
+        <span>Cena(din/h)</span>
+        <input type="number" class="form-control" name="time" [(ngModel)]="adventure.pricePerHour">
+        <span>Besplatno otkazivanje</span>
+        <div class="input-box mt-2">
+          <mat-checkbox name="checkbox" [(ngModel)]="adventure.isCancellationFree" (change)="checkboxChanged($event)"> </mat-checkbox>
+        </div>
+        <span class="mt-1">Procenat prilikom otkazivanja</span>
+        <input type="number" class="form-control" name="time" [(ngModel)]="adventure.cancellationFee">
+    </div>
+    <div class="d-flex flex-column ms-5 ">
+      <span>Dodatni servisi:</span>
+      <span class="">Naziv</span>
+      <input type="text" class="form-control" name="time" [(ngModel)]="additionalService.name">
+      <span class="">Cena</span>
+      <input type="number" class="form-control" name="time" [(ngModel)]="additionalService.price">
+      <input type="button" (click)="addService()" value="Dodaj servis" class="btn3 mt-1">
+      <table class = "input-box">
+        <tr>
+          <th>Dodatna usluga</th>
+          <th>Cena</th>
+        </tr>
+        <tr *ngFor="let serv of additionalServices;let index = index;">
+          <td>
+            <input type="text" name=b{{index}} [(ngModel)]="additionalServices[index].name" placeholder="Unesite naziv usluge">
+          </td>
+          <td>
+            <input type="number" name=c{{index}} [(ngModel)]="additionalServices[index].price" placeholder="Unesite cenu usluge">
+          </td>
+          <td>
+            <button mat-icon-button (click)="deleteAdditionalService(additionalServices[index].id)"> <mat-icon>delete</mat-icon> </button>
+          </td>
+        </tr>
+      </table>
+      <span>Promo opis</span>
+      <textarea type="text" class="wrap" name="time" [(ngModel)]="adventure.promoDescription"></textarea>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Otkaži</button>
+  <button mat-button cdkFocusInitial (click)="editProfile()">Sačuvaj</button>
+</div>

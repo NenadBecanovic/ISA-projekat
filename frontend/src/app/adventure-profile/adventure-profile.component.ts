@@ -15,6 +15,7 @@ import { AddImageDialogComponent } from './add-image-dialog/add-image-dialog.com
 import { AdventureReservationService } from '../service/adventure-reservation.service';
 import { AdventureReservation } from '../model/adventure-reservation';
 import { AddFishingAdventureActionDialogComponent } from './add-action-dialog/add-action-dialog.component';
+import { EditAdventureProfileDialogComponent } from './edit-adventure-profile-dialog/edit-adventure-profile-dialog.component';
 
 @Component({
   selector: 'app-adventure-profile',
@@ -54,13 +55,23 @@ export class AdventureProfileComponent implements OnInit {
       data: {},
     });
     dialogRef.componentInstance.adventure = this.fishingAdventure;
+    dialogRef.componentInstance.additionalServices = this.additionalServices;
     dialogRef.afterClosed().subscribe(result => {
       window.location.reload();
     });
   }
 
   editAdventureDialog(){
-
+    const dialogRef = this.dialog.open(EditAdventureProfileDialogComponent, {
+      width: '800px',
+      height: '570px',
+      data: {},
+    });
+    dialogRef.componentInstance.adventure = this.fishingAdventure;
+    dialogRef.componentInstance.additionalServices = this.additionalServices;
+    dialogRef.afterClosed().subscribe(result => {
+      window.location.reload();
+    });
   }
 
   showReservationsDialog(id: number){
