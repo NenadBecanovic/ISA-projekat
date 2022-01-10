@@ -1,10 +1,13 @@
 <div id="house-profile">
   <app-header></app-header>
-  <br><br><br>
-  <div>
-    {{ user.firstName }} {{ user.lastName }}
-  </div>
+  <br><br><br><br>
   <div style="margin-top: 10px" class="house-container">
+    <div style="">
+      {{ user.firstName }} {{ user.lastName }}
+    </div>
+    <button (click)="openProfileDialog()" > Profil</button>
+    <button (click)="deleteProfileDialog()" > Zahtev za brisanje naloga</button>
+
     <mat-grid-list cols="8" rowHeight="1.5:1" class="house-container">
 
       <mat-grid-tile [colspan]="6">

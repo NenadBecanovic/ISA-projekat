@@ -7,6 +7,9 @@ import {BoatService} from "../service/boat.service";
 import {MyUser} from "../model/my-user";
 import {AuthentificationService} from "../authentification/authentification.service";
 import {Address} from "../model/address";
+import {ClientProfileComponent} from "../clientHome/client-profile/client-profile.component";
+import {DeleteAccountComponent} from "../clientHome/delete-account/delete-account.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-home-page-boat-owner',
@@ -20,7 +23,7 @@ export class HomePageBoatOwnerComponent implements OnInit {
   user: MyUser = new MyUser(0, '','','','','','',this.address, '','');
   filterTerm!: string;
 
-  constructor(private _boatService: BoatService, private _router: Router, private _authentification: AuthentificationService) { }
+  constructor(private _boatService: BoatService, private _router: Router, private _authentification: AuthentificationService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.loadData();
@@ -62,5 +65,27 @@ export class HomePageBoatOwnerComponent implements OnInit {
 
   addActionDialog() {
     this._router.navigate(['/add-boat'])
+  }
+
+  openProfileDialog() {
+    const dialogRef = this.dialog.open(ClientProfileComponent, {
+      width: '600px',
+      data: {},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
+  }
+
+  deleteProfileDialog() {
+    const dialogRef = this.dialog.open(DeleteAccountComponent,{
+      width: '400px',
+      data: {},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
   }
 }
