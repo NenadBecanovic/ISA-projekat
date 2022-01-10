@@ -170,14 +170,6 @@ public class FishingAdventure {
     	this.images.add(image);
     }
 
-    public Set<Feedback> getFeedbacks() {
-        return feedbacks;
-    }
-
-    public void setFeedbacks(Set<Feedback> feedbacks) {
-        this.feedbacks = feedbacks;
-    }
-
     public MyUser getInstructor() {
         return instructor;
     }
@@ -208,14 +200,6 @@ public class FishingAdventure {
 
 	public void setFeedbacks(Set<Feedback> feedbacks) {
 		this.feedbacks = feedbacks;
-	}
-
-	public MyUser getInstructor() {
-		return instructor;
-	}
-
-	public void setInstructor(MyUser instructor) {
-		this.instructor = instructor;
 	}
 	
 	public void addAdventureReservation(AdventureReservation adventureReservation)

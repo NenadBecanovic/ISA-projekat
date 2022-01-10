@@ -128,14 +128,6 @@ public class AdventureReservation {
     public void setHasAppealOwner(Boolean hasAppealOwner) {
         this.hasAppealOwner = hasAppealOwner;
     }
-
-    public MyUser getGuest() {
-        return guest;
-    }
-
-    public void setGuest(MyUser guest) {
-        this.guest = guest;
-    }
     
 	public MyUser getGuest() {
 		return guest;
