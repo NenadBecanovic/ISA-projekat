@@ -124,7 +124,7 @@ public class AdditionalServicesContoller {
         AdditionalServices additionalServices = new AdditionalServices(dto.getId(), dto.getName(), dto.getPrice(), new HashSet<>(), new HashSet<>(), new HashSet<>());
         House house = this.houseService.getHouseById(dto.getHouseId());
         Boat boat = this.boatService.getBoatById(dto.getBoatId());
-        FishingAdventure adventure = this.fishingAdventureService.getFishingAdventureById(dto.getBoatId());
+        FishingAdventure adventure = this.fishingAdventureService.getFishingAdventureById(dto.getAdventureId());
 
         if (house != null) {
             Set<House> houses = additionalServices.getHouses();
@@ -141,7 +141,6 @@ public class AdditionalServicesContoller {
             adventures.add(adventure);
             additionalServices.setFishingAdventures(adventures);
         }
-
         this.additionalServicesService.save(additionalServices);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
