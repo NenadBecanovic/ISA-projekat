@@ -14,7 +14,7 @@ export class HouseReportComponent implements OnInit {
 
   houseReservationId: number = 0;
   houseId: number = 0;
-  report: Report = new Report(0, '', false, false, 0, 0)
+  report: Report = new Report(0, '', false, false, 0, 0, 0)
   alreadyDone: boolean = false;
 
   constructor(private _route: ActivatedRoute, private _reportService: ReportService, private _router: Router, private _alertService: AlertService) { }

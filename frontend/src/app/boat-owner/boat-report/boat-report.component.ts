@@ -13,7 +13,7 @@ export class BoatReportComponent implements OnInit {
 
   boatReservationId: number = 0;
   boatId: number = 0;
-  report: Report = new Report(0, '', false, false, 0, 0)
+  report: Report = new Report(0, '', false, false, 0, 0, 0)
   alreadyDone: boolean = false;
 
   constructor(private _route: ActivatedRoute, private _reportService: ReportService, private _router: Router, private _alertService: AlertService) { }

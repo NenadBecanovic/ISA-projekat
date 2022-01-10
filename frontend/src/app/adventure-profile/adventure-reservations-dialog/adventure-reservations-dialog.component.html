@@ -2,10 +2,6 @@
 <div mat-dialog-content>
   <div class="suspicious-customers-style mt-3 d-flex flex-row" *ngFor="let reservation of allReservations">
     <div class="d-flex flex-column ms-3 justify-content-top">
-        <span class="basic-title mb-1 nowrap">
-            Naziv avanture
-        </span>
-        <span class="me-2 nowrap">{{reservation.name}}</span>
         <span class="me-2 nowrap">Pocetak: 15.12.2022. 6:00</span>
         <span class="me-2 nowrap">Kraj: 15.12.2022. 9:00</span>
     </div>
@@ -42,11 +38,8 @@
   </div>
   <div class="suspicious-customers-style mt-3 d-flex flex-row">
     <div class="d-flex flex-column ms-3 justify-content-top">
-        <span class="basic-title mb-1 nowrap">
-            Naziv avanture
-        </span>
-        <span class="me-2 no-wrap">Pocetak: 15.12.2022. 6:00</span>
-        <span class="me-2 no-wrap">Kraj: 15.12.2022. 9:00</span>
+        <span class="me-2 bold no-wrap">Pocetak: 15.12.2022. 6:00</span>
+        <span class="me-2 bold no-wrap">Kraj: 15.12.2022. 9:00</span>
     </div>
     <div class="d-flex ms-5 flex-column justify-content-top">
         <span class="basic-title mb-1">
@@ -74,10 +67,35 @@
         </span>
         <span class="me-2">10000</span>
     </div>
-    <button type="button" class="btn btn-danger ms-5 mt-5 mb-5 justify-end align-items-center" >
-        <img src=""/>
+    <button type="button" (click)="makeReport()" *ngIf="true" class="btn btn-danger ms-5 mt-5 mb-5 justify-end align-items-center" >
         <span>Popuni izvestaj</span>
     </button>
+  </div>
+  <div [hidden]="showMakeReport" class="mt-2 suspicious-customers-style">
+    <form #addActionForm = "ngForm" (ngSubmit)="addReport()">
+        <div class = "d-flex flex-row" >
+          <div class = "input-box">
+            <textarea name="comment" class="text-area-report" placeholder="Unesite komentar" [(ngModel)]="report.comment" required></textarea>
+          </div>
+          <div class="d-flex flex-column me-5">
+            <div class = "input-box ms-3 mt-3">
+                <span class="details"></span>
+                <div>
+                  <mat-checkbox name="checkbox1" [(ngModel)]="report.penaltyProposal"> Predlog za sankcionisanje klijenta </mat-checkbox>
+                </div>
+              </div>
+              <div class = "input-box ms-3 mt-3 me-3">
+                <span class="details"></span>
+                <div>
+                  <mat-checkbox name="checkbox2" [(ngModel)]="report.missedReservation"> Klijent se nije pojavio </mat-checkbox>
+                </div>
+              </div>
+          </div>
+          <button type="submit" class="btn btn-danger ms-5 mt-5 mb-5 justify-end align-items-center" >
+            <span>Pošalji izveštaj</span>
+        </button>
+        </div>
+      </form>
   </div>
   <div class="suspicious-customers-style mt-3 d-flex flex-row">
     <div class="d-flex flex-column ms-3 justify-content-top">
@@ -235,8 +253,4 @@
         <span>Popuni izvestaj</span>
     </button>
   </div>
-</div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button cdkFocusInitial>Ok</button>
 </div>

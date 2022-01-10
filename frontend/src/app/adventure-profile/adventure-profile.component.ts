@@ -77,7 +77,7 @@ export class AdventureProfileComponent implements OnInit {
   showReservationsDialog(id: number){
     const dialogRef = this.dialog.open(AdventureReservationsDialogComponent, {
       width: '1000px',
-      height: '500px',
+      height: '570px',
       data: {},
     });
     dialogRef.componentInstance.adventureId = id;
