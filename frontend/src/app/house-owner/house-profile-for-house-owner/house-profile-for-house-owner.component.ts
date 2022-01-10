@@ -44,6 +44,10 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
   allCourses: HouseReservation[] = new Array();
   date: Date = new Date();
   // user: MyUser = new MyUser(0, '','','','','','',this.address, '','');
+  userFirstNameSearch: string = "";
+  userLastNameSearch: string = "";
+  userUsernameSearch: string = "";
+  userSearch: HouseReservation[] = new Array();
 
   constructor(public dialog: MatDialog, private _houseService: HouseService, private _addressService: AddressService, private _roomService: RoomService,
               private _additionalServices: AdditionalServicesService, private _imageService: ImageService, private _houseReservationService: HouseReservationService,
@@ -135,6 +139,7 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
                   this.reservedCourses.push(course);
               }
             }
+            this.userSearch = this.reservedCourses
           }
         )
       }
@@ -181,5 +186,19 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
 
   seeGuestProfile(id: number) {
     this._router.navigate(['/guest-profile', id])
+  }
+
+  clearUsers() {
+    this.reservedCourses = this.userSearch
+    this.userFirstNameSearch = "";
+    this.userLastNameSearch = "";
+    this.userUsernameSearch = "";
+  }
+
+  searchUsers() {
+    this.reservedCourses = this.userSearch.filter(s =>
+      (s.guest.firstName).toLowerCase().includes(this.userFirstNameSearch.toLowerCase()) &&
+      (s.guest.lastName).toLowerCase().includes(this.userLastNameSearch.toLowerCase()) &&
+      (s.guest.username).toLowerCase().includes(this.userUsernameSearch.toLowerCase()))
   }
 }

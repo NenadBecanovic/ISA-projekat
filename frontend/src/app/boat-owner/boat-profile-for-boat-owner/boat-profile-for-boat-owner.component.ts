@@ -39,6 +39,10 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
   allCourses: BoatReservation[] = new Array();
   boatServicesLoaded: boolean = false;
   date: Date = new Date();
+  userUsernameSearch: string = "";
+  userFirstNameSearch: string = "";
+  userLastNameSearch: string = "";
+  userSearch: BoatReservation[] = new Array();
 
   constructor(private _boatService: BoatService, private _additionalServices: AdditionalServicesService, private _imageService: ImageService,
               private _boatReservationService: BoatReservationService, private _router: Router, private _route: ActivatedRoute,
@@ -119,6 +123,7 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
                 this.reservedCourses.push(course);
               }
             }
+            this.userSearch = this.reservedCourses
           }
         )
 
@@ -157,5 +162,19 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
 
   seeGuestProfile(id: number) {
     this._router.navigate(['/guest-profile-boat', id])
+  }
+
+  clearUsers() {
+    this.reservedCourses = this.userSearch
+    this.userFirstNameSearch = "";
+    this.userLastNameSearch = "";
+    this.userUsernameSearch = "";
+  }
+
+  searchUsers() {
+    this.reservedCourses = this.userSearch.filter(s =>
+      (s.guest.firstName).toLowerCase().includes(this.userFirstNameSearch.toLowerCase()) &&
+      (s.guest.lastName).toLowerCase().includes(this.userLastNameSearch.toLowerCase()) &&
+      (s.guest.username).toLowerCase().includes(this.userUsernameSearch.toLowerCase()))
   }
 }

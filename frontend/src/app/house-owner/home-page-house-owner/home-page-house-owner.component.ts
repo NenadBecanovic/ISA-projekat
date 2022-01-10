@@ -19,6 +19,9 @@ export class HomePageHouseOwnerComponent implements OnInit {
   houses: House[] = new Array();
   address: Address = new Address(0,"","","",0,0,31100)
   user: MyUser = new MyUser(0, '','','','','','',this.address, '','');
+  housesSearch: House[] = new Array();
+  houseNameSearch: string = "";
+  houseAddressSearch: string = "";
 
   constructor(private _houseService: HouseService, private _router: Router, private _authentification: AuthentificationService, public dialog: MatDialog) { }
 
@@ -44,7 +47,8 @@ export class HomePageHouseOwnerComponent implements OnInit {
                 this.houses.push(h);
               }
             }
-          }
+        this.housesSearch = this.houses
+      }
     )
   }
 
@@ -84,5 +88,16 @@ export class HomePageHouseOwnerComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
 
     });
+  }
+
+  searchHouses() {
+    this.houses = this.housesSearch.filter(s => s.name.toLowerCase().includes(this.houseNameSearch.toLowerCase()) &&
+      (s.address.street + " " + s.address.city + " " + s.address.state).toLowerCase().includes(this.houseAddressSearch.toLowerCase()))
+  }
+
+  clearHouses() {
+    this.houses = this.housesSearch
+    this.houseNameSearch = "";
+    this.houseAddressSearch = "";
   }
 }
