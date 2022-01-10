@@ -44,6 +44,7 @@ import {
 } from "./create-reservation-for-client-boat/create-reservation-for-client-boat.component";
 import {HomePageBoatOwnerComponent} from "./home-page-boat-owner/home-page-boat-owner.component";
 import {AddBoatComponent} from "./add-boat/add-boat.component";
+import {BoatReportComponent} from "./boat-report/boat-report.component";
 
 
 const routes: Routes = [
@@ -72,12 +73,13 @@ const routes: Routes = [
   { path: 'define-unavailable-period-house/:id', component: DefineUnavailablePeriodHouseComponent},
   { path: 'create-reservation-for-client/:id', component: CreateReservationForClientComponent},
   { path: 'guest-profile/:id', component: GuestProfileComponent},
-  { path: 'house-report/:id', component: HouseReportComponent},
+  { path: 'house-report/:id/:houseId', component: HouseReportComponent},
   { path: 'define-unavailable-period-boat/:id', component: DefineUnavailablePeriodBoatComponent},
   { path: 'guest-profile-boat/:id', component: GuestProfileBoatComponent},
   { path: 'create-reservation-for-client-boat/:id', component: CreateReservationForClientBoatComponent},
   { path:'home-page-boat-owner', component: HomePageBoatOwnerComponent},
   { path:'add-boat', component: AddBoatComponent},
+  { path: 'boat-report/:id/:boatId', component: BoatReportComponent},
 ];
 
 @NgModule({

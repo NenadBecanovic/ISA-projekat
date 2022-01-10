@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import {Report} from "../model/report";
 import {ActivatedRoute, Router} from "@angular/router";
-import {HouseReservation} from "../model/house-reservation";
 import {ReportService} from "../service/report.service";
 import {AlertService} from "ngx-alerts";
 
 @Component({
-  selector: 'app-house-report',
-  templateUrl: './house-report.component.html',
-  styleUrls: ['./house-report.component.css']
+  selector: 'app-boat-report',
+  templateUrl: './boat-report.component.html',
+  styleUrls: ['./boat-report.component.css']
 })
-export class HouseReportComponent implements OnInit {
+export class BoatReportComponent implements OnInit {
 
-  houseReservationId: number = 0;
-  houseId: number = 0;
+  boatReservationId: number = 0;
+  boatId: number = 0;
   report: Report = new Report(0, '', false, false, 0, 0)
   alreadyDone: boolean = false;
 
@@ -21,19 +20,19 @@ export class HouseReportComponent implements OnInit {
 
   ngOnInit(): void {
     // @ts-ignore
-    this.houseReservationId = +this._route.snapshot.paramMap.get('id');
+    this.boatReservationId = +this._route.snapshot.paramMap.get('id');
     // @ts-ignore
-    this.houseId = +this._route.snapshot.paramMap.get('houseId');
+    this.boatId = +this._route.snapshot.paramMap.get('boatId');
 
     this.loadData();
   }
 
   addReport() {
-    this.report.houseReservationId = this.houseReservationId;
+    this.report.boatReservationId = this.boatReservationId;
 
     this._reportService.save(this.report).subscribe(
       (report: Report) => {
-        this._router.navigate(['house-profile-for-house-owner/', this.houseId])
+        this._router.navigate(['boat-profile-for-boat-owner/', this.boatId])
       },
       (error) => {
         this._alertService.danger('Doslo je do greske');
@@ -42,7 +41,7 @@ export class HouseReportComponent implements OnInit {
   }
 
   private loadData() {
-    this._reportService.getReportByHouseReservationId(this.houseReservationId).subscribe(
+    this._reportService.getReportByBoatReservationId(this.boatReservationId).subscribe(
       (report: Report) => {
         this.alreadyDone = true;
       }

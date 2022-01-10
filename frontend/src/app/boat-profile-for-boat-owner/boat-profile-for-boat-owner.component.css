@@ -230,3 +230,17 @@ agm-map {
   margin: auto;
   margin-left: 19vw;
 }
+
+.report {
+  font-family: "Poppins", sans-serif;
+  color:white;
+  background-color: #31B4E5;
+  font-size: 20px;
+  align-items: center;
+  /*position: center;*/
+  /*position: absolute;*/
+  /*left: 50%;*/
+  /*-ms-transform: translate(-50%, -50%);*/
+  /*transform: translate(-50%, -50%);*/
+  /*padding: 5px 10px;*/
+}

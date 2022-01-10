@@ -30,6 +30,9 @@ public class BoatReservation {
     @ManyToMany(mappedBy = "boatReservationsServices")
     private Set<AdditionalServices> additionalServices = new HashSet<>();
 
+    @OneToOne(mappedBy = "boatReservation")
+    private Report report;
+
     public BoatReservation(Long id, Date startDate, Date endDate, int maxGuests, float price, boolean isAvailable,Boat boat) {
         this.id = id;
         this.startDate = startDate;
@@ -129,5 +132,13 @@ public class BoatReservation {
 
     public void setAction(boolean action) {
         isAction = action;
+    }
+
+    public Report getReport() {
+        return report;
+    }
+
+    public void setReport(Report report) {
+        this.report = report;
     }
 }

@@ -73,6 +73,7 @@ import { DefineUnavailablePeriodBoatComponent } from './define-unavailable-perio
 import { GuestProfileBoatComponent } from './guest-profile-boat/guest-profile-boat.component';
 import { CreateReservationForClientBoatComponent } from './create-reservation-for-client-boat/create-reservation-for-client-boat.component';
 import { AddBoatComponent } from './add-boat/add-boat.component';
+import { BoatReportComponent } from './boat-report/boat-report.component';
 
 
 const MaterialComponents = [
@@ -133,6 +134,7 @@ const MaterialComponents = [
     GuestProfileBoatComponent,
     CreateReservationForClientBoatComponent,
     AddBoatComponent,
+    BoatReportComponent,
   ],
   imports: [
     RouterModule,

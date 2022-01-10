@@ -13,6 +13,7 @@ import {BoatReservationSlide} from "../model/boat-reservation-slide";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MyUser} from "../model/my-user";
 import {MyUserService} from "../service/my-user.service";
+import {DatePipe} from "@angular/common";
 
 
 @Component({
@@ -37,9 +38,11 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
   reservedCourses: BoatReservation[] = new Array();
   allCourses: BoatReservation[] = new Array();
   boatServicesLoaded: boolean = false;
+  date: Date = new Date();
 
   constructor(private _boatService: BoatService, private _additionalServices: AdditionalServicesService, private _imageService: ImageService,
-              private _boatReservationService: BoatReservationService, private _router: Router, private _route: ActivatedRoute, private _myUserService: MyUserService) {
+              private _boatReservationService: BoatReservationService, private _router: Router, private _route: ActivatedRoute,
+              private _myUserService: MyUserService, public datepipe: DatePipe) {
   }
 
   ngOnInit(): void {
@@ -94,6 +97,7 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
         this._boatReservationService.getAllActionsByBoatId(this.boat.id).subscribe(
           (courses_slides: BoatReservationSlide[]) => {
             this.courses_slides = courses_slides
+            console.log(this.courses_slides)
             this.isSlideLoaded = true
           }
         )
@@ -134,12 +138,21 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
     this._router.navigate(['/create-reservation-for-client-boat', this.boat.id])
   }
 
-  checkDate(endDate: any) {
+  checkDate(endDate: string) {
+    this.datepipe.transform(this.date, 'dd/MM/yyyy HH:mm:ss');
 
+    if (Number(endDate) < Number(Date.parse(this.date.toString()).toString()))
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
   }
 
-  makeReport() {
-
+  makeReport(id: number) {
+    this._router.navigate(['/boat-report', id, this.boat.id])
   }
 
   seeGuestProfile(id: number) {

@@ -160,8 +160,8 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
     this._router.navigate(['/create-reservation-for-client', this.house.id])
   }
 
-  makeReport() {
-    this._router.navigate(['/house-report', this.house.id])
+  makeReport(id: number) {
+    this._router.navigate(['/house-report', id, this.house.id])
   }
 
   checkDate(endDate: string) {

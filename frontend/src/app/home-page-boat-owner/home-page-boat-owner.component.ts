@@ -18,6 +18,7 @@ export class HomePageBoatOwnerComponent implements OnInit {
   boats: Boat[] = new Array();
   address: Address = new Address(0,"","","",0,0,0)
   user: MyUser = new MyUser(0, '','','','','','',this.address, '','');
+  filterTerm!: string;
 
   constructor(private _boatService: BoatService, private _router: Router, private _authentification: AuthentificationService) { }
 

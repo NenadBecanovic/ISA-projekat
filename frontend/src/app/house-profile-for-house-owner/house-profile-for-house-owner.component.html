@@ -190,8 +190,13 @@
                           </div>
                         </div>
                         <div style="float: right">
-                          <label> ({{ reserved.guest.username }}) {{ reserved.guest.firstName }} {{ reserved.guest.lastName }} </label>
-                          <button mat-icon-button class="btn" (click)="seeGuestProfile(reserved.id)" > <mat-icon>person</mat-icon> </button>
+                          <label>({{ reserved.guest.username }})</label>
+                          <button mat-icon-button class="btn" (click)="seeGuestProfile(reserved.id)"> <mat-icon>person</mat-icon> </button>
+                        </div>
+                        <div style="float: right">
+                        </div>
+                        <div style="float: left; width: 75%;">
+                          <label>{{ reserved.guest.firstName }} {{ reserved.guest.lastName }}</label>
                         </div>
                         <div style="display:inline;" >
                           <div style="float: left; width: 100%;">
@@ -204,8 +209,9 @@
                           </div>
                         </div>
                         <div style="float: right">
-                          <button *ngIf="checkDate(reserved.endDate)" class="btn report" (click)="makeReport()"> Popuni izvestaj </button>
+                          <button *ngIf="checkDate(reserved.endDate)" class="btn report" (click)="makeReport(reserved.id)"> Popuni izvestaj </button>
                         </div>
+
                       </mat-grid-tile>
                     </mat-grid-list>
                   </mat-card>
