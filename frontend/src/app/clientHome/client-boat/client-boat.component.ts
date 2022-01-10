@@ -14,7 +14,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {MyUser} from "../../model/my-user";
 import {Subscription} from "../../model/subscription";
 import {MyUserService} from "../../service/my-user.service";
-import {AuthentificationService} from "../../authentification/authentification.service";
+import {AuthentificationService} from "../../auth/authentification/authentification.service";
 
 @Component({
   selector: 'app-client-boat',
@@ -31,7 +31,7 @@ export class ClientBoatComponent implements OnInit {
   subscription: Subscription = new Subscription(0,this.user,this.user)
   navigationEquipment: NavigationEquipment = new NavigationEquipment(0,true, true, true, true);
   additionalServices: AdditionalService[] = new Array<AdditionalService>();
-  boat: Boat = new Boat(0, '', '', '', 0, 0, '', 0, 0, 0, 0, false, 0, '', this.address, this.navigationEquipment, this.additionalServices, 0);
+  boat: Boat = new Boat(0, '', '', '', 0, 0, '', 0, 0, 0, 0, false, 0, '', this.address, this.navigationEquipment, this.additionalServices, 0, 0);
   courses: BoatReservation[] = new Array<BoatReservation>();
   courses_slides: BoatReservationSlide[] = new Array<BoatReservationSlide>();
   isSlideLoaded: boolean = false;

@@ -59,6 +59,12 @@ public class MyUser implements UserDetails {
     @OneToMany(mappedBy = "myUser", fetch = FetchType.EAGER)
     private Set<Feedback> feedbacks= new HashSet<>();
 
+    @OneToMany(mappedBy = "senderId", fetch = FetchType.EAGER)
+    private Set<Appeal> appealsSent= new HashSet<>();
+
+    @OneToMany(mappedBy = "ownerId", fetch = FetchType.EAGER)
+    private Set<Appeal> appelsFor = new HashSet<>();
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_authorities", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
     private List<Authority> authorities = new ArrayList<>();
@@ -318,5 +324,21 @@ public class MyUser implements UserDetails {
 
     public void setSubscriptions_owners(Set<Subscription> subscriptions_owners) {
         this.subscriptions_owners = subscriptions_owners;
+    }
+
+    public Set<Appeal> getAppealsSent() {
+        return appealsSent;
+    }
+
+    public void setAppealsSent(Set<Appeal> appealsSent) {
+        this.appealsSent = appealsSent;
+    }
+
+    public Set<Appeal> getAppelsFor() {
+        return appelsFor;
+    }
+
+    public void setAppelsFor(Set<Appeal> appelsFor) {
+        this.appelsFor = appelsFor;
     }
 }

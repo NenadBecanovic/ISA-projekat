@@ -18,6 +18,10 @@ public class HouseReservation {
     private boolean isAvailable;
     private boolean availabilityPeriod = false;
     private boolean isAction = false;
+    private Boolean hasFeedbackOwner = false;
+    private Boolean hasFeedbackEntity = false;
+    private Boolean hasAppealOwner = false;
+    private Boolean hasAppealEntity = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "guest_id")
@@ -30,6 +34,9 @@ public class HouseReservation {
 
     @ManyToMany(mappedBy = "houseReservationsServices")
     private Set<AdditionalServices> additionalServices = new HashSet<>();
+
+    @OneToOne(mappedBy = "houseReservation")
+    private Report report;
 
     public HouseReservation(Long id, Date startDate, Date endDate, int maxGuests, float price, boolean isAvailable, House house) {
         this.id = id;
@@ -134,5 +141,45 @@ public class HouseReservation {
 
     public void setAction(boolean action) {
         isAction = action;
+    }
+
+    public Boolean getHasFeedbackOwner() {
+        return hasFeedbackOwner;
+    }
+
+    public void setHasFeedbackOwner(Boolean hasFeedbackOwner) {
+        this.hasFeedbackOwner = hasFeedbackOwner;
+    }
+
+    public Boolean getHasFeedbackEntity() {
+        return hasFeedbackEntity;
+    }
+
+    public void setHasFeedbackEntity(Boolean hasFeedbackEntity) {
+        this.hasFeedbackEntity = hasFeedbackEntity;
+    }
+
+    public Boolean getHasAppealOwner() {
+        return hasAppealOwner;
+    }
+
+    public void setHasAppealOwner(Boolean hasAppealOwner) {
+        this.hasAppealOwner = hasAppealOwner;
+    }
+
+    public Boolean getHasAppealEntity() {
+        return hasAppealEntity;
+    }
+
+    public void setHasAppealEntity(Boolean hasAppealEntity) {
+        this.hasAppealEntity = hasAppealEntity;
+    }
+    
+    public Report getReport() {
+        return report;
+    }
+
+    public void setReport(Report report) {
+        this.report = report;
     }
 }

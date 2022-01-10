@@ -6,6 +6,8 @@ import {MyUser} from "../model/my-user";
 import {DeleteRequest} from "../model/delete-request"
 import {Image} from "../model/image";
 import {Subscription} from "../model/subscription";
+import {Feedback} from "../model/feedback";
+import {Apeal} from "../model/apeal";
 
 @Injectable({
   providedIn: 'root'
@@ -28,8 +30,16 @@ export class MyUserService {
     return this._http.get<MyUser[]>(`${this.userPath}/getAllByHouseId/`+id)
   }
 
+  public getAllByBoatId(id: number): Observable<MyUser[]>{
+    return this._http.get<MyUser[]>(`${this.userPath}/getAllByBoatId/`+id)
+  }
+
   public findUserByHouseReservationId(id: number): Observable<MyUser>{
     return this._http.get<MyUser>(`${this.userPath}/findUserByHouseReservationId/`+id)
+  }
+
+  public findUserByBoatReservationId(id: number): Observable<MyUser>{
+    return this._http.get<MyUser>(`${this.userPath}/findUserByBoatReservationId/`+id)
   }
 
   public findUserByHouseid(id: number): Observable<MyUser>{
@@ -56,6 +66,14 @@ export class MyUserService {
     return this._http.delete<Boolean>(`${this.userPath}/deleteSubscriptionById/`+ subscriptionId)
   }
 
+  public saveFeedback(feedback: Feedback): Observable<Feedback>{
+    return this._http.post<Feedback>(`${this.userPath}/saveFeedback`,feedback)
+  }
+
+  public saveApeal(appeal: Apeal): Observable<Apeal>{
+    return this._http.post<Apeal>(`${this.userPath}/saveAppeal`,appeal)
+  }
+  
   public findUserByFishingAdventureReservationId(id: number): Observable<MyUser>{
     return this._http.get<MyUser>(`${this.userPath}/findUserByFishingAdventureReservationId/`+id)
   }

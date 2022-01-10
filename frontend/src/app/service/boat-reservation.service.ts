@@ -30,4 +30,20 @@ export class BoatReservationService {
   public delete(id: number): Observable<boolean> {
     return this._http.delete<boolean>(`${this.userPath}/delete/`+id)
   }
+
+  public getAllActionsByBoatId(id: number): Observable<BoatReservationSlide[]> {
+    return this._http.get<BoatReservationSlide[]>(`${this.userPath}/getAllActionsByBoatId/`+id)
+  }
+
+  public getAllByBoatIdPlane(id: number): Observable<BoatReservation[]> {
+    return this._http.get<BoatReservation[]>(`${this.userPath}/getAllByBoatIdPlane/`+id)
+  }
+
+  public getBoatReservationsByGuestId(id: number): Observable<BoatReservation[]> {
+    return this._http.get<BoatReservation[]>(`${this.userPath}/getBoatReservationsByGuestId/`+id)
+  }
+
+  public getBoatReservationByBoatOwnerId(id: number): Observable<BoatReservation[]> {
+    return this._http.get<BoatReservation[]>(`${this.userPath}/getBoatReservationByBoatOwnerId/`+id)
+  }
 }

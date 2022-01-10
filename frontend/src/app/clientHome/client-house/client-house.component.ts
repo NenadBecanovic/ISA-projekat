@@ -15,7 +15,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {MyUserService} from "../../service/my-user.service";
 import {MyUser} from "../../model/my-user";
 import {Subscription} from "../../model/subscription";
-import {AuthentificationService} from "../../authentification/authentification.service";
+import {AuthentificationService} from "../../auth/authentification/authentification.service";
 
 @Component({
   selector: 'app-client-house',
@@ -32,7 +32,7 @@ export class ClientHouseComponent implements OnInit {
   isLoaded: boolean = false;
   rooms: Room[] = new Array<Room>();
   additionalServices: AdditionalService[] = new Array<AdditionalService>();
-  house: House = new House(0,'', this.address, '', '', 0, false, 0, this.rooms, this.additionalServices, 0);
+  house: House = new House(0,'', this.address, '', '', 0, false, 0, this.rooms, this.additionalServices, 0, 0);
   courses_slides: HouseReservationSlide[] = new Array<HouseReservationSlide>();
   isSlideLoaded: boolean = false;
   lat = 0;

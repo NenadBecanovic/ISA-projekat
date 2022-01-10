@@ -4,12 +4,12 @@ package com.application.bekend.controller;
 import com.application.bekend.DTO.*;
 import com.application.bekend.model.RequestForAccountDeleting;
 import com.application.bekend.model.Subscription;
+import com.application.bekend.service.AppealService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.application.bekend.DTO.AddressDTO;
 import com.application.bekend.DTO.MyUserDTO;
-import com.application.bekend.model.House;
 import com.application.bekend.model.MyUser;
 import com.application.bekend.service.HouseService;
 import com.application.bekend.service.MyUserService;
@@ -31,12 +31,14 @@ public class MyUserController {
     private final MyUserService myUserService;
     private final ModelMapper modelMapper;
     private final HouseService houseService;
+    private final AppealService appealService;
 
     @Autowired
-    public MyUserController(MyUserService myUserService, ModelMapper modelMapper,  HouseService houseService) {
+    public MyUserController(MyUserService myUserService, ModelMapper modelMapper, HouseService houseService, AppealService appealService) {
         this.myUserService = myUserService;
         this.modelMapper = modelMapper;
         this.houseService = houseService;
+        this.appealService = appealService;
     }
 
     @GetMapping("/findUserByEmail/{email}")
@@ -83,6 +85,22 @@ public class MyUserController {
         return new ResponseEntity<>(myUserDTOS, HttpStatus.OK);
     }
 
+    @GetMapping("/getAllByBoatId/{id}")
+    public ResponseEntity<Set<MyUserDTO>> getAllByBoatId(@PathVariable("id") Long id) {
+        Set<MyUserDTO> myUserDTOS = new HashSet<>();
+
+        for (MyUser user: this.myUserService.getAllByBoatId(id)) {
+            AddressDTO addressDTO = new AddressDTO(user.getAddress().getId(), user.getAddress().getStreet(), user.getAddress().getCity(), user.getAddress().getState(),
+                    user.getAddress().getLongitude(), user.getAddress().getLatitude(), user.getAddress().getPostalCode());
+
+            MyUserDTO dto = new MyUserDTO(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getUsername(), addressDTO, user.getPhoneNumber());
+            dto.setId(user.getId());
+            myUserDTOS.add(dto);
+        }
+
+        return new ResponseEntity<>(myUserDTOS, HttpStatus.OK);
+    }
+
     @GetMapping("/findUserByHouseReservationId/{id}")
     public ResponseEntity<MyUserDTO> findUserByHouseReservationId(@PathVariable("id") Long id) {
         MyUser myUser = this.myUserService.findUserByHouseReservationId(id);
@@ -95,6 +113,17 @@ public class MyUserController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    @GetMapping("/findUserByBoatReservationId/{id}")
+    public ResponseEntity<MyUserDTO> findUserByBoatReservationId(@PathVariable("id") Long id) {
+        MyUser myUser = this.myUserService.findUserByBoatReservationId(id);
+
+        AddressDTO addressDTO = new AddressDTO(myUser.getAddress().getId(), myUser.getAddress().getStreet(), myUser.getAddress().getCity(), myUser.getAddress().getState(),
+                myUser.getAddress().getLongitude(), myUser.getAddress().getLatitude(), myUser.getAddress().getPostalCode());
+        MyUserDTO dto = new MyUserDTO(myUser.getId(), myUser.getFirstName(), myUser.getLastName(), myUser.getEmail(), myUser.getPassword(), myUser.getUsername(),
+                addressDTO, myUser.getPhoneNumber());
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
 
     @PostMapping("/saveSubscription")
     public ResponseEntity<SubscriptionDTO> updateUser(@RequestBody SubscriptionDTO dto){
@@ -147,6 +176,44 @@ public class MyUserController {
     public ResponseEntity<Boolean> deleteSubscriptionById(@PathVariable("id") Long id){
         this.myUserService.deleteSubscriptionById(id);
         return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
+    @PostMapping("/saveFeedback")
+    public ResponseEntity<FeedbackDTO> saveFeedbackEntity(@RequestBody FeedbackDTO dto){
+
+
+        if(dto.isHasHouse()){
+            this.myUserService.saveFeedbackHouse(dto);
+        }else if(dto.isHasHouseOwner()){
+            this.myUserService.saveFeedbackHouseOwner(dto);
+        }else if(dto.isHasBoat()){
+            this.myUserService.saveFeedbackBoat(dto);
+        }else if(dto.isHasBoatOwner()){
+            this.myUserService.saveFeedbackBoatOwner(dto);
+        }else{
+            this.myUserService.saveFeedbackInstructor(dto);
+        }
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+
+    @PostMapping("/saveAppeal")
+    public ResponseEntity<AppealDTO> saveFeedbackEntity(@RequestBody AppealDTO dto){
+
+        if(dto.isHasHouse()){
+            this.appealService.saveAppealHouse(dto);
+        }else if(dto.isHasHouseOwner()){
+            this.appealService.saveAppealHouseOwner(dto);
+        }else if(dto.isHasBoat()){
+            this.appealService.saveAppealBoat(dto);
+        }else if(dto.isHasBoatOwner()){
+            this.appealService.saveAppealBoatOwner(dto);
+        }else{
+            this.appealService.saveAppealInstructor(dto);
+        }
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
     
     @GetMapping("/findUserByFishingAdventureReservationId/{id}")

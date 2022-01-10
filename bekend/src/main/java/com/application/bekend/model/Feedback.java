@@ -10,16 +10,15 @@ public class Feedback {
     private Long id;
     private int grade;
     private String review;
+    private Boolean isApproved;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "myUser_id")
     private MyUser myUser;
 
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "boat_id")
     private Boat boat;
-
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "house_id")
@@ -60,5 +59,45 @@ public class Feedback {
 
     public void setReview(String review) {
         this.review = review;
+    }
+
+    public MyUser getMyUser() {
+        return myUser;
+    }
+
+    public void setMyUser(MyUser myUser) {
+        this.myUser = myUser;
+    }
+
+    public Boat getBoat() {
+        return boat;
+    }
+
+    public void setBoat(Boat boat) {
+        this.boat = boat;
+    }
+
+    public House getHouse() {
+        return house;
+    }
+
+    public void setHouse(House house) {
+        this.house = house;
+    }
+
+    public FishingAdventure getFishingAdventure() {
+        return fishingAdventure;
+    }
+
+    public void setFishingAdventure(FishingAdventure fishingAdventure) {
+        this.fishingAdventure = fishingAdventure;
+    }
+
+    public Boolean getApproved() {
+        return isApproved;
+    }
+
+    public void setApproved(Boolean approved) {
+        isApproved = approved;
     }
 }

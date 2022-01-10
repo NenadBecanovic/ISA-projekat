@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Address} from "../../model/address";
 import {MyUser} from "../../model/my-user";
-import {AuthentificationService} from "../../authentification/authentification.service";
+import {AuthentificationService} from "../../auth/authentification/authentification.service";
 
 
 @Component({

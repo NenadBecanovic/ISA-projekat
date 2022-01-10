@@ -59,6 +59,8 @@ public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(HttpMethod.POST, "/api/house/**");
         web.ignoring().antMatchers(HttpMethod.GET, "/api/boat/**");
         web.ignoring().antMatchers(HttpMethod.PUT, "/api/boat/**");
+        web.ignoring().antMatchers(HttpMethod.POST, "/api/boat/**");
+        web.ignoring().antMatchers(HttpMethod.DELETE, "/api/boat/**");
         web.ignoring().antMatchers(HttpMethod.GET, "/api/address/**");
         web.ignoring().antMatchers(HttpMethod.GET, "/api/image/**");
         web.ignoring().antMatchers(HttpMethod.POST, "/api/image/**");
@@ -74,6 +76,8 @@ public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(HttpMethod.DELETE, "/api/additionalServices/**");
         web.ignoring().antMatchers(HttpMethod.POST, "/api/additionalServices/**");
         web.ignoring().antMatchers(HttpMethod.GET, "/api/fishingAdventure/**");
+        web.ignoring().antMatchers(HttpMethod.POST, "/api/report/**");
+        web.ignoring().antMatchers(HttpMethod.GET, "/api/report/**");
         web.ignoring().antMatchers(HttpMethod.POST, "/api/fishingAdventure/**");
         web.ignoring().antMatchers(HttpMethod.GET, "/api/fishingAdventureReservations/**");
         web.ignoring().antMatchers(HttpMethod.POST, "/api/fishingAdventureReservations/**");

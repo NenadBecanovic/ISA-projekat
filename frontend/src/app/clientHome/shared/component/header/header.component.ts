@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Router} from "@angular/router";
-import {AuthentificationService} from "../../../../authentification/authentification.service";
+import {AuthentificationService} from "../../../../auth/authentification/authentification.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ClientProfileComponent} from "../../../client-profile/client-profile.component";
 import {DeleteAccountComponent} from "../../../delete-account/delete-account.component";

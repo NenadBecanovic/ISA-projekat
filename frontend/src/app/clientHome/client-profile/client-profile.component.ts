@@ -5,7 +5,7 @@ import {MyUser} from "../../model/my-user";
 import * as bcrypt from 'bcryptjs';
 import {MyUserService} from "../../service/my-user.service";
 import {AlertService} from "ngx-alerts";
-import {AuthentificationService} from "../../authentification/authentification.service";
+import {AuthentificationService} from "../../auth/authentification/authentification.service";
 
 @Component({
   selector: 'app-client-profile',

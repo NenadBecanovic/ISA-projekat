@@ -1,10 +1,8 @@
 package com.application.bekend.service;
 
+import com.application.bekend.DTO.FeedbackDTO;
 import com.application.bekend.DTO.MyUserDTO;
-import com.application.bekend.model.Address;
-import com.application.bekend.model.MyUser;
-import com.application.bekend.model.RequestForAccountDeleting;
-import com.application.bekend.model.Subscription;
+import com.application.bekend.model.*;
 import com.application.bekend.repository.MyUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,16 +24,22 @@ public class MyUserService implements UserDetailsService {
     private final AddresService addresService;
     private final RequestForAccountDeletingService requestForAccountDeletingService;
     private final SubscriptionService subscriptionService;
+    private final HouseReservationService houseReservationService;
+    private final FeedbackService feedbackService;
+    private final BoatReservationService boatReservationService;
 
     private PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }       // za enkodovanje lozinke
 
     @Autowired
-    public MyUserService(AddresService addresService, RequestForAccountDeletingService requestForAccountDeletingService, SubscriptionService subscriptionService) {
+    public MyUserService(AddresService addresService, RequestForAccountDeletingService requestForAccountDeletingService, SubscriptionService subscriptionService, HouseReservationService houseReservationService, FeedbackService feedbackService, BoatReservationService boatReservationService) {
         this.addresService = addresService;
         this.requestForAccountDeletingService = requestForAccountDeletingService;
         this.subscriptionService = subscriptionService;
+        this.houseReservationService = houseReservationService;
+        this.feedbackService = feedbackService;
+        this.boatReservationService = boatReservationService;
     }
 
     public MyUser findUserById(Long id){
@@ -88,12 +92,18 @@ public class MyUserService implements UserDetailsService {
 
     public Set<MyUser> getAllByHouseId(Long id) { return this.myUserRepository.getAllByHouseId(id); }
 
+    public Set<MyUser> getAllByBoatId(Long id) { return this.myUserRepository.getAllByBoatId(id); }
+
     public MyUser save(MyUser myUser) {
         return this.myUserRepository.save(myUser);
     }
 
     public MyUser findUserByHouseReservationId(Long id){
         return myUserRepository.findMyUserByHouseReservationId(id);
+    }
+
+    public MyUser findUserByBoatReservationId(Long id){
+        return myUserRepository.findUserByBoatReservationId(id);
     }
 
     public Subscription save(Subscription subscription) {
@@ -107,6 +117,7 @@ public class MyUserService implements UserDetailsService {
     public MyUser findUserByBoatId(Long id) {
         return myUserRepository.findMyUserByBoatId(id);
     }
+
     public Boolean checkIfUserIsSubscribed(Long userId, Long ownerId){
         return this.subscriptionService.checkIfUserIsSubscribed(userId, ownerId);
     }
@@ -117,6 +128,59 @@ public class MyUserService implements UserDetailsService {
 
     public void deleteSubscriptionById(Long id){
         this.subscriptionService.deleteSubscriptionById(id);
+    }
+
+    public void saveFeedbackHouse(FeedbackDTO feedbackDTO){
+        HouseReservation houseReservation = this.houseReservationService.getHouseReservationById(feedbackDTO.getReservationId());
+        houseReservation.setHasFeedbackEntity(true);
+        this.houseReservationService.save(houseReservation);
+        Feedback feedback = this.setFeedback(feedbackDTO);
+        feedback.setHouse(houseReservation.getHouse());
+        this.feedbackService.save(feedback);
+    }
+
+    public void saveFeedbackBoat(FeedbackDTO feedbackDTO){
+        BoatReservation boatReservation = this.boatReservationService.getBoatReservationById(feedbackDTO.getReservationId());
+        boatReservation.setHasFeedbackEntity(true);
+        this.boatReservationService.save(boatReservation);
+        Feedback feedback = this.setFeedback(feedbackDTO);
+        feedback.setBoat(boatReservation.getBoat());
+        this.feedbackService.save(feedback);
+    }
+
+    public void saveFeedbackHouseOwner(FeedbackDTO feedbackDTO){
+        HouseReservation houseReservation = this.houseReservationService.getHouseReservationById(feedbackDTO.getReservationId());
+        houseReservation.setHasFeedbackOwner(true);
+        this.houseReservationService.save(houseReservation);
+        Feedback feedback = this.setFeedback(feedbackDTO);
+        feedback.setMyUser(this.findUserById(feedbackDTO.getOwnerId()));;
+        this.feedbackService.save(feedback);
+    }
+
+    public void saveFeedbackBoatOwner(FeedbackDTO feedbackDTO){
+        BoatReservation boatReservation = this.boatReservationService.getBoatReservationById(feedbackDTO.getReservationId());
+        boatReservation.setHasFeedbackOwner(true);
+        this.boatReservationService.save(boatReservation);
+        Feedback feedback = this.setFeedback(feedbackDTO);
+        feedback.setMyUser(this.findUserById(feedbackDTO.getOwnerId()));;
+        this.feedbackService.save(feedback);
+    }
+
+    public void saveFeedbackInstructor(FeedbackDTO feedbackDTO){
+//        AdventureReservation adventureReservation = this.adneture.getFishingAdventureById(feedbackDTO.getReservationId())
+//        adventureReservation.setHasFeedbackOwner(true);
+//        this.fishingAdventureService.save(adventureReservation);
+//        Feedback feedback = this.setFeedback(feedbackDTO);
+//        feedback.setMyUser(this.findUserById(feedbackDTO.getOwnerId()));;
+//        this.feedbackService.save(feedback);
+    }
+
+    private Feedback setFeedback(FeedbackDTO feedbackDTO){
+        Feedback feedback = new Feedback();
+        feedback.setGrade(feedbackDTO.getGrade());
+        feedback.setReview(feedbackDTO.getReview());
+        feedback.setApproved(false);
+        return feedback;
     }
 
 }
