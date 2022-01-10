@@ -15,6 +15,7 @@ export class NewFishingAdventure {
   cancellationFee: number;
   additionalServices: AdditionalService[] = new Array<AdditionalService>();
   image: String | ArrayBuffer;
+  instructorId: number=0;
 
   constructor(name: String, address: Address, promoDescription: String, capacity: number, fishingEquipment: String, behaviourRules: String, pricePerHour: number, isCancellationFree: boolean, cancelationFee: number, image:String | ArrayBuffer){
     this.name = name;

@@ -4,6 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { AlertService } from 'ngx-alerts';
 import { AdditionalService } from 'src/app/model/additional-service';
 import { AdventureReservation } from 'src/app/model/adventure-reservation';
+import { FishingAdventure } from 'src/app/model/fishing-adventure';
 import { AdditionalServicesService } from 'src/app/service/additional-services.service';
 import { AdventureReservationService } from 'src/app/service/adventure-reservation.service';
 
@@ -14,14 +15,13 @@ import { AdventureReservationService } from 'src/app/service/adventure-reservati
 })
 export class AddFishingAdventureActionDialogComponent implements OnInit {
 
-  adventureId!: number;
+  adventure!: FishingAdventure;
   additionalServices: AdditionalService[] = new Array<AdditionalService>();
   actionAdditionalServices: AdditionalService[] = new Array();
   adventureAction: AdventureReservation = new AdventureReservation(0, '', '', 0, this.additionalServices, 0, true);
   durationHours: number = 0;
   durationMinutes: number = 0;
   date: Date = new Date();
-  endDate: Date = new Date();
 
   constructor(public dialogRef: MatDialogRef<AddFishingAdventureActionDialogComponent>, private _additionalServicesService: AdditionalServicesService, private _adventureReservationService: AdventureReservationService,
               private _alertService: AlertService) { }
@@ -31,7 +31,7 @@ export class AddFishingAdventureActionDialogComponent implements OnInit {
   }
 
   loadData(){
-    this._additionalServicesService.getAllByFishingAdventureId(this.adventureId).subscribe(
+    this._additionalServicesService.getAllByFishingAdventureId(this.adventure.id).subscribe(
       (additionalServices: AdditionalService[]) => {
         this.additionalServices = additionalServices
       }
@@ -39,7 +39,7 @@ export class AddFishingAdventureActionDialogComponent implements OnInit {
   }
 
   addAction() {
-    this.adventureAction.adventureId = this.adventureId;
+    this.adventureAction.adventureId = this.adventure.id;
     this.adventureAction.isAction = true;
     this.adventureAction.isAvailable = true;
     this.adventureAction.availabilityPeriod = false;

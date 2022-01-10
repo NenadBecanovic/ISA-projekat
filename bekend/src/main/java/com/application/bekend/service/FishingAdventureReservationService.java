@@ -46,8 +46,6 @@ public class FishingAdventureReservationService {
 	
 	public boolean saveReservation(AdventureReservationDTO adventureReservationDTO) {
 		FishingAdventure fishingAdventure = this.fishingAdventureService.getFishingAdventureById(adventureReservationDTO.getAdventureId());
-        // TODO: svu logiku prebaciti u servis
-        // provera da li vec postoji termin u izabranom periodu
         List<AdventureReservation> adventureReservations = this.getAllByFishingAdventure_Id(fishingAdventure.getId());
         for (AdventureReservation a: adventureReservations) {
             Long start =  a.getStartDate().getTime();
@@ -66,27 +64,15 @@ public class FishingAdventureReservationService {
         AdventureReservation adventureReservation = new AdventureReservation(adventureReservationDTO.getId(), startDate, endDate, adventureReservationDTO.getMaxGuests(), adventureReservationDTO.getPrice(), adventureReservationDTO.getIsAvailable(), fishingAdventure);
         adventureReservation.setAvailabilityPeriod(adventureReservationDTO.getIsAvailabilityPeriod());
         adventureReservation.setAction(adventureReservationDTO.getIsAction());
-
-        adventureReservation = this.save(adventureReservation); // sacuvali smo rezervaciju i povratna vrednost metode je tacno ta rezervacija iz baze (sa ispravno generisanim id-em ...)
-        // ovaj korak je obavezan jer se rezervacija koju dodajemo ovde (***) mora nalaziti u bazi
+        adventureReservation = this.save(adventureReservation); 
 
         Set<AdditionalServices> additionalServicesSet = new HashSet<>();
         for(AdditionalServicesDTO add : adventureReservationDTO.getAdditionalServices()){
-
-            // iz baze dobavljamo (original) dodatnu uslugu i u njen set rezervacija, dodajemo ovu konkretnu rezervaciju (houseReservation)
             AdditionalServices additionalServices = this.additionalServicesService.getAdditionalServicesById(add.getId());
-
-            additionalServices.addAdventureReservation(adventureReservation); // (***)
-            // da je bio slucaj da smo dodali samo inicijalno kreiran houseReservation (nastao iz podataka od DTO), bio bi error: javax.persistence.EntityNotFoundException
-            // jer u tabeli koja spaja AdditionalServices (id_a) i HouseReservation (id_h), id_h bi bio null i to vraca gresku, jer se u tabeli mora nalaziti neki vec postojeci id_h (radimo spajanje podataka dve postojece table, nema novih podataka)
-
-            additionalServicesSet.add(additionalServices);   // u set koji cemo kasnije dodeliti rezervaciji dodajemo dodatnu uslugu
-
-            // azuriramo (sacuvamo) izmenjenu dodatnu uslugu u bazi (additional service)
+            additionalServices.addAdventureReservation(adventureReservation);
+            additionalServicesSet.add(additionalServices);  
             this.additionalServicesService.save(additionalServices);
         }
-
-        // dodajem rezervaciju vikendice u samu vikendicu
         fishingAdventure.addAdventureReservation(adventureReservation);
         this.fishingAdventureService.save(fishingAdventure);
 
@@ -101,5 +87,22 @@ public class FishingAdventureReservationService {
             this.myUserService.save(guest);
         }
         return true;
+	}
+
+	public boolean saveUnavailablePeriod(Long instructorId, AdventureReservationDTO adventureReservationDTO) {
+		// TODO Auto-generated method stub
+		List<FishingAdventure> fishingAdventures = this.fishingAdventureService.getFishingAdventuresByInstructor(instructorId);
+		for(FishingAdventure fishingAdventure : fishingAdventures) {
+	        adventureReservationDTO.setAdventureId(fishingAdventure.getId());
+	        if(!saveReservation(adventureReservationDTO)) {
+	        	return false;
+	        }
+		}
+        return true;
+	}
+	
+	public Long getCurrentGuest(Date currentDateAndTime, Long instructorId) {
+		//return this.fishingAdventureReservationsRepository.getAllByCurrentGuest(currentDateAndTime, instructorId);
+		return null;
 	}
 }

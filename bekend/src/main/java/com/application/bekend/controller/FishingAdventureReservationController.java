@@ -99,6 +99,20 @@ public class FishingAdventureReservationController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
     
+    @PostMapping("/saveUnavailablePeriod/{id}")
+    public ResponseEntity<AdventureReservationDTO> saveUnavailablePeriod(@PathVariable("id") Long instructorId, @RequestBody AdventureReservationDTO adventureReservationDTO) {
+        boolean isCreated = this.fishingAdventureReservationService.saveUnavailablePeriod(instructorId,adventureReservationDTO);
+        
+        if(!isCreated) {
+        	return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        // TODO: ako je vlasnik zakazao za klijenta, poslati mejl klijentu
+
+        // TODO: ako je akcije, poslati mejl svim pretplacenim klijentima
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+    
     @GetMapping("/getAllActionsByFishingAdventureId/{id}")
     public ResponseEntity<List<AdventureReservationDTO>> getAllActionsByHouseId(@PathVariable("id") Long id) {
         List<AdventureReservation> adventureReservations = this.fishingAdventureReservationService.getAllByFishingAdventure_Id(id);
@@ -130,6 +144,18 @@ public class FishingAdventureReservationController {
         }
 
         return new ResponseEntity<>(adventureReservationDTOS, HttpStatus.OK);
+    }
+    
+    @GetMapping("/getCurrentGuest/{id}")
+    public ResponseEntity<Long> getCurrentGuest(@PathVariable("id") Long instructorId) {
+    	Date currentDateAndTime = new Date();
+        Long guestId = this.fishingAdventureReservationService.getCurrentGuest(currentDateAndTime,instructorId);
+        
+        if(guestId == null) {
+        	return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
+        return new ResponseEntity<>(guestId, HttpStatus.OK);
     }
     
 /*

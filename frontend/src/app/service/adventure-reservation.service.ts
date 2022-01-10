@@ -26,8 +26,15 @@ export class AdventureReservationService {
   }
 */
   public save(adventureReservation: AdventureReservation): Observable<AdventureReservation> { 
-    alert(adventureReservation.isAction)
     return this._http.post<AdventureReservation>(`${this.userPath}/add`, adventureReservation)
+  }
+
+  public saveUnavailablePeriod(adventureReservation: AdventureReservation, instructorId: number): Observable<AdventureReservation> { 
+    return this._http.post<AdventureReservation>(`${this.userPath}/saveUnavailablePeriod/`+instructorId, adventureReservation)
+  }
+
+  public getCurrentGuest(instructorId: number): Observable<number> {
+    return this._http.get<number>(`${this.userPath}/getCurrentGuest/`+instructorId)
   }
 
   public delete(id: number): Observable<boolean> {
