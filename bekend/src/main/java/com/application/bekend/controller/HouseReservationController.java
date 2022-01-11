@@ -1,14 +1,8 @@
 package com.application.bekend.controller;
 
 import com.application.bekend.DTO.*;
-import com.application.bekend.model.AdditionalServices;
-import com.application.bekend.model.House;
-import com.application.bekend.model.HouseReservation;
-import com.application.bekend.model.MyUser;
-import com.application.bekend.service.AdditionalServicesService;
-import com.application.bekend.service.HouseReservationService;
-import com.application.bekend.service.HouseService;
-import com.application.bekend.service.MyUserService;
+import com.application.bekend.model.*;
+import com.application.bekend.service.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,14 +23,16 @@ public class HouseReservationController {
     private final AdditionalServicesService additionalServicesService;
     private final MyUserService myUserService;
     private final ModelMapper modelMapper;
+    private final BoatReservationService boatReservationService;
 
     @Autowired
-    public HouseReservationController(HouseReservationService houseReservationService, HouseService houseService, AdditionalServicesService additionalServicesService, MyUserService myUserService, ModelMapper modelMapper) {
+    public HouseReservationController(HouseReservationService houseReservationService, HouseService houseService, AdditionalServicesService additionalServicesService, MyUserService myUserService, ModelMapper modelMapper, BoatReservationService boatReservationService) {
         this.houseReservationService = houseReservationService;
         this.houseService = houseService;
         this.additionalServicesService = additionalServicesService;
         this.myUserService = myUserService;
         this.modelMapper = modelMapper;
+        this.boatReservationService = boatReservationService;
     }
 
     @GetMapping("/getAllByHouseId/{id}")
@@ -176,7 +172,7 @@ public class HouseReservationController {
         House house = this.houseService.getHouseById(dto.getHouseId());
 
         // TODO: svu logiku prebaciti u servis
-        // provera da li vec postoji termin u izabranom periodu
+        // provera da li vec postoji termin u vikednici u izabranom periodu
         List<HouseReservation> houseReservations = this.houseReservationService.getAllByHouse_Id(house.getId());
         for (HouseReservation h: houseReservations) {
             Long start =  h.getStartDate().getTime();
@@ -189,6 +185,35 @@ public class HouseReservationController {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
         }
+
+        // provera da li vec postoji termin za klijenta u izabranom periodu
+        List<HouseReservation> houseReservationsClient = this.houseReservationService.getHouseReservationsByGuestId(dto.getGuestId());
+        List<BoatReservation> boatReservationsClient = this.boatReservationService.getBoatReservationsByGuestId(dto.getGuestId());
+
+        for (HouseReservation h: houseReservationsClient) {
+            Long start =  h.getStartDate().getTime();
+            Long end = h.getEndDate().getTime();
+
+            if (Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getEndDate()) <=  end ||
+                    Long.parseLong(dto.getStartDate()) <= start && Long.parseLong(dto.getEndDate()) >= start  ||
+                    Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getStartDate()) <= end  )
+            {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+        }
+
+        for (BoatReservation h: boatReservationsClient) {
+            Long start =  h.getStartDate().getTime();
+            Long end = h.getEndDate().getTime();
+
+            if (Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getEndDate()) <=  end ||
+                    Long.parseLong(dto.getStartDate()) <= start && Long.parseLong(dto.getEndDate()) >= start  ||
+                    Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getStartDate()) <= end  )
+            {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+        }
+        // kraj provere za klijenta
 
         Date startDate = new Date(Long.parseLong(dto.getStartDate()));
         Date endDate = new Date(Long.parseLong(dto.getEndDate()));

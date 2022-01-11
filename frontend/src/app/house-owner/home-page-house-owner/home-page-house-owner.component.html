@@ -30,9 +30,21 @@
                     <label style="font-size: 2vw; font-weight: 500; margin-left: 5px;font-family: Poppins;" ><strong> {{house.id }} {{ house.name }} </strong></label>
                   </div>
                 </div>
+
+
                 <div style="float: right">
-                  <button mat-icon-button (click)="deleteHouse(house.id)" class="btn delete-action-button"> <mat-icon>delete</mat-icon> </button>
+                   <button mat-icon-button (click)="deleteHouse(house.id)" class="btn delete-action-button"> <mat-icon>delete</mat-icon> </button>
                 </div>
+
+<!--                <div style="float: right" *ngIf="houseCanBeDeleted(house.id); else elseBlockShow">-->
+<!--                  <button mat-icon-button (click)="deleteHouse(house.id)" class="btn delete-action-button"> <mat-icon>delete</mat-icon> </button>-->
+<!--                </div>-->
+<!--                <ng-template #elseBlockShow>-->
+<!--                  <div style="float: right">-->
+<!--                    <button mat-icon-button (click)="deleteHouse(house.id)" class="btn delete-action-button" disabled> <mat-icon>delete</mat-icon> </button>-->
+<!--                  </div>-->
+<!--                </ng-template>-->
+
                 <div style="display:inline;" >
                   <div style="float: left; width: 100%;">
                     <mat-icon style="color: red">place</mat-icon>

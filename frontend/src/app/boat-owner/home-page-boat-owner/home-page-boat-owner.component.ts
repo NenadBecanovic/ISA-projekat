@@ -44,26 +44,40 @@ export class HomePageBoatOwnerComponent implements OnInit {
   }
 
   private loadData() {
+    this.boats = new Array();
     this._authentification.getUserByEmail().subscribe(
       (user: MyUser) => {
         this.user = user;
+
+        this._boatService.findAll().subscribe(
+          (boats: Boat[]) => {
+            for(let h of boats)
+            {
+              if(h.ownerId == this.user.id)
+              {
+                if (this.boatAlreadyInArray(h) == false) {
+                  this.boats.push(h);
+                }
+              }
+            }
+            this.boatSearch = this.boats
+          }
+        )
       },
       (error) => {
       },
     )
+  }
 
-    this._boatService.findAll().subscribe(
-      (boats: Boat[]) => {
-        for(let h of boats)
-        {
-          if(h.ownerId == this.user.id)
-          {
-            this.boats.push(h);
-          }
-        }
-        this.boatSearch = this.boats
+  boatAlreadyInArray(boat: Boat){
+    for (let u of this.boats)
+    {
+      if (u.id == boat.id)
+      {
+        return true;
       }
-    )
+    }
+    return false;
   }
 
   addActionDialog() {
