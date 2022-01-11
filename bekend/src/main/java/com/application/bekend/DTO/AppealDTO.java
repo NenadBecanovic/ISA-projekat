@@ -11,7 +11,7 @@ public class AppealDTO {
     private boolean hasBoat;
     private boolean hasBoatOwner;
     private boolean hasInstructor;
-
+    private boolean isAnswered = false;
     public AppealDTO(Long reservationId, String review, Long ownerId, boolean hasHouse, boolean hasHouseOwner, boolean hasBoat, boolean hasBoatOwner, boolean hasInstructor) {
         this.reservationId = reservationId;
         this.review = review;
@@ -97,5 +97,13 @@ public class AppealDTO {
     public void setSenderId(Long senderId) {
         this.senderId = senderId;
     }
+
+	public boolean getIsAnswered() {
+		return isAnswered;
+	}
+
+	public void setIsAnswered(boolean isAnswered) {
+		this.isAnswered = isAnswered;
+	}
 }
 

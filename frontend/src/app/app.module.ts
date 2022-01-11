@@ -77,6 +77,7 @@ import { BoatReportComponent } from './boat-owner/boat-report/boat-report.compon
 import { AddFishingAdventureActionDialogComponent } from './adventure-profile/add-action-dialog/add-action-dialog.component';
 import { EditAdventureProfileDialogComponent } from './adventure-profile/edit-adventure-profile-dialog/edit-adventure-profile-dialog.component';
 import { AdventureReservationsDialogComponent } from './adventure-profile/adventure-reservations-dialog/adventure-reservations-dialog.component';
+import { AdminPageComponent } from './admin-page/admin-page.component';
 
 const MaterialComponents = [
   MatSliderModule,
@@ -104,7 +105,7 @@ const MaterialComponents = [
 ];
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     LoginComponent,
     RegistrationComponent,
@@ -139,8 +140,9 @@ const MaterialComponents = [
     AddBoatComponent,
     BoatReportComponent,
     AddFishingAdventureActionDialogComponent,
-    AdventureReservationsDialogComponent
-  ],
+    AdventureReservationsDialogComponent,
+    AdminPageComponent
+   ],
   imports: [
     RouterModule,
     ClientModule,

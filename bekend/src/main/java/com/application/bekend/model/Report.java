@@ -11,7 +11,7 @@ public class Report {
     private String comment;
     private boolean missedReservation;
     private boolean penaltyProposal;
-
+    private boolean isReviewed = false;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "houseReservation_id")
     private HouseReservation houseReservation;
@@ -97,5 +97,13 @@ public class Report {
 
 	public void setAdventureReservation(AdventureReservation adventureReservation) {
 		this.adventureReservation = adventureReservation;
+	}
+
+	public boolean isReviewed() {
+		return isReviewed;
+	}
+
+	public void setReviewed(boolean isReviewed) {
+		this.isReviewed = isReviewed;
 	}
 }

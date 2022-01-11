@@ -9,6 +9,7 @@ public class ReportDTO {
     private Long houseReservationId;
     private Long boatReservationId;
     private Long adventureReservationId;
+    private boolean isReviwed = false;
 
     public ReportDTO(Long id, String comment, boolean showedUp, boolean penaltyProposal, Long houseReservationId, Long boatReservationId, Long adventureReservationId) {
         this.id = id;
@@ -83,5 +84,13 @@ public class ReportDTO {
 
 	public void setAdventureReservationId(Long adventureReservationId) {
 		this.adventureReservationId = adventureReservationId;
+	}
+
+	public boolean getIsReviwed() {
+		return isReviwed;
+	}
+
+	public void setReviwed(boolean isReviwed) {
+		this.isReviwed = isReviwed;
 	}
 }

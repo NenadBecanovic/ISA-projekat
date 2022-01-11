@@ -11,7 +11,8 @@ public class FeedbackDTO {
     private boolean hasBoat;
     private boolean hasBoatOwner;
     private boolean hasInstructor;
-
+    private boolean isApproved;
+    
     public FeedbackDTO(Long reservationId, int grade, String review) {
         this.reservationId = reservationId;
         this.grade = grade;
@@ -92,4 +93,12 @@ public class FeedbackDTO {
     public void setHasInstructor(boolean hasInstructor) {
         this.hasInstructor = hasInstructor;
     }
+
+	public boolean getIsApproved() {
+		return isApproved;
+	}
+
+	public void setIsApproved(boolean isApproved) {
+		this.isApproved = isApproved;
+	}
 }

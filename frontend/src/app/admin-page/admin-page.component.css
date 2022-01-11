@@ -1,0 +1,283 @@
+/*.homepage-body {
+    padding-left: 7.292vw;
+    padding-right: 7.292vw;
+    font-family: "Rubik", sans-serif;
+    font-size: 16px;
+    font-weight: lighter;
+}*/
+#adventure-profile {
+    object-fit: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    overflow-x: hidden;
+  }
+  #adventure-content {
+    position: relative;
+  }
+  .navigation-container {
+    font-family: "Poppins", sans-serif;
+    font-size: 20px;
+    font-weight: lighter;
+    top: 0;
+    color: whitesmoke !important;
+  }
+  .nav-item {
+    padding-left: 0.8vw;
+    padding-right: 0.8vw;
+    color: whitesmoke !important;
+  }
+  .navbar-collapse {
+    justify-content: flex-end;
+  }
+  .navbar {
+    min-height: 75px;
+    background-color: #31B4E5;
+  }
+  @media screen and (min-width: 992px) {
+    .nav-link-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  
+  @media screen and (max-width: 992px) {
+    .navbar-collapse {
+      justify-content: center;
+      margin-left: 1vw;
+    }
+    .nav-item {
+      padding: 0.2rem 1.3vw;
+    }
+  }
+  .navbar-toggler {
+    justify-content: center;
+    margin-left: 1vw;
+    margin-bottom: 12px;
+    color: whitesmoke;
+  }
+  .full-logo {
+    width: 172px;
+    position: absolute;
+    margin-left: 7.292vw;
+    z-index: 1;
+  }
+  .foodly-logo {
+    position: absolute;
+    margin: auto;
+    padding-top: 10px;
+    width: 172px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 1;
+  }
+  
+  .full-logo:hover {
+    cursor: pointer;
+  }
+  
+  .foodly-logo:hover {
+    cursor: pointer;
+  }
+  img {
+    image-rendering: crisp-edges;
+  }
+  
+  a,
+  a:hover,
+  a:focus,
+  a:active {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  a:hover {
+    cursor: pointer;
+  }
+  
+  img::selection {
+    background-color: transparent;
+  }
+  
+  img::-moz-selection {
+    background-color: transparent;
+  }
+  
+  img {
+    -webkit-user-select: none;
+    -moz-user-select: -moz-none;
+    -ms-user-select: none;
+    user-select: none;
+  
+    /*You just need this if you are only concerned with android and not desktop browsers.*/
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
+  footer {
+    margin-top: auto;
+    background-color: #31B4E5;
+    bottom: 0;
+  }
+  
+  footer .copyright {
+    background-color: #31B4E5;
+  }
+  
+  .footer-info {
+    justify-content: space-between;
+  }
+  .footer-small-info {
+    justify-content: flex-start;
+  }
+  .small-info{
+      margin-left: 7.92vw !important;
+      padding-left: 0px !important;
+  }
+
+  .image-height{
+    height: 20vw;
+  }
+
+  .adventure-name{
+    font-family: "Poppins", sans-serif;
+    font-size: 36px;
+    font-weight: bolder;
+    top: 0;
+    color:black;
+  }
+
+  .card-title:hover {
+    cursor:pointer;
+   }
+
+   .card-design{
+     width: 100%;
+   }
+
+   .adventures-container{
+     padding-left: 15vw;
+     padding-right: 15vw;
+   }
+
+  .form-check{
+    padding: 0;
+    margin: 0;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.last-form-check{
+    margin-bottom: 20px;
+}
+
+.form-check-input{
+    height: 25px;
+}
+
+.form-check-label{
+    font-size: 16px;
+    font-weight: 300;
+    color: #a2a2a2
+}
+
+.info{
+    width: 20vw;
+}
+
+.adventures{
+    width: 100vw;
+}
+
+.adventure-container{
+  font-family: 'Rubik', sans-serif;
+  font-size: 16px;
+  font-weight: lighter;
+  color: #181e27;
+}
+
+.adventure-view-title-container{
+  position: relative;
+  width: 100%;
+  margin-top: 100px;
+  padding-left: 5vw;
+  padding-right: 5vw;
+}
+
+.left, .right{
+  flex-basis: 50%;
+}
+
+.search{
+    flex-basis: 100%;
+  }
+
+.instructor-name{
+  font-weight: bold;
+}
+
+.profile-picture{
+  width: 10vw;
+  height: 10vw;
+}
+
+.adventure-section{
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.filter-sort-container{
+  margin: 0;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.10);
+  border-radius: 15px;
+  border-width: 0px;
+  width: 100vw; 
+  padding-top: 20px;
+  margin-bottom: 30px;
+}
+
+.filter-sort-container a{
+  color:#a2a2a2;
+  font-size: 16px;
+  font-weight: 300;
+  white-space: nowrap;
+  padding:0;
+  height: 37px;
+}
+
+.filter-sort-container a:visited{
+  color: #a2a2a2;
+}
+
+.filter-sort-container a:hover{
+  color: #a2a2a2;
+}
+
+.basic-title{
+  display:inline-block;
+  font-size: 20px;
+  font-weight: Bold;
+  margin-bottom: 18px;
+}
+
+.add-action-button{
+  color:white;
+  background-color: #31B4E5;
+}
+
+.add-picture-button{
+  color:white;
+  background-color: #31B4E5;
+  position: absolute;
+  top: 23vw;
+  left: 95%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+
+.menu-btn{
+    width: 12vw;
+}

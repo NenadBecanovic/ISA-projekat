@@ -1,4 +1,4 @@
-export class Apeal {
+export class Appeal {
 
   reservationId: number = 0;
   review: string = '';
@@ -9,4 +9,5 @@ export class Apeal {
   hasInstructor: boolean = false;
   ownerId: number = 0;
   senderId: number = 0;
+  isAnswered: boolean = false;
 }
