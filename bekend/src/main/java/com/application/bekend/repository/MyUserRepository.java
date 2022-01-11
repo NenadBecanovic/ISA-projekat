@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Set;
 
 @Repository
@@ -41,6 +42,9 @@ public interface MyUserRepository extends JpaRepository<MyUser, Long> {
     
     @Query("select user from MyUser user join fetch user.adventureReservations adventureReservations where adventureReservations.id = ?1")
     MyUser findUserByAdventureReservationId(Long id);
+    
+   // @Query("select * from MyUser u join fetch u.authorities a")
+//	List<MyUser> findAllWithAuthorities();
 }
 
 

@@ -87,7 +87,7 @@
                 <input type="text" placeholder="Pretraži..." name="search" [(ngModel)]="filterTerm">
               </div>
             </div>
-            <div class="d-flex flex-row mt-3 adventures-container">
+            <div class="d-flex flex-row mt-3 adventures-container" *ngFor="let user of allUsers | filter:filterTerm">
               <div class="card card-design">
                 <div class="card-body">
                   <div class="d-flex flex-row">
@@ -95,16 +95,15 @@
                       <img class="profile-picture" src="https://mackenzienz.com/wp-content/uploads/2015/09/Fishing-PAge-BAnner.jpg?fbclid=IwAR1c5dayMLBGnI0cFCy6Z8zFfBjmkX17Z9krEkjT5v2vDbf5xKxvVNgFSmk"/>
                     </div>
                     <div class="d-flex flex-column">
-                      <h4 class="card-title" (click)="addAdventure()">ok</h4>
-                      <p class="card-text">ok, ok, ok </p>
-                      <p class="card-text">Broj osoba: 3</p>
-                      <p class="card-text">Cena: 423 din/h</p>
+                      <h4 class="card-title" (click)="addAdventure()">{{user.firstName}} {{user.lastName}} </h4>
+                      <p class="card-text"> {{user.email}} </p>
+                      <p class="card-text"> {{user.authority}} </p>
                     </div>
                   </div>
                 </div>
                 <div class="d-flex right me-3 mb-3 align-items-center justify-content-end">
                   <button type="button" class="btn add-action-button"
-                    (click)="makeReservation()">REZERVIŠI</button>
+                    (click)="makeReservation()">OBRIŠI</button>
                 </div>
               </div> 
             </div>

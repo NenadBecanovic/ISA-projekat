@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Appeal } from '../model/appeal';
+import { DeleteRequest } from '../model/delete-request';
 import { Report } from '../model/report';
+import { UserInfo } from '../model/user-info';
 import { MyUserService } from '../service/my-user.service';
 import { ReportService } from '../service/report.service';
 
@@ -13,7 +16,13 @@ export class AdminPageComponent implements OnInit {
 
   filterTerm!: string;
   content: string = "users";
-  allReports: Report[] = new Array<Report>();
+  reviewedReports: Report[] = new Array<Report>();
+  notReviewedReports: Report[] = new Array<Report>();
+  answeredAppeals: Appeal[] = new Array<Appeal>();
+  unansweredAppeals: Appeal[] = new Array<Appeal>();
+  deleteRequests: DeleteRequest[] = new Array<DeleteRequest>();
+  //newUsersRequests: NewUserRequest[] = new Array<NewUserRequest>();
+  allUsers: UserInfo[] = new Array<UserInfo>();
 
   constructor(public dialog: MatDialog, private _myUserService: MyUserService, private _reportService: ReportService) { }
 
@@ -88,23 +97,13 @@ export class AdminPageComponent implements OnInit {
     });*/
   }
 
-  getCurrentGuest(): number{
-   /* var currentDateAndTime = Number(new Date());
-    for(let reservation of this.allReservations){
-      if(Number(reservation.startDate) < currentDateAndTime && Number(reservation.endDate) > currentDateAndTime){
-        return reservation.guestId;
-      }
-    }*/
-    return 0;
-  }
-
   loadData() { // ucitavanje iz baze
-  /*  this._adventureService.getFishingAdventuresByInstructor(1).subscribe(
-      (adventures: FishingAdventure[]) => {
-        this.adventures = adventures
+    this._myUserService.getAllUsers().subscribe(
+      (users: UserInfo[]) => {
+        this.allUsers = users;
       }
     )
-
+/*
     this._adventureReservationService.getAdventureReservationsByInstructorId(1).subscribe(
       (allReservations: AdventureReservation[]) => {
         this.allReservations = allReservations;

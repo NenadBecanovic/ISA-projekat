@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AlertService } from 'ngx-alerts';
 import { AdventureReservation } from 'src/app/model/adventure-reservation';
-import { AdventureUserInfo } from 'src/app/model/adventure-user-info';
+import { UserInfo } from 'src/app/model/user-info';
 import { Report } from 'src/app/model/report';
 import { AdventureReservationService } from 'src/app/service/adventure-reservation.service';
 import { MyUserService } from 'src/app/service/my-user.service';
@@ -50,7 +50,7 @@ export class AdventureReservationsDialogComponent implements OnInit {
           if (reservation.isAvailable == false && reservation.availabilityPeriod == false)
           {
             this._myUserService.findUserByFishingAdventureReservationId(reservation.guestId).subscribe(
-              (user: AdventureUserInfo) => {
+              (user: UserInfo) => {
                     reservation.guest = user
                   }
                 )

@@ -186,5 +186,9 @@ public class MyUserService implements UserDetailsService {
         feedback.setApproved(false);
         return feedback;
     }
+    
+    public List<MyUser> getAllUsers() {
+    	return this.myUserRepository.findAll();
+    }
 
 }

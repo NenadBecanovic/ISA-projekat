@@ -8,6 +8,7 @@ import {Image} from "../model/image";
 import {Subscription} from "../model/subscription";
 import {Feedback} from "../model/feedback";
 import {Appeal} from "../model/appeal";
+import { UserInfo } from '../model/user-info';
 
 @Injectable({
   providedIn: 'root'
@@ -78,4 +79,7 @@ export class MyUserService {
     return this._http.get<MyUser>(`${this.userPath}/findUserByFishingAdventureReservationId/`+id)
   }
 
+  public getAllUsers(): Observable<UserInfo[]>{
+    return this._http.get<UserInfo[]>(`${this.userPath}/getAllUsers`);
+  }
 }
