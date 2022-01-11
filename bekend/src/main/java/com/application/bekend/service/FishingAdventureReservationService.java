@@ -105,8 +105,7 @@ public class FishingAdventureReservationService {
         return true;
 	}
 	
-	public Long getCurrentGuest(Date currentDateAndTime, Long instructorId) {
-		//return this.fishingAdventureReservationsRepository.getAllByCurrentGuest(currentDateAndTime, instructorId);
-		return null;
+	public List<AdventureReservation> getAdventureReservationsByInstructorId(Long id){
+		return this.fishingAdventureReservationsRepository.getAdventureReservationsByInstructorId(id);
 	}
 }
