@@ -16,6 +16,7 @@ export class AdventureReservation {
     additionalServices: Array<AdditionalService>;
     availabilityPeriod: boolean = false;
     isAction: boolean = false;
+    hasReport: boolean = false;
     guestId: number = 0;
     guest: AdventureUserInfo = new AdventureUserInfo(0, '', '');
 

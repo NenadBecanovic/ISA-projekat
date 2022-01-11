@@ -3,3 +3,8 @@
     border-bottom-color: gainsboro !important;
     padding-bottom: 1rem;
 }
+
+.text-area-report{
+    width: 25vw;
+    height: 8vw;
+}

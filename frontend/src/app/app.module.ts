@@ -76,6 +76,7 @@ import { AddBoatComponent } from './boat-owner/add-boat/add-boat.component';
 import { BoatReportComponent } from './boat-owner/boat-report/boat-report.component';
 import { AddFishingAdventureActionDialogComponent } from './adventure-profile/add-action-dialog/add-action-dialog.component';
 import { EditAdventureProfileDialogComponent } from './adventure-profile/edit-adventure-profile-dialog/edit-adventure-profile-dialog.component';
+import { AdventureReservationsDialogComponent } from './adventure-profile/adventure-reservations-dialog/adventure-reservations-dialog.component';
 
 const MaterialComponents = [
   MatSliderModule,
@@ -137,7 +138,8 @@ const MaterialComponents = [
     CreateReservationForClientBoatComponent,
     AddBoatComponent,
     BoatReportComponent,
-    AddFishingAdventureActionDialogComponent
+    AddFishingAdventureActionDialogComponent,
+    AdventureReservationsDialogComponent
   ],
   imports: [
     RouterModule,
