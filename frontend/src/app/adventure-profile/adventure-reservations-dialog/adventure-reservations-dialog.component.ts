@@ -41,10 +41,12 @@ export class AdventureReservationsDialogComponent implements OnInit {
     this._adventureReservationService.getAllActionsByFishingAdventureId(this.adventureId).subscribe(
       (allReservations: AdventureReservation[]) => {
         this.allReservations = allReservations
-
+        var today = Number(new Date());
         for (let reservation of allReservations)
         {
-          
+          if(Number(reservation.endDate) < today){
+            reservation.hasReport = true;
+          }
           if (reservation.isAvailable == false && reservation.availabilityPeriod == false)
           {
             this._myUserService.findUserByFishingAdventureReservationId(reservation.guestId).subscribe(
@@ -58,11 +60,12 @@ export class AdventureReservationsDialogComponent implements OnInit {
     )
   }
 
-  addReport(id: number){
-    this.report.adventureReservationId = id;
+  addReport(reservation: AdventureReservation){
+    this.report.adventureReservationId = reservation.id;
     this._reportService.save(this.report).subscribe(
       (report: Report) => {
         this.showMakeReport = !this.showMakeReport;
+        reservation.hasReport = true;
       },
       (error) => {
         this._alertService.danger('Doslo je do greske');
