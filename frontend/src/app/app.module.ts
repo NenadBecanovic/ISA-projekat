@@ -78,6 +78,9 @@ import { AddFishingAdventureActionDialogComponent } from './adventure-profile/ad
 import { EditAdventureProfileDialogComponent } from './adventure-profile/edit-adventure-profile-dialog/edit-adventure-profile-dialog.component';
 import { AdventureReservationsDialogComponent } from './adventure-profile/adventure-reservations-dialog/adventure-reservations-dialog.component';
 import { AdminPageComponent } from './admin-page/admin-page.component';
+import { DeleteRequestAnswerDialogComponent } from './admin-page/delete-request-answer-dialog/delete-request-answer-dialog.component';
+import { AppealAnswerDialogComponent } from './admin-page/appeal-answer-dialog/appeal-answer-dialog.component';
+import { ReportAnswerDialogComponent } from './admin-page/report-answer-dialog/report-answer-dialog.component';
 
 const MaterialComponents = [
   MatSliderModule,
@@ -141,7 +144,10 @@ const MaterialComponents = [
     BoatReportComponent,
     AddFishingAdventureActionDialogComponent,
     AdventureReservationsDialogComponent,
-    AdminPageComponent
+    AdminPageComponent,
+    DeleteRequestAnswerDialogComponent,
+    AppealAnswerDialogComponent,
+    ReportAnswerDialogComponent
    ],
   imports: [
     RouterModule,

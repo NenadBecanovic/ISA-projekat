@@ -190,5 +190,15 @@ public class MyUserService implements UserDetailsService {
     public List<MyUser> getAllUsers() {
     	return this.myUserRepository.findAll();
     }
-
+    
+    public boolean deleteUser(Long id) {
+    	MyUser user = this.findUserById(id);
+    	user.setDeleted(true);
+    	this.save(user);
+    	return true;
+    }
+    
+    public List<RequestForAccountDeleting> getAllDeleteRequests(){
+    	return this.requestForAccountDeletingService.getAllRequests();
+    }
 }

@@ -82,4 +82,12 @@ export class MyUserService {
   public getAllUsers(): Observable<UserInfo[]>{
     return this._http.get<UserInfo[]>(`${this.userPath}/getAllUsers`);
   }
+
+  public deleteUser(id: number): Observable<Boolean>{
+    return this._http.put<Boolean>(`${this.userPath}/delete`,id);
+  }
+
+  public getAllDeleteRequests(): Observable<DeleteRequest[]>{
+    return this._http.get<DeleteRequest[]>(`${this.userPath}/getAllDeleteRequests`);
+  }
 }

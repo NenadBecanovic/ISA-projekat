@@ -15,6 +15,7 @@ import com.application.bekend.service.HouseService;
 import com.application.bekend.service.MyUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,7 +62,7 @@ public class MyUserController {
 
     @PostMapping("/saveDeleteRequest")
     public ResponseEntity<RequestForAccountDeletingDTO> updateUser(@RequestBody RequestForAccountDeletingDTO dto){
-        MyUser user = this.myUserService.findUserByEmail(dto.getEmail());
+        MyUser user = this.myUserService.findUserByEmail(dto.getUserInfo().getEmail());
         RequestForAccountDeleting requestForAccountDeleting = new RequestForAccountDeleting();
         requestForAccountDeleting.setUser(user);
         requestForAccountDeleting.setDescription(dto.getDescription());
@@ -234,5 +235,23 @@ public class MyUserController {
         	allUsersDTO.add(userDTO);
         }
         return new ResponseEntity<>(allUsersDTO, HttpStatus.OK);
+    }
+    
+    @PutMapping("/delete")
+    public ResponseEntity<Boolean> deleteUser(@RequestBody Long id){
+        boolean isDeleted = this.myUserService.deleteUser(id);
+        return new ResponseEntity<>(isDeleted, HttpStatus.OK);
+    }
+    
+    @GetMapping("/getAllDeleteRequests")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<List<RequestForAccountDeletingDTO>> getAllDeleteRequests() {
+        List<RequestForAccountDeleting> allRequests = this.myUserService.getAllDeleteRequests();
+        List<RequestForAccountDeletingDTO> allRequestsDTO = new ArrayList<RequestForAccountDeletingDTO>();
+        for(RequestForAccountDeleting request: allRequests) {
+        	UserInfoDTO userDTO = new UserInfoDTO(request.getUser().getId(), request.getUser().getFirstName(), request.getUser().getLastName(), request.getUser().getEmail(), "");
+        	allRequestsDTO.add(new RequestForAccountDeletingDTO(request.getId(),request.getDescription(),userDTO));
+        }
+        return new ResponseEntity<>(allRequestsDTO, HttpStatus.OK);
     }
 }

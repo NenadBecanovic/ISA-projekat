@@ -6,6 +6,9 @@ import { Report } from '../model/report';
 import { UserInfo } from '../model/user-info';
 import { MyUserService } from '../service/my-user.service';
 import { ReportService } from '../service/report.service';
+import { AppealAnswerDialogComponent } from './appeal-answer-dialog/appeal-answer-dialog.component';
+import { DeleteRequestAnswerDialogComponent } from './delete-request-answer-dialog/delete-request-answer-dialog.component';
+import { ReportAnswerDialogComponent } from './report-answer-dialog/report-answer-dialog.component';
 
 @Component({
   selector: 'app-admin-page',
@@ -20,7 +23,8 @@ export class AdminPageComponent implements OnInit {
   notReviewedReports: Report[] = new Array<Report>();
   answeredAppeals: Appeal[] = new Array<Appeal>();
   unansweredAppeals: Appeal[] = new Array<Appeal>();
-  deleteRequests: DeleteRequest[] = new Array<DeleteRequest>();
+  unansweredDeleteRequests: DeleteRequest[] = new Array<DeleteRequest>();
+  answeredDeleteRequests: DeleteRequest[] = new Array<DeleteRequest>();
   //newUsersRequests: NewUserRequest[] = new Array<NewUserRequest>();
   allUsers: UserInfo[] = new Array<UserInfo>();
 
@@ -48,6 +52,10 @@ export class AdminPageComponent implements OnInit {
 
   showReports(){
     this.content = "reports"
+  }
+
+  showDeleteRequests(){
+    this.content = "delete requests"
   }
 
   addAdventure(){
@@ -83,24 +91,22 @@ export class AdminPageComponent implements OnInit {
     });*/
   }
 
-  makeReservation(){
-  /*  const dialogRef = this.dialog.open(MakeReservationDialogComponent, {
-      width: '500px',
-      height: '570px',
-      data: {},
-    });
-    dialogRef.componentInstance.adventure = a;
-    dialogRef.componentInstance.instructorId = this.instructor.id;
-    dialogRef.componentInstance.adventureReservation.guestId = this.getCurrentGuest();
-    dialogRef.afterClosed().subscribe(result => {
-
-    });*/
-  }
-
   loadData() { // ucitavanje iz baze
     this._myUserService.getAllUsers().subscribe(
       (users: UserInfo[]) => {
         this.allUsers = users;
+      }
+    )
+
+    this._myUserService.getAllDeleteRequests().subscribe(
+      (allRequests: DeleteRequest[]) => {
+        for(let request of allRequests){
+          if(request.isAnswered){
+            this.answeredDeleteRequests.push(request);
+          }else{
+            this.unansweredDeleteRequests.push(request);
+          }
+        }
       }
     )
 /*
@@ -109,5 +115,56 @@ export class AdminPageComponent implements OnInit {
         this.allReservations = allReservations;
       }
     )*/
+  }
+
+  makeReservation(){}
+
+  deleteUser(id: number){
+    this._myUserService.deleteUser(id).subscribe(
+      (ok: Boolean) => {
+        
+      },
+      (error) => {
+        // console.log(error)
+      }
+    )
+  }
+
+  answerOnDeleteRequest(id: number){
+    const dialogRef = this.dialog.open(DeleteRequestAnswerDialogComponent, {
+      width: '550px',
+      height: '250px',
+      data: {},
+    });
+    dialogRef.componentInstance.userId = id;
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadData();
+    });
+  }
+
+  answerOnAppeal(ownerId: number, guestId: number){
+    const dialogRef = this.dialog.open(AppealAnswerDialogComponent, {
+      width: '550px',
+      height: '500px',
+      data: {},
+    });
+    dialogRef.componentInstance.ownerId = ownerId;
+    dialogRef.componentInstance.guestId = guestId;
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadData();
+    });
+  }
+
+  answerOnReport(ownerId: number, guestId: number){
+    const dialogRef = this.dialog.open(ReportAnswerDialogComponent, {
+      width: '550px',
+      height: '500px',
+      data: {},
+    });
+    dialogRef.componentInstance.ownerId = ownerId;
+    dialogRef.componentInstance.guestId = guestId;
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadData();
+    });
   }
 }
