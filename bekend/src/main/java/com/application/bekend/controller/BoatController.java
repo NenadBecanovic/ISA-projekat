@@ -216,7 +216,7 @@ public class BoatController {
         boat = this.boatService.save(boat);  // sacuvani brod iz baze (sa odgovarajucim id-jem)
 
         // dodatna usluga kapetana
-        AdditionalServices captainService = new AdditionalServices("prisustno kapetana", dto.getPricePerDay()/2, new HashSet<>());
+        AdditionalServices captainService = new AdditionalServices("prisustvo kapetana", dto.getPricePerDay()/2, new HashSet<>());
         Set<Boat> additionalServicesBoats = captainService.getBoats();
         additionalServicesBoats.add(boat);
         captainService.setBoats(additionalServicesBoats);

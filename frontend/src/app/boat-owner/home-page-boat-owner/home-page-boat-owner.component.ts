@@ -21,7 +21,9 @@ export class HomePageBoatOwnerComponent implements OnInit {
   boats: Boat[] = new Array();
   address: Address = new Address(0,"","","",0,0,0)
   user: MyUser = new MyUser(0, '','','','','','',this.address, '','');
-  filterTerm!: string;
+  boatSearch: Boat[] = new Array();
+  boatNameSearch: string = "";
+  boatAddressSearch: string = "";
 
   constructor(private _boatService: BoatService, private _router: Router, private _authentification: AuthentificationService, public dialog: MatDialog) { }
 
@@ -42,25 +44,40 @@ export class HomePageBoatOwnerComponent implements OnInit {
   }
 
   private loadData() {
+    this.boats = new Array();
     this._authentification.getUserByEmail().subscribe(
       (user: MyUser) => {
         this.user = user;
+
+        this._boatService.findAll().subscribe(
+          (boats: Boat[]) => {
+            for(let h of boats)
+            {
+              if(h.ownerId == this.user.id)
+              {
+                if (this.boatAlreadyInArray(h) == false) {
+                  this.boats.push(h);
+                }
+              }
+            }
+            this.boatSearch = this.boats
+          }
+        )
       },
       (error) => {
       },
     )
+  }
 
-    this._boatService.findAll().subscribe(
-      (boats: Boat[]) => {
-        for(let h of boats)
-        {
-          if(h.ownerId == this.user.id)
-          {
-            this.boats.push(h);
-          }
-        }
+  boatAlreadyInArray(boat: Boat){
+    for (let u of this.boats)
+    {
+      if (u.id == boat.id)
+      {
+        return true;
       }
-    )
+    }
+    return false;
   }
 
   addActionDialog() {
@@ -87,5 +104,16 @@ export class HomePageBoatOwnerComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
 
     });
+  }
+
+  searchBoats() {
+    this.boats = this.boatSearch.filter(s => s.name.toLowerCase().includes(this.boatNameSearch.toLowerCase()) &&
+      (s.address.street + " " + s.address.city + " " + s.address.state).toLowerCase().includes(this.boatAddressSearch.toLowerCase()))
+  }
+
+  clearBoats() {
+    this.boats = this.boatSearch
+    this.boatNameSearch = "";
+    this.boatAddressSearch = "";
   }
 }

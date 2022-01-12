@@ -76,11 +76,16 @@ import { AddBoatComponent } from './boat-owner/add-boat/add-boat.component';
 import { BoatReportComponent } from './boat-owner/boat-report/boat-report.component';
 import { AddFishingAdventureActionDialogComponent } from './adventure-profile/add-action-dialog/add-action-dialog.component';
 import { EditAdventureProfileDialogComponent } from './adventure-profile/edit-adventure-profile-dialog/edit-adventure-profile-dialog.component';
+import { BoatChartComponent } from './boat-owner/boat-chart/boat-chart.component';
+//import { ChartModule } from 'angular-highcharts';
+import { HouseChartComponent } from './house-owner/house-chart/house-chart.component';
+import { CalendarDialogBoatComponent } from './boat-owner/boat-profile-for-boat-owner/calendar-dialog-boat/calendar-dialog-boat.component';
 import { AdventureReservationsDialogComponent } from './adventure-profile/adventure-reservations-dialog/adventure-reservations-dialog.component';
 import { AdminPageComponent } from './admin-page/admin-page.component';
 import { DeleteRequestAnswerDialogComponent } from './admin-page/delete-request-answer-dialog/delete-request-answer-dialog.component';
 import { AppealAnswerDialogComponent } from './admin-page/appeal-answer-dialog/appeal-answer-dialog.component';
 import { ReportAnswerDialogComponent } from './admin-page/report-answer-dialog/report-answer-dialog.component';
+import { DeclineNewUserDialogComponent } from './admin-page/decline-new-user-dialog/decline-new-user-dialog.component';
 
 const MaterialComponents = [
   MatSliderModule,
@@ -147,8 +152,12 @@ const MaterialComponents = [
     AdminPageComponent,
     DeleteRequestAnswerDialogComponent,
     AppealAnswerDialogComponent,
-    ReportAnswerDialogComponent
-   ],
+    ReportAnswerDialogComponent,
+    DeclineNewUserDialogComponent,
+    BoatChartComponent,
+    HouseChartComponent,
+    CalendarDialogBoatComponent,
+  ],
   imports: [
     RouterModule,
     ClientModule,
@@ -176,6 +185,7 @@ const MaterialComponents = [
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDhUaf84F4NwNDUjw-feRmJusep1T1EB6s'   // za google maps
     }),
+ //   ChartModule,
   ],
   providers: [
     {
