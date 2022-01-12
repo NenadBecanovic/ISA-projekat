@@ -14,6 +14,11 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {MyUser} from "../../model/my-user";
 import {MyUserService} from "../../service/my-user.service";
 import {DatePipe} from "@angular/common";
+import {
+  CalendarDialogHouseComponent
+} from "../../house-owner/house-profile-for-house-owner/calendar-dialog/calendar-dialog-house.component";
+import {CalendarDialogBoatComponent} from "./calendar-dialog-boat/calendar-dialog-boat.component";
+import {MatDialog} from "@angular/material/dialog";
 
 
 @Component({
@@ -39,10 +44,14 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
   allCourses: BoatReservation[] = new Array();
   boatServicesLoaded: boolean = false;
   date: Date = new Date();
+  userUsernameSearch: string = "";
+  userFirstNameSearch: string = "";
+  userLastNameSearch: string = "";
+  userSearch: BoatReservation[] = new Array();
 
   constructor(private _boatService: BoatService, private _additionalServices: AdditionalServicesService, private _imageService: ImageService,
               private _boatReservationService: BoatReservationService, private _router: Router, private _route: ActivatedRoute,
-              private _myUserService: MyUserService, public datepipe: DatePipe) {
+              private _myUserService: MyUserService, public datepipe: DatePipe, public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -119,6 +128,7 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
                 this.reservedCourses.push(course);
               }
             }
+            this.userSearch = this.reservedCourses
           }
         )
 
@@ -131,7 +141,14 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
   }
 
   showCalendar() {
+    const dialogRef = this.dialog.open(CalendarDialogBoatComponent, {
+      width: '1500px',
+      data: {},
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
   }
 
   createReservation() {
@@ -157,5 +174,23 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
 
   seeGuestProfile(id: number) {
     this._router.navigate(['/guest-profile-boat', id])
+  }
+
+  clearUsers() {
+    this.reservedCourses = this.userSearch
+    this.userFirstNameSearch = "";
+    this.userLastNameSearch = "";
+    this.userUsernameSearch = "";
+  }
+
+  searchUsers() {
+    this.reservedCourses = this.userSearch.filter(s =>
+      (s.guest.firstName).toLowerCase().includes(this.userFirstNameSearch.toLowerCase()) &&
+      (s.guest.lastName).toLowerCase().includes(this.userLastNameSearch.toLowerCase()) &&
+      (s.guest.username).toLowerCase().includes(this.userUsernameSearch.toLowerCase()))
+  }
+
+  charts() {
+    this._router.navigate(['/boat-chart', this.boat.id])
   }
 }

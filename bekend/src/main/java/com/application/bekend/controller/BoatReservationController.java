@@ -2,10 +2,7 @@ package com.application.bekend.controller;
 
 import com.application.bekend.DTO.*;
 import com.application.bekend.model.*;
-import com.application.bekend.service.AdditionalServicesService;
-import com.application.bekend.service.BoatReservationService;
-import com.application.bekend.service.BoatService;
-import com.application.bekend.service.MyUserService;
+import com.application.bekend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,13 +21,15 @@ public class BoatReservationController {
     private final AdditionalServicesService additionalServicesService;
     private final BoatService boatService;
     private final MyUserService myUserService;
+    private final HouseReservationService houseReservationService;
 
     @Autowired
-    public BoatReservationController(BoatReservationService boatReservationService, AdditionalServicesService additionalServicesService, BoatService boatService, MyUserService myUserService) {
+    public BoatReservationController(BoatReservationService boatReservationService, AdditionalServicesService additionalServicesService, BoatService boatService, MyUserService myUserService, HouseReservationService houseReservationService) {
         this.boatReservationService = boatReservationService;
         this.additionalServicesService = additionalServicesService;
         this.boatService = boatService;
         this.myUserService = myUserService;
+        this.houseReservationService = houseReservationService;
     }
 
     @GetMapping("/getAllByBoatId/{id}")
@@ -93,6 +92,35 @@ public class BoatReservationController {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
         }
+
+        // provera da li vec postoji termin za klijenta u izabranom periodu
+        List<HouseReservation> houseReservationsClient = this.houseReservationService.getHouseReservationsByGuestId(dto.getGuestId());
+        List<BoatReservation> boatReservationsClient = this.boatReservationService.getBoatReservationsByGuestId(dto.getGuestId());
+
+        for (HouseReservation h: houseReservationsClient) {
+            Long start =  h.getStartDate().getTime();
+            Long end = h.getEndDate().getTime();
+
+            if (Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getEndDate()) <=  end ||
+                    Long.parseLong(dto.getStartDate()) <= start && Long.parseLong(dto.getEndDate()) >= start  ||
+                    Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getStartDate()) <= end  )
+            {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+        }
+
+        for (BoatReservation h: boatReservationsClient) {
+            Long start =  h.getStartDate().getTime();
+            Long end = h.getEndDate().getTime();
+
+            if (Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getEndDate()) <=  end ||
+                    Long.parseLong(dto.getStartDate()) <= start && Long.parseLong(dto.getEndDate()) >= start  ||
+                    Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getStartDate()) <= end  )
+            {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+        }
+        // kraj provere za klijenta
 
         Date startDate = new Date(Long.parseLong(dto.getStartDate()));
         Date endDate = new Date(Long.parseLong(dto.getEndDate()));

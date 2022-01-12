@@ -116,7 +116,6 @@ export class CreateReservationForClientComponent implements OnInit {
 
     this._houseReservationService.save(this.houseReservation).subscribe(
       (houseReservation: HouseReservation) => {
-
         this._router.navigate(['house-profile-for-house-owner/', this.houseId])
       },
       (error) => {
