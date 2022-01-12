@@ -4,6 +4,8 @@ import {House} from "../model/house";
 import {Observable} from "rxjs";
 import {Report} from "../model/report";
 import {Room} from "../model/room";
+import { ReportInfo } from '../model/report-info';
+import { ReportAppealAnswer } from '../model/report-appeal-answer';
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +26,13 @@ export class ReportService {
 
   public getReportByBoatReservationId(id: number): Observable<Report> {
     return this._http.get<Report>(`${this.userPath}/getReportByBoatReservationId/`+ id)
+  }
+
+  public getAllReports(): Observable<ReportInfo[]> {
+    return this._http.get<ReportInfo[]>(`${this.userPath}/getAllReports`)
+  }
+
+  public sendReportResponse(id: number, answer: ReportAppealAnswer): Observable<Boolean> {
+    return this._http.put<Boolean>(`${this.userPath}/sendReportResponse`+id, answer);
   }
 }

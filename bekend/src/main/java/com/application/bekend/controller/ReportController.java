@@ -2,6 +2,7 @@ package com.application.bekend.controller;
 
 import com.application.bekend.DTO.ReportAppealAnswerDTO;
 import com.application.bekend.DTO.ReportDTO;
+import com.application.bekend.DTO.ReportInfoDTO;
 import com.application.bekend.model.*;
 import com.application.bekend.service.BoatReservationService;
 import com.application.bekend.service.FishingAdventureReservationService;
@@ -12,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.transaction.Transactional;
@@ -112,6 +115,12 @@ public class ReportController {
         reportDTO.setHouseReservationId(id);
 
         return new ResponseEntity<>(reportDTO, HttpStatus.OK);
+    }
+    
+    @GetMapping("/getAllReports")
+    public ResponseEntity<List<ReportInfoDTO>> getAllReports() {
+        List<ReportInfoDTO> allReports = this.reportService.getAllReports();
+        return new ResponseEntity<>(allReports, HttpStatus.OK);
     }
     
     @PutMapping("/sendReportResponse/{id}")

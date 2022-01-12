@@ -9,5 +9,5 @@ export class Feedback {
   hasBoatOwner: boolean =  false;
   hasInstructor: boolean = false;
   ownerId: number = 0;
-  isReviewed: boolean = false;
+  isApproved: boolean = false;
 }

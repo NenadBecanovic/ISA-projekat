@@ -11,6 +11,7 @@ import {Appeal} from "../model/appeal";
 import { UserInfo } from '../model/user-info';
 import { AdminAnswer } from '../model/admin-answer';
 import { ReportAppealAnswer } from '../model/report-appeal-answer';
+import { NewUserRequest } from '../model/new-user-request';
 
 @Injectable({
   providedIn: 'root'
@@ -69,10 +70,6 @@ export class MyUserService {
     return this._http.delete<Boolean>(`${this.userPath}/deleteSubscriptionById/`+ subscriptionId)
   }
 
-  public saveFeedback(feedback: Feedback): Observable<Feedback>{
-    return this._http.post<Feedback>(`${this.userPath}/saveFeedback`,feedback)
-  }
-
   public saveApeal(appeal: Appeal): Observable<Appeal>{
     return this._http.post<Appeal>(`${this.userPath}/saveAppeal`,appeal)
   }
@@ -107,5 +104,17 @@ export class MyUserService {
 
   public sendAppealResponse(id: number, adminAnswer: ReportAppealAnswer): Observable<Boolean>{
     return this._http.put<Boolean>(`${this.userPath}/sendAppealResponse/`+id, adminAnswer);
+  }
+
+  public getAllNewUserRequests(): Observable<NewUserRequest[]>{
+    return this._http.get<NewUserRequest[]>(`${this.userPath}/getAllNewUserRequests`)
+  }
+
+  public activateNewUser(id: number): Observable<Boolean>{
+    return this._http.put<Boolean>(`${this.userPath}/activateNewUser`,id);
+  }
+
+  public declineNewUserRequest(id: number, adminAnswer: AdminAnswer): Observable<Boolean>{
+    return this._http.put<Boolean>(`${this.userPath}/declineNewUserRequest/`+id, adminAnswer);
   }
 }

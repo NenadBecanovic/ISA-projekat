@@ -46,10 +46,10 @@ public class ReportAppealAnswerDTO {
 	public void setGuestResponse(String guestResponse) {
 		this.guestResponse = guestResponse;
 	}
-	public boolean isPenalty() {
+	public boolean getIsPenalty() {
 		return isPenalty;
 	}
-	public void setPenalty(boolean isPenalty) {
+	public void setIsPenalty(boolean isPenalty) {
 		this.isPenalty = isPenalty;
 	}
 }

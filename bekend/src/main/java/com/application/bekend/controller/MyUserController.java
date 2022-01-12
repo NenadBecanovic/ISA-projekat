@@ -178,28 +178,8 @@ public class MyUserController {
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
-    @PostMapping("/saveFeedback")
-    public ResponseEntity<FeedbackDTO> saveFeedbackEntity(@RequestBody FeedbackDTO dto){
-
-
-        if(dto.isHasHouse()){
-            this.myUserService.saveFeedbackHouse(dto);
-        }else if(dto.isHasHouseOwner()){
-            this.myUserService.saveFeedbackHouseOwner(dto);
-        }else if(dto.isHasBoat()){
-            this.myUserService.saveFeedbackBoat(dto);
-        }else if(dto.isHasBoatOwner()){
-            this.myUserService.saveFeedbackBoatOwner(dto);
-        }else{
-            this.myUserService.saveFeedbackInstructor(dto);
-        }
-
-        return new ResponseEntity<>(dto, HttpStatus.OK);
-    }
-
-
     @PostMapping("/saveAppeal")
-    public ResponseEntity<AppealDTO> saveFeedbackEntity(@RequestBody AppealDTO dto){
+    public ResponseEntity<AppealDTO> saveAppealEntity(@RequestBody AppealDTO dto){
 
         if(dto.isHasHouse()){
             this.appealService.saveAppealHouse(dto);
@@ -289,5 +269,28 @@ public class MyUserController {
     public ResponseEntity<Boolean> sendAppealResponse(@PathVariable("id") Long id, @RequestBody ReportAppealAnswerDTO answerDTO) throws MessagingException{
     	boolean isAnswered = this.appealService.sendAppealResponse(id, answerDTO);
         return new ResponseEntity<>(isAnswered, HttpStatus.OK);
+    }
+    
+    @GetMapping("/getAllNewUserRequests")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<List<NewUserRequestDTO>> getAllNewUserRequests(){
+    	List<MyUser> allUserRequests = this.myUserService.getAllNotActivated();
+    	List<NewUserRequestDTO> allRequestsDTO = new ArrayList<NewUserRequestDTO>();
+    	for(MyUser user: allUserRequests) {
+    		allRequestsDTO.add(new NewUserRequestDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getReasonForRegistration()));
+    	}
+    	return new ResponseEntity<>(allRequestsDTO, HttpStatus.OK);
+    }
+    
+    @PutMapping("/activateNewUser")
+    public ResponseEntity<Boolean> sendAppealResponse(@RequestBody Long id) throws MessagingException{
+    	boolean isAnswered = this.myUserService.activateNewUser(id);
+        return new ResponseEntity<>(isAnswered, HttpStatus.OK);
+    }
+    
+    @PutMapping("/declineNewUserRequest/{id}")
+    public ResponseEntity<Boolean> declineNewUserRequest(@PathVariable("id") Long id, @RequestBody AdminAnswerDTO adminAnswer) throws MessagingException{
+    	boolean isDeleted = this.myUserService.declineNewUserRequest(id, adminAnswer.getClientResponse());
+        return new ResponseEntity<>(isDeleted, HttpStatus.OK);
     }
 }

@@ -33,6 +33,8 @@ public class MyUser implements UserDetails {
     private int penalties;
     @Column(name = "isDeleted")
     private boolean isDeleted;
+    @Column(name = "reasonFroRegistration", nullable = true)
+    private String reasonForRegistration;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Boat> boats = new HashSet<Boat>();
@@ -341,4 +343,12 @@ public class MyUser implements UserDetails {
     public void setAppelsFor(Set<Appeal> appelsFor) {
         this.appelsFor = appelsFor;
     }
+
+	public String getReasonForRegistration() {
+		return reasonForRegistration;
+	}
+
+	public void setReasonForRegistration(String reasonForRegistration) {
+		this.reasonForRegistration = reasonForRegistration;
+	}
 }

@@ -3,6 +3,7 @@ package com.application.bekend.service;
 import com.application.bekend.DTO.EmailDTO;
 import com.application.bekend.DTO.FeedbackDTO;
 import com.application.bekend.DTO.MyUserDTO;
+import com.application.bekend.DTO.NewUserRequestDTO;
 import com.application.bekend.DTO.ReportAppealAnswerDTO;
 import com.application.bekend.model.*;
 import com.application.bekend.repository.MyUserRepository;
@@ -29,7 +30,6 @@ public class MyUserService implements UserDetailsService {
     private final RequestForAccountDeletingService requestForAccountDeletingService;
     private final SubscriptionService subscriptionService;
     private final HouseReservationService houseReservationService;
-    private final FeedbackService feedbackService;
     private final BoatReservationService boatReservationService;
     private final EmailService emailService;
     private PasswordEncoder passwordEncoder(){
@@ -38,12 +38,11 @@ public class MyUserService implements UserDetailsService {
 
     @Autowired
     public MyUserService(AddresService addresService, RequestForAccountDeletingService requestForAccountDeletingService, SubscriptionService subscriptionService, HouseReservationService houseReservationService, 
-    		FeedbackService feedbackService, BoatReservationService boatReservationService, EmailService emailService) {
+    		BoatReservationService boatReservationService, EmailService emailService) {
         this.addresService = addresService;
         this.requestForAccountDeletingService = requestForAccountDeletingService;
         this.subscriptionService = subscriptionService;
         this.houseReservationService = houseReservationService;
-        this.feedbackService = feedbackService;
         this.boatReservationService = boatReservationService;
         this.emailService = emailService;
     }
@@ -113,7 +112,7 @@ public class MyUserService implements UserDetailsService {
     }
     
     public MyUser findUserByAdventureReservationId(Long id){
-        return myUserRepository.findUserByAdventureReservationId(id);
+        return myUserRepository.findMyUserByAdventureReservationId(id);
     }
 
     public Subscription save(Subscription subscription) {
@@ -138,59 +137,6 @@ public class MyUserService implements UserDetailsService {
 
     public void deleteSubscriptionById(Long id){
         this.subscriptionService.deleteSubscriptionById(id);
-    }
-
-    public void saveFeedbackHouse(FeedbackDTO feedbackDTO){
-        HouseReservation houseReservation = this.houseReservationService.getHouseReservationById(feedbackDTO.getReservationId());
-        houseReservation.setHasFeedbackEntity(true);
-        this.houseReservationService.save(houseReservation);
-        Feedback feedback = this.setFeedback(feedbackDTO);
-        feedback.setHouse(houseReservation.getHouse());
-        this.feedbackService.save(feedback);
-    }
-
-    public void saveFeedbackBoat(FeedbackDTO feedbackDTO){
-        BoatReservation boatReservation = this.boatReservationService.getBoatReservationById(feedbackDTO.getReservationId());
-        boatReservation.setHasFeedbackEntity(true);
-        this.boatReservationService.save(boatReservation);
-        Feedback feedback = this.setFeedback(feedbackDTO);
-        feedback.setBoat(boatReservation.getBoat());
-        this.feedbackService.save(feedback);
-    }
-
-    public void saveFeedbackHouseOwner(FeedbackDTO feedbackDTO){
-        HouseReservation houseReservation = this.houseReservationService.getHouseReservationById(feedbackDTO.getReservationId());
-        houseReservation.setHasFeedbackOwner(true);
-        this.houseReservationService.save(houseReservation);
-        Feedback feedback = this.setFeedback(feedbackDTO);
-        feedback.setMyUser(this.findUserById(feedbackDTO.getOwnerId()));;
-        this.feedbackService.save(feedback);
-    }
-
-    public void saveFeedbackBoatOwner(FeedbackDTO feedbackDTO){
-        BoatReservation boatReservation = this.boatReservationService.getBoatReservationById(feedbackDTO.getReservationId());
-        boatReservation.setHasFeedbackOwner(true);
-        this.boatReservationService.save(boatReservation);
-        Feedback feedback = this.setFeedback(feedbackDTO);
-        feedback.setMyUser(this.findUserById(feedbackDTO.getOwnerId()));;
-        this.feedbackService.save(feedback);
-    }
-
-    public void saveFeedbackInstructor(FeedbackDTO feedbackDTO){
-//        AdventureReservation adventureReservation = this.adneture.getFishingAdventureById(feedbackDTO.getReservationId())
-//        adventureReservation.setHasFeedbackOwner(true);
-//        this.fishingAdventureService.save(adventureReservation);
-//        Feedback feedback = this.setFeedback(feedbackDTO);
-//        feedback.setMyUser(this.findUserById(feedbackDTO.getOwnerId()));;
-//        this.feedbackService.save(feedback);
-    }
-
-    private Feedback setFeedback(FeedbackDTO feedbackDTO){
-        Feedback feedback = new Feedback();
-        feedback.setGrade(feedbackDTO.getGrade());
-        feedback.setReview(feedbackDTO.getReview());
-        feedback.setApproved(false);
-        return feedback;
     }
     
     public List<MyUser> getAllUsers() {
@@ -225,5 +171,25 @@ public class MyUserService implements UserDetailsService {
     
     public List<RequestForAccountDeleting> getAllDeleteRequests(){
     	return this.requestForAccountDeletingService.getAllRequests();
+    }
+    
+    public List<MyUser> getAllNotActivated(){
+    	return this.myUserRepository.findMyUserByIsActivated(false);
+    }
+    
+    public boolean activateNewUser(Long id) throws MessagingException {
+    	MyUser newUser = this.myUserRepository.getById(id);
+    	newUser.setActivated(true);
+    	this.save(newUser);
+    	this.emailService.sendHTMLMail(newUser);
+    	return true;
+    }
+    
+    public boolean declineNewUserRequest(Long id, String clientMessage) throws MessagingException {
+    	MyUser newUser = this.myUserRepository.getById(id);
+    	this.emailService.sendAnswerEmail(new EmailDTO("Odgovor na zahtev za kreiranje naloga", clientMessage, newUser.getEmail()));
+    	newUser.setAddress(null);
+    	this.myUserRepository.delete(newUser);
+    	return true;
     }
 }
