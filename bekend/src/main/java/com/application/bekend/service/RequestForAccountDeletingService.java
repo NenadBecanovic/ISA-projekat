@@ -25,4 +25,8 @@ public class RequestForAccountDeletingService {
     public List<RequestForAccountDeleting> getAllRequests(){
     	return this.requestForAccountDeletingRepository.getAllRequests();
     }
+    
+    public RequestForAccountDeleting findById(Long id) {
+    	return this.requestForAccountDeletingRepository.findRequestForAccountDeletingById(id);
+    }
 }

@@ -8,22 +8,21 @@ import com.application.bekend.service.AppealService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.application.bekend.DTO.AddressDTO;
-import com.application.bekend.DTO.MyUserDTO;
+
+import com.application.bekend.model.Appeal;
 import com.application.bekend.model.MyUser;
 import com.application.bekend.service.HouseService;
 import com.application.bekend.service.MyUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.mail.MessagingException;
 
 @RestController
 @RequestMapping("api/user")
@@ -238,8 +237,20 @@ public class MyUserController {
     }
     
     @PutMapping("/delete")
-    public ResponseEntity<Boolean> deleteUser(@RequestBody Long id){
-        boolean isDeleted = this.myUserService.deleteUser(id);
+    public ResponseEntity<Boolean> deleteUser(@RequestBody Long id) {
+    	boolean isDeleted = this.myUserService.deleteUser(id);
+        return new ResponseEntity<>(isDeleted, HttpStatus.OK);
+    }
+    
+    @PutMapping("/deleteUserWithRequest/{id}")
+    public ResponseEntity<Boolean> deleteUser(@PathVariable("id") Long id, @RequestBody AdminAnswerDTO adminAnswer) throws MessagingException{
+    	boolean isDeleted = this.myUserService.deleteUserWithRequest(id, adminAnswer.getClientResponse());
+        return new ResponseEntity<>(isDeleted, HttpStatus.OK);
+    }
+    
+    @PutMapping("/declineDeleteRequest/{id}")
+    public ResponseEntity<Boolean> declineDeleteRequest(@PathVariable("id") Long id, @RequestBody AdminAnswerDTO adminAnswer) throws MessagingException{
+    	boolean isDeleted = this.myUserService.declineDeleteRequest(id, adminAnswer.getClientResponse());
         return new ResponseEntity<>(isDeleted, HttpStatus.OK);
     }
     
@@ -253,5 +264,30 @@ public class MyUserController {
         	allRequestsDTO.add(new RequestForAccountDeletingDTO(request.getId(),request.getDescription(),userDTO));
         }
         return new ResponseEntity<>(allRequestsDTO, HttpStatus.OK);
+    }
+    
+    @GetMapping("/getAllAppeals")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<List<AppealDTO>> getAllAppeals() {
+        List<Appeal> allAppeals = this.appealService.getAllAppeals();
+        List<AppealDTO> allAppealsDTO = new ArrayList<AppealDTO>();
+        for(Appeal appeal: allAppeals) {
+        	UserInfoDTO guest = new UserInfoDTO(appeal.getSenderId().getId(), appeal.getSenderId().getFirstName(), appeal.getSenderId().getLastName(), appeal.getSenderId().getEmail(), "");
+        	UserInfoDTO owner = new UserInfoDTO(appeal.getOwnerId().getId(), appeal.getOwnerId().getFirstName(), appeal.getOwnerId().getLastName(), appeal.getOwnerId().getEmail(), "");
+        	AppealDTO appealDTO = new AppealDTO();
+        	appealDTO.setId(appeal.getId());
+        	appealDTO.setReview(appeal.getReview());
+        	appealDTO.setGuest(guest);
+        	appealDTO.setOwner(owner);
+        	appealDTO.setIsAnswered(appeal.isAnswered());
+        	allAppealsDTO.add(appealDTO);
+        }
+        return new ResponseEntity<>(allAppealsDTO, HttpStatus.OK);
+    }
+    
+    @PutMapping("/sendAppealResponse/{id}")
+    public ResponseEntity<Boolean> sendAppealResponse(@PathVariable("id") Long id, @RequestBody ReportAppealAnswerDTO answerDTO) throws MessagingException{
+    	boolean isAnswered = this.appealService.sendAppealResponse(id, answerDTO);
+        return new ResponseEntity<>(isAnswered, HttpStatus.OK);
     }
 }

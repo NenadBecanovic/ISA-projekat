@@ -1,5 +1,6 @@
 package com.application.bekend.service;
 
+import com.application.bekend.DTO.EmailDTO;
 import com.application.bekend.model.MyUser;
 import com.application.bekend.model.VerificationToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +47,22 @@ public class EmailService {
             javaMailSender.send(message);
 
         }
+    }
+    
+    public void sendAnswerEmail(EmailDTO emailDTO) throws MessagingException{
+            Context context = new Context();
+            context.setVariable("title", emailDTO.getTitle());
+
+            context.setVariable("content", emailDTO.getContent());
+
+            String body = templateEngine.process("adminAnswer", context);
+
+            //Send verification email
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setTo(emailDTO.getUserEmail());
+            helper.setSubject(emailDTO.getTitle());
+            helper.setText(body, true);
+            javaMailSender.send(message);
     }
 }

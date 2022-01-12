@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { AdminAnswer } from '../model/admin-answer';
 import { Appeal } from '../model/appeal';
 import { DeleteRequest } from '../model/delete-request';
 import { Report } from '../model/report';
@@ -109,12 +110,18 @@ export class AdminPageComponent implements OnInit {
         }
       }
     )
-/*
-    this._adventureReservationService.getAdventureReservationsByInstructorId(1).subscribe(
-      (allReservations: AdventureReservation[]) => {
-        this.allReservations = allReservations;
+
+    this._myUserService.getAllAppeals().subscribe(
+      (allAppeals: Appeal[]) => {
+        for(let appeal of allAppeals){
+          if(appeal.isAnswered){
+            this.answeredAppeals.push(appeal);
+          }else{
+            this.unansweredAppeals.push(appeal);
+          }
+        }
       }
-    )*/
+    )
   }
 
   makeReservation(){}
@@ -122,7 +129,7 @@ export class AdminPageComponent implements OnInit {
   deleteUser(id: number){
     this._myUserService.deleteUser(id).subscribe(
       (ok: Boolean) => {
-        
+        this.loadData();
       },
       (error) => {
         // console.log(error)
@@ -142,14 +149,15 @@ export class AdminPageComponent implements OnInit {
     });
   }
 
-  answerOnAppeal(ownerId: number, guestId: number){
+  answerOnAppeal(ownerId: number, guestId: number, appealId: number){
     const dialogRef = this.dialog.open(AppealAnswerDialogComponent, {
       width: '550px',
       height: '500px',
       data: {},
     });
-    dialogRef.componentInstance.ownerId = ownerId;
-    dialogRef.componentInstance.guestId = guestId;
+    dialogRef.componentInstance.answer.ownerId = ownerId;
+    dialogRef.componentInstance.answer.guestId = guestId;
+    dialogRef.componentInstance.appealId = appealId;
     dialogRef.afterClosed().subscribe(result => {
       this.loadData();
     });

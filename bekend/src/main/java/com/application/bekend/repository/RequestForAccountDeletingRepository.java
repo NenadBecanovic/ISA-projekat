@@ -13,4 +13,6 @@ public interface RequestForAccountDeletingRepository extends JpaRepository<Reque
 
 	@Query("select r from RequestForAccountDeleting r join fetch r.user u")
 	public List<RequestForAccountDeleting> getAllRequests();
+	
+	public RequestForAccountDeleting findRequestForAccountDeletingById(Long id);
 }

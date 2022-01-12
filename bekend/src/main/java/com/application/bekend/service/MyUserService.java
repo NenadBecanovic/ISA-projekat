@@ -1,7 +1,9 @@
 package com.application.bekend.service;
 
+import com.application.bekend.DTO.EmailDTO;
 import com.application.bekend.DTO.FeedbackDTO;
 import com.application.bekend.DTO.MyUserDTO;
+import com.application.bekend.DTO.ReportAppealAnswerDTO;
 import com.application.bekend.model.*;
 import com.application.bekend.repository.MyUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Set;
 
+import javax.mail.MessagingException;
+
 @Service
 public class MyUserService implements UserDetailsService {
 
@@ -27,19 +31,21 @@ public class MyUserService implements UserDetailsService {
     private final HouseReservationService houseReservationService;
     private final FeedbackService feedbackService;
     private final BoatReservationService boatReservationService;
-
+    private final EmailService emailService;
     private PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }       // za enkodovanje lozinke
 
     @Autowired
-    public MyUserService(AddresService addresService, RequestForAccountDeletingService requestForAccountDeletingService, SubscriptionService subscriptionService, HouseReservationService houseReservationService, FeedbackService feedbackService, BoatReservationService boatReservationService) {
+    public MyUserService(AddresService addresService, RequestForAccountDeletingService requestForAccountDeletingService, SubscriptionService subscriptionService, HouseReservationService houseReservationService, 
+    		FeedbackService feedbackService, BoatReservationService boatReservationService, EmailService emailService) {
         this.addresService = addresService;
         this.requestForAccountDeletingService = requestForAccountDeletingService;
         this.subscriptionService = subscriptionService;
         this.houseReservationService = houseReservationService;
         this.feedbackService = feedbackService;
         this.boatReservationService = boatReservationService;
+        this.emailService = emailService;
     }
 
     public MyUser findUserById(Long id){
@@ -195,6 +201,25 @@ public class MyUserService implements UserDetailsService {
     	MyUser user = this.findUserById(id);
     	user.setDeleted(true);
     	this.save(user);
+    	return true;
+    }
+    
+    public boolean deleteUserWithRequest(Long id, String clientMessage) throws MessagingException {
+    	RequestForAccountDeleting request = this.requestForAccountDeletingService.findById(id);
+    	MyUser user = this.findUserById(request.getUser().getId());
+    	user.setDeleted(true);
+    	this.save(user);
+    	this.emailService.sendAnswerEmail(new EmailDTO("Odgovor na zahtev za brisanje naloga", clientMessage, user.getEmail()));
+    	request.setAnswered(true);
+    	this.requestForAccountDeletingService.save(request);
+    	return true;
+    }
+    
+    public boolean declineDeleteRequest(Long id, String clientMessage) throws MessagingException {
+    	RequestForAccountDeleting request = this.requestForAccountDeletingService.findById(id);
+    	this.emailService.sendAnswerEmail(new EmailDTO("Odgovor na zahtev za brisanje naloga", clientMessage, request.getUser().getEmail()));
+    	request.setAnswered(true);
+    	this.requestForAccountDeletingService.save(request);
     	return true;
     }
     

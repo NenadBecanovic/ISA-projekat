@@ -9,6 +9,8 @@ import {Subscription} from "../model/subscription";
 import {Feedback} from "../model/feedback";
 import {Appeal} from "../model/appeal";
 import { UserInfo } from '../model/user-info';
+import { AdminAnswer } from '../model/admin-answer';
+import { ReportAppealAnswer } from '../model/report-appeal-answer';
 
 @Injectable({
   providedIn: 'root'
@@ -87,7 +89,23 @@ export class MyUserService {
     return this._http.put<Boolean>(`${this.userPath}/delete`,id);
   }
 
+  public deleteUserWithRequest(id: number, adminAnswer: AdminAnswer): Observable<Boolean>{
+    return this._http.put<Boolean>(`${this.userPath}/deleteUserWithRequest/`+id, adminAnswer);
+  }
+
+  public declineDeleteRequest(id: number, adminAnswer: AdminAnswer): Observable<Boolean>{
+    return this._http.put<Boolean>(`${this.userPath}/declineDeleteRequest/`+id, adminAnswer);
+  }
+
   public getAllDeleteRequests(): Observable<DeleteRequest[]>{
     return this._http.get<DeleteRequest[]>(`${this.userPath}/getAllDeleteRequests`);
+  }
+
+  public getAllAppeals(): Observable<Appeal[]>{
+    return this._http.get<Appeal[]>(`${this.userPath}/getAllAppeals`);
+  }
+
+  public sendAppealResponse(id: number, adminAnswer: ReportAppealAnswer): Observable<Boolean>{
+    return this._http.put<Boolean>(`${this.userPath}/sendAppealResponse/`+id, adminAnswer);
   }
 }

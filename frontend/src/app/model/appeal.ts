@@ -1,3 +1,5 @@
+import { UserInfo } from "./user-info";
+
 export class Appeal {
 
   reservationId: number = 0;
@@ -10,4 +12,6 @@ export class Appeal {
   ownerId: number = 0;
   senderId: number = 0;
   isAnswered: boolean = false;
+  owner: UserInfo = new UserInfo(0,'','','','');
+  guest: UserInfo = new UserInfo(0,'','','','');
 }

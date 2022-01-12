@@ -15,7 +15,11 @@ public class UserInfoDTO {
 		this.email = email;
 		this.authority = authority;
 	}
-
+	
+	UserInfoDTO(){
+		
+	}
+	
 	public Long getId() {
 		return id;
 	}

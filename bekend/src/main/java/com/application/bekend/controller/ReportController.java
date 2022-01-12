@@ -1,5 +1,6 @@
 package com.application.bekend.controller;
 
+import com.application.bekend.DTO.ReportAppealAnswerDTO;
 import com.application.bekend.DTO.ReportDTO;
 import com.application.bekend.model.*;
 import com.application.bekend.service.BoatReservationService;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 
 @RestController
@@ -110,5 +112,11 @@ public class ReportController {
         reportDTO.setHouseReservationId(id);
 
         return new ResponseEntity<>(reportDTO, HttpStatus.OK);
+    }
+    
+    @PutMapping("/sendReportResponse/{id}")
+    public ResponseEntity<Boolean> sendReportResponse(@PathVariable("id") Long id, @RequestBody ReportAppealAnswerDTO answerDTO) throws MessagingException{
+    	boolean isAnswered = this.reportService.sendReportResponse(id, answerDTO);
+        return new ResponseEntity<>(isAnswered, HttpStatus.OK);
     }
 }
