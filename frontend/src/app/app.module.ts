@@ -84,6 +84,8 @@ import { AdventureReservationsDialogComponent } from './adventure-profile/advent
 import { PlainHeaderComponent } from './house-owner/plain-header/plain-header.component';
 import {NgbCollapseModule} from "@ng-bootstrap/ng-bootstrap";
 import { AdventureChartComponent } from './adventure-profile/adventure-chart/adventure-chart.component';
+import { AddImageHouseComponent } from './house-owner/add-image-house/add-image-house.component';
+import { AddImageBoatComponent } from './boat-owner/add-image-boat/add-image-boat.component';
 
 const MaterialComponents = [
   MatSliderModule,
@@ -152,6 +154,8 @@ const MaterialComponents = [
     AdventureReservationsDialogComponent,
     PlainHeaderComponent,
     AdventureChartComponent,
+    AddImageHouseComponent,
+    AddImageBoatComponent,
   ],
   imports: [
     RouterModule,

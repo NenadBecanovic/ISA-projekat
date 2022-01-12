@@ -121,11 +121,9 @@
   font-family: "Poppins", sans-serif;
   color:white;
   background-color: #31B4E5;
-  position: absolute;
-  top: 36vw;
-  left: 93%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
+  position: relative;
+  top: 1vw;
+  left: 89%;
   font-size: 20px;
   padding: 5px 10px;
 }

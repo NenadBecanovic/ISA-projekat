@@ -19,6 +19,8 @@ import { DatePipe } from '@angular/common'
 import {MyUserService} from "../../service/my-user.service";
 import {MyUser} from "../../model/my-user";
 import {AuthentificationService} from "../../auth/authentification/authentification.service";
+import {AddImageDialogComponent} from "../../adventure-profile/add-image-dialog/add-image-dialog.component";
+import {AddImageHouseComponent} from "../add-image-house/add-image-house.component";
 
 @Component({
   selector: 'app-house-profile-for-house-owner',
@@ -60,10 +62,15 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
     this.loadData();
   }
 
-  // https://www.eduforbetterment.com/file-upload-using-material-components-in-angular/
-  addImageToHouse(e: any) {
-    const file: File = e.files[0];
-    const reader = new FileReader();
+  imageAdded(id: number) {
+    const dialogRef = this.dialog.open(AddImageHouseComponent, {
+      width: '500px',
+      data: {},
+    });
+    dialogRef.componentInstance.id = id;
+    dialogRef.afterClosed().subscribe(result => {
+      window.location.reload();
+    });
   }
 
   addActionDialog() {

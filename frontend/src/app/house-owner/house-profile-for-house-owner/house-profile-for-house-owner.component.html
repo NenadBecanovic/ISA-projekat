@@ -13,9 +13,10 @@
       </mat-carousel-slide>
         #matCarouselSlide>
     </mat-carousel>
-    <button mat-raised-button (click)="addImage.click()" class="btn add-picture-button">Dodaj sliku</button>
-    <input type="file" accept="image/*" style="display:none;border:none;" (change)="addImageToHouse($event)" #addImage/>
-
+<!--    <button mat-raised-button (click)="addImage.click()" class="btn add-picture-button">Dodaj sliku</button>-->
+<!--    <input type="file" accept="image/*" style="display:none;border:none;" (change)="addImageToHouse($event)" #addImage/>-->
+    <br><br><br>
+    <button mat-raised-button (click)="imageAdded(house.id)" class="btn add-picture-button">Dodaj sliku</button>
 
     <div class="house-container">
       <div class="d-flex flex-column house-view-title-container">

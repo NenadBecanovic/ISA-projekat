@@ -9,6 +9,9 @@ import {AlertService} from "ngx-alerts";
 import {Router} from "@angular/router";
 import {MyUser} from "../../model/my-user";
 import {AuthentificationService} from "../../auth/authentification/authentification.service";
+import {AddImageHouseComponent} from "../add-image-house/add-image-house.component";
+import {MatDialog} from "@angular/material/dialog";
+import {FishingAdventure} from "../../model/fishing-adventure";
 
 @Component({
   selector: 'app-add-house',
@@ -17,17 +20,15 @@ import {AuthentificationService} from "../../auth/authentification/authentificat
 })
 export class AddHouseComponent implements OnInit {
 
-  showNewService: boolean = false;
   additionalServices: AdditionalService[] = new Array();
-  // showNewRoom: boolean = false;
   rooms: Room[] = new Array();
   address: Address = new Address(0, '', '', '', 0, 0, 0);
   house: House = new House(0, '', this.address, '', '',0,false, 0, this.rooms, this.additionalServices, 0, 0);
-  // newRoom: Room = new Room(0, 0, this.house);
   user: MyUser = new MyUser(0, '','','','','','', this.address, '','');
 
   constructor(private _houseService: HouseService, private _alertService: AlertService, private _router: Router,
-              private _authentification: AuthentificationService) { }
+              private _authentification: AuthentificationService, public dialog: MatDialog,
+              ) { }
 
   ngOnInit(): void {
     this.loadData();
@@ -63,38 +64,4 @@ export class AddHouseComponent implements OnInit {
       this.house.cancalletionFee = 0
     }
   }
-
-  // showAddingNewService() {
-  //   if (this.showNewService == true)
-  //   {
-  //     this.showNewService = false;
-  //   }
-  //   else
-  //   {
-  //     this.showNewService = true;
-  //   }
-  // }
-  // addAdditionalService() {
-  //
-  // }
-  //
-  // deleteAdditionalService(id: number) {
-  //
-  // }
-  // addNewRoom() {
-  //
-  // }
-  // deleteRoom(id: number) {
-  //
-  // }
-  // showAddingNewRoom() {
-  //   if (this.showNewRoom == true)
-  //   {
-  //     this.showNewRoom = false;
-  //   }
-  //   else
-  //   {
-  //     this.showNewRoom = true;
-  //   }
-  //}
 }

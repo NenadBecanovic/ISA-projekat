@@ -12,11 +12,13 @@
         [hideOverlay]="false">
       </mat-carousel-slide>
     </mat-carousel>
-    <button mat-raised-button (click)="addImage.click()" class="btn add-picture-button">Dodaj sliku</button>
-    <input type="file" accept="image/*" style="display:none;border:none;" (change)="addImageToBoat($event)" #addImage/>
+<!--    <button mat-raised-button (click)="addImage.click()" class="btn add-picture-button">Dodaj sliku</button>-->
+<!--    <input type="file" accept="image/*" style="display:none;border:none;" (change)="addImageToBoat($event)" #addImage/>-->
+
+    <br><br><br>
+    <button mat-raised-button (click)="imageAdded(boat.id)" class="btn add-picture-button">Dodaj sliku</button>
 
     <div class="boat-container boat-view-title-container">
-
       <!-- naziv broda -->
       <div class="d-flex left align-items-center" style="margin-left: 10px">
         <span class="house-name display-5" style="margin-left: 10px">

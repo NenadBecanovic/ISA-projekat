@@ -19,6 +19,8 @@ import {
 } from "../../house-owner/house-profile-for-house-owner/calendar-dialog/calendar-dialog-house.component";
 import {CalendarDialogBoatComponent} from "./calendar-dialog-boat/calendar-dialog-boat.component";
 import {MatDialog} from "@angular/material/dialog";
+import {AddImageHouseComponent} from "../../house-owner/add-image-house/add-image-house.component";
+import {AddImageBoatComponent} from "../add-image-boat/add-image-boat.component";
 
 
 @Component({
@@ -60,8 +62,15 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
     this.loadData();
   }
 
-  addImageToBoat($event: Event) {
-
+  imageAdded(id: number) {
+    const dialogRef = this.dialog.open(AddImageBoatComponent, {
+      width: '500px',
+      data: {},
+    });
+    dialogRef.componentInstance.id = id;
+    dialogRef.afterClosed().subscribe(result => {
+      window.location.reload();
+    });
   }
 
   addActionDialog() {
