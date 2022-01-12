@@ -76,6 +76,9 @@ import { AddBoatComponent } from './boat-owner/add-boat/add-boat.component';
 import { BoatReportComponent } from './boat-owner/boat-report/boat-report.component';
 import { AddFishingAdventureActionDialogComponent } from './adventure-profile/add-action-dialog/add-action-dialog.component';
 import { EditAdventureProfileDialogComponent } from './adventure-profile/edit-adventure-profile-dialog/edit-adventure-profile-dialog.component';
+import { BoatChartComponent } from './boat-owner/boat-chart/boat-chart.component';
+import { ChartModule } from 'angular-highcharts';
+
 
 const MaterialComponents = [
   MatSliderModule,
@@ -137,7 +140,8 @@ const MaterialComponents = [
     CreateReservationForClientBoatComponent,
     AddBoatComponent,
     BoatReportComponent,
-    AddFishingAdventureActionDialogComponent
+    AddFishingAdventureActionDialogComponent,
+    BoatChartComponent
   ],
   imports: [
     RouterModule,
@@ -166,6 +170,7 @@ const MaterialComponents = [
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDhUaf84F4NwNDUjw-feRmJusep1T1EB6s'   // za google maps
     }),
+    ChartModule,
   ],
   providers: [
     {

@@ -177,4 +177,8 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
       (s.guest.lastName).toLowerCase().includes(this.userLastNameSearch.toLowerCase()) &&
       (s.guest.username).toLowerCase().includes(this.userUsernameSearch.toLowerCase()))
   }
+
+  charts() {
+    this._router.navigate(['/boat-chart', this.boat.id])
+  }
 }
