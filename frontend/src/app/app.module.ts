@@ -145,8 +145,8 @@ const MaterialComponents = [
     AddFishingAdventureActionDialogComponent,
     BoatChartComponent,
     HouseChartComponent,
-    CalendarDialogBoatComponent
-    AdventureReservationsDialogComponent
+    CalendarDialogBoatComponent,
+    AdventureReservationsDialogComponent,
   ],
   imports: [
     RouterModule,
