@@ -40,6 +40,10 @@ public class FishingAdventureReservationService {
         return fishingAdventureReservationsRepository.getAllByFishingAdventure_Id(id);
     }
 	
+	public AdventureReservation getFishingAdventureReservationById(Long id) {
+        return this.fishingAdventureReservationsRepository.getFishingAdventureReservationById(id);
+    }
+	
 	public AdventureReservation save(AdventureReservation adventureReservation) {
         return this.fishingAdventureReservationsRepository.save(adventureReservation);
     }
@@ -101,8 +105,7 @@ public class FishingAdventureReservationService {
         return true;
 	}
 	
-	public Long getCurrentGuest(Date currentDateAndTime, Long instructorId) {
-		//return this.fishingAdventureReservationsRepository.getAllByCurrentGuest(currentDateAndTime, instructorId);
-		return null;
+	public List<AdventureReservation> getAdventureReservationsByInstructorId(Long id){
+		return this.fishingAdventureReservationsRepository.getAdventureReservationsByInstructorId(id);
 	}
 }

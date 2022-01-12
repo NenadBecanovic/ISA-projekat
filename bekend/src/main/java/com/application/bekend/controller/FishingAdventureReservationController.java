@@ -146,16 +146,18 @@ public class FishingAdventureReservationController {
         return new ResponseEntity<>(adventureReservationDTOS, HttpStatus.OK);
     }
     
-    @GetMapping("/getCurrentGuest/{id}")
-    public ResponseEntity<Long> getCurrentGuest(@PathVariable("id") Long instructorId) {
-    	Date currentDateAndTime = new Date();
-        Long guestId = this.fishingAdventureReservationService.getCurrentGuest(currentDateAndTime,instructorId);
-        
-        if(guestId == null) {
-        	return new ResponseEntity<>(HttpStatus.CONFLICT);
+    @GetMapping("/getAdventureReservationsByInstructorId/{id}")
+    public ResponseEntity<List<AdventureReservationDTO>> getHouseReservationByUserId(@PathVariable("id") Long id) {
+        List<AdventureReservation> houseReservations = this.fishingAdventureReservationService.getAdventureReservationsByInstructorId(id);
+        List<AdventureReservationDTO> adventureReservationDTOS = new ArrayList<AdventureReservationDTO>();
+/*
+        for(HouseReservation houseReservation: houseReservations){
+            HouseReservationDTO dto = new HouseReservationDTO(houseReservation.getId(), houseReservation.getStartDate().toString(), houseReservation.getEndDate().toString(),
+                    houseReservation.getMaxGuests(), houseReservation.getPrice(), houseReservation.isAvailable());
+            houseReservationDTOS.add(dto);
         }
-
-        return new ResponseEntity<>(guestId, HttpStatus.OK);
+*/
+        return new ResponseEntity<>(adventureReservationDTOS, HttpStatus.OK);
     }
     
 /*

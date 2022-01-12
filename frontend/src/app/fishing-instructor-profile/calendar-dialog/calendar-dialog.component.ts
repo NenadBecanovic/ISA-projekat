@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@
 import { MatDialogRef } from '@angular/material/dialog';
 import { CalendarDayViewBeforeRenderEvent, CalendarEvent, CalendarMonthViewBeforeRenderEvent, CalendarView, CalendarViewPeriod, CalendarWeekViewBeforeRenderEvent } from 'angular-calendar';
 import { CalendarEventActionsComponent } from 'angular-calendar/modules/common/calendar-event-actions.component';
+import { AdventureReservation } from 'src/app/model/adventure-reservation';
 import { colors } from './demo-utils/colors';
 
 @Component({
@@ -15,7 +16,7 @@ export class CalendarDialogComponent implements OnInit {
   view: CalendarView = CalendarView.Month;
 
   viewDate: Date = new Date();
-  
+  allReservations: AdventureReservation[] = new Array<AdventureReservation>();
   events: CalendarEvent[] = [
     {
       title: 'Rezervacija taj korisnik tada i tada,taj dan',

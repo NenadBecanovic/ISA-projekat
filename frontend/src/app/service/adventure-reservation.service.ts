@@ -33,8 +33,8 @@ export class AdventureReservationService {
     return this._http.post<AdventureReservation>(`${this.userPath}/saveUnavailablePeriod/`+instructorId, adventureReservation)
   }
 
-  public getCurrentGuest(instructorId: number): Observable<number> {
-    return this._http.get<number>(`${this.userPath}/getCurrentGuest/`+instructorId)
+  public getAdventureReservationsByInstructorId(id: number): Observable<AdventureReservation[]> {
+    return this._http.get<AdventureReservation[]>(`${this.userPath}/getAdventureReservationsByInstructorId/`+id)
   }
 
   public delete(id: number): Observable<boolean> {

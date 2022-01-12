@@ -22,6 +22,7 @@ export class MakeReservationDialogComponent implements OnInit {
   durationMinutes: number = 0;
   date: Date = new Date();
   instructorId!: number;
+  isDisabled: boolean = false;
 
   constructor(public dialogRef: MatDialogRef<MakeReservationDialogComponent>, private _adventureReservationService: AdventureReservationService, private _additionalServicesService: AdditionalServicesService,
           private _alertService: AlertService) { 
@@ -29,6 +30,10 @@ export class MakeReservationDialogComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(this.adventureReservation.guestId == 0){
+      alert("Trenutno nema korisnika za kog se moze napraviti rezervacija!")
+      this.isDisabled = true;
+    }
   }
 
   onNoClick(): void {
@@ -36,12 +41,6 @@ export class MakeReservationDialogComponent implements OnInit {
   }
 
   loadData() { // ucitavanje iz baze
-    this._adventureReservationService.getCurrentGuest(this.instructorId).subscribe(
-      (guestId: number) => {
-        this.adventureReservation.guestId = guestId;
-      }
-    )
-
     this._additionalServicesService.getAllByFishingAdventureId(this.adventure.id).subscribe(
       (additionalServices: AdditionalService[]) => {
         this.additionalServices = additionalServices

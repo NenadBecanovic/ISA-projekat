@@ -8,14 +8,16 @@ public class ReportDTO {
     private boolean penaltyProposal;
     private Long houseReservationId;
     private Long boatReservationId;
+    private Long adventureReservationId;
 
-    public ReportDTO(Long id, String comment, boolean showedUp, boolean penaltyProposal, Long houseReservationId, Long boatReservationId) {
+    public ReportDTO(Long id, String comment, boolean showedUp, boolean penaltyProposal, Long houseReservationId, Long boatReservationId, Long adventureReservationId) {
         this.id = id;
         this.comment = comment;
         this.missedReservation = showedUp;
         this.penaltyProposal = penaltyProposal;
         this.houseReservationId = houseReservationId;
         this.boatReservationId = boatReservationId;
+        this.adventureReservationId = adventureReservationId;
     }
 
     public ReportDTO(Long id, String comment, boolean showedUp, boolean penaltyProposal) {
@@ -74,4 +76,12 @@ public class ReportDTO {
     public void setBoatReservationId(Long boatReservationId) {
         this.boatReservationId = boatReservationId;
     }
+
+	public Long getAdventureReservationId() {
+		return adventureReservationId;
+	}
+
+	public void setAdventureReservationId(Long adventureReservationId) {
+		this.adventureReservationId = adventureReservationId;
+	}
 }

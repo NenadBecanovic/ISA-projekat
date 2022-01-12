@@ -80,7 +80,7 @@ import { BoatChartComponent } from './boat-owner/boat-chart/boat-chart.component
 import { ChartModule } from 'angular-highcharts';
 import { HouseChartComponent } from './house-owner/house-chart/house-chart.component';
 import { CalendarDialogBoatComponent } from './boat-owner/boat-profile-for-boat-owner/calendar-dialog-boat/calendar-dialog-boat.component';
-
+import { AdventureReservationsDialogComponent } from './adventure-profile/adventure-reservations-dialog/adventure-reservations-dialog.component';
 
 const MaterialComponents = [
   MatSliderModule,
@@ -146,6 +146,7 @@ const MaterialComponents = [
     BoatChartComponent,
     HouseChartComponent,
     CalendarDialogBoatComponent
+    AdventureReservationsDialogComponent
   ],
   imports: [
     RouterModule,

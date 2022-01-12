@@ -105,6 +105,10 @@ public class MyUserService implements UserDetailsService {
     public MyUser findUserByBoatReservationId(Long id){
         return myUserRepository.findUserByBoatReservationId(id);
     }
+    
+    public MyUser findUserByAdventureReservationId(Long id){
+        return myUserRepository.findUserByAdventureReservationId(id);
+    }
 
     public Subscription save(Subscription subscription) {
         return this.subscriptionService.save(subscription);

@@ -20,6 +20,7 @@ public class AdventureReservation {
     private Boolean hasAppealOwner = false;
     private boolean availabilityPeriod = false;
     private boolean isAction = false;
+    private boolean hasReport = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "guest_id")
@@ -31,6 +32,9 @@ public class AdventureReservation {
     
     @ManyToMany(mappedBy = "adventureReservationsServices")
     private Set<AdditionalServices> additionalServices = new HashSet<>();
+    
+    @OneToOne(mappedBy = "adventureReservation")
+    private Report report;
     
     public AdventureReservation(Long id, Date startDate, Date endDate, int maxGuests, float price, boolean isAvailable, FishingAdventure fishingAdventure) {
         this.id = id;
@@ -151,5 +155,21 @@ public class AdventureReservation {
 
 	public void setAction(boolean isAction) {
 		this.isAction = isAction;
+	}
+
+	public Report getReport() {
+		return report;
+	}
+
+	public void setReport(Report report) {
+		this.report = report;
+	}
+
+	public boolean isHasReport() {
+		return hasReport;
+	}
+
+	public void setHasReport(boolean hasReport) {
+		this.hasReport = hasReport;
 	}
 }
