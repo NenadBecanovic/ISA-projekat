@@ -78,6 +78,7 @@ import { AddFishingAdventureActionDialogComponent } from './adventure-profile/ad
 import { EditAdventureProfileDialogComponent } from './adventure-profile/edit-adventure-profile-dialog/edit-adventure-profile-dialog.component';
 import { BoatChartComponent } from './boat-owner/boat-chart/boat-chart.component';
 import { ChartModule } from 'angular-highcharts';
+import { HouseChartComponent } from './house-owner/house-chart/house-chart.component';
 
 
 const MaterialComponents = [
@@ -141,7 +142,8 @@ const MaterialComponents = [
     AddBoatComponent,
     BoatReportComponent,
     AddFishingAdventureActionDialogComponent,
-    BoatChartComponent
+    BoatChartComponent,
+    HouseChartComponent
   ],
   imports: [
     RouterModule,

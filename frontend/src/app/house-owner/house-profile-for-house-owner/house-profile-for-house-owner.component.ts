@@ -201,4 +201,8 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
       (s.guest.lastName).toLowerCase().includes(this.userLastNameSearch.toLowerCase()) &&
       (s.guest.username).toLowerCase().includes(this.userUsernameSearch.toLowerCase()))
   }
+
+  charts() {
+    this._router.navigate(['/house-chart', this.house.id])
+  }
 }

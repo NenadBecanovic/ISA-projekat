@@ -145,7 +145,7 @@
   /*position: center;*/
   margin: 0;
   position: absolute;
-  left: 30%;
+  left: 32%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   padding: 5px 10px;
@@ -232,4 +232,19 @@ agm-map{
   font-family: "Poppins", sans-serif;
   margin: auto;
   margin-left: 19vw;
+}
+
+.charts-button {
+  font-family: "Poppins", sans-serif;
+  color:white;
+  background-color: #31B4E5;
+  font-size: 20px;
+  /*align-items: center;*/
+  /*position: center;*/
+  margin: 0;
+  position: absolute;
+  left: 65%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  padding: 5px 10px;
 }
