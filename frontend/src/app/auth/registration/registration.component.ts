@@ -29,6 +29,7 @@ export class RegistrationComponent implements OnInit {
         this.alertService.success('Incorrect password');
         return;
       }
+    this.alertService.info('Kreiranje korisnika je zapoceto');
       this.authService.register(this.user).subscribe(   // subscribe - da bismo dobili odgovor beka
         (isCraated: Boolean) => {
           this.alertService.success('User created');

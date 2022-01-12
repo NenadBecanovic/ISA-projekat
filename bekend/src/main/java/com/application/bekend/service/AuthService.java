@@ -41,19 +41,19 @@ public class AuthService {
     public MyUser sendVerificationEmail(MyUser myUser) {    // preko mejla saljemo verifikacioni token
         Optional<MyUser> saved = Optional.of(this.save(myUser));
 
-        saved.ifPresent(u -> {      // ako je user sacuvan (nije null)
-                    try {
-                        String token = UUID.randomUUID().toString();
-                          // kreiranje verifikacionog tokena
+       // ako je user sacuvan (nije null)
+        if (saved.get() != null){
+            try {
+                System.out.println("uslooo");
+                String token = UUID.randomUUID().toString();
+                // kreiranje verifikacionog tokena
+                verificationTokenService.save(saved.get(), token);
+                this.emailService.sendHTMLMail(saved.get());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
-                        this.emailService.sendHTMLMail(saved.get());
-                        verificationTokenService.save(saved.get(), token);
-                        MyUser user = this.save(myUser);// send verification email
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-        );
         return saved.get();     // vracamo sacuvanog user-a (moze biti i void metoda)
     }
 
