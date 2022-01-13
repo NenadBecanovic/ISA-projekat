@@ -8,13 +8,14 @@ public class RequestForAccountDeletingDTO {
 
 
     private Long id;
-    private String email;
     private String description;
+    private UserInfoDTO userInfo;
+    private boolean isAnswered;
 
-    public RequestForAccountDeletingDTO(Long id, String email, String description) {
+    public RequestForAccountDeletingDTO(Long id, String description, UserInfoDTO userInfo) {
         this.id = id;
-        this.email = email;
         this.description = description;
+        this.userInfo = userInfo;
     }
 
     public RequestForAccountDeletingDTO() {
@@ -28,14 +29,6 @@ public class RequestForAccountDeletingDTO {
         this.id = id;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -43,4 +36,20 @@ public class RequestForAccountDeletingDTO {
     public void setDescription(String description) {
         this.description = description;
     }
+
+	public UserInfoDTO getUserInfo() {
+		return userInfo;
+	}
+
+	public void setUserInfo(UserInfoDTO userInfo) {
+		this.userInfo = userInfo;
+	}
+
+	public boolean getIsAnswered() {
+		return isAnswered;
+	}
+
+	public void setIsAnswered(boolean isAnswered) {
+		this.isAnswered = isAnswered;
+	}
 }

@@ -12,7 +12,8 @@ public class RequestForAccountDeleting {
     @JoinColumn(name = "user_id")
     private MyUser user;
     private String description;
-
+    private boolean isAnswered = false;
+    
     public RequestForAccountDeleting(Long id, MyUser user, String description) {
         this.id = id;
         this.user = user;
@@ -45,4 +46,12 @@ public class RequestForAccountDeleting {
     public void setDescription(String description) {
         this.description = description;
     }
+
+	public boolean isAnswered() {
+		return isAnswered;
+	}
+
+	public void setAnswered(boolean isAnswered) {
+		this.isAnswered = isAnswered;
+	}
 }

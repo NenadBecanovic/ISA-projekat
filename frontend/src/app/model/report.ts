@@ -7,6 +7,7 @@ export class Report {
   houseReservationId: number;
   boatReservationId: number;
   adventureReservationId: number;
+  isReviewed: boolean = false;
 
   constructor(id: number, comment: String, missedReservation: boolean, penaltyProposal: boolean, houseReservationId: number, boatReservationId: number, adventureReservationId: number) {
     this.id = id;

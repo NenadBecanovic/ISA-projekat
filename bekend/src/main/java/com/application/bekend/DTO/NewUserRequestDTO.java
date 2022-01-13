@@ -1,15 +1,22 @@
 package com.application.bekend.DTO;
 
-public class AdventureReservationUserInfoDTO {
+public class NewUserRequestDTO {
 	
 	private Long id;
 	private String firstName;
 	private String lastName;
+	private String reasonForRegistration;
 	
-	public AdventureReservationUserInfoDTO(Long id, String firstName, String lastName) {
+	public NewUserRequestDTO(Long id, String firstName, String lastName, String reasonForRegistration) {
+		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.reasonForRegistration = reasonForRegistration;
+	}
+	
+	public NewUserRequestDTO() {
+		
 	}
 
 	public Long getId() {
@@ -34,5 +41,13 @@ public class AdventureReservationUserInfoDTO {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public String getReasonForRegistration() {
+		return reasonForRegistration;
+	}
+
+	public void setReasonForRegistration(String reasonForRegistration) {
+		this.reasonForRegistration = reasonForRegistration;
 	}
 }

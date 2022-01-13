@@ -42,6 +42,7 @@ import { CreateReservationForClientBoatComponent} from "./boat-owner/create-rese
 import {HomePageBoatOwnerComponent} from "./boat-owner/home-page-boat-owner/home-page-boat-owner.component";
 import {AddBoatComponent} from "./boat-owner/add-boat/add-boat.component";
 import {BoatReportComponent} from "./boat-owner/boat-report/boat-report.component";
+import { AdminPageComponent } from './admin-page/admin-page.component';
 import {BoatChartComponent} from "./boat-owner/boat-chart/boat-chart.component";
 import {HouseChartComponent} from "./house-owner/house-chart/house-chart.component";
 
@@ -80,6 +81,7 @@ const routes: Routes = [
   { path:'home-page-boat-owner', component: HomePageBoatOwnerComponent},
   { path:'add-boat', component: AddBoatComponent},
   { path: 'boat-report/:id/:boatId', component: BoatReportComponent},
+  { path: 'admin-page', component: AdminPageComponent},
   { path: 'boat-chart/:id', component: BoatChartComponent},
   { path: 'house-chart/:id', component: HouseChartComponent},
 ];

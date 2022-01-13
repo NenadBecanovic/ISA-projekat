@@ -14,6 +14,7 @@ public class MyUserDTO {
     private String reasonForRegistration;
     private boolean passwordChange;
     private int penalties;
+    private String personalDescription;
 
     public MyUserDTO(String firstName, String lastName, String email, String password, String username, String authority, AddressDTO addressDTO, String phoneNumber, String reasonForRegistration) {
         this.firstName = firstName;
@@ -139,4 +140,11 @@ public class MyUserDTO {
         this.id = id;
     }
 
+	public String getPersonalDescription() {
+		return personalDescription;
+	}
+
+	public void setPersonalDescription(String personalDescription) {
+		this.personalDescription = personalDescription;
+	}
 }
