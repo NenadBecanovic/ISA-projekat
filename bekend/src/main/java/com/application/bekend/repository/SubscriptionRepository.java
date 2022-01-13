@@ -1,5 +1,6 @@
 package com.application.bekend.repository;
 
+import com.application.bekend.model.MyUser;
 import com.application.bekend.model.Room;
 import com.application.bekend.model.Subscription;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +16,6 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Long
     List<Subscription> findAllBySubscribedUser_Id(Long id);
 
     void deleteById(Long id);
+
+    List<Subscription> findAllByOwner_Id(Long id);
 }

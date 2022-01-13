@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 import java.util.*;
 
@@ -168,7 +169,7 @@ public class HouseReservationController {
 
     @PostMapping("/add")
     @Transactional
-    public ResponseEntity<HouseReservation> save(@RequestBody HouseReservationDTO dto) {
+    public ResponseEntity<HouseReservation> save(@RequestBody HouseReservationDTO dto) throws MessagingException {
         House house = this.houseService.getHouseById(dto.getHouseId());
 
         // TODO: svu logiku prebaciti u servis
@@ -244,21 +245,24 @@ public class HouseReservationController {
         house.addHouseReservation(houseReservation);
         this.houseService.save(house);
 
-        if (dto.getGuestId() != null && dto.getGuestId() != 0) {
+        if (dto.getGuestId() != null && dto.getGuestId() != 0 && dto.isAvailable() == false) {
             MyUser guest = this.myUserService.findUserById(dto.getGuestId());
             houseReservation.setGuest(guest);
             this.houseService.save(house);
 
             Set<HouseReservation> houseReservations1 = guest.getHouseReservations();
-            //if (guest.)  // greska   // TODO : treba da bude transactional metoda ????
             houseReservations1.add(houseReservation);
             guest.setHouseReservations(houseReservations1);
             this.myUserService.save(guest);
+
+            // TODO: ako je vlasnik zakazao za klijenta, poslati mejl klijentu
+            this.myUserService.sendMailToClient(dto, null, house.getName(), "");
         }
 
-        // TODO: ako je vlasnik zakazao za klijenta, poslati mejl klijentu
-
         // TODO: ako je akcije, poslati mejl svim pretplacenim klijentima
+        if (dto.isAction() == true && dto.isAvailable() == true){
+            this.myUserService.sendSubscribedUsersEmail(dto, null, house.getName(), "");
+        }
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
