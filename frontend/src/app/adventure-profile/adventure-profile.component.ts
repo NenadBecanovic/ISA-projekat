@@ -17,6 +17,7 @@ import { AdventureReservation } from '../model/adventure-reservation';
 import { AddFishingAdventureActionDialogComponent } from './add-action-dialog/add-action-dialog.component';
 import { EditAdventureProfileDialogComponent } from './edit-adventure-profile-dialog/edit-adventure-profile-dialog.component';
 import { MyUserService } from '../service/my-user.service';
+import { DeleteImageDialogComponent } from './delete-image-dialog/delete-image-dialog.component';
 
 @Component({
   selector: 'app-adventure-profile',
@@ -34,6 +35,7 @@ export class AdventureProfileComponent implements OnInit {
   isLoaded: boolean = false;
   adventureId: number = 0;
   savings: number[] = new Array();
+  currentImageId: number = 0;
 
   constructor(public dialog: MatDialog, private _route: ActivatedRoute, private _adventureService: AdventureProfileService, private _additionalServices: AdditionalServicesService, private _imageService: ImageService, private _router: Router,
     private _adventureReservationService: AdventureReservationService, private _myUserService: MyUserService) {
@@ -148,5 +150,16 @@ export class AdventureProfileComponent implements OnInit {
 
   goToInstructor(){
     this._router.navigate(['/fishing-instructor/'+this.instructor.id]);
+  }
+
+  deleteImage(id :number){
+    const dialogRef = this.dialog.open(DeleteImageDialogComponent, {
+      width: '550px',
+      data: {},
+    });
+    dialogRef.componentInstance.id = id;
+    dialogRef.afterClosed().subscribe(result => {
+      window.location.reload();
+    });
   }
 }

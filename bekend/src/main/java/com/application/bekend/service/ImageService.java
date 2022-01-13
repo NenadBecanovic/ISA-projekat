@@ -72,5 +72,13 @@ public class ImageService {
 		    stream.write(data);
 		}
 	}
+    
+    public void deleteImage(Long id) {
+    	Image image = this.imageRepository.getImageById(id);
+    	image.setBoat(null);
+    	image.setHouse(null);
+    	image.setFishingAdventure(null);
+    	this.imageRepository.delete(image);
+    }
 
 }

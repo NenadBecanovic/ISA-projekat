@@ -64,7 +64,7 @@ public class FishingAdventureController {
 
         FishingAdventureDTO fishingAdventureDTO = new FishingAdventureDTO(fishingAdventure.getId(), fishingAdventure.getName(), addressDTO, fishingAdventure.getPromoDescription(), fishingAdventure.getCapacity(), fishingAdventure.getFishingEquipment(),
         		fishingAdventure.getBehaviourRules(), fishingAdventure.getPricePerHour(), fishingAdventure.isCancalletionFree(), fishingAdventure.getCancalletionFee());
-        fishingAdventureDTO.setInstructorId(fishingAdventure.getInstructor().getId());
+        //fishingAdventureDTO.setInstructorId(fishingAdventure.getInstructor().getId());
 
         return new ResponseEntity<>(fishingAdventureDTO, HttpStatus.OK);
     }
