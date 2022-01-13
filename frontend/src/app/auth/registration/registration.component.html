@@ -53,11 +53,16 @@
           <option value="ROLE_USER">USER</option>
           <option value="ROLE_HOUSE_OWNER">HOUSE OWNER</option>
           <option value="ROLE_BOAT_OWNER">BOAT OWNER</option>
+          <option value="ROLE_INSTRUCTOR">INSTRUCTOR</option>
         </select>
       </div>
       <div class = "input-box" *ngIf="!isUser">
         <span class="details">Why do you want to registrate?</span>
         <input type="text"  name="reason" [(ngModel)]="user.reasonForRegistration" placeholder="Give a few reasons" required>
+      </div>
+      <div class = "input-box me-3" *ngIf="user.authority == 'ROLE_INSTRUCTOR'">
+        <span class="details">Your personal description</span>
+        <textarea class="wrap" name="personalDescription" [(ngModel)]="user.personalDescription" placeholder="Personal description"></textarea>
       </div>
     </div>
     <div class = "button">

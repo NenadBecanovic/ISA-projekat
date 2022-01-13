@@ -134,3 +134,27 @@
 /*}*/
 
 
+.btn-profile{
+  color:white;
+  background-color: #31B4E5;
+  font-size: 20px;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+  position: absolute;
+  right: 20vw;
+  font-size: 20px;
+  padding: 5px 10px;
+}
+
+.btn-request{
+  color:white;
+  background-color: #31B4E5;
+  font-size: 20px;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+  position: absolute;
+  right: 25vw;
+  font-size: 20px;
+  padding: 5px 10px;
+}
+

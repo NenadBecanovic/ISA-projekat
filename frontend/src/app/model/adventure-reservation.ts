@@ -1,6 +1,6 @@
 import { AdditionalService } from "./additional-service";
 import { Address } from "./address";
-import { AdventureUserInfo } from "./adventure-user-info";
+import { UserInfo } from "./user-info";
 import { FishingAdventure } from "./fishing-adventure";
 import { MyUser } from "./my-user";
 
@@ -18,7 +18,7 @@ export class AdventureReservation {
     isAction: boolean = false;
     hasReport: boolean = false;
     guestId: number = 0;
-    guest: AdventureUserInfo = new AdventureUserInfo(0, '', '');
+    guest: UserInfo = new UserInfo(0, '', '', '', '');
 
     constructor(id: number, startDate: string, endDate: string, maxGuests: number, additionalServices: AdditionalService[],
         price: number, isAvailable: boolean){

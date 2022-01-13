@@ -1,9 +1,9 @@
 package com.application.bekend.service;
 
-import com.application.bekend.model.FishingAdventure;
-import com.application.bekend.model.House;
-import com.application.bekend.model.Image;
+import com.application.bekend.model.*;
+import com.application.bekend.repository.BoatRepository;
 import com.application.bekend.repository.FishingAdventureRepository;
+import com.application.bekend.repository.HouseRepository;
 import com.application.bekend.repository.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,12 +21,16 @@ public class ImageService {
 
     private final ImageRepository imageRepository;
     private final FishingAdventureRepository fishingAdventureRepository;
+	private final HouseRepository houseRepository;
+	private final BoatRepository boatRepository;
 
     @Autowired
-    public ImageService(ImageRepository imageRepository, FishingAdventureRepository fishingAdventureRepository) {
+    public ImageService(ImageRepository imageRepository, FishingAdventureRepository fishingAdventureRepository, HouseRepository houseRepository, BoatRepository boatRepository) {
         this.imageRepository = imageRepository;
         this.fishingAdventureRepository = fishingAdventureRepository;
-    }
+		this.houseRepository = houseRepository;
+		this.boatRepository = boatRepository;
+	}
 
     public List<Image> getAllByHouse_Id(Long id) { return imageRepository.getAllByHouse_Id(id); }
 
@@ -62,6 +66,42 @@ public class ImageService {
 			}
 		}
 	}
+
+	public void uploadHouseImage(String newImage, Long id) throws IOException {
+		House house = this.houseRepository.getHouseById(id);
+		if (newImage != null) {
+			if (!newImage.isEmpty() && newImage.startsWith("data:image")) {
+				String date = new Date().toString();
+				date = date.replaceAll("\\s", "");
+				date = date.replaceAll("\\:", "");
+				String path = "assets/" + "vikendica" + id + date +".jpg";
+				Base64DecodeAndSave(newImage, path);
+				path = "assets/" + "vikendica" + id + date +".jpg";
+				Image image = new Image();
+				image.setImageUrl(path);
+				image.setHouse(house);
+				imageRepository.save(image);
+			}
+		}
+	}
+
+	public void uploadBoatImage(String newImage, Long id) throws IOException {
+		Boat boat = this.boatRepository.getBoatById(id);
+		if (newImage != null) {
+			if (!newImage.isEmpty() && newImage.startsWith("data:image")) {
+				String date = new Date().toString();
+				date = date.replaceAll("\\s", "");
+				date = date.replaceAll("\\:", "");
+				String path = "assets/" + "brod" + id + date +".jpg";
+				Base64DecodeAndSave(newImage, path);
+				path = "assets/" + "brod" + id + date +".jpg";
+				Image image = new Image();
+				image.setImageUrl(path);
+				image.setBoat(boat);
+				imageRepository.save(image);
+			}
+		}
+	}
     
     public void Base64DecodeAndSave(String base64String, String imagePath) throws FileNotFoundException, IOException {
 		String part[] = base64String.split(",");
@@ -72,5 +112,13 @@ public class ImageService {
 		    stream.write(data);
 		}
 	}
+    
+    public void deleteImage(Long id) {
+    	Image image = this.imageRepository.getImageById(id);
+    	image.setBoat(null);
+    	image.setHouse(null);
+    	image.setFishingAdventure(null);
+    	this.imageRepository.delete(image);
+    }
 
 }

@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.util.Base64;
 import java.util.List;
 
+import com.application.bekend.DTO.FishingAdventureInstructorInfoDTO;
 import com.application.bekend.model.AdventureReservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,8 @@ import com.application.bekend.model.FishingAdventure;
 import com.application.bekend.repository.FishingAdventureRepository;
 import com.application.bekend.model.House;
 import com.application.bekend.model.Image;
+import com.application.bekend.model.MyUser;
+
 import org.springframework.data.domain.Sort;
 
 @Service
@@ -62,5 +65,9 @@ public class FishingAdventureService {
 		}
 	}
 
-
+    public FishingAdventureInstructorInfoDTO getFishingAdventureInstructor(Long adventureId) {
+    	FishingAdventure adventure = this.fishingAdventureRepository.getById(adventureId);
+    	MyUser instructor = adventure.getInstructor();
+    	return new FishingAdventureInstructorInfoDTO(instructor.getId(), instructor.getFirstName(), instructor.getLastName(),instructor.getPhoneNumber(),instructor.getEmail(),instructor.getPersonalDescription());
+    }
 }

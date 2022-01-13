@@ -20,7 +20,7 @@ export class DeleteAccountComponent implements OnInit {
   }
 
   ok(): void {
-    this.request.email = this._authentification.getCurrentUser().email;
+    this.request.userInfo.email = this._authentification.getCurrentUser().email;
     this._myUserService.createDeleteRequest(this.request).subscribe(   // subscribe - da bismo dobili odgovor beka
       (request: DeleteRequest) => {
         this.alertService.success('Uspjesno poslat zahtev');

@@ -4,6 +4,7 @@ import {Feedback} from "../../../model/feedback";
 import {DeleteRequest} from "../../../model/delete-request";
 import {MyUserService} from "../../../service/my-user.service";
 import {AlertService} from "ngx-alerts";
+import { FeedbackService } from 'src/app/service/feedback.service';
 
 @Component({
   selector: 'app-create-feedback',
@@ -13,7 +14,7 @@ import {AlertService} from "ngx-alerts";
 export class CreateFeedbackComponent implements OnInit {
   feedback: Feedback = new Feedback();
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,  private _myUserService: MyUserService, private alertService:AlertService,
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,  private _feedbackService: FeedbackService, private alertService:AlertService,
               public dialogRef: MatDialogRef<CreateFeedbackComponent>) { }
 
   ngOnInit(): void {
@@ -38,7 +39,7 @@ export class CreateFeedbackComponent implements OnInit {
 
   ok(){
     console.log(this.feedback)
-    this._myUserService.saveFeedback(this.feedback).subscribe(   // subscribe - da bismo dobili odgovor beka
+    this._feedbackService.saveFeedback(this.feedback).subscribe(   // subscribe - da bismo dobili odgovor beka
       (feedback: Feedback) => {
         this.dialogRef.close();
         this.alertService.success('Uspjesno poslata revizija');

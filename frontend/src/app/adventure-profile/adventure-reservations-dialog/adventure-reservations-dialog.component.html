@@ -10,7 +10,7 @@
             <span class="basic-title mb-1">
                 Korisnik
             </span>
-            <span class="me-2">{{reservation.guest.firstName}} {{reservation.guest.lastName}}</span>
+            <a class="me-2" (click)="visitUserProfile(reservation.guest.id)">{{reservation.guest.firstName}} {{reservation.guest.lastName}}</a>
         </div>
         <div class="d-flex ms-5 flex-column justify-content-top">
             <span class="basic-title mb-1">

@@ -45,7 +45,7 @@
             </div>
             <div class="form-check">
               <label class="form-check-label" for="flexCheckChinese">
-                Broj telefona: <br> {{instructor.phoneNumber}}
+                Broj telefona: <br> {{instructor.phone}}
               </label>
             </div>
             <div class="form-check last-form-check">
@@ -56,6 +56,15 @@
             </div>
             <div class="form-check last-form-check">
               <a class="reservations-link" (click)="makeReservation(a)"><u>Izveštaj o poslovanju</u></a>
+            </div>
+            <div class="form-check last-form-check">
+              <a class="reservations-link" (click)="openProfileDialog()"><u>Izmeni profil</u></a>
+            </div>
+            <div class="form-check last-form-check">
+              <a class="reservations-link" (click)="editPersonalDescription()"><u>Izmeni lični opis</u></a>
+            </div>
+            <div class="form-check last-form-check">
+              <a class="reservations-link" (click)="deleteProfileDialog()"><u>Obriši profil</u></a>
             </div>
           </div>
           <div class="d-flex ms-5 flex-column adventures">

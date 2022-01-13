@@ -26,6 +26,18 @@ export class ImageService {
   }
 
   public uploadImage(image: any, id: number){
-    return this._http.post(`${this.userPath}/adventure-image-upload/`+id, image);
+    return this._http.post(`${this.userPath}/adventureImageUpload/`+id, image);
+  }
+
+  public deleteImage(id: number){
+    return this._http.delete(`${this.userPath}/deleteImage/`+id);
+  }
+
+  public uploadHouseImage(image: any, id: number){
+    return this._http.post(`${this.userPath}/uploadHouseImage/`+id, image);
+  }
+
+  public uploadBoatImage(image: any, id: number){
+    return this._http.post(`${this.userPath}/uploadBoatImage/`+id, image);
   }
 }

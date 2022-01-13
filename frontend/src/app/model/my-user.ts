@@ -14,6 +14,7 @@ export class MyUser {
   reasonForRegistration: String;
   passwordChange: boolean = false;
   penalties: number = 0;
+  personalDescription: String = '';
 
   constructor(id: number, firstName: String, lastName: String, email: String, password: string, username: String, authority: String, addressDTO: Address, phoneNumber: String, reasonForRegistration: String) {
     this.id = id;

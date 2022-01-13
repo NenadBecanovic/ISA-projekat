@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { EditAdventureProfileDialogComponent } from '../adventure-profile/edit-adventure-profile-dialog/edit-adventure-profile-dialog.component';
+import { ClientProfileComponent } from '../clientHome/client-profile/client-profile.component';
+import { DeleteAccountComponent } from '../clientHome/delete-account/delete-account.component';
 import { AdditionalService } from '../model/additional-service';
 import { Address } from '../model/address';
 import { AdventureReservation } from '../model/adventure-reservation';
@@ -12,6 +15,7 @@ import { AdventureReservationService } from '../service/adventure-reservation.se
 import { AddAdventureDialogComponent } from './add-adventure-dialog/add-adventure-dialog.component';
 import { CalendarDialogComponent } from './calendar-dialog/calendar-dialog.component';
 import { DefineAvaibilityPeriodComponent } from './define-avaibility-period/define-avaibility-period.component';
+import { EditPersonalDescriptionDialogComponent } from './edit-personal-description-dialog/edit-personal-description-dialog.component';
 import { MakeReservationDialogComponent } from './make-reservation-dialog/make-reservation-dialog.component';
 
 @Component({
@@ -26,7 +30,9 @@ export class FishingInstructorProfileComponent implements OnInit {
   adventures: FishingAdventure[] = new Array<FishingAdventure>();
   a: FishingAdventure = new FishingAdventure(0,"F",this.address,"",0,",","",0,true,0);
   allReservations: AdventureReservation[] = new Array<AdventureReservation>();
-  instructor: FishingAdventureInstructorDTO = new FishingAdventureInstructorDTO(1,"Kapetan","Kuka","","",this.address, "065454545", "Najjaci sam na svetu");
+  allActions: AdventureReservation[] = new Array<AdventureReservation>();
+  allAvaibilityPeriods: AdventureReservation[] = new Array<AdventureReservation>();
+  instructor: FishingAdventureInstructorDTO = new FishingAdventureInstructorDTO();
   filterTerm!: string;
 
   constructor(public dialog: MatDialog, private _adventureService: AdventureProfileService, private _router: Router, private _adventureReservationService: AdventureReservationService) {
@@ -55,6 +61,8 @@ export class FishingInstructorProfileComponent implements OnInit {
       data: {},
     });
     dialogRef.componentInstance.allReservations = this.allReservations;
+    dialogRef.componentInstance.allActions = this.allActions;
+    dialogRef.componentInstance.allAvaibilityPeriods = this.allAvaibilityPeriods;
     dialogRef.afterClosed().subscribe(result => {
       
     });
@@ -106,5 +114,52 @@ export class FishingInstructorProfileComponent implements OnInit {
         this.allReservations = allReservations;
       }
     )
+
+    this._adventureReservationService.getAllActionsByInstructorId(1).subscribe(
+      (allActions: AdventureReservation[]) => {
+        this.allActions = allActions;
+      }
+    )
+
+    this._adventureReservationService.getAllAvaibilityPeriodsByInstructorId(1).subscribe(
+      (allAvaibilityPeriods: AdventureReservation[]) => {
+        this.allAvaibilityPeriods = allAvaibilityPeriods;
+      }
+    )
+  }
+
+  openProfileDialog() {
+    const dialogRef = this.dialog.open(ClientProfileComponent, {
+      width: '600px',
+      data: {},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      window.location.reload();
+    });
+  }
+
+  editPersonalDescription() {
+    const dialogRef = this.dialog.open(EditPersonalDescriptionDialogComponent, {
+      width: '600px',
+      height: '450px',
+      data: {},
+    });
+    dialogRef.componentInstance.instructorId = this.instructor.id;
+    dialogRef.componentInstance.personalDescription = this.instructor.personalDescription;
+    dialogRef.afterClosed().subscribe(result => {
+      window.location.reload();
+    });
+  }
+
+  deleteProfileDialog() {
+    const dialogRef = this.dialog.open(DeleteAccountComponent,{
+      width: '400px',
+      data: {},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      window.location.reload();
+    });
   }
 }

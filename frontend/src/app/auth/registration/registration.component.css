@@ -70,6 +70,17 @@ form .user-details .input-box{
   transition: all 0.3s ease;
 }
 
+.user-details .input-box textarea{
+  width: 110%;
+  outline: none;
+  border-radius: 5px;
+  border:  1px solid #ccc;
+  padding-left: 15px;
+  font-size:  16px;
+  border-bottom-width: 2px;
+  transition: all 0.3s ease;
+}
+
 .user-details .input-box select{
   height:  45px;
   width: 100%;

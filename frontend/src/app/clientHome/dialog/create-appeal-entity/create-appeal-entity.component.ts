@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {MyUserService} from "../../../service/my-user.service";
 import {AlertService} from "ngx-alerts";
-import {Apeal} from "../../../model/apeal";
+import {Appeal} from "../../../model/appeal";
 import {Feedback} from "../../../model/feedback";
 
 @Component({
@@ -12,7 +12,7 @@ import {Feedback} from "../../../model/feedback";
 })
 export class CreateAppealEntityComponent implements OnInit {
 
-  appeal: Apeal = new Apeal();
+  appeal: Appeal = new Appeal();
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,  private _myUserService: MyUserService, private alertService:AlertService,
               public dialogRef: MatDialogRef<CreateAppealEntityComponent>) { }
@@ -40,7 +40,7 @@ export class CreateAppealEntityComponent implements OnInit {
   ok(){
     console.log(this.appeal)
     this._myUserService.saveApeal(this.appeal).subscribe(   // subscribe - da bismo dobili odgovor beka
-      (appeal: Apeal) => {
+      (appeal: Appeal) => {
         this.dialogRef.close();
         this.alertService.success('Uspjesno poslata revizija');
       },

@@ -17,5 +17,8 @@ public interface FishingAdventureReservationRepository extends JpaRepository<Adv
     
     @Query("select a from AdventureReservation a join fetch a.fishingAdventure f where f.instructor = ?1")
     List<AdventureReservation> getAdventureReservationsByInstructorId(Long id);
+    
+    @Query("select a from AdventureReservation a join fetch a.fishingAdventure f where f.instructor = ?1 and a.availabilityPeriod = true")
+    List<AdventureReservation> getAvaibilityPeriodsByInstructorId(Long id);
 
 }

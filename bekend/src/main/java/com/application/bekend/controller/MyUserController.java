@@ -9,21 +9,21 @@ import com.application.bekend.service.CancelReservationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.application.bekend.DTO.AddressDTO;
-import com.application.bekend.DTO.MyUserDTO;
+
+import com.application.bekend.model.Appeal;
 import com.application.bekend.model.MyUser;
 import com.application.bekend.service.HouseService;
 import com.application.bekend.service.MyUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.mail.MessagingException;
 
 @RestController
 @RequestMapping("api/user")
@@ -64,7 +64,7 @@ public class MyUserController {
 
     @PostMapping("/saveDeleteRequest")
     public ResponseEntity<RequestForAccountDeletingDTO> updateUser(@RequestBody RequestForAccountDeletingDTO dto){
-        MyUser user = this.myUserService.findUserByEmail(dto.getEmail());
+        MyUser user = this.myUserService.findUserByEmail(dto.getUserInfo().getEmail());
         RequestForAccountDeleting requestForAccountDeleting = new RequestForAccountDeleting();
         requestForAccountDeleting.setUser(user);
         requestForAccountDeleting.setDescription(dto.getDescription());
@@ -181,28 +181,8 @@ public class MyUserController {
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
-    @PostMapping("/saveFeedback")
-    public ResponseEntity<FeedbackDTO> saveFeedbackEntity(@RequestBody FeedbackDTO dto){
-
-
-        if(dto.isHasHouse()){
-            this.myUserService.saveFeedbackHouse(dto);
-        }else if(dto.isHasHouseOwner()){
-            this.myUserService.saveFeedbackHouseOwner(dto);
-        }else if(dto.isHasBoat()){
-            this.myUserService.saveFeedbackBoat(dto);
-        }else if(dto.isHasBoatOwner()){
-            this.myUserService.saveFeedbackBoatOwner(dto);
-        }else{
-            this.myUserService.saveFeedbackInstructor(dto);
-        }
-
-        return new ResponseEntity<>(dto, HttpStatus.OK);
-    }
-
-
     @PostMapping("/saveAppeal")
-    public ResponseEntity<AppealDTO> saveFeedbackEntity(@RequestBody AppealDTO dto){
+    public ResponseEntity<AppealDTO> saveAppealEntity(@RequestBody AppealDTO dto){
 
         if(dto.isHasHouse()){
             this.appealService.saveAppealHouse(dto);
@@ -220,10 +200,10 @@ public class MyUserController {
     }
     
     @GetMapping("/findUserByFishingAdventureReservationId/{id}")
-    public ResponseEntity<AdventureReservationUserInfoDTO> findUserByFishingAdventureReservationId(@PathVariable("id") Long id) {
+    public ResponseEntity<UserInfoDTO> findUserByFishingAdventureReservationId(@PathVariable("id") Long id) {
         MyUser myUser = this.myUserService.findUserById(id);
 
-        AdventureReservationUserInfoDTO adventureUserDTO = new AdventureReservationUserInfoDTO(myUser.getId(), myUser.getFirstName(), myUser.getLastName());
+        UserInfoDTO adventureUserDTO = new UserInfoDTO(myUser.getId(), myUser.getFirstName(), myUser.getLastName(), myUser.getEmail(), myUser.getAuthorities().get(0).getName());
 
         return new ResponseEntity<>(adventureUserDTO, HttpStatus.OK);
     }
@@ -232,7 +212,101 @@ public class MyUserController {
     @PostMapping("/cancelReservation")
     public ResponseEntity<ReservationCancelDTO> cancelReservation(@RequestBody ReservationCancelDTO dto){
         this.cancelReservationService.cancelReservation(dto);
+    }
 
+    
+    @GetMapping("/getAllUsers")
+    public ResponseEntity<List<UserInfoDTO>> getAllUsers() {
+        List<MyUser> allUsers = this.myUserService.getAllUsers();
+        List<UserInfoDTO> allUsersDTO = new ArrayList<UserInfoDTO>();
+        for(MyUser myUser: allUsers) {
+        	UserInfoDTO userDTO = new UserInfoDTO(myUser.getId(), myUser.getFirstName(), myUser.getLastName(), myUser.getEmail(), "");
+        	allUsersDTO.add(userDTO);
+        }
+        return new ResponseEntity<>(allUsersDTO, HttpStatus.OK);
+    }
+    
+    @PutMapping("/delete")
+    public ResponseEntity<Boolean> deleteUser(@RequestBody Long id) {
+    	boolean isDeleted = this.myUserService.deleteUser(id);
+        return new ResponseEntity<>(isDeleted, HttpStatus.OK);
+    }
+    
+    @PutMapping("/deleteUserWithRequest/{id}")
+    public ResponseEntity<Boolean> deleteUser(@PathVariable("id") Long id, @RequestBody AdminAnswerDTO adminAnswer) throws MessagingException{
+    	boolean isDeleted = this.myUserService.deleteUserWithRequest(id, adminAnswer.getClientResponse());
+        return new ResponseEntity<>(isDeleted, HttpStatus.OK);
+    }
+    
+    @PutMapping("/declineDeleteRequest/{id}")
+    public ResponseEntity<Boolean> declineDeleteRequest(@PathVariable("id") Long id, @RequestBody AdminAnswerDTO adminAnswer) throws MessagingException{
+    	boolean isDeleted = this.myUserService.declineDeleteRequest(id, adminAnswer.getClientResponse());
+        return new ResponseEntity<>(isDeleted, HttpStatus.OK);
+    }
+    
+    @GetMapping("/getAllDeleteRequests")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<List<RequestForAccountDeletingDTO>> getAllDeleteRequests() {
+        List<RequestForAccountDeleting> allRequests = this.myUserService.getAllDeleteRequests();
+        List<RequestForAccountDeletingDTO> allRequestsDTO = new ArrayList<RequestForAccountDeletingDTO>();
+        for(RequestForAccountDeleting request: allRequests) {
+        	UserInfoDTO userDTO = new UserInfoDTO(request.getUser().getId(), request.getUser().getFirstName(), request.getUser().getLastName(), request.getUser().getEmail(), "");
+        	allRequestsDTO.add(new RequestForAccountDeletingDTO(request.getId(),request.getDescription(),userDTO));
+        }
+        return new ResponseEntity<>(allRequestsDTO, HttpStatus.OK);
+    }
+    
+    @GetMapping("/getAllAppeals")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<List<AppealDTO>> getAllAppeals() {
+        List<Appeal> allAppeals = this.appealService.getAllAppeals();
+        List<AppealDTO> allAppealsDTO = new ArrayList<AppealDTO>();
+        for(Appeal appeal: allAppeals) {
+        	UserInfoDTO guest = new UserInfoDTO(appeal.getSenderId().getId(), appeal.getSenderId().getFirstName(), appeal.getSenderId().getLastName(), appeal.getSenderId().getEmail(), "");
+        	UserInfoDTO owner = new UserInfoDTO(appeal.getOwnerId().getId(), appeal.getOwnerId().getFirstName(), appeal.getOwnerId().getLastName(), appeal.getOwnerId().getEmail(), "");
+        	AppealDTO appealDTO = new AppealDTO();
+        	appealDTO.setId(appeal.getId());
+        	appealDTO.setReview(appeal.getReview());
+        	appealDTO.setGuest(guest);
+        	appealDTO.setOwner(owner);
+        	appealDTO.setIsAnswered(appeal.isAnswered());
+        	allAppealsDTO.add(appealDTO);
+        }
+        return new ResponseEntity<>(allAppealsDTO, HttpStatus.OK);
+    }
+    
+    @PutMapping("/sendAppealResponse/{id}")
+    public ResponseEntity<Boolean> sendAppealResponse(@PathVariable("id") Long id, @RequestBody ReportAppealAnswerDTO answerDTO) throws MessagingException{
+    	boolean isAnswered = this.appealService.sendAppealResponse(id, answerDTO);
+        return new ResponseEntity<>(isAnswered, HttpStatus.OK);
+    }
+    
+    @GetMapping("/getAllNewUserRequests")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<List<NewUserRequestDTO>> getAllNewUserRequests(){
+    	List<MyUser> allUserRequests = this.myUserService.getAllNotActivated();
+    	List<NewUserRequestDTO> allRequestsDTO = new ArrayList<NewUserRequestDTO>();
+    	for(MyUser user: allUserRequests) {
+    		allRequestsDTO.add(new NewUserRequestDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getReasonForRegistration()));
+    	}
+    	return new ResponseEntity<>(allRequestsDTO, HttpStatus.OK);
+    }
+    
+    @PutMapping("/activateNewUser")
+    public ResponseEntity<Boolean> sendAppealResponse(@RequestBody Long id) throws MessagingException{
+    	boolean isAnswered = this.myUserService.activateNewUser(id);
+        return new ResponseEntity<>(isAnswered, HttpStatus.OK);
+    }
+    
+    @PutMapping("/declineNewUserRequest/{id}")
+    public ResponseEntity<Boolean> declineNewUserRequest(@PathVariable("id") Long id, @RequestBody AdminAnswerDTO adminAnswer) throws MessagingException{
+    	boolean isDeleted = this.myUserService.declineNewUserRequest(id, adminAnswer.getClientResponse());
+        return new ResponseEntity<>(isDeleted, HttpStatus.OK);
+    }
+    
+    @PutMapping("/editInstructorPersonalDescription/{id}")
+    public ResponseEntity updateUser(@PathVariable("id") Long id,@RequestBody String personalDescription){
+        this.myUserService.editPersonalDescription(id, personalDescription);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
