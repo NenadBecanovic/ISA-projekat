@@ -235,7 +235,7 @@ public class MyUserController {
     }
     
     @GetMapping("/getAllDeleteRequests")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     public ResponseEntity<List<RequestForAccountDeletingDTO>> getAllDeleteRequests() {
         List<RequestForAccountDeleting> allRequests = this.myUserService.getAllDeleteRequests();
         List<RequestForAccountDeletingDTO> allRequestsDTO = new ArrayList<RequestForAccountDeletingDTO>();
@@ -247,7 +247,7 @@ public class MyUserController {
     }
     
     @GetMapping("/getAllAppeals")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     public ResponseEntity<List<AppealDTO>> getAllAppeals() {
         List<Appeal> allAppeals = this.appealService.getAllAppeals();
         List<AppealDTO> allAppealsDTO = new ArrayList<AppealDTO>();
@@ -272,7 +272,7 @@ public class MyUserController {
     }
     
     @GetMapping("/getAllNewUserRequests")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     public ResponseEntity<List<NewUserRequestDTO>> getAllNewUserRequests(){
     	List<MyUser> allUserRequests = this.myUserService.getAllNotActivated();
     	List<NewUserRequestDTO> allRequestsDTO = new ArrayList<NewUserRequestDTO>();

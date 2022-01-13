@@ -137,4 +137,17 @@ public class FeedbackService {
 		this.emailService.sendAnswerEmail(new EmailDTO("Nova ocena", "Ostavljen je novi komentar: " + feedbackDTO.getReview() + " sa ocenom: " + feedbackDTO.getGrade(), owner.getEmail()));
 		return true;
 	}
+
+	public List<FeedbackInfoDTO> getAllByAdventure(Long id) {
+    	List<Feedback> allFeedbacks = this.feedbackRepository.findAll();
+    	List<FeedbackInfoDTO> allFeedbacksDTO = new ArrayList<FeedbackInfoDTO>();
+    	for(Feedback f: allFeedbacks) {
+    		if(f.getFishingAdventure().getId() == id) {
+    			FeedbackInfoDTO feedbackDTO = new FeedbackInfoDTO(f.getId(), f.getGrade(), f.getReview(), f.getApproved());
+    			feedbackDTO.setName(f.getFishingAdventure().getName());
+    			feedbackDTO.setType("Avantura");
+    		}
+    	}
+		return allFeedbacksDTO;
+	}
 }

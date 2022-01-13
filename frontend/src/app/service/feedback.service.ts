@@ -28,4 +28,8 @@ export class FeedbackService {
     public approveFeedback(feedback: FeedbackInfo): Observable <boolean> {
         return this._http.put<boolean>(`${this.userPath}/approve/`+feedback.id, feedback);
     }
+
+    public getAllFeedbacksByAdventureId(id: number): Observable<FeedbackInfo[]>{
+        return this._http.get<FeedbackInfo[]>(`${this.userPath}/getAllFeedbacksByAdventure/`+id);
+    }
 }

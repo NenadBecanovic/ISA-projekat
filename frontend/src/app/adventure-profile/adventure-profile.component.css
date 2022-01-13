@@ -270,3 +270,7 @@ agm-map {
 .action-card{
   width: 29.5vw;
 }
+
+.comment-card{
+  width: 100% !important;
+}
