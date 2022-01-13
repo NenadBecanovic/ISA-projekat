@@ -92,6 +92,7 @@ import { AppealAnswerDialogComponent } from './admin-page/appeal-answer-dialog/a
 import { ReportAnswerDialogComponent } from './admin-page/report-answer-dialog/report-answer-dialog.component';
 import { DeclineNewUserDialogComponent } from './admin-page/decline-new-user-dialog/decline-new-user-dialog.component';
 import { AdminRegistrationDialogComponent } from './admin-page/admin-registration-dialog/admin-registration-dialog.component';
+import { EditPersonalDescriptionDialogComponent } from './fishing-instructor-profile/edit-personal-description-dialog/edit-personal-description-dialog.component';
 
 const MaterialComponents = [
   MatSliderModule,
@@ -163,6 +164,7 @@ const MaterialComponents = [
     BoatChartComponent,
     HouseChartComponent,
     CalendarDialogBoatComponent,
+    EditPersonalDescriptionDialogComponent,
     AdventureReservationsDialogComponent,
     PlainHeaderComponent,
     AdventureChartComponent,

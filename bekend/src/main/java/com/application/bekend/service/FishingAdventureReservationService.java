@@ -1,4 +1,5 @@
 package com.application.bekend.service;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.application.bekend.DTO.AdditionalServicesDTO;
 import com.application.bekend.DTO.AdventureReservationDTO;
+import com.application.bekend.DTO.UserInfoDTO;
 import com.application.bekend.model.AdditionalServices;
 import com.application.bekend.model.AdventureReservation;
 import com.application.bekend.model.FishingAdventure;
@@ -105,8 +107,35 @@ public class FishingAdventureReservationService {
         return true;
 	}
 	
-	public List<AdventureReservation> getAdventureReservationsByInstructorId(Long id){
-		return this.fishingAdventureReservationsRepository.getAdventureReservationsByInstructorId(id);
+	public List<AdventureReservationDTO> getAdventureReservationsByInstructorId(Long id){
+		List<AdventureReservation> allreservations =  this.fishingAdventureReservationsRepository.getAdventureReservationsByInstructorId(id);
+		List<AdventureReservationDTO> adventureReservationDTOS = new ArrayList<>();
+
+        for (AdventureReservation a : allreservations) {
+        	if(!a.isAvailable() && !a.isAvailabilityPeriod()) {
+	            String startDate = (String.valueOf(a.getStartDate().getTime()));
+	            String endDate = (String.valueOf(a.getEndDate().getTime()));
+	
+	            AdventureReservationDTO adventureReservationDTO = new AdventureReservationDTO(a.getId(), startDate, endDate, a.getMaxGuests(), a.getPrice(), a.isAvailable());
+	            adventureReservationDTO.setIAvailabilityPeriod(a.isAvailabilityPeriod());
+	            adventureReservationDTO.setIsAction(a.isAction());
+	            if (a.getGuest() != null) {
+	            	adventureReservationDTO.setGuestId(a.getGuest().getId());
+	            	MyUser user = this.myUserService.findUserById(a.getGuest().getId());
+	            	adventureReservationDTO.setGuest(new UserInfoDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), ""));
+	            }
+	
+	            Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
+	            for(AdditionalServices add : this.additionalServicesService.getAllByHouseReservationId(a.getId())){  // a.getAdditionalServices()
+	                AdditionalServicesDTO newAdditionalService = new AdditionalServicesDTO(add.getId(), add.getName(), add.getPrice());
+	                additionalServicesDTOS.add(newAdditionalService);
+	            }
+	
+	            adventureReservationDTO.setAdditionalServices(additionalServicesDTOS);
+	            adventureReservationDTOS.add(adventureReservationDTO);
+        	}
+        }
+        return adventureReservationDTOS;
 	}
 	
 	public boolean delete(Long id) {
@@ -123,5 +152,70 @@ public class FishingAdventureReservationService {
         adventureReservation = this.save(adventureReservation);
         //this.delete(adventureReservation.getId());  // brisanje rezervacije iz house_reservation tabele
         return true;
+	}
+
+	public List<AdventureReservationDTO> getAllActionsByAdventureId(Long id) {
+		List<AdventureReservation> adventureReservations = this.getAllByFishingAdventure_Id(id);
+
+        List<AdventureReservationDTO> adventureReservationDTOS = new ArrayList<>();
+
+        for (AdventureReservation a : adventureReservations) {
+            if (a.isAction() && a.isAvailable()) {  
+                Long startDate = a.getStartDate().getTime();
+                Long endDate = a.getEndDate().getTime();
+                Long today = new Date().getTime();
+
+                if (startDate < today)
+                {
+                    boolean isDeleted = this.delete(a.getId());
+                    continue;
+                }
+                AdventureReservationDTO aventureReservationDTO = new AdventureReservationDTO(a.getId(), startDate.toString(), endDate.toString(), a.getMaxGuests(), a.getPrice(), a.isAvailable());
+                aventureReservationDTO.setIAvailabilityPeriod(a.isAvailabilityPeriod());
+                aventureReservationDTO.setIsAction(a.isAction());
+                if (a.getGuest() != null) {
+                	aventureReservationDTO.setGuestId(a.getGuest().getId());
+                }
+
+                Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
+                // dobavljamo set dodatnih usluga za onu konkretnu rezervaciju iz baze i pretvaramo u DTO (a mozemo samo i pristupiti setu dodatnih usluga direktno preko rezervacije (a.getAdditionalServices()))
+                for (AdditionalServices add : this.additionalServicesService.getAllByAdventureReservationId(a.getId())) {  // a.getAdditionalServices()
+                    AdditionalServicesDTO newAddSer = new AdditionalServicesDTO(add.getId(), add.getName(), add.getPrice());
+                    additionalServicesDTOS.add(newAddSer);
+                }
+
+                aventureReservationDTO.setAdditionalServices(additionalServicesDTOS);
+                adventureReservationDTOS.add(aventureReservationDTO);  // lista svih HouseReservationDTO - treba nam zbog slidera (3 po 3 cemo slati)
+            }
+        }
+        return adventureReservationDTOS;
+	}
+
+	public List<AdventureReservationDTO> getAllActionsByInstructorId(Long id) {
+		List<FishingAdventure> allAdventures = this.fishingAdventureService.getFishingAdventuresByInstructor(id);
+		List<AdventureReservationDTO> allActions = new ArrayList<AdventureReservationDTO>();
+		for(FishingAdventure a: allAdventures) {
+			List<AdventureReservationDTO> adventureActions = this.getAllActionsByAdventureId(a.getId());
+			for(AdventureReservationDTO action: adventureActions) {
+				allActions.add(action);
+			}
+		}
+		return allActions;
+	}
+
+	public List<AdventureReservationDTO> getAllAvaibilityPeriodsByInstructorId(Long id) {
+		List<AdventureReservation> avaibilityPeriods =  this.fishingAdventureReservationsRepository.getAvaibilityPeriodsByInstructorId(id);
+		List<AdventureReservationDTO> adventureReservationDTOS = new ArrayList<>();
+
+        for (AdventureReservation a : avaibilityPeriods) {
+	            String startDate = (String.valueOf(a.getStartDate().getTime()));
+	            String endDate = (String.valueOf(a.getEndDate().getTime()));
+	
+	            AdventureReservationDTO adventureReservationDTO = new AdventureReservationDTO(a.getId(), startDate, endDate, a.getMaxGuests(), a.getPrice(), a.isAvailable());
+	            adventureReservationDTO.setIAvailabilityPeriod(a.isAvailabilityPeriod());
+	            adventureReservationDTOS.add(adventureReservationDTO);
+        	
+        }
+        return adventureReservationDTOS;
 	}
 }

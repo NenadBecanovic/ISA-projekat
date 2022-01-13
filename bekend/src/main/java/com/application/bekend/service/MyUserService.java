@@ -192,4 +192,10 @@ public class MyUserService implements UserDetailsService {
     	this.myUserRepository.delete(newUser);
     	return true;
     }
+
+	public void editPersonalDescription(Long id, String personalDescription) {
+		MyUser instructor = this.findUserById(id);
+		instructor.setPersonalDescription(personalDescription);
+		this.save(instructor);
+	}
 }

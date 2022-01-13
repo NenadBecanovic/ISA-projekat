@@ -293,4 +293,10 @@ public class MyUserController {
     	boolean isDeleted = this.myUserService.declineNewUserRequest(id, adminAnswer.getClientResponse());
         return new ResponseEntity<>(isDeleted, HttpStatus.OK);
     }
+    
+    @PutMapping("/editInstructorPersonalDescription/{id}")
+    public ResponseEntity updateUser(@PathVariable("id") Long id,@RequestBody String personalDescription){
+        this.myUserService.editPersonalDescription(id, personalDescription);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
