@@ -27,6 +27,7 @@ import com.application.bekend.DTO.HouseReservationSlideDTO;
 import com.application.bekend.model.AdditionalServices;
 import com.application.bekend.model.Address;
 import com.application.bekend.model.AdventureReservation;
+import com.application.bekend.model.BoatReservation;
 import com.application.bekend.model.House;
 import com.application.bekend.model.HouseReservation;
 import com.application.bekend.model.MyUser;
@@ -121,10 +122,16 @@ public class FishingAdventureReservationController {
 
         for (AdventureReservation a : adventureReservations) {
             if (a.isAction() && a.isAvailable()) {  
-                String startDate = (String.valueOf(a.getStartDate().getTime()));
-                String endDate = (String.valueOf(a.getEndDate().getTime()));
+                Long startDate = a.getStartDate().getTime();
+                Long endDate = a.getEndDate().getTime();
+                Long today = new Date().getTime();
 
-                AdventureReservationDTO aventureReservationDTO = new AdventureReservationDTO(a.getId(), startDate, endDate, a.getMaxGuests(), a.getPrice(), a.isAvailable());
+                if (startDate < today)
+                {
+                    boolean isDeleted = this.fishingAdventureReservationService.delete(a.getId());
+                    continue;
+                }
+                AdventureReservationDTO aventureReservationDTO = new AdventureReservationDTO(a.getId(), startDate.toString(), endDate.toString(), a.getMaxGuests(), a.getPrice(), a.isAvailable());
                 aventureReservationDTO.setIAvailabilityPeriod(a.isAvailabilityPeriod());
                 aventureReservationDTO.setIsAction(a.isAction());
                 if (a.getGuest() != null) {
@@ -160,26 +167,10 @@ public class FishingAdventureReservationController {
         return new ResponseEntity<>(adventureReservationDTOS, HttpStatus.OK);
     }
     
-/*
-    // kod brisanja:
-    // mora biti Transactional metoda + EnableTransactionManagement klasa
     @DeleteMapping("/delete/{id}")
     @Transactional
     public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
-        HouseReservation houseReservation = this.houseReservationService.getHouseReservationById(id);   // dobavimo rezervaciju iz baze
-
-        Set<AdditionalServices> additionalServices =  houseReservation.getAdditionalServices();     // ne moramo direktno iz baze dobavljati jer ova lista u sebi ima objekte sa svojim pravim id-jevima
-        for(AdditionalServices a: additionalServices){
-            a.getHouseReservationsServices().remove(houseReservation);  // iz niza rezervacija dodatnih usluga izbacimo ovu rezervaciju koju brisemo - raskinuta u tabeli additional_services_house_reservation (sa vodece strane, jer je kod AdditionalService JoinTable)
-            this.additionalServicesService.save(a);
-        }
-
-        houseReservation.setGuest(null);    // TODO: proveriti kad se dodaju gosti sa rezervacijama
-        houseReservation.setHouse(null);  // raskinuta veza u tabeli house_reservation_table (sa strane vodece veze u ManyToMany vezi)
-        houseReservation = this.houseReservationService.save(houseReservation);
-
-        this.houseReservationService.delete(houseReservation.getId());  // brisanje rezervacije iz house_reservation tabele
-
+        boolean isDeleted = this.fishingAdventureReservationService.delete(id);
         return new ResponseEntity<>(true, HttpStatus.OK);
-    }*/
+    }
 }

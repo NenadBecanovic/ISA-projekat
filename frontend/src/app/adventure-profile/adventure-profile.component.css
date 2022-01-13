@@ -251,6 +251,18 @@
   font-size: 20px;
 }
 
+.delete-picture-button{
+  font-family: "Poppins", sans-serif;
+  color:white;
+  background-color: rebeccapurple;
+  position: absolute;
+  top: 36vw;
+  left: 82%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  font-size: 20px;
+}
+
 agm-map {
   height: 400px;
 }
