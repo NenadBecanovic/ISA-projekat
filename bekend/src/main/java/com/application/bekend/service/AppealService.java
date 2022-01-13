@@ -1,9 +1,16 @@
 package com.application.bekend.service;
 
 import com.application.bekend.DTO.AppealDTO;
+import com.application.bekend.DTO.EmailDTO;
 import com.application.bekend.DTO.FeedbackDTO;
+import com.application.bekend.DTO.ReportAppealAnswerDTO;
 import com.application.bekend.model.*;
 import com.application.bekend.repository.AppealRepository;
+
+import java.util.List;
+
+import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +21,15 @@ public class AppealService {
     private final HouseReservationService houseReservationService;
     private final BoatReservationService boatReservationService;
     private final MyUserService myUserService;
+    private final EmailService emailService;
 
     @Autowired
-    public AppealService(AppealRepository appealRepository, HouseReservationService houseReservationService, BoatReservationService boatReservationService, MyUserService myUserService) {
+    public AppealService(AppealRepository appealRepository, HouseReservationService houseReservationService, BoatReservationService boatReservationService, MyUserService myUserService, EmailService emailService) {
         this.appealRepository = appealRepository;
         this.houseReservationService = houseReservationService;
         this.boatReservationService = boatReservationService;
         this.myUserService = myUserService;
+        this.emailService = emailService;
     }
 
     public void saveAppealHouse(AppealDTO appealDTO){
@@ -80,5 +89,21 @@ public class AppealService {
         appeal.setAnswered(false);
         return appeal;
     }
-
+    
+    public Appeal getAppealById(Long id) {
+    	return this.appealRepository.getById(id);
+    }
+    
+    public List<Appeal> getAllAppeals(){
+    	return this.appealRepository.findAll();
+    }
+    
+    public boolean sendAppealResponse(Long id, ReportAppealAnswerDTO answerDTO) throws MessagingException {
+    	Appeal appeal = this.getAppealById(id);
+    	this.emailService.sendAnswerEmail(new EmailDTO("Odgovor na žalbu", answerDTO.getGuestResponse(), appeal.getSenderId().getEmail()));
+    	this.emailService.sendAnswerEmail(new EmailDTO("Žalba klijenta", answerDTO.getOwnerResponse(), appeal.getOwnerId().getEmail()));
+    	appeal.setAnswered(true);
+    	this.save(appeal);
+    	return true;
+    }
 }

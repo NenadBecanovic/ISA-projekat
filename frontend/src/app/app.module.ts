@@ -86,6 +86,12 @@ import {NgbCollapseModule} from "@ng-bootstrap/ng-bootstrap";
 import { AdventureChartComponent } from './adventure-profile/adventure-chart/adventure-chart.component';
 import { AddImageHouseComponent } from './house-owner/add-image-house/add-image-house.component';
 import { AddImageBoatComponent } from './boat-owner/add-image-boat/add-image-boat.component';
+import { AdminPageComponent } from './admin-page/admin-page.component';
+import { DeleteRequestAnswerDialogComponent } from './admin-page/delete-request-answer-dialog/delete-request-answer-dialog.component';
+import { AppealAnswerDialogComponent } from './admin-page/appeal-answer-dialog/appeal-answer-dialog.component';
+import { ReportAnswerDialogComponent } from './admin-page/report-answer-dialog/report-answer-dialog.component';
+import { DeclineNewUserDialogComponent } from './admin-page/decline-new-user-dialog/decline-new-user-dialog.component';
+import { AdminRegistrationDialogComponent } from './admin-page/admin-registration-dialog/admin-registration-dialog.component';
 
 const MaterialComponents = [
   MatSliderModule,
@@ -113,7 +119,7 @@ const MaterialComponents = [
 ];
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     LoginComponent,
     RegistrationComponent,
@@ -148,6 +154,12 @@ const MaterialComponents = [
     AddBoatComponent,
     BoatReportComponent,
     AddFishingAdventureActionDialogComponent,
+    AdventureReservationsDialogComponent,
+    AdminPageComponent,
+    DeleteRequestAnswerDialogComponent,
+    AppealAnswerDialogComponent,
+    ReportAnswerDialogComponent,
+    DeclineNewUserDialogComponent,
     BoatChartComponent,
     HouseChartComponent,
     CalendarDialogBoatComponent,
@@ -156,6 +168,7 @@ const MaterialComponents = [
     AdventureChartComponent,
     AddImageHouseComponent,
     AddImageBoatComponent,
+    AdminRegistrationDialogComponent
   ],
   imports: [
     RouterModule,

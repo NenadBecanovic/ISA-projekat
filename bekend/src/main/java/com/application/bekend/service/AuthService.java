@@ -80,6 +80,7 @@ public class AuthService {
         myUser.setGrade(0);
         myUser.setActivated(false);
         myUser.setPhoneNumber(myUserDTO.getPhoneNumber());
+        myUser.setPersonalDescription(myUserDTO.getPersonalDescription());
 
         // poslati mejl za obicnog usera
         if(myUserDTO.getAuthority().equals("ROLE_USER")){

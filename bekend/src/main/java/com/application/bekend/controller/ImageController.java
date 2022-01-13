@@ -8,6 +8,7 @@ import com.application.bekend.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -69,7 +70,7 @@ public class ImageController {
         return new ResponseEntity<>(imagesDTOS, HttpStatus.OK);
     }
     
-    @PostMapping("/adventure-image-upload/{id}")
+    @PostMapping("/adventureImageUpload/{id}")
     public ResponseEntity uploadAdventureImage(@PathVariable("id") Long id,@RequestBody String image) throws IOException {
     	this.imageService.uploadAdventureImage(image,id);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -85,5 +86,11 @@ public class ImageController {
     public ResponseEntity uploadBoatImage(@PathVariable("id") Long id,@RequestBody String image) throws IOException {
         this.imageService.uploadBoatImage(image,id);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+  
+    @DeleteMapping("/deleteImage/{id}")
+    public ResponseEntity deleteImage(@PathVariable("id") Long id) throws IOException {
+    	this.imageService.deleteImage(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

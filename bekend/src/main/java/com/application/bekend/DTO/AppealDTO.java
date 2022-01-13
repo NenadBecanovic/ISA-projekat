@@ -2,6 +2,7 @@ package com.application.bekend.DTO;
 
 public class AppealDTO {
 
+	private Long id;
     private Long reservationId;
     private String review;
     private Long ownerId;
@@ -11,11 +12,12 @@ public class AppealDTO {
     private boolean hasBoat;
     private boolean hasBoatOwner;
     private boolean hasInstructor;
-
-    public AppealDTO(Long reservationId, String review, Long ownerId, boolean hasHouse, boolean hasHouseOwner, boolean hasBoat, boolean hasBoatOwner, boolean hasInstructor) {
-        this.reservationId = reservationId;
+    private boolean isAnswered = false;
+    private UserInfoDTO guest = new UserInfoDTO();
+    private UserInfoDTO owner = new UserInfoDTO();
+    public AppealDTO(Long id, String review, boolean hasHouse, boolean hasHouseOwner, boolean hasBoat, boolean hasBoatOwner, boolean hasInstructor) {
+    	this.id = id;
         this.review = review;
-        this.ownerId = ownerId;
         this.hasHouse = hasHouse;
         this.hasHouseOwner = hasHouseOwner;
         this.hasBoat = hasBoat;
@@ -26,7 +28,15 @@ public class AppealDTO {
     public AppealDTO() {
     }
 
-    public Long getReservationId() {
+    public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getReservationId() {
         return reservationId;
     }
 
@@ -97,5 +107,29 @@ public class AppealDTO {
     public void setSenderId(Long senderId) {
         this.senderId = senderId;
     }
+
+	public boolean getIsAnswered() {
+		return isAnswered;
+	}
+
+	public void setIsAnswered(boolean isAnswered) {
+		this.isAnswered = isAnswered;
+	}
+
+	public UserInfoDTO getGuest() {
+		return guest;
+	}
+
+	public void setGuest(UserInfoDTO guest) {
+		this.guest = guest;
+	}
+
+	public UserInfoDTO getOwner() {
+		return owner;
+	}
+
+	public void setOwner(UserInfoDTO owner) {
+		this.owner = owner;
+	}
 }
 

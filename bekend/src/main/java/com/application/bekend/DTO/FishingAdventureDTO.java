@@ -33,6 +33,7 @@ public class FishingAdventureDTO {
     private int cancalletionFee;
     private Set<ImageDTO> images;
     private Set<AdditionalServicesDTO> additionalServices;
+    private Long instructorId;
     
 	public FishingAdventureDTO(Long id, String name, AddressDTO address, String promoDescription, int capacity,
 			String fishingEquipment, String behaviourRules, float pricePerHour, boolean isCancalletionFree,
@@ -127,5 +128,13 @@ public class FishingAdventureDTO {
 	}
 	public void setAdditionalServices(Set<AdditionalServicesDTO> additionalServices) {
 		this.additionalServices = additionalServices;
+	}
+
+	public Long getInstructorId() {
+		return instructorId;
+	}
+
+	public void setInstructorId(Long instructorId) {
+		this.instructorId = instructorId;
 	}
 }

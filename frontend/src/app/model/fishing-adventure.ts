@@ -17,6 +17,7 @@ export class FishingAdventure {
   isCancellationFree: boolean;
   cancellationFee: number;
   additionalServices: AdditionalService[] = new Array<AdditionalService>();
+  instructorId : number = 0;
   
   constructor(id: number,name: String, address: Address, promoDescription: String, capacity: number, fishingEquipment: String, behaviourRules: String, pricePerHour: number, isCancellationFree: boolean, cancelationFee: number){
     this.id = id;
