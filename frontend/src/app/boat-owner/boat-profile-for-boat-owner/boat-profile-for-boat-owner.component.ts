@@ -22,7 +22,6 @@ import {MatDialog} from "@angular/material/dialog";
 import {AddImageHouseComponent} from "../../house-owner/add-image-house/add-image-house.component";
 import {AddImageBoatComponent} from "../add-image-boat/add-image-boat.component";
 import {DeleteImageDialogComponent} from "../../adventure-profile/delete-image-dialog/delete-image-dialog.component";
-import {DeleteImageBoatComponent} from "../delete-image-boat/delete-image-boat.component";
 
 
 @Component({
@@ -206,7 +205,7 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
   }
 
   deleteImage(id :number){
-    const dialogRef = this.dialog.open(DeleteImageBoatComponent, {
+    const dialogRef = this.dialog.open(DeleteImageDialogComponent, {
       width: '550px',
       data: {},
     });

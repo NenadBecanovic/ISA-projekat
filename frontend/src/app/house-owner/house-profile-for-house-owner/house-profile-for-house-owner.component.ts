@@ -21,8 +21,7 @@ import {MyUser} from "../../model/my-user";
 import {AuthentificationService} from "../../auth/authentification/authentification.service";
 import {AddImageDialogComponent} from "../../adventure-profile/add-image-dialog/add-image-dialog.component";
 import {AddImageHouseComponent} from "../add-image-house/add-image-house.component";
-import {DeleteImageBoatComponent} from "../../boat-owner/delete-image-boat/delete-image-boat.component";
-import {DeleteImageHouseComponent} from "../delete-image-house/delete-image-house.component";
+import {DeleteImageDialogComponent} from "../../adventure-profile/delete-image-dialog/delete-image-dialog.component";
 
 @Component({
   selector: 'app-house-profile-for-house-owner',
@@ -216,7 +215,7 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
   }
 
   deleteImage(id :number){
-    const dialogRef = this.dialog.open(DeleteImageHouseComponent, {
+    const dialogRef = this.dialog.open(DeleteImageDialogComponent, {
       width: '550px',
       data: {},
     });

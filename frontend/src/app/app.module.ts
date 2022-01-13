@@ -92,8 +92,7 @@ import { AppealAnswerDialogComponent } from './admin-page/appeal-answer-dialog/a
 import { ReportAnswerDialogComponent } from './admin-page/report-answer-dialog/report-answer-dialog.component';
 import { DeclineNewUserDialogComponent } from './admin-page/decline-new-user-dialog/decline-new-user-dialog.component';
 import { AdminRegistrationDialogComponent } from './admin-page/admin-registration-dialog/admin-registration-dialog.component';
-import { DeleteImageBoatComponent } from './boat-owner/delete-image-boat/delete-image-boat.component';
-import { DeleteImageHouseComponent } from './house-owner/delete-image-house/delete-image-house.component';
+
 
 const MaterialComponents = [
   MatSliderModule,
@@ -121,7 +120,7 @@ const MaterialComponents = [
 ];
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
     LoginComponent,
     RegistrationComponent,
@@ -171,8 +170,6 @@ const MaterialComponents = [
     AddImageHouseComponent,
     AddImageBoatComponent,
     AdminRegistrationDialogComponent,
-    DeleteImageBoatComponent,
-    DeleteImageHouseComponent
   ],
   imports: [
     RouterModule,
