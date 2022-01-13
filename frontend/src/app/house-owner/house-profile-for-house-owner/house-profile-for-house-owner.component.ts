@@ -82,10 +82,10 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
     this._router.navigate(['/modify-house-profile', this.house.id])
   }
 
-  // TODO: obrisati
-  editActionDialog(id: number, houseId: number) {
-    this._router.navigate(['/edit-house-action', this.house.id, this.house.id])
-  }
+  // // TODO: obrisati
+  // editActionDialog(id: number, houseId: number) {
+  //   this._router.navigate(['/edit-house-action', this.house.id, this.house.id])
+  // }
 
   deleteActionDialog(id: number) {
     this._houseReservationService.delete(id).subscribe(   // OBAVEZNO SE MORA SUBSCRIBE-OVATI !!!

@@ -280,10 +280,9 @@ public class HouseReservationController {
             this.additionalServicesService.save(a);
         }
 
-        houseReservation.setGuest(null);    // TODO: proveriti kad se dodaju gosti sa rezervacijama
+        houseReservation.setGuest(null);
         houseReservation.setHouse(null);  // raskinuta veza u tabeli house_reservation_table (sa strane vodece veze u ManyToMany vezi)
         houseReservation = this.houseReservationService.save(houseReservation);
-
         this.houseReservationService.delete(houseReservation.getId());  // brisanje rezervacije iz house_reservation tabele
 
         return new ResponseEntity<>(true, HttpStatus.OK);
