@@ -12,6 +12,7 @@ import { UserInfo } from '../model/user-info';
 import { AdminAnswer } from '../model/admin-answer';
 import { ReportAppealAnswer } from '../model/report-appeal-answer';
 import { NewUserRequest } from '../model/new-user-request';
+import { FishingAdventureInstructorDTO } from '../model/fishing-adventure-instructorDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -116,5 +117,9 @@ export class MyUserService {
 
   public declineNewUserRequest(id: number, adminAnswer: AdminAnswer): Observable<Boolean>{
     return this._http.put<Boolean>(`${this.userPath}/declineNewUserRequest/`+id, adminAnswer);
+  }
+
+  public getFishingAdventureInstructor(id: number): Observable<FishingAdventureInstructorDTO>{
+    return this._http.get<FishingAdventureInstructorDTO>(`${this.userPath}/getFishingAdventureInstructor/`+id)
   }
 }

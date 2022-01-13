@@ -16,6 +16,7 @@ import { AdventureReservationService } from '../service/adventure-reservation.se
 import { AdventureReservation } from '../model/adventure-reservation';
 import { AddFishingAdventureActionDialogComponent } from './add-action-dialog/add-action-dialog.component';
 import { EditAdventureProfileDialogComponent } from './edit-adventure-profile-dialog/edit-adventure-profile-dialog.component';
+import { MyUserService } from '../service/my-user.service';
 
 @Component({
   selector: 'app-adventure-profile',
@@ -25,7 +26,7 @@ import { EditAdventureProfileDialogComponent } from './edit-adventure-profile-di
 export class AdventureProfileComponent implements OnInit {
 
   address: Address = new Address(0,"Kotor","Kotor","Crna Gora",0,0,31100)
-  user: FishingAdventureInstructorDTO = new FishingAdventureInstructorDTO(1,"Kapetan","Kuka","","",this.address, "065454545", "Najjaci sam na svetu");
+  instructor: FishingAdventureInstructorDTO = new FishingAdventureInstructorDTO();
   additionalServices: AdditionalService[] = new Array<AdditionalService>();
   fishingAdventure: FishingAdventure= new FishingAdventure(0,"", this.address, "", 0, "", "", 0,true, 0);
   images: Image[] = new Array<Image>();
@@ -35,7 +36,7 @@ export class AdventureProfileComponent implements OnInit {
   savings: number[] = new Array();
 
   constructor(public dialog: MatDialog, private _route: ActivatedRoute, private _adventureService: AdventureProfileService, private _additionalServices: AdditionalServicesService, private _imageService: ImageService, private _router: Router,
-    private _adventureReservationService: AdventureReservationService) {
+    private _adventureReservationService: AdventureReservationService, private _myUserService: MyUserService) {
    }
 
   ngOnInit() {
@@ -103,6 +104,12 @@ export class AdventureProfileComponent implements OnInit {
         this.fishingAdventure = fishingAdventure
         this.address = this.fishingAdventure.address;
 
+        this._myUserService.getFishingAdventureInstructor(this.fishingAdventure.instructorId).subscribe(
+          (instructor: FishingAdventureInstructorDTO) => {
+            this.instructor = instructor
+          }
+        )
+
         this._additionalServices.getAllByFishingAdventureId(this.fishingAdventure.id).subscribe(
           (additionalServices: AdditionalService[]) => {
             this.additionalServices = additionalServices
@@ -137,5 +144,9 @@ export class AdventureProfileComponent implements OnInit {
         )
       }
     )
+  }
+
+  goToInstructor(){
+    this._router.navigate(['/fishing-instructor/'+this.instructor.id]);
   }
 }

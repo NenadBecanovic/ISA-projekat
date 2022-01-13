@@ -26,7 +26,7 @@ export class FishingInstructorProfileComponent implements OnInit {
   adventures: FishingAdventure[] = new Array<FishingAdventure>();
   a: FishingAdventure = new FishingAdventure(0,"F",this.address,"",0,",","",0,true,0);
   allReservations: AdventureReservation[] = new Array<AdventureReservation>();
-  instructor: FishingAdventureInstructorDTO = new FishingAdventureInstructorDTO(1,"Kapetan","Kuka","","",this.address, "065454545", "Najjaci sam na svetu");
+  instructor: FishingAdventureInstructorDTO = new FishingAdventureInstructorDTO();
   filterTerm!: string;
 
   constructor(public dialog: MatDialog, private _adventureService: AdventureProfileService, private _router: Router, private _adventureReservationService: AdventureReservationService) {

@@ -4,7 +4,9 @@ import com.application.bekend.DTO.AdditionalServicesDTO;
 import com.application.bekend.DTO.AddressDTO;
 import com.application.bekend.DTO.BoatDTO;
 import com.application.bekend.DTO.FishingAdventureDTO;
+import com.application.bekend.DTO.FishingAdventureInstructorInfoDTO;
 import com.application.bekend.DTO.HouseDTO;
+import com.application.bekend.DTO.MyUserDTO;
 import com.application.bekend.DTO.NewFishingAdventureDTO;
 import com.application.bekend.DTO.RoomDTO;
 import com.application.bekend.model.AdditionalServices;
@@ -12,6 +14,7 @@ import com.application.bekend.model.Address;
 import com.application.bekend.model.Boat;
 import com.application.bekend.model.FishingAdventure;
 import com.application.bekend.model.House;
+import com.application.bekend.model.MyUser;
 import com.application.bekend.model.Room;
 import com.application.bekend.service.AdditionalServicesService;
 import com.application.bekend.service.AddresService;
@@ -61,6 +64,7 @@ public class FishingAdventureController {
 
         FishingAdventureDTO fishingAdventureDTO = new FishingAdventureDTO(fishingAdventure.getId(), fishingAdventure.getName(), addressDTO, fishingAdventure.getPromoDescription(), fishingAdventure.getCapacity(), fishingAdventure.getFishingEquipment(),
         		fishingAdventure.getBehaviourRules(), fishingAdventure.getPricePerHour(), fishingAdventure.isCancalletionFree(), fishingAdventure.getCancalletionFee());
+        fishingAdventureDTO.setInstructorId(fishingAdventure.getInstructor().getId());
 
         return new ResponseEntity<>(fishingAdventureDTO, HttpStatus.OK);
     }
@@ -135,6 +139,12 @@ public class FishingAdventureController {
         this.fishingAdventureService.save(fishingAdventure);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+    
+    @GetMapping("/getFishingAdventureInstructor/{id}")
+    public ResponseEntity<FishingAdventureInstructorInfoDTO> findUserByHouseReservationId(@PathVariable("id") Long id) {
+        FishingAdventureInstructorInfoDTO instructor = this.fishingAdventureService.getFishingAdventureInstructor(id);
+        return new ResponseEntity<>(instructor, HttpStatus.OK);
     }
     
 }
