@@ -127,20 +127,22 @@ export class AdventureProfileComponent implements OnInit {
 
         this._adventureReservationService.getAllActionsByFishingAdventureId(this.fishingAdventure.id).subscribe(
           (actions: AdventureReservation[]) => {
-            this.actions = actions;
             for(let action of actions){
-              let startDate = new Date(Number(action.startDate))
-              let startHours = startDate.getHours();
-              let startMinutes = startDate.getMinutes();
-              let endDate = new Date(Number(action.endDate))
-              let endHours = endDate.getHours();
-              let endMinutes = endDate.getMinutes();
-              var price = ((endHours*60 + endMinutes) - (startHours*60 + startMinutes)) * this.fishingAdventure.pricePerHour / 60;
-              for(let service of action.additionalServices){
-                price += service.price;
+              if(action.guestId == null){
+                this.actions.push(action);
+                let startDate = new Date(Number(action.startDate))
+                let startHours = startDate.getHours();
+                let startMinutes = startDate.getMinutes();
+                let endDate = new Date(Number(action.endDate))
+                let endHours = endDate.getHours();
+                let endMinutes = endDate.getMinutes();
+                var price = ((endHours*60 + endMinutes) - (startHours*60 + startMinutes)) * this.fishingAdventure.pricePerHour / 60;
+                for(let service of action.additionalServices){
+                  price += service.price;
+                }
+                var discount = price - action.price;
+                this.savings.push(discount);
               }
-              var discount = price - action.price;
-              this.savings.push(discount);
             }
           }
         )
@@ -161,5 +163,13 @@ export class AdventureProfileComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       window.location.reload();
     });
+  }
+
+  deleteAction(id: number){
+    this._adventureReservationService.delete(id).subscribe(
+      (deleted: Boolean) => {
+        window.location.reload();
+      }
+    )
   }
 }
