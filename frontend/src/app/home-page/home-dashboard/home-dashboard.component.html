@@ -68,7 +68,7 @@
           <label style="font-size: 25px; font-weight: 500; margin-left: 10px" ><strong>Najpopularnije avanture</strong></label>
         </div>
         <div style="float: left; width: 20%;">
-          <button (click) = "goToAllAdventures()" style="font-size: 15px;border: None;background: transparent; font-weight: 500;" >Prikazi sve</button>
+          <button (click) = "goToAllAdventures()" style="font-size: 15px;border: None;background: transparent; font-weight: 500;" >Prikazi instruktore i avanture</button>
 
         </div>
       </div>
@@ -80,7 +80,8 @@
             <div class="myMatCarouselSlide2" fxLayout="row wrap" fxLayoutAlign="center center">
               <ng-container *ngFor="let adventure of slide.adventures ; let j = index">
                 <mat-card style="margin-right: 5px; margin-left: 5px" class="myCard" fxFlex="20%" fxFlex.xs="40%" fxLayoutAlign="center center" fxLayout="column wrap">
-                  <img mat-card-image style="width: 100%; height: 100%" src="{{adventure.images[0].imageUrl}}">
+                  <img *ngIf="adventure.images.length > 0" style="width: 100%; height: 100%;border-radius: initial" src="{{adventure.images[0].imageUrl}}" alt="Nema dostupne slike">
+                  <img *ngIf="adventure.images.length == 0" style="width: 70%; height: 60%;border-radius: initial" src="assets/no_image.jpg" >
                   <a>{{adventure.name}}</a>
                 </mat-card>
               </ng-container>

@@ -23,7 +23,7 @@
           <span class="basic-title text-center">Sortiraj prema:</span>
           <div class="form-check">
             <div class="form-check">
-              <label> Naziv avanture </label>
+              <label> Naziv instruktora </label>
               <mat-radio-group aria-label="Select an option" [(ngModel)]="adventureName" (change)="changeSortName()" style="margin-left: 7px;">
                 <mat-radio-button [value]="1">A-Z</mat-radio-button>
                 <mat-radio-button [value]="2" style="margin-left: 5px">Z-A</mat-radio-button>
@@ -51,7 +51,8 @@
         <mat-card style="width: 100%; height: 13vw;">
           <mat-grid-list cols="4" rowHeight="1.1:1" >
             <mat-grid-tile >
-              <img style="width: 100%; height: 100%;"src="{{adventure.images[0].imageUrl}}">
+              <img *ngIf="adventure.images.length > 0" style="width: 100%; height: 100%;border-radius: initial" src="{{adventure.images[0].imageUrl}}" alt="Nema dostupne slike">
+              <img *ngIf="adventure.images.length == 0" style="width: 70%; height: 60%;border-radius: initial" src="assets/no_image.jpg" >
             </mat-grid-tile>
 
             <mat-grid-tile  [colspan]="3"  class="script-menu1"  >

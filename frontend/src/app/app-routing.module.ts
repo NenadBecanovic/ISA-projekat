@@ -50,12 +50,13 @@ import {
 } from "./clientHome/reservation/boat-reservation-history/boat-reservation-history.component";
 import {FutureReservationComponent} from "./clientHome/future-reservation/future-reservation.component";
 import {AdventureChartComponent} from "./adventure-profile/adventure-chart/adventure-chart.component";
+import {HomeInstructorComponent} from "./home-page/home-instructor/home-instructor.component";
 
 
 const routes: Routes = [
   {path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}, {path: 'houses', component: HomeHouseComponent},
       {path: 'boats', component: HomeBoatComponent}, {path: 'adventures', component: HomeAdventureComponent}, {path: 'house/:id', component: HouseComponent},
-      {path: 'adventure/:id', component: AdventureComponent},{path: 'boat/:id', component: BoatComponent} ]},
+      {path: 'adventure/:id', component: AdventureComponent},{path: 'boat/:id', component: BoatComponent}, {path: 'instructors', component: HomeInstructorComponent} ]},
   {path:'login', component: LoginComponent},
   {path:'register', component: RegistrationComponent},
   {path:'email-activation', component: EmailActivationComponent},

@@ -212,6 +212,7 @@ public class MyUserController {
     @PostMapping("/cancelReservation")
     public ResponseEntity<ReservationCancelDTO> cancelReservation(@RequestBody ReservationCancelDTO dto){
         this.cancelReservationService.cancelReservation(dto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     
@@ -309,4 +310,29 @@ public class MyUserController {
         this.myUserService.editPersonalDescription(id, personalDescription);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/getAllInstructors")
+    public ResponseEntity<List<UserDTO>> getAllInstructors(){
+        List<MyUser> myUsers = this.myUserService.getAllInstructors();
+        List<UserDTO> userInfoDTOS = new ArrayList<>();
+        for(MyUser m: myUsers){
+            UserDTO userInfoDTO = modelMapper.map(m, UserDTO.class);
+            AddressDTO addressDTO = modelMapper.map(m.getAddress(), AddressDTO.class);
+            userInfoDTO.setAddressDTO(addressDTO);
+            userInfoDTOS.add(userInfoDTO);
+        }
+
+        return new ResponseEntity<>(userInfoDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping("/findUserById/{id}")
+    public ResponseEntity<UserDTO> findUserById(@PathVariable("id") Long id){
+        MyUser myUser = this.myUserService.findUserById(id);
+        UserDTO userDTO = modelMapper.map(myUser, UserDTO.class);
+        AddressDTO addressDTO = modelMapper.map(myUser.getAddress(), AddressDTO.class);
+        userDTO.setAddressDTO(addressDTO);
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+    }
+
+
 }
