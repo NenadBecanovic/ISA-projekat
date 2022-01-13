@@ -1,5 +1,5 @@
 <div id="house-profile">
-  <app-header> </app-header>
+  <app-plain-header> </app-plain-header>
   <div [style.height]="500">
     <mat-carousel *ngIf="isLoaded"
       timings="250ms ease-in" [autoplay]=true [interval] = "5000" color="accent" maxWidth="auto" [proportion]= "40" [slides] = "images.length"
@@ -13,9 +13,10 @@
       </mat-carousel-slide>
         #matCarouselSlide>
     </mat-carousel>
-    <button mat-raised-button (click)="addImage.click()" class="btn add-picture-button">Dodaj sliku</button>
-    <input type="file" accept="image/*" style="display:none;border:none;" (change)="addImageToHouse($event)" #addImage/>
-
+<!--    <button mat-raised-button (click)="addImage.click()" class="btn add-picture-button">Dodaj sliku</button>-->
+<!--    <input type="file" accept="image/*" style="display:none;border:none;" (change)="addImageToHouse($event)" #addImage/>-->
+    <br><br><br>
+    <button mat-raised-button (click)="imageAdded(house.id)" class="btn add-picture-button">Dodaj sliku</button>
 
     <div class="house-container">
       <div class="d-flex flex-column house-view-title-container">

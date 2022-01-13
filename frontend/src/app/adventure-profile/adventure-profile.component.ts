@@ -85,7 +85,7 @@ export class AdventureProfileComponent implements OnInit {
     });
     dialogRef.componentInstance.adventureId = id;
     dialogRef.afterClosed().subscribe(result => {
-      
+
     });
   }
 
@@ -150,6 +150,10 @@ export class AdventureProfileComponent implements OnInit {
     )
   }
 
+  showCharts() {
+    this._router.navigate(['/adventure-chart', this.adventureId])
+  }
+
   goToInstructor(){
     this._router.navigate(['/fishing-instructor/'+this.instructor.id]);
   }
@@ -172,4 +176,5 @@ export class AdventureProfileComponent implements OnInit {
       }
     )
   }
+
 }

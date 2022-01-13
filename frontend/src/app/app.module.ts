@@ -81,6 +81,11 @@ import { ChartModule } from 'angular-highcharts';
 import { HouseChartComponent } from './house-owner/house-chart/house-chart.component';
 import { CalendarDialogBoatComponent } from './boat-owner/boat-profile-for-boat-owner/calendar-dialog-boat/calendar-dialog-boat.component';
 import { AdventureReservationsDialogComponent } from './adventure-profile/adventure-reservations-dialog/adventure-reservations-dialog.component';
+import { PlainHeaderComponent } from './house-owner/plain-header/plain-header.component';
+import {NgbCollapseModule} from "@ng-bootstrap/ng-bootstrap";
+import { AdventureChartComponent } from './adventure-profile/adventure-chart/adventure-chart.component';
+import { AddImageHouseComponent } from './house-owner/add-image-house/add-image-house.component';
+import { AddImageBoatComponent } from './boat-owner/add-image-boat/add-image-boat.component';
 import { AdminPageComponent } from './admin-page/admin-page.component';
 import { DeleteRequestAnswerDialogComponent } from './admin-page/delete-request-answer-dialog/delete-request-answer-dialog.component';
 import { AppealAnswerDialogComponent } from './admin-page/appeal-answer-dialog/appeal-answer-dialog.component';
@@ -158,6 +163,11 @@ const MaterialComponents = [
     BoatChartComponent,
     HouseChartComponent,
     CalendarDialogBoatComponent,
+    AdventureReservationsDialogComponent,
+    PlainHeaderComponent,
+    AdventureChartComponent,
+    AddImageHouseComponent,
+    AddImageBoatComponent,
     AdminRegistrationDialogComponent
   ],
   imports: [
@@ -188,6 +198,7 @@ const MaterialComponents = [
       apiKey: 'AIzaSyDhUaf84F4NwNDUjw-feRmJusep1T1EB6s'   // za google maps
     }),
     ChartModule,
+    NgbCollapseModule,
   ],
   providers: [
     {

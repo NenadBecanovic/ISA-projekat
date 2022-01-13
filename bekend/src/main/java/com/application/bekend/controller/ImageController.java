@@ -75,7 +75,19 @@ public class ImageController {
     	this.imageService.uploadAdventureImage(image,id);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-    
+
+    @PostMapping("/uploadHouseImage/{id}")
+    public ResponseEntity uploadHouseImage(@PathVariable("id") Long id,@RequestBody String image) throws IOException {
+        this.imageService.uploadHouseImage(image,id);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PostMapping("/uploadBoatImage/{id}")
+    public ResponseEntity uploadBoatImage(@PathVariable("id") Long id,@RequestBody String image) throws IOException {
+        this.imageService.uploadBoatImage(image,id);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+  
     @DeleteMapping("/deleteImage/{id}")
     public ResponseEntity deleteImage(@PathVariable("id") Long id) throws IOException {
     	this.imageService.deleteImage(id);
