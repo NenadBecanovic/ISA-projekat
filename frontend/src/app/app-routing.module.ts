@@ -81,7 +81,7 @@ const routes: Routes = [
   { path:'home-page-boat-owner', component: HomePageBoatOwnerComponent},
   { path:'add-boat', component: AddBoatComponent},
   { path: 'boat-report/:id/:boatId', component: BoatReportComponent},
-  { path: 'admin-page', component: AdminPageComponent}
+  { path: 'admin-page', component: AdminPageComponent},
   { path: 'boat-chart/:id', component: BoatChartComponent},
   { path: 'house-chart/:id', component: HouseChartComponent},
 ];

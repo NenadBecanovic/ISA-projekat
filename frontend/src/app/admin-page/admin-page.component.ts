@@ -11,6 +11,7 @@ import { UserInfo } from '../model/user-info';
 import { FeedbackService } from '../service/feedback.service';
 import { MyUserService } from '../service/my-user.service';
 import { ReportService } from '../service/report.service';
+import { AdminRegistrationDialogComponent } from './admin-registration-dialog/admin-registration-dialog.component';
 import { AppealAnswerDialogComponent } from './appeal-answer-dialog/appeal-answer-dialog.component';
 import { DeleteRequestAnswerDialogComponent } from './delete-request-answer-dialog/delete-request-answer-dialog.component';
 import { ReportAnswerDialogComponent } from './report-answer-dialog/report-answer-dialog.component';
@@ -220,6 +221,17 @@ export class AdminPageComponent implements OnInit {
       data: {},
     });
     dialogRef.componentInstance.userId = id;
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadData();
+    });
+  }
+
+  addAdmin(){
+    const dialogRef = this.dialog.open(AdminRegistrationDialogComponent, {
+      width: '700px',
+      height: '570px',
+      data: {},
+    });
     dialogRef.afterClosed().subscribe(result => {
       this.loadData();
     });

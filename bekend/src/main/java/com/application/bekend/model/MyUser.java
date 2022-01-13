@@ -33,9 +33,11 @@ public class MyUser implements UserDetails {
     private int penalties;
     @Column(name = "isDeleted")
     private boolean isDeleted;
-    @Column(name = "reasonFroRegistration", nullable = true)
+    @Column(name = "reasonForRegistration", nullable = true)
     private String reasonForRegistration;
-
+    @Column(name = "personalDescription", nullable = true)
+    private String personalDescription;
+    
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Boat> boats = new HashSet<Boat>();
 
@@ -350,5 +352,13 @@ public class MyUser implements UserDetails {
 
 	public void setReasonForRegistration(String reasonForRegistration) {
 		this.reasonForRegistration = reasonForRegistration;
+	}
+
+	public String getPersonalDescription() {
+		return personalDescription;
+	}
+
+	public void setPersonalDescription(String personalDescription) {
+		this.personalDescription = personalDescription;
 	}
 }

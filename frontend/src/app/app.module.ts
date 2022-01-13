@@ -77,7 +77,7 @@ import { BoatReportComponent } from './boat-owner/boat-report/boat-report.compon
 import { AddFishingAdventureActionDialogComponent } from './adventure-profile/add-action-dialog/add-action-dialog.component';
 import { EditAdventureProfileDialogComponent } from './adventure-profile/edit-adventure-profile-dialog/edit-adventure-profile-dialog.component';
 import { BoatChartComponent } from './boat-owner/boat-chart/boat-chart.component';
-//import { ChartModule } from 'angular-highcharts';
+import { ChartModule } from 'angular-highcharts';
 import { HouseChartComponent } from './house-owner/house-chart/house-chart.component';
 import { CalendarDialogBoatComponent } from './boat-owner/boat-profile-for-boat-owner/calendar-dialog-boat/calendar-dialog-boat.component';
 import { AdventureReservationsDialogComponent } from './adventure-profile/adventure-reservations-dialog/adventure-reservations-dialog.component';
@@ -86,6 +86,7 @@ import { DeleteRequestAnswerDialogComponent } from './admin-page/delete-request-
 import { AppealAnswerDialogComponent } from './admin-page/appeal-answer-dialog/appeal-answer-dialog.component';
 import { ReportAnswerDialogComponent } from './admin-page/report-answer-dialog/report-answer-dialog.component';
 import { DeclineNewUserDialogComponent } from './admin-page/decline-new-user-dialog/decline-new-user-dialog.component';
+import { AdminRegistrationDialogComponent } from './admin-page/admin-registration-dialog/admin-registration-dialog.component';
 
 const MaterialComponents = [
   MatSliderModule,
@@ -157,6 +158,7 @@ const MaterialComponents = [
     BoatChartComponent,
     HouseChartComponent,
     CalendarDialogBoatComponent,
+    AdminRegistrationDialogComponent
   ],
   imports: [
     RouterModule,
@@ -185,7 +187,7 @@ const MaterialComponents = [
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDhUaf84F4NwNDUjw-feRmJusep1T1EB6s'   // za google maps
     }),
- //   ChartModule,
+    ChartModule,
   ],
   providers: [
     {
