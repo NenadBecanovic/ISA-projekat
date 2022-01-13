@@ -25,7 +25,10 @@ export class HouseReservation {
   public hasFeedbackEntity: Boolean = false;
   public hasAppealOwner: Boolean = false;
   public ownerId: number = 0;
-
+  public entityName: String = ''
+  public canBeCancelled : boolean = true;
+  public onGoing: boolean = true;
+  public cancelled: boolean = false;
 
   constructor(id: number, startDate: string, endDate: string, maxGuests: number, additionalServices: AdditionalService[],
               price: number, isAvailable: boolean) {

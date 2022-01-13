@@ -281,6 +281,9 @@ public class BoatReservationController {
             String startDate = (String.valueOf(h.getStartDate().getTime()));
             String endDate = (String.valueOf(h.getEndDate().getTime()));
 
+            Long startDateMilis = h.getStartDate().getTime();
+            Long endDateMilis = h.getEndDate().getTime();
+
             BoatReservationDTO dto = new BoatReservationDTO(h.getBoat().getId(), h.getId(), startDate, endDate, h.getMaxGuests(),
                     h.getPrice(), h.isAvailable());
             dto.setAvailabilityPeriod(h.isAvailabilityPeriod());
@@ -288,6 +291,18 @@ public class BoatReservationController {
             if (h.getGuest() != null) {
                 dto.setGuestId(h.getGuest().getId());
             }
+
+            dto.setMilisStartDate(startDateMilis);
+            dto.setMilisEndDate(endDateMilis);
+            dto.setHasAppealEntity(h.getHasAppealEntity());
+            dto.setHasAppealOwner(h.getHasAppealOwner());
+            dto.setHasFeedbackEntity(h.getHasFeedbackEntity());
+            dto.setHasFeedbackOwner(h.getHasFeedbackOwner());
+
+            dto.setTotalPrice(this.boatReservationService.findTotalPriceForBoatReservation(h));
+            dto.setEntityName(h.getBoat().getName());
+            this.boatReservationService.canBeCancelled(dto,h);
+            dto.setCancelled(h.getCancelled());
 
             Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
             for(AdditionalServices add : this.additionalServicesService.getAllByBoatReservationId(h.getId())) {
@@ -329,5 +344,7 @@ public class BoatReservationController {
         }
         return new ResponseEntity<>(boatReservationDTOS, HttpStatus.OK);
     }
+
+
 
 }

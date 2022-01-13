@@ -39,6 +39,10 @@ import {
 import {CreateFeedbackComponent} from "../dialog/create-feedback/create-feedback.component";
 import {CreateAppealEntityComponent} from "../dialog/create-appeal-entity/create-appeal-entity.component";
 import {MatSelectModule} from "@angular/material/select";
+import {
+  BoatReservationHistoryComponent
+} from "../reservation/boat-reservation-history/boat-reservation-history.component";
+import {FutureReservationComponent} from "../future-reservation/future-reservation.component";
 
 
 @NgModule({
@@ -58,6 +62,8 @@ import {MatSelectModule} from "@angular/material/select";
     HouseReservationHistoryComponent,
     CreateFeedbackComponent,
     CreateAppealEntityComponent,
+    BoatReservationHistoryComponent,
+    FutureReservationComponent,
   ],
   imports: [
     CommonModule,

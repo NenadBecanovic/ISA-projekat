@@ -44,6 +44,9 @@ public interface MyUserRepository extends JpaRepository<MyUser, Long> {
     MyUser findMyUserByAdventureReservationId(Long id);
     
     List<MyUser> findMyUserByIsActivated(boolean isActivated);
+
+    @Query("select user from MyUser user join fetch user.authorities auth where auth.name = 'ROLE_INSTRUCTOR'")
+    List<MyUser> findAllInstructors();
    // @Query("select * from MyUser u join fetch u.authorities a")
 //	List<MyUser> findAllWithAuthorities();
 }

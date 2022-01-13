@@ -25,6 +25,11 @@ import {BoatComponent} from "../boat/boat.component";
 import {AdventureComponent} from "../adventure/adventure.component";
 import {HouseComponent} from "../house/house.component";
 import {AgmCoreModule} from "@agm/core";
+import {HomeInstructorComponent} from "../home-instructor/home-instructor.component";
+import {InstructorComponent} from "../instructor/instructor.component";
+import {MatTableModule} from "@angular/material/table";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {Ng2SearchPipeModule} from "ng2-search-filter";
 
 
 
@@ -38,7 +43,9 @@ import {AgmCoreModule} from "@agm/core";
     HomeAdventureComponent,
     AdventureComponent,
     HouseComponent,
-    BoatComponent
+    BoatComponent,
+    HomeInstructorComponent,
+    InstructorComponent
   ],
     imports: [
         RouterModule,
@@ -57,8 +64,11 @@ import {AgmCoreModule} from "@agm/core";
         MatRadioModule,
         FormsModule,
         AgmCoreModule.forRoot({
-        apiKey: 'AIzaSyDhUaf84F4NwNDUjw-feRmJusep1T1EB6s'   // za google maps
-        })
+            apiKey: 'AIzaSyDhUaf84F4NwNDUjw-feRmJusep1T1EB6s'   // za google maps
+        }),
+        MatTableModule,
+        MatFormFieldModule,
+        Ng2SearchPipeModule
     ],
 
   providers: [

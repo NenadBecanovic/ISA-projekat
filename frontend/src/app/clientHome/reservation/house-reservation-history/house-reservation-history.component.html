@@ -22,7 +22,7 @@
 
   <ng-container matColumnDef="Naziv vikendice">
     <th mat-header-cell *matHeaderCellDef> Naziv vikendice </th>
-    <td mat-cell *matCellDef="let element"> {{element.houseName}} </td>
+    <td mat-cell *matCellDef="let element"> {{element.entityName}} </td>
   </ng-container>
 
   <!-- Weight Column -->
@@ -39,27 +39,28 @@
   <!-- Symbol Column -->
   <ng-container matColumnDef="Ocena entitet">
     <th mat-header-cell *matHeaderCellDef> Oceni vikendicu</th>
-    <td mat-cell *matCellDef="let element"> <button [disabled]="element.hasFeedbackEntity" (click)="(createFeedback(element.id, element.ownerId))" mat-raised-button color="primary">Oceni</button> </td>
+    <td mat-cell *matCellDef="let element"> <button *ngIf="!element.cancelled" [disabled]="element.hasFeedbackEntity" (click)="(createFeedback(element.id, element.ownerId))" mat-raised-button color="primary">Oceni</button> </td>
   </ng-container>
 
   <ng-container matColumnDef="Ocena vlasnik">
     <th mat-header-cell *matHeaderCellDef> Oceni vlasnika</th>
-    <td mat-cell *matCellDef="let element"> <button [disabled]="element.hasFeedbackOwner" (click)="(createFeedbackOwner(element.id, element.ownerId))" mat-raised-button color="primary">Oceni</button> </td>
+    <td mat-cell *matCellDef="let element"> <button *ngIf="!element.cancelled" [disabled]="element.hasFeedbackOwner" (click)="(createFeedbackOwner(element.id, element.ownerId))" mat-raised-button color="primary">Oceni</button> </td>
   </ng-container>
 
   <ng-container matColumnDef="Zalba entitet">
     <th mat-header-cell *matHeaderCellDef> Zalba vikendica</th>
-    <td mat-cell *matCellDef="let element"> <button [disabled]="element.hasAppealEntity" (click)="(createAppealEntity(element.id, element.ownerId))" mat-raised-button color="warn">Zali se</button> </td>
+    <td mat-cell *matCellDef="let element"> <button *ngIf="!element.cancelled" [disabled]="element.hasAppealEntity" (click)="(createAppealEntity(element.id, element.ownerId))" mat-raised-button color="warn">Zali se</button> </td>
   </ng-container>
 
   <ng-container matColumnDef="Zalba vlasnik">
     <th mat-header-cell *matHeaderCellDef> Zalba vlasnik</th>
-    <td mat-cell *matCellDef="let element"> <button [disabled]="element.hasAppealOwner" (click)="(createAppealOwner(element.id, element.ownerId))" mat-raised-button color="warn">Zali se</button> </td>
+    <td mat-cell *matCellDef="let element"> <button *ngIf="!element.cancelled" [disabled]="element.hasAppealOwner" (click)="(createAppealOwner(element.id, element.ownerId))" mat-raised-button color="warn">Zali se</button> </td>
   </ng-container>
 
-
-
-
+  <ng-container matColumnDef="Otkazano">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element"> <mat-label *ngIf="element.cancelled" style="color: red"><strong>OTKAZANO</strong></mat-label> </td>
+  </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

@@ -343,7 +343,9 @@ public class HouseReservationController {
             dto.setHasFeedbackOwner(h.getHasFeedbackOwner());
 
             dto.setTotalPrice(this.houseReservationService.findTotalPriceForHouseReservation(h));
-            dto.setHouseName(h.getHouse().getName());
+            dto.setEntityName(h.getHouse().getName());
+            this.houseReservationService.canBeCancelled(dto,h);
+            dto.setCancelled(h.getCancelled());
 
             Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
             for(AdditionalServices add : this.additionalServicesService.getAllByHouseReservationId(h.getId())) {

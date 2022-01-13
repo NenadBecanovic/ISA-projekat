@@ -1,4 +1,4 @@
-<body>
+
 <div id="house-profile">
   <div [style.height]="500">
     <mat-carousel *ngIf="isLoaded"
@@ -14,6 +14,11 @@
       #matCarouselSlide>
     </mat-carousel>
 
+    <br>
+    <br>
+    <br>
+    <br>
+
     <div class="house-container">
       <div class="d-flex flex-column house-view-title-container">
 
@@ -21,7 +26,7 @@
         <div class="d-flex left align-items-center" style="margin-left: 10px">
         <span class="house-name display-5" style="margin-left: 10px">
                 {{house.name}}
-          <button mat-raised-button [disabled] = "!isSubscribed" (click)="subscribe()" class="btn modify-profile-button">Preplati se</button>
+          <button mat-raised-button [disabled] = "isSubscribed" (click)="subscribe()" class="btn modify-profile-button">Preplati se</button>
               </span>
         </div>
         <!-- adresa vikednice -->
@@ -140,4 +145,4 @@
     </div>
   </div>
 </div>
-</body>
+

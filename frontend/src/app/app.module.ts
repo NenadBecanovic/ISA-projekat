@@ -120,7 +120,7 @@ const MaterialComponents = [
 ];
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
     LoginComponent,
     RegistrationComponent,
@@ -170,7 +170,7 @@ const MaterialComponents = [
     AdventureChartComponent,
     AddImageHouseComponent,
     AddImageBoatComponent,
-    AdminRegistrationDialogComponent
+    AdminRegistrationDialogComponent,
   ],
   imports: [
     RouterModule,

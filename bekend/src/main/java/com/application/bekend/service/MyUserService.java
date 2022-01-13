@@ -7,6 +7,7 @@ import com.application.bekend.DTO.NewUserRequestDTO;
 import com.application.bekend.DTO.ReportAppealAnswerDTO;
 import com.application.bekend.model.*;
 import com.application.bekend.repository.MyUserRepository;
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -198,4 +199,8 @@ public class MyUserService implements UserDetailsService {
 		instructor.setPersonalDescription(personalDescription);
 		this.save(instructor);
 	}
+
+    public List<MyUser> getAllInstructors() {
+        return this.myUserRepository.findAllInstructors();
+    }
 }

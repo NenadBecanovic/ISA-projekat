@@ -41,6 +41,7 @@ export class ClientBoatComponent implements OnInit {
   id: number = 0;
   isSubscribed: Boolean = false;
 
+
   constructor(private _boatService: BoatService, private _additionalServices: AdditionalServicesService, private _imageService: ImageService,
               private _boatReservationService: BoatReservationService, private _router: Router, private _route: ActivatedRoute,
               private _myUserService: MyUserService, private _authentification: AuthentificationService) {
@@ -81,25 +82,22 @@ export class ClientBoatComponent implements OnInit {
           }
         )
 
-        this._myUserService.findUserByHouseid(this.boat.id).subscribe(
+        this._myUserService.findUserByBoatId(this.boat.id).subscribe(
           (myUser: MyUser) => {
             this.user = myUser
-          }
-        )
+            this._authentification.getUserByEmail().subscribe(   // subscribe - da bismo dobili odgovor beka
+              (user: MyUser) => {
+                this.currentUser = user;
+                this._myUserService.checkIfUserIsSubscribes(this.currentUser.id, this.user.id).subscribe(
+                  (isSubscribed: Boolean) => {
+                    this.isSubscribed = isSubscribed
 
-        this._authentification.getUserByEmail().subscribe(   // subscribe - da bismo dobili odgovor beka
-          (user: MyUser) => {
-            this.currentUser = user;
-          },
-          (error) => {
-          },
-        )
-
-
-
-        this._myUserService.checkIfUserIsSubscribes(this.currentUser.id, this.user.id).subscribe(
-          (isSubscribed: Boolean) => {
-            this.isSubscribed = isSubscribed
+                  }
+                )
+              },
+              (error) => {
+              },
+            )
           }
         )
 
@@ -108,6 +106,7 @@ export class ClientBoatComponent implements OnInit {
   }
 
   subscribe() {
+    console.log('uslo')
     if(confirm("Da li sigurne zelite da se pretplatite")) {
 
       this.subscription.owner = this.user;
@@ -115,6 +114,7 @@ export class ClientBoatComponent implements OnInit {
       this._myUserService.saveSubscription(this.subscription).subscribe(
         (sub: Subscription) => {
           this.subscription = sub;
+          this.loadData(this.id)
         }
       )
     }

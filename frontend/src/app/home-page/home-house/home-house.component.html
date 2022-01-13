@@ -59,7 +59,9 @@
             <mat-grid-list cols="4" rowHeight="1.1:1" >
               <mat-grid-tile >
 
-                <img style="width: 100%; height: 100%;border-radius: initial" src="{{house.images[0].imageUrl}}">
+
+                <img *ngIf="house.images.length > 0" style="width: 100%; height: 100%;border-radius: initial" src="{{house.images[0].imageUrl}}">
+                <img *ngIf="house.images.length == 0" style="width: 100%; height: 100%;border-radius: initial" src="assets/no_image.jpg" >
               </mat-grid-tile>
 
               <mat-grid-tile  [colspan]="3"  class="script-menu1"  >

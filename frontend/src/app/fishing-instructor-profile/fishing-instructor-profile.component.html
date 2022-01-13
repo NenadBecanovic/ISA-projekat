@@ -26,7 +26,7 @@
               cooked for you by local restaurants for a small charge.
             </span>
           </div>
-          
+
         </div>
         <div class="d-flex flex-row mt-3">
           <div class="d-flex flex-column info">
@@ -68,7 +68,7 @@
             </div>
           </div>
           <div class="d-flex ms-5 flex-column adventures">
-            
+
             <div class="d-flex flex-row mt-2">
               <span class="adventure-section me-2">Avanture</span>
               <a class="red-link no-wrap mt-2" (click)="addAdventure()">Dodaj</a>
@@ -84,22 +84,17 @@
                         <img class="profile-picture" src="https://mackenzienz.com/wp-content/uploads/2015/09/Fishing-PAge-BAnner.jpg?fbclid=IwAR1c5dayMLBGnI0cFCy6Z8zFfBjmkX17Z9krEkjT5v2vDbf5xKxvVNgFSmk"/>
                       </div>
                       <div class="d-flex flex-column">
-                        <h4 class="card-title" (click)="addAdventure()">{{a.name}}</h4>
                         <p class="card-text">{{a.address.street}}, {{a.address.city}}, {{a.address.state}} </p>
                         <p class="card-text">Broj osoba: {{a.persons}}</p>
                         <p class="card-text">Cena: {{a.price}} din/h</p>
                       </div>
                     </div>
                   </div>
-                  <div class="d-flex right me-3 mb-3 align-items-center justify-content-end">
-                    <button type="button" class="btn add-action-button"
-                      (click)="makeReservation(a)">REZERVIŠI</button>
-                  </div>
-                </div> 
             </div>
           </div>
       </div>
     </div>
   </div>
   <app-footer></app-footer>
+</div>
 </div>

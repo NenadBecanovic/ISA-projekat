@@ -93,22 +93,21 @@ export class ClientHouseComponent implements OnInit {
         this._myUserService.findUserByHouseid(this.house.id).subscribe(
           (myUser: MyUser) => {
             this.user = myUser
+            this._authentification.getUserByEmail().subscribe(   // subscribe - da bismo dobili odgovor beka
+              (user: MyUser) => {
+                this.currentUser = user;
+                this._myUserService.checkIfUserIsSubscribes(this.currentUser.id, this.user.id).subscribe(
+                  (isSubscribed: Boolean) => {
+                    this.isSubscribed = isSubscribed
+                  }
+                )
+              },
+              (error) => {
+              },
+            )
           }
         )
 
-        this._authentification.getUserByEmail().subscribe(   // subscribe - da bismo dobili odgovor beka
-          (user: MyUser) => {
-            this.currentUser = user;
-          },
-          (error) => {
-          },
-        )
-
-        this._myUserService.checkIfUserIsSubscribes(this.currentUser.id, this.user.id).subscribe(
-          (isSubscribed: Boolean) => {
-            this.isSubscribed = isSubscribed
-          }
-        )
       }
     )
 
@@ -123,6 +122,7 @@ export class ClientHouseComponent implements OnInit {
       this._myUserService.saveSubscription(this.subscription).subscribe(
         (sub: Subscription) => {
           this.subscription = sub;
+          this.loadData(this.id)
         }
       )
     }
