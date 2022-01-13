@@ -119,6 +119,10 @@ export class MyUserService {
     return this._http.put<Boolean>(`${this.userPath}/declineNewUserRequest/`+id, adminAnswer);
   }
 
+  public editInstructorPersonalDescription(id: number, personalDescription: String): Observable<Boolean>{
+    return this._http.put<Boolean>(`${this.userPath}/editInstructorPersonalDescription/`+id, personalDescription);
+  }
+
   public getFishingAdventureInstructor(id: number): Observable<FishingAdventureInstructorDTO>{
     return this._http.get<FishingAdventureInstructorDTO>(`${this.userPath}/getFishingAdventureInstructor/`+id)
   }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { EditAdventureProfileDialogComponent } from '../adventure-profile/edit-adventure-profile-dialog/edit-adventure-profile-dialog.component';
 import { ClientProfileComponent } from '../clientHome/client-profile/client-profile.component';
 import { DeleteAccountComponent } from '../clientHome/delete-account/delete-account.component';
 import { AdditionalService } from '../model/additional-service';
@@ -14,6 +15,7 @@ import { AdventureReservationService } from '../service/adventure-reservation.se
 import { AddAdventureDialogComponent } from './add-adventure-dialog/add-adventure-dialog.component';
 import { CalendarDialogComponent } from './calendar-dialog/calendar-dialog.component';
 import { DefineAvaibilityPeriodComponent } from './define-avaibility-period/define-avaibility-period.component';
+import { EditPersonalDescriptionDialogComponent } from './edit-personal-description-dialog/edit-personal-description-dialog.component';
 import { MakeReservationDialogComponent } from './make-reservation-dialog/make-reservation-dialog.component';
 
 @Component({
@@ -132,6 +134,19 @@ export class FishingInstructorProfileComponent implements OnInit {
       data: {},
     });
 
+    dialogRef.afterClosed().subscribe(result => {
+      window.location.reload();
+    });
+  }
+
+  editPersonalDescription() {
+    const dialogRef = this.dialog.open(EditPersonalDescriptionDialogComponent, {
+      width: '600px',
+      height: '450px',
+      data: {},
+    });
+    dialogRef.componentInstance.instructorId = this.instructor.id;
+    dialogRef.componentInstance.personalDescription = this.instructor.personalDescription;
     dialogRef.afterClosed().subscribe(result => {
       window.location.reload();
     });
