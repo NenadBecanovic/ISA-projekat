@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ClientProfileComponent } from '../clientHome/client-profile/client-profile.component';
+import { DeleteAccountComponent } from '../clientHome/delete-account/delete-account.component';
 import { AdditionalService } from '../model/additional-service';
 import { Address } from '../model/address';
 import { AdventureReservation } from '../model/adventure-reservation';
@@ -26,6 +28,8 @@ export class FishingInstructorProfileComponent implements OnInit {
   adventures: FishingAdventure[] = new Array<FishingAdventure>();
   a: FishingAdventure = new FishingAdventure(0,"F",this.address,"",0,",","",0,true,0);
   allReservations: AdventureReservation[] = new Array<AdventureReservation>();
+  allActions: AdventureReservation[] = new Array<AdventureReservation>();
+  allAvaibilityPeriods: AdventureReservation[] = new Array<AdventureReservation>();
   instructor: FishingAdventureInstructorDTO = new FishingAdventureInstructorDTO();
   filterTerm!: string;
 
@@ -55,6 +59,8 @@ export class FishingInstructorProfileComponent implements OnInit {
       data: {},
     });
     dialogRef.componentInstance.allReservations = this.allReservations;
+    dialogRef.componentInstance.allActions = this.allActions;
+    dialogRef.componentInstance.allAvaibilityPeriods = this.allAvaibilityPeriods;
     dialogRef.afterClosed().subscribe(result => {
       
     });
@@ -106,5 +112,39 @@ export class FishingInstructorProfileComponent implements OnInit {
         this.allReservations = allReservations;
       }
     )
+
+    this._adventureReservationService.getAllActionsByInstructorId(1).subscribe(
+      (allActions: AdventureReservation[]) => {
+        this.allActions = allActions;
+      }
+    )
+
+    this._adventureReservationService.getAllAvaibilityPeriodsByInstructorId(1).subscribe(
+      (allAvaibilityPeriods: AdventureReservation[]) => {
+        this.allAvaibilityPeriods = allAvaibilityPeriods;
+      }
+    )
+  }
+
+  openProfileDialog() {
+    const dialogRef = this.dialog.open(ClientProfileComponent, {
+      width: '600px',
+      data: {},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      window.location.reload();
+    });
+  }
+
+  deleteProfileDialog() {
+    const dialogRef = this.dialog.open(DeleteAccountComponent,{
+      width: '400px',
+      data: {},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      window.location.reload();
+    });
   }
 }

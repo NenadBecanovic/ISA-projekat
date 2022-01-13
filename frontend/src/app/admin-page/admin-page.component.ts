@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ClientProfileComponent } from '../clientHome/client-profile/client-profile.component';
 import { AdminAnswer } from '../model/admin-answer';
 import { Appeal } from '../model/appeal';
 import { DeleteRequest } from '../model/delete-request';
@@ -238,4 +239,15 @@ export class AdminPageComponent implements OnInit {
   }
 
   addAdventure(){}
+
+  openProfileDialog() {
+    const dialogRef = this.dialog.open(ClientProfileComponent, {
+      width: '600px',
+      data: {},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      window.location.reload();
+    });
+  }
 }
