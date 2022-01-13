@@ -1,5 +1,5 @@
 <div id="boat-profile">
-  <app-header> </app-header>
+  <app-plain-header> </app-plain-header>
   <div [style.height]="500">
     <mat-carousel *ngIf="isLoaded"
       timings="250ms ease-in" [autoplay]=true [interval] = "5000" color="accent" maxWidth="auto" [proportion]= "40" [slides] = "images.length"
@@ -12,11 +12,13 @@
         [hideOverlay]="false">
       </mat-carousel-slide>
     </mat-carousel>
-    <button mat-raised-button (click)="addImage.click()" class="btn add-picture-button">Dodaj sliku</button>
-    <input type="file" accept="image/*" style="display:none;border:none;" (change)="addImageToBoat($event)" #addImage/>
+<!--    <button mat-raised-button (click)="addImage.click()" class="btn add-picture-button">Dodaj sliku</button>-->
+<!--    <input type="file" accept="image/*" style="display:none;border:none;" (change)="addImageToBoat($event)" #addImage/>-->
+
+    <br><br><br>
+    <button mat-raised-button (click)="imageAdded(boat.id)" class="btn add-picture-button">Dodaj sliku</button>
 
     <div class="boat-container boat-view-title-container">
-
       <!-- naziv broda -->
       <div class="d-flex left align-items-center" style="margin-left: 10px">
         <span class="house-name display-5" style="margin-left: 10px">

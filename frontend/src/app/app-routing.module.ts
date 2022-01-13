@@ -45,6 +45,7 @@ import {BoatReportComponent} from "./boat-owner/boat-report/boat-report.componen
 import { AdminPageComponent } from './admin-page/admin-page.component';
 import {BoatChartComponent} from "./boat-owner/boat-chart/boat-chart.component";
 import {HouseChartComponent} from "./house-owner/house-chart/house-chart.component";
+import {AdventureChartComponent} from "./adventure-profile/adventure-chart/adventure-chart.component";
 
 
 const routes: Routes = [
@@ -84,6 +85,7 @@ const routes: Routes = [
   { path: 'admin-page', component: AdminPageComponent},
   { path: 'boat-chart/:id', component: BoatChartComponent},
   { path: 'house-chart/:id', component: HouseChartComponent},
+  { path: 'adventure-chart/:id', component: AdventureChartComponent},
 ];
 
 @NgModule({
