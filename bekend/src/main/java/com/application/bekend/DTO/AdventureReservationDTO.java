@@ -16,6 +16,8 @@ public class AdventureReservationDTO {
     private boolean isAction;
     private Long guestId;
     private boolean hasReport;
+	private boolean cancelled = false;
+
 	public AdventureReservationDTO(Long id, String startDate, String endDate, int maxGuests, float price, boolean isAvailable) {
 		this.id = id;
 		this.startDate = startDate;
@@ -99,5 +101,13 @@ public class AdventureReservationDTO {
 	}
 	public void setHasReport(boolean hasReport) {
 		this.hasReport = hasReport;
+	}
+
+	public boolean getCancelled() {
+		return cancelled;
+	}
+
+	public void setCancelled(boolean cancelled) {
+		this.cancelled = cancelled;
 	}
 }

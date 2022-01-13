@@ -1,6 +1,8 @@
 package com.application.bekend.service;
 
+import com.application.bekend.DTO.BoatReservationDTO;
 import com.application.bekend.DTO.HouseReservationDTO;
+import com.application.bekend.model.BoatReservation;
 import com.application.bekend.model.HouseReservation;
 import com.application.bekend.repository.HouseReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,5 +78,24 @@ public class HouseReservationService {
         HouseReservation houseReservationEdit = this.houseReservationsRepository.save(houseReservation);
 
         return houseReservationDTO;
+    }
+
+    public void canBeCancelled(HouseReservationDTO dto, HouseReservation b){
+
+        Date currentDate = new Date();
+        long startDateTime = b.getStartDate().getTime();
+        long currentMilis = currentDate.getTime();
+        long endDateTime = b.getEndDate().getTime();
+        if(currentMilis < endDateTime) {
+            if(currentMilis >= startDateTime && currentMilis <=endDateTime){
+                dto.setOnGoing(true);
+            }else{
+                long timeDiff = startDateTime -  currentMilis;
+                float daysDiff = timeDiff / (1000 * 60 * 60* 24);
+                if (daysDiff >= 3){
+                    dto.setCanBeCancelled(true);
+                }
+            }
+        }
     }
 }

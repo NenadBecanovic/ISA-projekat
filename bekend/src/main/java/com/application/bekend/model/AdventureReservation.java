@@ -21,6 +21,7 @@ public class AdventureReservation {
     private boolean availabilityPeriod = false;
     private boolean isAction = false;
     private boolean hasReport = false;
+    private Boolean isCancelled = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "guest_id")
@@ -172,4 +173,12 @@ public class AdventureReservation {
 	public void setHasReport(boolean hasReport) {
 		this.hasReport = hasReport;
 	}
+
+    public Boolean getCancelled() {
+        return isCancelled;
+    }
+
+    public void setCancelled(Boolean cancelled) {
+        isCancelled = cancelled;
+    }
 }

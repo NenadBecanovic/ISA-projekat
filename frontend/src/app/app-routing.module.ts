@@ -44,6 +44,10 @@ import {AddBoatComponent} from "./boat-owner/add-boat/add-boat.component";
 import {BoatReportComponent} from "./boat-owner/boat-report/boat-report.component";
 import {BoatChartComponent} from "./boat-owner/boat-chart/boat-chart.component";
 import {HouseChartComponent} from "./house-owner/house-chart/house-chart.component";
+import {
+  BoatReservationHistoryComponent
+} from "./clientHome/reservation/boat-reservation-history/boat-reservation-history.component";
+import {FutureReservationComponent} from "./clientHome/future-reservation/future-reservation.component";
 
 
 const routes: Routes = [
@@ -56,7 +60,7 @@ const routes: Routes = [
   {path:'client', component: ClientHomePageComponent, children: [{path: '', component: DashboardComponent},{path: 'profile', component: ClientProfileComponent},
       {path: 'houses', component: ClientHousesComponent}, {path: 'boats', component: ClientBoatsComponent}, {path: 'adventures', component: ClientAdventuresComponent},
       {path: 'house/:id', component: ClientHouseComponent},{path: 'boat/:id', component: ClientBoatComponent}, {path: 'subscriptions', component: ClientSubscriptionsComponent},
-      {path: 'houseReservation', component: HouseReservationHistoryComponent}]},
+      {path: 'houseReservation', component: HouseReservationHistoryComponent}, {path: 'boatReservation', component: BoatReservationHistoryComponent}, {path: 'futureReservations', component: FutureReservationComponent}]},
   {path:'client', component: ClientHomePageComponent, children: [{path: '', component: DashboardComponent}]},
   { path:'house-profile-for-house-owner/:id', component: HouseProfileForHouseOwnerComponent},
   { path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}]},

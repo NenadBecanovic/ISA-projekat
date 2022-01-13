@@ -5,6 +5,7 @@ import com.application.bekend.DTO.*;
 import com.application.bekend.model.RequestForAccountDeleting;
 import com.application.bekend.model.Subscription;
 import com.application.bekend.service.AppealService;
+import com.application.bekend.service.CancelReservationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,13 +33,15 @@ public class MyUserController {
     private final ModelMapper modelMapper;
     private final HouseService houseService;
     private final AppealService appealService;
+    private final CancelReservationService cancelReservationService;
 
     @Autowired
-    public MyUserController(MyUserService myUserService, ModelMapper modelMapper, HouseService houseService, AppealService appealService) {
+    public MyUserController(MyUserService myUserService, ModelMapper modelMapper, HouseService houseService, AppealService appealService, CancelReservationService cancelReservationService) {
         this.myUserService = myUserService;
         this.modelMapper = modelMapper;
         this.houseService = houseService;
         this.appealService = appealService;
+        this.cancelReservationService = cancelReservationService;
     }
 
     @GetMapping("/findUserByEmail/{email}")
@@ -223,5 +226,13 @@ public class MyUserController {
         AdventureReservationUserInfoDTO adventureUserDTO = new AdventureReservationUserInfoDTO(myUser.getId(), myUser.getFirstName(), myUser.getLastName());
 
         return new ResponseEntity<>(adventureUserDTO, HttpStatus.OK);
+    }
+
+
+    @PostMapping("/cancelReservation")
+    public ResponseEntity<ReservationCancelDTO> cancelReservation(@RequestBody ReservationCancelDTO dto){
+        this.cancelReservationService.cancelReservation(dto);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
