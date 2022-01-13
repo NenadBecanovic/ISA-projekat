@@ -21,6 +21,8 @@ import {MyUser} from "../../model/my-user";
 import {AuthentificationService} from "../../auth/authentification/authentification.service";
 import {AddImageDialogComponent} from "../../adventure-profile/add-image-dialog/add-image-dialog.component";
 import {AddImageHouseComponent} from "../add-image-house/add-image-house.component";
+import {DeleteImageBoatComponent} from "../../boat-owner/delete-image-boat/delete-image-boat.component";
+import {DeleteImageHouseComponent} from "../delete-image-house/delete-image-house.component";
 
 @Component({
   selector: 'app-house-profile-for-house-owner',
@@ -211,5 +213,16 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
 
   charts() {
     this._router.navigate(['/house-chart', this.house.id])
+  }
+
+  deleteImage(id :number){
+    const dialogRef = this.dialog.open(DeleteImageHouseComponent, {
+      width: '550px',
+      data: {},
+    });
+    dialogRef.componentInstance.id = id;
+    dialogRef.afterClosed().subscribe(result => {
+      window.location.reload();
+    });
   }
 }

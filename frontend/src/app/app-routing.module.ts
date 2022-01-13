@@ -46,6 +46,9 @@ import { AdminPageComponent } from './admin-page/admin-page.component';
 import {BoatChartComponent} from "./boat-owner/boat-chart/boat-chart.component";
 import {HouseChartComponent} from "./house-owner/house-chart/house-chart.component";
 import {AdventureChartComponent} from "./adventure-profile/adventure-chart/adventure-chart.component";
+import {DeleteImageBoatComponent} from "./boat-owner/delete-image-boat/delete-image-boat.component";
+import {DeleteImageHouseComponent} from "./house-owner/delete-image-house/delete-image-house.component";
+import {DeleteImageDialogComponent} from "./adventure-profile/delete-image-dialog/delete-image-dialog.component";
 
 
 const routes: Routes = [
@@ -86,6 +89,9 @@ const routes: Routes = [
   { path: 'boat-chart/:id', component: BoatChartComponent},
   { path: 'house-chart/:id', component: HouseChartComponent},
   { path: 'adventure-chart/:id', component: AdventureChartComponent},
+  { path: 'delete-image-boat/:id', component: DeleteImageBoatComponent},
+  { path: 'delete-image-house/:id', component: DeleteImageHouseComponent},
+  { path: ' delete-image-dialog/:id', component: DeleteImageDialogComponent},
 ];
 
 @NgModule({
