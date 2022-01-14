@@ -45,6 +45,7 @@ public class BoatReservationController {
             String endDate = (String.valueOf(a.getEndDate().getTime()));
 
             BoatReservationDTO boatReservationDTO = new BoatReservationDTO(a.getId(), startDate, endDate, a.getMaxGuests(), a.getPrice(), a.isAvailable());
+            boatReservationDTO.setCancelled(a.getCancelled());
 
             Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
             for(AdditionalServices add : this.additionalServicesService.getAllByBoatReservationId(a.getId())){  // a.getAdditionalServices()
@@ -77,7 +78,7 @@ public class BoatReservationController {
     }
 
     @PostMapping("/add")
-//    @Transactional
+    @Transactional
     public ResponseEntity<BoatReservation> save(@RequestBody BoatReservationDTO dto) throws MessagingException {
         Boat boat = this.boatService.getBoatById(dto.getBoatId());
 
@@ -86,11 +87,12 @@ public class BoatReservationController {
             Long start =  h.getStartDate().getTime();
             Long end = h.getEndDate().getTime();
 
-            if (Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getEndDate()) <=  end ||
-                    Long.parseLong(dto.getStartDate()) <= start && Long.parseLong(dto.getEndDate()) >= start  ||
-                    Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getStartDate()) <= end  )
-            {
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            if (!h.getCancelled()) {
+                if (Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getEndDate()) <= end ||
+                        Long.parseLong(dto.getStartDate()) <= start && Long.parseLong(dto.getEndDate()) >= start ||
+                        Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getStartDate()) <= end) {
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                }
             }
         }
 
@@ -102,11 +104,12 @@ public class BoatReservationController {
             Long start =  h.getStartDate().getTime();
             Long end = h.getEndDate().getTime();
 
-            if (Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getEndDate()) <=  end ||
-                    Long.parseLong(dto.getStartDate()) <= start && Long.parseLong(dto.getEndDate()) >= start  ||
-                    Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getStartDate()) <= end  )
-            {
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            if (!h.getCancelled()) {
+                if (Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getEndDate()) <= end ||
+                        Long.parseLong(dto.getStartDate()) <= start && Long.parseLong(dto.getEndDate()) >= start ||
+                        Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getStartDate()) <= end) {
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                }
             }
         }
 
@@ -114,11 +117,12 @@ public class BoatReservationController {
             Long start =  h.getStartDate().getTime();
             Long end = h.getEndDate().getTime();
 
-            if (Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getEndDate()) <=  end ||
-                    Long.parseLong(dto.getStartDate()) <= start && Long.parseLong(dto.getEndDate()) >= start  ||
-                    Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getStartDate()) <= end  )
-            {
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            if (!h.getCancelled()) {
+                if (Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getEndDate()) <= end ||
+                        Long.parseLong(dto.getStartDate()) <= start && Long.parseLong(dto.getEndDate()) >= start ||
+                        Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getStartDate()) <= end) {
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                }
             }
         }
         // kraj provere za klijenta
@@ -128,6 +132,7 @@ public class BoatReservationController {
         BoatReservation boatReservation = new BoatReservation(dto.getId(), startDate, endDate, dto.getMaxGuests(), dto.getPrice(), dto.isAvailable(), boat);
         boatReservation.setAvailabilityPeriod(dto.isAvailabilityPeriod());
         boatReservation.setAction(dto.isAction());
+        boatReservation.setCancelled(dto.getCancelled());
 
         boatReservation = this.boatReservationService.save(boatReservation); // sacuvali smo rezervaciju i povratna vrednost metode je tacno ta rezervacija iz baze (sa ispravno generisanim id-em ...)
         // ovaj korak je obavezan jer se rezervacija koju dodajemo ovde (***) mora nalaziti u bazi
@@ -209,6 +214,8 @@ public class BoatReservationController {
                 BoatReservationDTO boatReservationDTO = new BoatReservationDTO(a.getId(), startDate, endDate, a.getMaxGuests(), a.getPrice(), a.isAvailable());
                 boatReservationDTO.setAvailabilityPeriod(a.isAvailabilityPeriod());
                 boatReservationDTO.setAction(a.isAction());
+                boatReservationDTO.setCancelled(a.getCancelled());
+
                 if (a.getGuest() != null) {
                     boatReservationDTO.setGuestId(a.getGuest().getId());
                 }
@@ -258,6 +265,8 @@ public class BoatReservationController {
             BoatReservationDTO boatReservationDTO = new BoatReservationDTO(a.getId(), startDate, endDate, a.getMaxGuests(), a.getPrice(), a.isAvailable());
             boatReservationDTO.setAvailabilityPeriod(a.isAvailabilityPeriod());
             boatReservationDTO.setAction(a.isAction());
+            boatReservationDTO.setCancelled(a.getCancelled());
+
             if (a.getGuest() != null) {
                 boatReservationDTO.setGuestId(a.getGuest().getId());
             }
@@ -292,6 +301,8 @@ public class BoatReservationController {
                     h.getPrice(), h.isAvailable());
             dto.setAvailabilityPeriod(h.isAvailabilityPeriod());
             dto.setAction(h.isAction());
+            dto.setCancelled(h.getCancelled());
+
             if (h.getGuest() != null) {
                 dto.setGuestId(h.getGuest().getId());
             }
@@ -333,6 +344,8 @@ public class BoatReservationController {
                     h.getPrice(), h.isAvailable());
             dto.setAvailabilityPeriod(h.isAvailabilityPeriod());
             dto.setAction(h.isAction());
+            dto.setCancelled(h.getCancelled());
+
             if (h.getGuest() != null) {
                 dto.setGuestId(h.getGuest().getId());
             }
@@ -348,7 +361,5 @@ public class BoatReservationController {
         }
         return new ResponseEntity<>(boatReservationDTOS, HttpStatus.OK);
     }
-
-
 
 }
