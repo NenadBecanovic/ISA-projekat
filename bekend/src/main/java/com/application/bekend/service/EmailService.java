@@ -1,6 +1,7 @@
 package com.application.bekend.service;
 
 import com.application.bekend.DTO.EmailDTO;
+import com.application.bekend.DTO.HouseReservationDTO;
 import com.application.bekend.model.MyUser;
 import com.application.bekend.model.VerificationToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.util.List;
 
 @Service
 public class EmailService {
@@ -19,12 +21,14 @@ public class EmailService {
     private final VerificationTokenService verificationTokenService;
     private final TemplateEngine templateEngine;        // za generisanje izgleda mejla (u html-u) -> template/verification.html
     private final JavaMailSender javaMailSender;
+    private final SubscriptionService subscriptionService;
 
     @Autowired
-    public EmailService(VerificationTokenService verificationTokenService, TemplateEngine templateEngine, JavaMailSender javaMailSender) {
+    public EmailService(VerificationTokenService verificationTokenService, TemplateEngine templateEngine, JavaMailSender javaMailSender, SubscriptionService subscriptionService) {
         this.verificationTokenService = verificationTokenService;
         this.templateEngine = templateEngine;
         this.javaMailSender = javaMailSender;
+        this.subscriptionService = subscriptionService;
     }
 
     public void sendHTMLMail(MyUser user) throws MessagingException{
@@ -64,5 +68,48 @@ public class EmailService {
             helper.setSubject(emailDTO.getTitle());
             helper.setText(body, true);
             javaMailSender.send(message);
+    }
+
+    public void sendActionMail(List<MyUser> myUsers, String houseName, String boatName) throws MessagingException{
+        Context context = new Context();
+        context.setVariable("title", "Obaveštenje o novoj akciji");
+
+        if (houseName != "") {
+            context.setVariable("content", "Obaveštavamo Vas da je kreirana nova akcija u vikendici " + houseName + ". " +
+                    "Ukoliko ste zainteresovani za detalje akcije, posetite profil naše vikendice.");
+        } else if(boatName != ""){
+            context.setVariable("content", "Obaveštavamo Vas da je kreirana nova akcija na brodu " + boatName + ". " +
+                    "Ukoliko ste zainteresovani za detalje akcije, posetite profil našeg broda.");
+        }
+
+        String body = templateEngine.process("newAction", context);
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        helper.setSubject("Obaveštenje o novoj akciji");
+        helper.setText(body, true);
+
+        for (MyUser user: myUsers) {
+            helper.setTo(user.getEmail());
+            javaMailSender.send(message);
+        }
+    }
+
+    public void sendMailForClient(MyUser user, String houseName, String boatName) throws MessagingException{
+        Context context = new Context();
+        context.setVariable("title", "Obaveštenje o novoj rezervaciji");
+
+        if (houseName != "") {
+            context.setVariable("content", "Obaveštavamo Vas da je kreirana nova rezervacija u vikendici " + houseName + ". ");
+        } else if (boatName != ""){
+            context.setVariable("content", "Obaveštavamo Vas da je kreirana nova rezervacija na brodu " + boatName + ". ");
+        }
+
+        String body = templateEngine.process("newAction", context);
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        helper.setSubject("Obaveštenje o novoj rezervaciji");
+        helper.setText(body, true);
+        helper.setTo(user.getEmail());
+        javaMailSender.send(message);
     }
 }

@@ -234,10 +234,17 @@ public class BoatController {
     @Transactional
     public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
         Boat boat = this.boatService.getBoatById(id);
+
+        for (BoatReservation h: boat.getCourses()) {
+            // ako postoji rezervacija u brodu, on se ne moze obrisati
+            if (h.isAvailable() == false && h.isAvailabilityPeriod() == false) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        }
+
         boat.setAddress(null);
         boat.setOwner(null);
         this.boatService.save(boat);
-
         for (Image i: boat.getImages()) {
             Image image = this.imageService.getImageById(i.getId());
             image.setBoat(null);

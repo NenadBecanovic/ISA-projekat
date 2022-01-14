@@ -10,6 +10,7 @@ import {Address} from "../../model/address";
 import {ClientProfileComponent} from "../../clientHome/client-profile/client-profile.component";
 import {DeleteAccountComponent} from "../../clientHome/delete-account/delete-account.component";
 import {MatDialog} from "@angular/material/dialog";
+import {Alert, AlertService} from "ngx-alerts";
 
 @Component({
   selector: 'app-home-page-boat-owner',
@@ -25,7 +26,8 @@ export class HomePageBoatOwnerComponent implements OnInit {
   boatNameSearch: string = "";
   boatAddressSearch: string = "";
 
-  constructor(private _boatService: BoatService, private _router: Router, private _authentification: AuthentificationService, public dialog: MatDialog) { }
+  constructor(private _boatService: BoatService, private _router: Router, private _authentification: AuthentificationService,
+              public dialog: MatDialog, private _alertService: AlertService) { }
 
   ngOnInit(): void {
     this.loadData();
@@ -39,6 +41,9 @@ export class HomePageBoatOwnerComponent implements OnInit {
     this._boatService.delete(id).subscribe(
       (boolean:boolean) =>{
         this.loadData()
+      },
+      (error) => {
+        this._alertService.danger('Rezervisani brod se ne može obrisati');
       }
     )
   }

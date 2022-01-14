@@ -50,6 +50,7 @@ import {
 } from "./clientHome/reservation/boat-reservation-history/boat-reservation-history.component";
 import {FutureReservationComponent} from "./clientHome/future-reservation/future-reservation.component";
 import {AdventureChartComponent} from "./adventure-profile/adventure-chart/adventure-chart.component";
+import {DeleteImageDialogComponent} from "./adventure-profile/delete-image-dialog/delete-image-dialog.component";
 import {HomeInstructorComponent} from "./home-page/home-instructor/home-instructor.component";
 
 
@@ -91,6 +92,7 @@ const routes: Routes = [
   { path: 'boat-chart/:id', component: BoatChartComponent},
   { path: 'house-chart/:id', component: HouseChartComponent},
   { path: 'adventure-chart/:id', component: AdventureChartComponent},
+  { path: ' delete-image-dialog/:id', component: DeleteImageDialogComponent},
 ];
 
 @NgModule({

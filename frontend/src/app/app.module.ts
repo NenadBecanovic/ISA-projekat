@@ -94,6 +94,7 @@ import { DeclineNewUserDialogComponent } from './admin-page/decline-new-user-dia
 import { AdminRegistrationDialogComponent } from './admin-page/admin-registration-dialog/admin-registration-dialog.component';
 import { EditPersonalDescriptionDialogComponent } from './fishing-instructor-profile/edit-personal-description-dialog/edit-personal-description-dialog.component';
 
+
 const MaterialComponents = [
   MatSliderModule,
   MatToolbarModule,

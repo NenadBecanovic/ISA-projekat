@@ -49,6 +49,11 @@ public interface MyUserRepository extends JpaRepository<MyUser, Long> {
     List<MyUser> findAllInstructors();
    // @Query("select * from MyUser u join fetch u.authorities a")
 //	List<MyUser> findAllWithAuthorities();
+
+   @Query("select user from MyUser user join fetch user.subscriptions_guests s where s.owner.id = ?1")
+   List<MyUser> findSubscribedUsersByOwnerId(Long id);
+
+
 }
 
 
