@@ -93,6 +93,7 @@ import { ReportAnswerDialogComponent } from './admin-page/report-answer-dialog/r
 import { DeclineNewUserDialogComponent } from './admin-page/decline-new-user-dialog/decline-new-user-dialog.component';
 import { AdminRegistrationDialogComponent } from './admin-page/admin-registration-dialog/admin-registration-dialog.component';
 import { EditPersonalDescriptionDialogComponent } from './fishing-instructor-profile/edit-personal-description-dialog/edit-personal-description-dialog.component';
+import { EditCompanyRulesDialogComponent } from './admin-page/edit-company-rules-dialog/edit-company-rules-dialog.component';
 
 const MaterialComponents = [
   MatSliderModule,
@@ -170,7 +171,8 @@ const MaterialComponents = [
     AdventureChartComponent,
     AddImageHouseComponent,
     AddImageBoatComponent,
-    AdminRegistrationDialogComponent
+    AdminRegistrationDialogComponent,
+    EditCompanyRulesDialogComponent
   ],
   imports: [
     RouterModule,

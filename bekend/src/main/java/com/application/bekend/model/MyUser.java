@@ -29,6 +29,8 @@ public class MyUser implements UserDetails {
     private String phoneNumber;
     @Column(name = "grade", nullable = true)
     private double grade;
+    @Column(name = "numberOfReviews", nullable = true)
+    private int numberOfReviews;
     @Column(name = "penalties")
     private int penalties;
     @Column(name = "isDeleted")
@@ -83,6 +85,13 @@ public class MyUser implements UserDetails {
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
     private Set<Subscription> subscriptions_owners = new HashSet<>();
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
+	private UserCategory category;
+    
+    @Column(name = "points", nullable = false)
+    private double points;
 
     public MyUser(Long id, String firstName, String lastName, String email, String password, String username) {
         this.id = id;
@@ -360,5 +369,29 @@ public class MyUser implements UserDetails {
 
 	public void setPersonalDescription(String personalDescription) {
 		this.personalDescription = personalDescription;
+	}
+
+	public UserCategory getCategory() {
+		return category;
+	}
+
+	public void setCategory(UserCategory category) {
+		this.category = category;
+	}
+
+	public int getNumberOfReviews() {
+		return numberOfReviews;
+	}
+
+	public void setNumberOfReviews(int numberOfReviews) {
+		this.numberOfReviews = numberOfReviews;
+	}
+
+	public double getPoints() {
+		return points;
+	}
+
+	public void setPoints(double points) {
+		this.points = points;
 	}
 }

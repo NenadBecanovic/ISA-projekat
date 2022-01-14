@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.application.bekend.DTO.AdditionalServicesDTO;
 import com.application.bekend.DTO.AdventureReservationDTO;
+import com.application.bekend.DTO.EmailDTO;
 import com.application.bekend.DTO.UserInfoDTO;
 import com.application.bekend.model.AdditionalServices;
 import com.application.bekend.model.AdventureReservation;
@@ -70,6 +71,9 @@ public class FishingAdventureReservationService {
         AdventureReservation adventureReservation = new AdventureReservation(adventureReservationDTO.getId(), startDate, endDate, adventureReservationDTO.getMaxGuests(), adventureReservationDTO.getPrice(), adventureReservationDTO.getIsAvailable(), fishingAdventure);
         adventureReservation.setAvailabilityPeriod(adventureReservationDTO.getIsAvailabilityPeriod());
         adventureReservation.setAction(adventureReservationDTO.getIsAction());
+        if(adventureReservation.isAction()) {
+        //	this.emailService.sendAnswerEmail(new EmailDTO("Odgovor na žalbu", answerDTO.getGuestResponse(), appeal.getSenderId().getEmail()));
+        }
         adventureReservation = this.save(adventureReservation); 
 
         Set<AdditionalServices> additionalServicesSet = new HashSet<>();
