@@ -77,7 +77,7 @@ public class BoatReservationController {
     }
 
     @PostMapping("/add")
-    @Transactional
+//    @Transactional
     public ResponseEntity<BoatReservation> save(@RequestBody BoatReservationDTO dto) throws MessagingException {
         Boat boat = this.boatService.getBoatById(dto.getBoatId());
 

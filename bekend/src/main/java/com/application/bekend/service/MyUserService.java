@@ -196,11 +196,15 @@ public class MyUserService implements UserDetailsService {
         if (dto != null) {
             MyUser owner = findUserByHouseId(dto.getHouseId());
             myUsers = this.myUserRepository.findSubscribedUsersByOwnerId(owner.getId());
-            this.emailService.sendActionMail(myUsers, houseName, "");
+            if (myUsers != null) {
+                this.emailService.sendActionMail(myUsers, houseName, "");
+            }
         } else if (boatDTO != null){
-            MyUser owner = findUserByHouseId(boatDTO.getBoatId());
+            MyUser owner = findUserByBoatId(boatDTO.getBoatId());
             myUsers = this.myUserRepository.findSubscribedUsersByOwnerId(owner.getId());
-            this.emailService.sendActionMail(myUsers, "", boatName);
+            if (myUsers != null) {
+                this.emailService.sendActionMail(myUsers, "", boatName);
+            }
         }
     }
 

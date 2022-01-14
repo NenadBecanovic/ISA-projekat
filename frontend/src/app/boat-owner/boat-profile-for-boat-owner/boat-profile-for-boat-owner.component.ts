@@ -85,6 +85,9 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
   deleteActionDialog(id: number) {
     this._boatReservationService.delete(id).subscribe(
       (boolean:boolean) =>{
+        this.isLoaded = false;
+        this.isSlideLoaded = false;
+        this.boatServicesLoaded = false;
         this.loadData()
       }
     )

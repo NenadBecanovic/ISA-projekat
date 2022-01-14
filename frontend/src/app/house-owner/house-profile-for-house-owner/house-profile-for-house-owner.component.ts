@@ -90,6 +90,8 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
   deleteActionDialog(id: number) {
     this._houseReservationService.delete(id).subscribe(   // OBAVEZNO SE MORA SUBSCRIBE-OVATI !!!
       (boolean:boolean) =>{
+        this.isLoaded = false;
+        this.isSlideLoaded = false;
         this.loadData()
       }
     )

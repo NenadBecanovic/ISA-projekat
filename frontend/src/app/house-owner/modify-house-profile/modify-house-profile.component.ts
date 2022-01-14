@@ -71,16 +71,14 @@ export class ModifyHouseProfileComponent implements OnInit {
   }
 
   editProfile() {
-    this._houseService.edit(this.house).subscribe(   // subscribe - da bismo dobili odgovor beka
+    this._houseService.edit(this.house).subscribe(
       (house: House) => {
         this._router.navigate(['house-profile-for-house-owner/', this.house.id])
       },
       (error) => {
-        // console.log(error)
-        this._alertService.danger('Doslo je do greske');
-      },
+        this._alertService.danger('Rezervisana vikendica se ne može izmeniti');
+      }
     )
-
   }
 
   checkboxChanged($event: MatCheckboxChange) {
