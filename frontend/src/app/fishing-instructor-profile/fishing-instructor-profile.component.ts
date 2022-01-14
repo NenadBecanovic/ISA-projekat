@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { EditAdventureProfileDialogComponent } from '../adventure-profile/edit-adventure-profile-dialog/edit-adventure-profile-dialog.component';
-import { ClientProfileComponent } from '../clientHome/client-profile/client-profile.component';
-import { DeleteAccountComponent } from '../clientHome/delete-account/delete-account.component';
+import { ClientProfileComponent } from '../clientHome/dialog/client-profile/client-profile.component';
+import { DeleteAccountComponent } from '../clientHome/dialog/delete-account/delete-account.component';
 import { AdditionalService } from '../model/additional-service';
 import { Address } from '../model/address';
 import { AdventureReservation } from '../model/adventure-reservation';
@@ -64,7 +64,7 @@ export class FishingInstructorProfileComponent implements OnInit {
     dialogRef.componentInstance.allActions = this.allActions;
     dialogRef.componentInstance.allAvaibilityPeriods = this.allAvaibilityPeriods;
     dialogRef.afterClosed().subscribe(result => {
-      
+
     });
   }
 
@@ -74,7 +74,7 @@ export class FishingInstructorProfileComponent implements OnInit {
       data: {},
     });
     dialogRef.componentInstance.instructorId = this.instructor.id;
-    dialogRef.afterClosed().subscribe(result => {     
+    dialogRef.afterClosed().subscribe(result => {
     });
   }
 

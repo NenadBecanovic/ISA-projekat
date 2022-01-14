@@ -334,6 +334,7 @@ public class HouseReservationController {
                     h.getPrice(), h.isAvailable());
             dto.setAvailabilityPeriod(h.isAvailabilityPeriod());
             dto.setAction(h.isAction());
+
             if (h.getGuest() != null) {
                 dto.setGuestId(h.getGuest().getId());
             }

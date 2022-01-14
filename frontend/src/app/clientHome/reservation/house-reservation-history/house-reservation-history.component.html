@@ -1,18 +1,15 @@
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-  <!--- Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition" -->
 
-  <!-- Position Column -->
   <ng-container matColumnDef="Datum pocetka">
     <th mat-header-cell *matHeaderCellDef> Datum pocetka </th>
     <td mat-cell *matCellDef="let element"> {{ element.startDate | date:'dd/MM/yyyy HH:mm:ss'}} </td>
   </ng-container>
 
-  <!-- Name Column -->
+
   <ng-container matColumnDef="Datum kraja">
     <th mat-header-cell *matHeaderCellDef> Datum kraja</th>
-    <td mat-cell *matCellDef="let element"> {{element.endDate }} </td>
+    <td mat-cell *matCellDef="let element"> {{element.endDate | date:'dd/MM/yyyy HH:mm:ss'}} </td>
   </ng-container>
 
   <ng-container matColumnDef="Naziv vlasnika">
@@ -25,7 +22,7 @@
     <td mat-cell *matCellDef="let element"> {{element.entityName}} </td>
   </ng-container>
 
-  <!-- Weight Column -->
+
   <ng-container matColumnDef="Broj gostiju">
     <th mat-header-cell *matHeaderCellDef> Broj gostiju </th>
     <td mat-cell *matCellDef="let element"> {{element.maxGuests}} </td>
@@ -36,7 +33,7 @@
     <td mat-cell *matCellDef="let element"> {{element.totalPrice}} </td>
   </ng-container>
 
-  <!-- Symbol Column -->
+
   <ng-container matColumnDef="Ocena entitet">
     <th mat-header-cell *matHeaderCellDef> Oceni vikendicu</th>
     <td mat-cell *matCellDef="let element"> <button *ngIf="!element.cancelled" [disabled]="element.hasFeedbackEntity" (click)="(createFeedback(element.id, element.ownerId))" mat-raised-button color="primary">Oceni</button> </td>

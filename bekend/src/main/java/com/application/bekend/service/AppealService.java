@@ -2,7 +2,6 @@ package com.application.bekend.service;
 
 import com.application.bekend.DTO.AppealDTO;
 import com.application.bekend.DTO.EmailDTO;
-import com.application.bekend.DTO.FeedbackDTO;
 import com.application.bekend.DTO.ReportAppealAnswerDTO;
 import com.application.bekend.model.*;
 import com.application.bekend.repository.AppealRepository;
@@ -22,14 +21,16 @@ public class AppealService {
     private final BoatReservationService boatReservationService;
     private final MyUserService myUserService;
     private final EmailService emailService;
+    private final FishingAdventureReservationService fishingAdventureReservationService;
 
     @Autowired
-    public AppealService(AppealRepository appealRepository, HouseReservationService houseReservationService, BoatReservationService boatReservationService, MyUserService myUserService, EmailService emailService) {
+    public AppealService(AppealRepository appealRepository, HouseReservationService houseReservationService, BoatReservationService boatReservationService, MyUserService myUserService, EmailService emailService, FishingAdventureReservationService fishingAdventureReservationService) {
         this.appealRepository = appealRepository;
         this.houseReservationService = houseReservationService;
         this.boatReservationService = boatReservationService;
         this.myUserService = myUserService;
         this.emailService = emailService;
+        this.fishingAdventureReservationService = fishingAdventureReservationService;
     }
 
     public void saveAppealHouse(AppealDTO appealDTO){
@@ -71,12 +72,11 @@ public class AppealService {
     }
 
     public void saveAppealInstructor(AppealDTO appealDTO){
-//        AdventureReservation adventureReservation = this.adneture.getFishingAdventureById(feedbackDTO.getReservationId())
-//        adventureReservation.setHasFeedbackOwner(true);
-//        this.fishingAdventureService.save(adventureReservation);
-//        Feedback feedback = this.setFeedback(feedbackDTO);
-//        feedback.setMyUser(this.findUserById(feedbackDTO.getOwnerId()));;
-//        this.feedbackService.save(feedback);
+        AdventureReservation adventureReservation = this.fishingAdventureReservationService.getFishingAdventureReservationById(appealDTO.getReservationId());
+        adventureReservation.setHasAppealOwner(true);
+        this.fishingAdventureReservationService.save(adventureReservation);
+        Appeal appeal = this.setAppeal(appealDTO);
+        this.appealRepository.save(appeal);
     }
 
     private Appeal setAppeal(AppealDTO appealDTO){

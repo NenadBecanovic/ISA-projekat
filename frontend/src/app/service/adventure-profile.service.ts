@@ -17,6 +17,7 @@ export class AdventureProfileService {
   }
 
   public getFishingAdventuresByInstructor(id: number): Observable<FishingAdventure[]>{
+    console.log('uslo')
     return this._http.get<FishingAdventure[]>(`${this.userPath}/getFishingAdventuresByInstructor/`+id)
   }
 
@@ -24,7 +25,7 @@ export class AdventureProfileService {
     alert("SAVE")
     return this._http.post<FishingAdventure>(`${this.userPath}/add`, fishingAdventure)
   }
-  
+
   public edit(fishingAdventure :FishingAdventure):Observable <FishingAdventure> {
     return this._http.put<FishingAdventure>(`${this.userPath}/edit/` + fishingAdventure.id, fishingAdventure)
   }

@@ -139,5 +139,9 @@ export class MyUserService {
   public getUserById(id: number): Observable<MyUser>{
     return this._http.get<MyUser>(`${this.userPath}/findUserById/` + id)
   }
+
+  public findUserByAdventureId(id: number): Observable<MyUser>{
+    return this._http.get<MyUser>(`${this.userPath}/findUserByAdventureId/`+id)
+  }
 }
 

@@ -8,22 +8,7 @@
             <img class="profile-picture" src="https://mackenzienz.com/wp-content/uploads/2015/09/Fishing-PAge-BAnner.jpg?fbclid=IwAR1c5dayMLBGnI0cFCy6Z8zFfBjmkX17Z9krEkjT5v2vDbf5xKxvVNgFSmk"/>
           </div>
           <div class="d-flex flex-row ms-5">
-            <span>It’s time to book a fishing trip in Montenegro with Captain Ivan Fishing Tour. Captain Ivan himself
-              will show you a great day out on the water and will guarantee that you’ll catch fish. He is happy to stay
-              longer until you do. Capt. Ivan is a local who speaks English and knows these waters like the back of his
-              hand.<br>
-
-              Capt. Ivan is great to fish with as he knows the local history of the area. For example, the live bait
-              you’ll be using is a special type that lives in the muddy parts of the bay. This area used to be an
-              Austro-Hungarian salt factory!<br>
-
-              Groups of 10 will have plenty of room on the captain’s 27’ center console boat with a T-top. There are
-              seats in the shade and space to catch some rays in the sun. Three anglers can fish at once.<br>
-
-              These short trips are great, as you’ll stay in the calmer waters of the bay. The location and the short
-              trips make Captain Ivan Fishing Tour great for kids. Throughout the year you’ll be able to catch the likes
-              of Common Pandora, Mahi Mahi, Sea Bream, Mackerel, and Bonito. These are great tablefare that can be
-              cooked for you by local restaurants for a small charge.
+            <span>{{instructor.personalDescription}}
             </span>
           </div>
 
@@ -58,16 +43,18 @@
               </div>
             </div>
             <div class="d-flex flex-row mt-3 adventures-container" *ngFor="let a of adventures | filter:filterTerm">
-              <div class="card card-design">
+              <div class="card card-design" style="max-height: 65%">
                 <div class="card-body">
                   <div class="d-flex flex-row">
                     <div class="d-flex flex-column me-3">
-                      <img class="profile-picture" src="https://mackenzienz.com/wp-content/uploads/2015/09/Fishing-PAge-BAnner.jpg?fbclid=IwAR1c5dayMLBGnI0cFCy6Z8zFfBjmkX17Z9krEkjT5v2vDbf5xKxvVNgFSmk"/>
+                      <img class="profile-picture" *ngIf="a.images.length > 0" style="width: 100%; height: 100%;border-radius: initial" src="{{a.images[0].imageUrl}}" alt="Nema dostupne slike">
+                      <img class="profile-picture" *ngIf="a.images.length == 0" style="width: 70%; height: 60%;border-radius: initial" src="assets/no_image.jpg" >
                     </div>
                     <div class="d-flex flex-column">
                       <p class="card-text">{{a.address.street}}, {{a.address.city}}, {{a.address.state}} </p>
-                      <p class="card-text">Broj osoba: {{a.persons}}</p>
-                      <p class="card-text">Cena: {{a.price}} din/h</p>
+                      <p class="card-text">Broj osoba: {{a.capacity}}</p>
+                      <p class="card-text">Cena: {{a.pricePerHour}} din/h</p>
+                      <p class="card-text"><button (click)="showAdventure(a.id)" >Prikazi</button></p>
                     </div>
                   </div>
                 </div>
@@ -81,3 +68,4 @@
       </div>
     </div>
   </div>
+</div>

@@ -3,10 +3,7 @@ package com.application.bekend.service;
 import com.application.bekend.DTO.EmailDTO;
 import com.application.bekend.DTO.FeedbackDTO;
 import com.application.bekend.DTO.FeedbackInfoDTO;
-import com.application.bekend.model.BoatReservation;
-import com.application.bekend.model.Feedback;
-import com.application.bekend.model.HouseReservation;
-import com.application.bekend.model.MyUser;
+import com.application.bekend.model.*;
 import com.application.bekend.repository.FeedbackRepository;
 
 import java.util.ArrayList;
@@ -23,14 +20,16 @@ public class FeedbackService {
     private final FeedbackRepository feedbackRepository;
     private final HouseReservationService houseReservationService;
     private final BoatReservationService boatReservationService;
+    private final FishingAdventureReservationService fishingAdventureReservationService;
     private final EmailService emailService;
     private final MyUserService myUserService;
 
     @Autowired
-    public FeedbackService(FeedbackRepository feedbackRepository, HouseReservationService houseReservationService, BoatReservationService boatReservationService, EmailService emailService, MyUserService myUserService) {
+    public FeedbackService(FeedbackRepository feedbackRepository, HouseReservationService houseReservationService, BoatReservationService boatReservationService, FishingAdventureReservationService fishingAdventureReservationService, EmailService emailService, MyUserService myUserService) {
         this.feedbackRepository = feedbackRepository;
         this.houseReservationService = houseReservationService;
         this.boatReservationService = boatReservationService;
+        this.fishingAdventureReservationService = fishingAdventureReservationService;
         this.emailService = emailService;
         this.myUserService = myUserService;
     }
@@ -76,12 +75,12 @@ public class FeedbackService {
     }
 
     public void saveFeedbackInstructor(FeedbackDTO feedbackDTO){
-//        AdventureReservation adventureReservation = this.adneture.getFishingAdventureById(feedbackDTO.getReservationId())
-//        adventureReservation.setHasFeedbackOwner(true);
-//        this.fishingAdventureService.save(adventureReservation);
-//        Feedback feedback = this.setFeedback(feedbackDTO);
-//        feedback.setMyUser(this.findUserById(feedbackDTO.getOwnerId()));;
-//        this.feedbackService.save(feedback);
+        AdventureReservation adventureReservation = this.fishingAdventureReservationService.getFishingAdventureReservationById(feedbackDTO.getReservationId());
+        adventureReservation.setHasFeedbackOwner(true);
+        this.fishingAdventureReservationService.save(adventureReservation);
+        Feedback feedback = this.setFeedback(feedbackDTO);
+        feedback.setMyUser(this.myUserService.findUserById(feedbackDTO.getOwnerId()));;
+        this.save(feedback);
     }
 
     private Feedback setFeedback(FeedbackDTO feedbackDTO){

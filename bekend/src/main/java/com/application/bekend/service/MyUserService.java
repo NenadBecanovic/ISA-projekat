@@ -223,4 +223,8 @@ public class MyUserService implements UserDetailsService {
     public List<MyUser> getAllInstructors() {
         return this.myUserRepository.findAllInstructors();
     }
+
+    public MyUser findUserByAdventureId(Long id) {
+        return myUserRepository.findMyUserByAdventureId(id);
+    }
 }
