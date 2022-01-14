@@ -168,7 +168,14 @@ public class MyUserController {
         List<Subscription> subscriptions = this.myUserService.findAllBySubscribedUserId(id);
         List<SubscriptionDTO> subscriptionDTOS = new ArrayList<>();
         for(Subscription subscription: subscriptions){
-            SubscriptionDTO dto = modelMapper.map(subscription, SubscriptionDTO.class);
+            MyUser owner = this.myUserService.findUserById(subscription.getOwner().getId());
+            UserInfoDTO ownerInfo = modelMapper.map(owner, UserInfoDTO.class);
+            MyUser subcriber = this.myUserService.findUserById(subscription.getSubscribedUser().getId());
+            UserInfoDTO subcriberInfo = modelMapper.map(owner, UserInfoDTO.class);
+            SubscriptionDTO dto = new SubscriptionDTO();
+            dto.setId(subscription.getId());
+            dto.setSubscribedUser(subcriberInfo);
+            dto.setOwner(ownerInfo);
             subscriptionDTOS.add(dto);
         }
 
@@ -192,7 +199,7 @@ public class MyUserController {
             this.appealService.saveAppealBoat(dto);
         }else if(dto.isHasBoatOwner()){
             this.appealService.saveAppealBoatOwner(dto);
-        }else{
+        }else if(dto.isHasInstructor()){
             this.appealService.saveAppealInstructor(dto);
         }
 
@@ -332,6 +339,13 @@ public class MyUserController {
         AddressDTO addressDTO = modelMapper.map(myUser.getAddress(), AddressDTO.class);
         userDTO.setAddressDTO(addressDTO);
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/findUserByAdventureId/{id}")
+    public ResponseEntity<MyUserDTO> findUserByAdventureId(@PathVariable("id") Long id){
+        MyUser myUser = this.myUserService.findUserByAdventureId(id);
+        MyUserDTO dto =  modelMapper.map(myUser, MyUserDTO.class);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
 

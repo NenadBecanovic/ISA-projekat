@@ -11,7 +11,6 @@ import { AdventureProfileComponent } from './adventure-profile/adventure-profile
 import { FishingInstructorProfileComponent } from './fishing-instructor-profile/fishing-instructor-profile.component';
 import {HomeBoatComponent} from "./home-page/home-boat/home-boat.component";
 import {ClientHomePageComponent} from "./clientHome/client-home-page/client-home-page.component";
-import {DashboardComponent} from "./clientHome/dashboard/dashboard.component";
 import {HomeAdventureComponent} from "./home-page/home-adventure/home-adventure.component";
 import {BoatProfileForBoatOwnerComponent} from "./boat-owner/boat-profile-for-boat-owner/boat-profile-for-boat-owner.component";
 import {AddActionHouseProfileComponent} from "./house-owner/add-action-house-profile/add-action-house-profile.component";
@@ -23,12 +22,11 @@ import {AddActionBoatProfileComponent} from "./boat-owner/add-action-boat-profil
 import {ModifyBoatProfileComponent} from "./boat-owner/modify-boat-profile/modify-boat-profile.component";
 import {EditHouseActionComponent} from "./house-owner/edit-house-action/edit-house-action.component";
 import {HomePageHouseOwnerComponent} from "./house-owner/home-page-house-owner/home-page-house-owner.component";
-import {ClientProfileComponent} from "./clientHome/client-profile/client-profile.component";
-import {ClientHousesComponent} from "./clientHome/client-houses/client-houses.component";
-import {ClientBoatsComponent} from "./clientHome/client-boats/client-boats.component";
-import {ClientAdventuresComponent} from "./clientHome/client-adventures/client-adventures.component";
-import {ClientHouseComponent} from "./clientHome/client-house/client-house.component";
-import {ClientBoatComponent} from "./clientHome/client-boat/client-boat.component";
+import {ClientProfileComponent} from "./clientHome/dialog/client-profile/client-profile.component";
+import {ClientHousesComponent} from "./clientHome/client-house-page/client-houses/client-houses.component";
+import {ClientBoatsComponent} from "./clientHome/client-boat-page/client-boats/client-boats.component";
+import {ClientHouseComponent} from "./clientHome/client-house-page/client-house/client-house.component";
+import {ClientBoatComponent} from "./clientHome/client-boat-page/client-boat/client-boat.component";
 import {AddHouseComponent} from "./house-owner/add-house/add-house.component";
 import { DefineUnavailablePeriodHouseComponent} from "./house-owner/define-unavailable-period-house/define-unavailable-period-house.component";
 import {  CreateReservationForClientComponent} from "./house-owner/create-reservation-for-client/create-reservation-for-client.component";
@@ -48,23 +46,28 @@ import {HouseChartComponent} from "./house-owner/house-chart/house-chart.compone
 import {
   BoatReservationHistoryComponent
 } from "./clientHome/reservation/boat-reservation-history/boat-reservation-history.component";
-import {FutureReservationComponent} from "./clientHome/future-reservation/future-reservation.component";
+import {FutureReservationComponent} from "./clientHome/reservation/future-reservation/future-reservation.component";
 import {AdventureChartComponent} from "./adventure-profile/adventure-chart/adventure-chart.component";
 import {HomeInstructorComponent} from "./home-page/home-instructor/home-instructor.component";
+import {InstructorComponent} from "./home-page/instructor/instructor.component";
+import {ClientInstructorsComponent} from "./clientHome/client-instructors/client-instructors.component";
+import {
+  InstructorReservationHistoryComponent
+} from "./clientHome/reservation/instructor-reservation-history/instructor-reservation-history.component";
 
 
 const routes: Routes = [
   {path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}, {path: 'houses', component: HomeHouseComponent},
       {path: 'boats', component: HomeBoatComponent}, {path: 'adventures', component: HomeAdventureComponent}, {path: 'house/:id', component: HouseComponent},
-      {path: 'adventure/:id', component: AdventureComponent},{path: 'boat/:id', component: BoatComponent}, {path: 'instructors', component: HomeInstructorComponent} ]},
+      {path: 'adventure/:id', component: AdventureComponent},{path: 'boat/:id', component: BoatComponent}, {path: 'instructors', component: HomeInstructorComponent},
+      {path: 'instructor/:id', component: InstructorComponent}]},
   {path:'login', component: LoginComponent},
   {path:'register', component: RegistrationComponent},
   {path:'email-activation', component: EmailActivationComponent},
-  {path:'client', component: ClientHomePageComponent, children: [{path: '', component: DashboardComponent},{path: 'profile', component: ClientProfileComponent},
-      {path: 'houses', component: ClientHousesComponent}, {path: 'boats', component: ClientBoatsComponent}, {path: 'adventures', component: ClientAdventuresComponent},
-      {path: 'house/:id', component: ClientHouseComponent},{path: 'boat/:id', component: ClientBoatComponent}, {path: 'subscriptions', component: ClientSubscriptionsComponent},
-      {path: 'houseReservation', component: HouseReservationHistoryComponent}, {path: 'boatReservation', component: BoatReservationHistoryComponent}, {path: 'futureReservations', component: FutureReservationComponent}]},
-  {path:'client', component: ClientHomePageComponent, children: [{path: '', component: DashboardComponent}]},
+  {path:'client', component: ClientHomePageComponent, children: [{path: '', component: ClientHousesComponent}, {path: 'boats', component: ClientBoatsComponent},   {path: 'house/:id', component: ClientHouseComponent},
+      {path: 'boat/:id', component: ClientBoatComponent}, {path: 'subscriptions', component: ClientSubscriptionsComponent},{path: 'instructors', component: ClientInstructorsComponent},
+      {path: 'houseReservation', component: HouseReservationHistoryComponent}, {path: 'boatReservation', component: BoatReservationHistoryComponent}, {path: 'futureReservations', component: FutureReservationComponent},
+      {path: 'instructorReservation', component: InstructorReservationHistoryComponent}]},
   { path:'house-profile-for-house-owner/:id', component: HouseProfileForHouseOwnerComponent},
   { path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}]},
   {path: 'adventure-profile/:id', component: AdventureProfileComponent},

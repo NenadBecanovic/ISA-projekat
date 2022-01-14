@@ -33,7 +33,7 @@ public class FishingAdventureService {
 
     public FishingAdventure getFishingAdventureById(Long id){ return fishingAdventureRepository.getFishingAdventureById(id); }
     
-    public List<FishingAdventure> getFishingAdventuresByInstructor(Long id){ return fishingAdventureRepository.getFishingAdventuresByInstructor(id); }
+    public List<FishingAdventure> getFishingAdventuresByInstructor(Long id){ return fishingAdventureRepository.getFishingAdventuresByInstructor_Id(id); }
 
     public List<FishingAdventure> findAll(){return this.fishingAdventureRepository.findAll();}
     

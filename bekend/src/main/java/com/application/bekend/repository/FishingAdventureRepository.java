@@ -12,5 +12,5 @@ public interface FishingAdventureRepository extends JpaRepository<FishingAdventu
 
     FishingAdventure getFishingAdventureById(Long id);
     
-    List<FishingAdventure> getFishingAdventuresByInstructor(Long id);
+    List<FishingAdventure> getFishingAdventuresByInstructor_Id(Long id);
 }

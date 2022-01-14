@@ -5,9 +5,9 @@ import {Router} from "@angular/router";
 import {Address} from "../../model/address";
 import {MyUser} from "../../model/my-user";
 import {AuthentificationService} from "../../auth/authentification/authentification.service";
-import {ClientProfileComponent} from "../../clientHome/client-profile/client-profile.component";
+import {ClientProfileComponent} from "../../clientHome/dialog/client-profile/client-profile.component";
 import {MatDialog} from "@angular/material/dialog";
-import {DeleteAccountComponent} from "../../clientHome/delete-account/delete-account.component";
+import {DeleteAccountComponent} from "../../clientHome/dialog/delete-account/delete-account.component";
 import {HouseReservationService} from "../../service/house-reservation.service";
 import {HouseReservation} from "../../model/house-reservation";
 

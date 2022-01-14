@@ -54,7 +54,7 @@ public class FeedbackDTO {
         this.ownerId = ownerId;
     }
 
-    public boolean isHasHouse() {
+    public boolean getHasHouse() {
         return hasHouse;
     }
 
@@ -62,7 +62,7 @@ public class FeedbackDTO {
         this.hasHouse = hasHouse;
     }
 
-    public boolean isHasHouseOwner() {
+    public boolean getHasHouseOwner() {
         return hasHouseOwner;
     }
 
@@ -70,7 +70,7 @@ public class FeedbackDTO {
         this.hasHouseOwner = hasHouseOwner;
     }
 
-    public boolean isHasBoat() {
+    public boolean getHasBoat() {
         return hasBoat;
     }
 
@@ -78,7 +78,7 @@ public class FeedbackDTO {
         this.hasBoat = hasBoat;
     }
 
-    public boolean isHasBoatOwner() {
+    public boolean getHasBoatOwner() {
         return hasBoatOwner;
     }
 
@@ -86,7 +86,7 @@ public class FeedbackDTO {
         this.hasBoatOwner = hasBoatOwner;
     }
 
-    public boolean isHasInstructor() {
+    public boolean getHasInstructor() {
         return hasInstructor;
     }
 

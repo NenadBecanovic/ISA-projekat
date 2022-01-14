@@ -7,8 +7,8 @@ import {BoatService} from "../../service/boat.service";
 import {MyUser} from "../../model/my-user";
 import {AuthentificationService} from "../../auth/authentification/authentification.service";
 import {Address} from "../../model/address";
-import {ClientProfileComponent} from "../../clientHome/client-profile/client-profile.component";
-import {DeleteAccountComponent} from "../../clientHome/delete-account/delete-account.component";
+import {ClientProfileComponent} from "../../clientHome/dialog/client-profile/client-profile.component";
+import {DeleteAccountComponent} from "../../clientHome/dialog/delete-account/delete-account.component";
 import {MatDialog} from "@angular/material/dialog";
 
 @Component({

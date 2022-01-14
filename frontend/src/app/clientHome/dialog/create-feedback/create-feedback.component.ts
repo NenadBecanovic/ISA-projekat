@@ -23,6 +23,7 @@ export class CreateFeedbackComponent implements OnInit {
     this.feedback.hasBoat = this.data.isBoat;
     this.feedback.hasHouseOwner = this.data.isHouseOwner;
     this.feedback.hasBoatOwner = this.data.isHouseOwner;
+    this.feedback.hasInstructor = this.data.isInstructor
     this.feedback.ownerId = this.data.ownerId;
     console.log(this.data)
   }
