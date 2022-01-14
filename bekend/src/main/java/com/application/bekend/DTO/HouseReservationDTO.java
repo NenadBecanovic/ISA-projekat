@@ -16,13 +16,16 @@ public class HouseReservationDTO {
     private boolean isAction = false;
     private Long guestId;
     private Double totalPrice;
-    private String houseName;
+    private String entityName;
     private Long milisStartDate;
     private Long milisEndDate;
     private boolean hasFeedbackOwner = false;
     private boolean hasFeedbackEntity = false;
     private boolean hasAppealOwner = false;
     private boolean hasAppealEntity = false;
+    private boolean canBeCancelled = false;
+    private boolean onGoing = false;
+    private boolean cancelled = false;
 
     public HouseReservationDTO(){};
 
@@ -141,12 +144,12 @@ public class HouseReservationDTO {
         this.totalPrice = totalPrice;
     }
 
-    public String getHouseName() {
-        return houseName;
+    public String getEntityName() {
+        return entityName;
     }
 
-    public void setHouseName(String houseName) {
-        this.houseName = houseName;
+    public void setEntityName(String entityName) {
+        this.entityName = entityName;
     }
 
     public Long getMilisStartDate() {
@@ -195,5 +198,29 @@ public class HouseReservationDTO {
 
     public void setHasAppealEntity(boolean hasAppealEntity) {
         this.hasAppealEntity = hasAppealEntity;
+    }
+
+    public boolean getCanBeCancelled() {
+        return canBeCancelled;
+    }
+
+    public void setCanBeCancelled(boolean canBeCancelled) {
+        this.canBeCancelled = canBeCancelled;
+    }
+
+    public boolean getOnGoing() {
+        return onGoing;
+    }
+
+    public void setOnGoing(boolean onGoing) {
+        this.onGoing = onGoing;
+    }
+
+    public boolean getCancelled() {
+        return cancelled;
+    }
+
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
     }
 }

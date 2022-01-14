@@ -29,7 +29,6 @@
       <input type="text" class="form-control" required name="number" [(ngModel)]="user.phoneNumber">
       <span>Broj penala</span>
       <input type="text" class="form-control"  readonly name="penalties" [(ngModel)]="user.penalties">
-      <input type="text" class="form-control"  readonly name="penalties" [(ngModel)]="user.penalties">
       <span>Promena lozinke</span>
       <button (click)="changePassword()" > {{password}} </button>
       <span *ngIf="passwordCheck" >Nova lozinka</span>

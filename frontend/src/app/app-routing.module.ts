@@ -45,21 +45,26 @@ import {BoatReportComponent} from "./boat-owner/boat-report/boat-report.componen
 import { AdminPageComponent } from './admin-page/admin-page.component';
 import {BoatChartComponent} from "./boat-owner/boat-chart/boat-chart.component";
 import {HouseChartComponent} from "./house-owner/house-chart/house-chart.component";
+import {
+  BoatReservationHistoryComponent
+} from "./clientHome/reservation/boat-reservation-history/boat-reservation-history.component";
+import {FutureReservationComponent} from "./clientHome/future-reservation/future-reservation.component";
 import {AdventureChartComponent} from "./adventure-profile/adventure-chart/adventure-chart.component";
 import {DeleteImageDialogComponent} from "./adventure-profile/delete-image-dialog/delete-image-dialog.component";
+import {HomeInstructorComponent} from "./home-page/home-instructor/home-instructor.component";
 
 
 const routes: Routes = [
   {path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}, {path: 'houses', component: HomeHouseComponent},
       {path: 'boats', component: HomeBoatComponent}, {path: 'adventures', component: HomeAdventureComponent}, {path: 'house/:id', component: HouseComponent},
-      {path: 'adventure/:id', component: AdventureComponent},{path: 'boat/:id', component: BoatComponent} ]},
+      {path: 'adventure/:id', component: AdventureComponent},{path: 'boat/:id', component: BoatComponent}, {path: 'instructors', component: HomeInstructorComponent} ]},
   {path:'login', component: LoginComponent},
   {path:'register', component: RegistrationComponent},
   {path:'email-activation', component: EmailActivationComponent},
   {path:'client', component: ClientHomePageComponent, children: [{path: '', component: DashboardComponent},{path: 'profile', component: ClientProfileComponent},
       {path: 'houses', component: ClientHousesComponent}, {path: 'boats', component: ClientBoatsComponent}, {path: 'adventures', component: ClientAdventuresComponent},
       {path: 'house/:id', component: ClientHouseComponent},{path: 'boat/:id', component: ClientBoatComponent}, {path: 'subscriptions', component: ClientSubscriptionsComponent},
-      {path: 'houseReservation', component: HouseReservationHistoryComponent}]},
+      {path: 'houseReservation', component: HouseReservationHistoryComponent}, {path: 'boatReservation', component: BoatReservationHistoryComponent}, {path: 'futureReservations', component: FutureReservationComponent}]},
   {path:'client', component: ClientHomePageComponent, children: [{path: '', component: DashboardComponent}]},
   { path:'house-profile-for-house-owner/:id', component: HouseProfileForHouseOwnerComponent},
   { path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}]},

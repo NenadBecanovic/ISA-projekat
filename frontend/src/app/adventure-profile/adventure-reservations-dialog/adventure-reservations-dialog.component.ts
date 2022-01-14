@@ -39,7 +39,7 @@ export class AdventureReservationsDialogComponent implements OnInit {
   }
 
   onLoad(){
-    this._adventureReservationService.getAllActionsByFishingAdventureId(this.adventureId).subscribe(
+    this._adventureReservationService.getAllByFishingAdventureId(this.adventureId).subscribe(
       (allReservations: AdventureReservation[]) => {
         this.allReservations = allReservations
         var today = Number(new Date());

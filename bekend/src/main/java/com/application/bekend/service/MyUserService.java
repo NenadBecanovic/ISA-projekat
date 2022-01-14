@@ -3,6 +3,7 @@ package com.application.bekend.service;
 import com.application.bekend.DTO.*;
 import com.application.bekend.model.*;
 import com.application.bekend.repository.MyUserRepository;
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -212,5 +213,15 @@ public class MyUserService implements UserDetailsService {
             MyUser guest = findUserById(boatDTO.getGuestId());
             this.emailService.sendMailForClient(guest, "", boatName);
         }
+    }
+  
+	public void editPersonalDescription(Long id, String personalDescription) {
+		MyUser instructor = this.findUserById(id);
+		instructor.setPersonalDescription(personalDescription);
+		this.save(instructor);
+	}
+
+    public List<MyUser> getAllInstructors() {
+        return this.myUserRepository.findAllInstructors();
     }
 }

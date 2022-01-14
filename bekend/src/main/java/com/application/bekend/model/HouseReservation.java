@@ -22,6 +22,8 @@ public class HouseReservation {
     private Boolean hasFeedbackEntity = false;
     private Boolean hasAppealOwner = false;
     private Boolean hasAppealEntity = false;
+    private Boolean isCancelled = false;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "guest_id")
@@ -181,5 +183,13 @@ public class HouseReservation {
 
     public void setReport(Report report) {
         this.report = report;
+    }
+
+    public Boolean getCancelled() {
+        return isCancelled;
+    }
+
+    public void setCancelled(Boolean cancelled) {
+        isCancelled = cancelled;
     }
 }

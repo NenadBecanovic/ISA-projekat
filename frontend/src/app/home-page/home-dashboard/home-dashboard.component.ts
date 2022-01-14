@@ -70,6 +70,6 @@ export class HomeDashboardComponent implements OnInit {
   }
 
   goToAllAdventures() {
-    this._router.navigate(['adventures']);
+    this._router.navigate(['instructors']);
   }
 }
