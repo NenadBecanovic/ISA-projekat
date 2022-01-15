@@ -8,6 +8,11 @@ services:
 before_install:
   - chmod +x mvnw
 
+branches:
+  only:
+    - master
+    - deployment
+
 addons:
   sonarcloud:
   organization: "isa-tim17"
