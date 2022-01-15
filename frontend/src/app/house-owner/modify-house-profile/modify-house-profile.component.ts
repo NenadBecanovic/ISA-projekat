@@ -42,7 +42,6 @@ export class ModifyHouseProfileComponent implements OnInit {
     this._houseService.getHouseById(this.id).subscribe(
       (house: House) => {
         this.house = house
-        // console.log(house)
 
         this._roomService.getAllByHouseId(this.id).subscribe(
           (rooms: Room[]) => {
@@ -59,13 +58,15 @@ export class ModifyHouseProfileComponent implements OnInit {
         )
       }
     )
-    // console.log(this.house)
   }
 
   deleteAdditionalService(id: number) {
     this._additionalServices.delete(id).subscribe(   // OBAVEZNO SE MORA SUBSCRIBE-OVATI !!!
       (boolean:boolean) =>{
         this.loadData()
+      },
+      (error) => {
+        this._alertService.danger('Rezervisana vikendica se ne može izmeniti');
       }
     )
   }
@@ -97,7 +98,7 @@ export class ModifyHouseProfileComponent implements OnInit {
         this.loadData();
       },
       (error) => {
-        this._alertService.danger('Doslo je do greske');
+        this._alertService.danger('Rezervisana vikendica se ne može izmeniti');
       },
     )
   }
@@ -132,7 +133,7 @@ export class ModifyHouseProfileComponent implements OnInit {
         this.loadData();
       },
       (error) => {
-        this._alertService.danger('Doslo je do greske');
+        this._alertService.danger('Rezervisana vikendica se ne može izmeniti');
       },
     )
   }

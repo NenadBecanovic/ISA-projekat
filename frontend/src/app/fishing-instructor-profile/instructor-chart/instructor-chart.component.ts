@@ -1,57 +1,61 @@
 import { Component, OnInit } from '@angular/core';
 import {Chart} from "angular-highcharts";
 import {Address} from "../../model/address";
-import {Room} from "../../model/room";
+import {NavigationEquipment} from "../../model/navigation-equipment";
 import {AdditionalService} from "../../model/additional-service";
-import {House} from "../../model/house";
-import {HouseReservation} from "../../model/house-reservation";
-import {FishingAdventure} from "../../model/fishing-adventure";
-import {HouseReservationService} from "../../service/house-reservation.service";
+import {Boat} from "../../model/boat";
+import {BoatReservation} from "../../model/boat-reservation";
+import {BoatReservationService} from "../../service/boat-reservation.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {HouseService} from "../../service/house.service";
+import {BoatService} from "../../service/boat.service";
+import {FishingAdventureInstructorDTO} from "../../model/fishing-adventure-instructorDTO";
+import {FishingAdventure} from "../../model/fishing-adventure";
 import {AdventureReservationService} from "../../service/adventure-reservation.service";
-import {AdventureService} from "../../service/adventure.service";
+import {AdventureReservation} from "../../model/adventure-reservation";
 
 @Component({
-  selector: 'app-adventure-chart',
-  templateUrl: './adventure-chart.component.html',
-  styleUrls: ['./adventure-chart.component.css']
+  selector: 'app-instructor-chart',
+  templateUrl: './instructor-chart.component.html',
+  styleUrls: ['./instructor-chart.component.css']
 })
-export class AdventureChartComponent implements OnInit {
+export class InstructorChartComponent implements OnInit {
 
   chartMonthly: Chart = new Chart();
   chartYearly: Chart = new Chart();
   chartWeekly: Chart = new Chart();
   chartWeeklyIncome: Chart = new Chart();
-  address: Address = new Address(0,"","","",0,0,0)
-  additionalServices: AdditionalService[] = new Array<AdditionalService>();
-  fishingAdventure: FishingAdventure= new FishingAdventure(0,"", this.address, "", 0, "", "", 0,true, 0);
-  courses: FishingAdventure[] = new Array<FishingAdventure>();
+  // address: Address = new Address(0,"Luka 11","Novi Sad","Srbija",0,0,21000)
+  // navigationEquipment: NavigationEquipment = new NavigationEquipment(0,true, true, true, true);
+  // additionalServices: AdditionalService[] = new Array<AdditionalService>();
+  // boat: Boat = new Boat(0, '', '', '', 0, 0, '', 0, 0, 0, 0, false, 0, '', this.address, this.navigationEquipment, this.additionalServices, 0, 0);
+  // courses: BoatReservation[] = new Array<BoatReservation>();
+
+  instructor: FishingAdventureInstructorDTO = new FishingAdventureInstructorDTO();
   year2021: boolean = false;
   year2022: boolean = true;
-  jan: FishingAdventure[] = new Array();
-  feb: FishingAdventure[] = new Array();
-  mar: FishingAdventure[] = new Array();
-  apr: FishingAdventure[] = new Array();
-  may: FishingAdventure[] = new Array();
-  jun: FishingAdventure[] = new Array();
-  jul: FishingAdventure[] = new Array();
-  aug: FishingAdventure[] = new Array();
-  sep: FishingAdventure[] = new Array();
-  oct: FishingAdventure[] = new Array();
-  nov: FishingAdventure[] = new Array();
-  dec: FishingAdventure[] = new Array();
-  year2021Array: FishingAdventure[] = new Array();
-  year2022Array: FishingAdventure[] = new Array();
+  jan: AdventureReservation[] = new Array();
+  feb: AdventureReservation[] = new Array();
+  mar: AdventureReservation[] = new Array();
+  apr: AdventureReservation[] = new Array();
+  may: AdventureReservation[] = new Array();
+  jun: AdventureReservation[] = new Array();
+  jul: AdventureReservation[] = new Array();
+  aug: AdventureReservation[] = new Array();
+  sep: AdventureReservation[] = new Array();
+  oct: AdventureReservation[] = new Array();
+  nov: AdventureReservation[] = new Array();
+  dec: AdventureReservation[] = new Array();
+  year2021Array: AdventureReservation[] = new Array();
+  year2022Array: AdventureReservation[] = new Array();
   date: Date = new Date();
   add: AdditionalService[] = new Array();
-  firstBoat: FishingAdventure[] = new Array();
-  secondBoat: FishingAdventure[] = new Array();
-  thirdBoat: FishingAdventure[] = new Array();
-  forthBoat: FishingAdventure[] = new Array();
-  fifthBoat: FishingAdventure[] = new Array();
-  sixtBoat: FishingAdventure[] = new Array();
-  seventhBoat: FishingAdventure[] = new Array();
+  firstAdv: AdventureReservation[] = new Array();
+  secondAdv: AdventureReservation[] = new Array();
+  thirdAdv: AdventureReservation[] = new Array();
+  forthAdv: AdventureReservation[] = new Array();
+  fifthAdv: AdventureReservation[] = new Array();
+  sixtAdv: AdventureReservation[] = new Array();
+  seventhAdv: AdventureReservation[] = new Array();
   firstDayIncome: number = 0;
   secondDayIncome: number = 0;
   thirdDayIncome: number = 0;
@@ -60,34 +64,48 @@ export class AdventureChartComponent implements OnInit {
   sixthDayIncome: number = 0;
   seventhDayIncome: number = 0;
 
-  constructor(private _adventureReservationService: AdventureReservationService, private _router: Router, private _route: ActivatedRoute,
-              private _adventureService: AdventureService) { }
+  constructor(private _fishingAdventureReservationService: AdventureReservationService, private _router: Router, private _route: ActivatedRoute,
+              private _boatService: BoatService) { }
 
   ngOnInit(): void {
     // @ts-ignore
-    this.fishingAdventure.id = +this._route.snapshot.paramMap.get('id');
+    this.instructor.id = +this._route.snapshot.paramMap.get('id');
     this.loadData();
   }
 
-  initializeArrays(){
-    this.jan = new Array();
-    this.feb = new Array();
-    this.mar = new Array();
-    this.apr = new Array();
-    this.may = new Array();
-    this.jun = new Array();
-    this.jul = new Array();
-    this.aug = new Array();
-    this.sep = new Array();
-    this.oct = new Array();
-    this.nov = new Array();
-    this.dec = new Array();
-    this.year2021Array = new Array();
-    this.year2022Array = new Array();
-  }
-
-  // determineMonth(b: FishingAdventure){
-  //   var start =  new Date(Number(b.))
+  // initializeArrays(){
+  //   this.jan = new Array();
+  //   this.feb = new Array();
+  //   this.mar = new Array();
+  //   this.apr = new Array();
+  //   this.may = new Array();
+  //   this.jun = new Array();
+  //   this.jul = new Array();
+  //   this.aug = new Array();
+  //   this.sep = new Array();
+  //   this.oct = new Array();
+  //   this.nov = new Array();
+  //   this.dec = new Array();
+  //   this.year2021Array = new Array();
+  //   this.year2022Array = new Array();
+  //   this.firstDayIncome = 0;
+  //   this.secondDayIncome = 0;
+  //   this.thirdDayIncome = 0;
+  //   this.forthDayIncome = 0;
+  //   this.fifthDayIncome = 0;
+  //   this.sixthDayIncome = 0;
+  //   this.seventhDayIncome = 0;
+  //   this.firstAdv = new Array();
+  //   this.secondAdv = new Array();
+  //   this.thirdAdv = new Array();
+  //   this.forthAdv = new Array();
+  //   this.fifthAdv = new Array();
+  //   this.sixtAdv = new Array();
+  //   this.seventhAdv = new Array();
+  // }
+  //
+  // determineMonth(b: AdventureReservation){
+  //   var start =  new Date(Number(b.startDate))
   //
   //   if(start.getMonth() == 0) {
   //     this.jan.push(b)
@@ -129,40 +147,38 @@ export class AdventureChartComponent implements OnInit {
   // }
   //
   // loadData() {
-  //   this._houseService.getHouseById(this.house.id).subscribe(
-  //     (house: House) =>{
-  //       this.house = house
+  //   this._boatService.getBoatById(this.instructor.id).subscribe(
+  //     (boat: Boat) =>{
+  //       this.boat = boat
   //     }
   //   )
   //
-  //   this._houseReservationService.getAllByHouseIdPlane(this.house.id).subscribe(
-  //     (houseReservations: HouseReservation[]) =>{
+  //   this._boatReservationService.getAllByBoatIdPlane(this.boat.id).subscribe(
+  //     (boatReservations: BoatReservation[]) =>{
   //       // this.courses = boatReservations
   //       this.initializeArrays()
   //
-  //       for(let b of houseReservations) {
+  //       for(let b of AdventureReservation) {
   //         if (!b.availabilityPeriod && !b.available && Number(b.startDate) >= 1640991600000) {
   //           this.year2022Array.push(b)
   //         }
   //       }
-  //       for(let b of houseReservations) {
+  //       for(let b of AdventureReservation) {
   //         if (!b.availabilityPeriod && !b.available && Number(b.startDate) >= 1609455600000 && Number(b.startDate) < 1640991600000) {
   //           this.year2021Array.push(b)
   //         }
   //       }
   //
   //       if (this.year2022) {
-  //         for(let b of houseReservations) {
+  //         for(let b of AdventureReservation) {
   //           if (!b.availabilityPeriod && !b.available && Number(b.startDate) >= 1640991600000) {
   //             this.determineMonth(b);
-  //             //this.year2022Array.push(b)
   //           }
   //         }
   //       } else if (this.year2021) {
-  //         for(let b of houseReservations) {
+  //         for(let b of AdventureReservation) {
   //           if (!b.availabilityPeriod && !b.available && Number(b.startDate) >= 1609455600000 && Number(b.startDate) < 1640991600000) {
   //             this.determineMonth(b);
-  //             this.year2021Array.push(b)
   //           }
   //         }
   //       }
@@ -175,7 +191,7 @@ export class AdventureChartComponent implements OnInit {
   //             enabled: false,
   //           },
   //           title: {
-  //             text: 'Izvestaj o rezervacijama vikendice na mesecnom nivou',
+  //             text: 'Izvestaj o rezervacijama instruktora na mesecnom nivou',
   //           },
   //           yAxis: {
   //             visible: true,
@@ -238,7 +254,7 @@ export class AdventureChartComponent implements OnInit {
   //             enabled: false,
   //           },
   //           title: {
-  //             text: 'Izvestaj o rezervacijama vikendice na godisnjem nivou',
+  //             text: 'Izvestaj o rezervacijama instruktora na godisnjem nivou',
   //           },
   //           yAxis: {
   //             visible: true,
@@ -275,12 +291,8 @@ export class AdventureChartComponent implements OnInit {
   //       );
   //
   //       var danas = new Date().getMilliseconds()
-  //       console.log(danas)
-  //
   //       var weekAgo = Number(this.date) - (86400000 * 6)
   //       var zero = new Date(weekAgo - 86400000)
-  //
-  //       console.log(zero)
   //
   //       var firstDay = new Date(weekAgo)
   //       var secondDay = new Date(weekAgo + 86400000)
@@ -289,31 +301,33 @@ export class AdventureChartComponent implements OnInit {
   //       var fifthdDay = new Date(weekAgo + 4*86400000)
   //       var sixtDay = new Date(weekAgo + 5*86400000)
   //
+  //       // for(let r of AdventureReservation) {
+  //       //   if (!r.available && !r.availabilityPeriod) {
+  //       //     if (Number(r.startDate) >= Number(zero) && Number(r.startDate) < Number(firstDay)) {
+  //       //       this.firstAdv.push(r)
+  //       //       this.firstDayIncome = this.firstDayIncome + this.calculateTotalPrice(r);
+  //       //     } else if (Number(r.startDate) >= Number(firstDay) && Number(r.startDate) < Number(secondDay)) {
+  //       //       this.secondAdv.push(r);
+  //       //       this.secondDayIncome = this.secondDayIncome + this.calculateTotalPrice(r);
+  //       //     } else if (Number(r.startDate) >= Number(secondDay) && Number(r.startDate) < Number(thirdDay)) {
+  //       //       this.thirdAdv.push(r);
+  //       //       this.thirdDayIncome = this.thirdDayIncome + this.calculateTotalPrice(r);
+  //       //     } else if (Number(r.startDate) >= Number(thirdDay) && Number(r.startDate) < Number(forthdDay)) {
+  //       //       this.forthAdv.push(r);
+  //       //       this.forthDayIncome = this.forthDayIncome + this.calculateTotalPrice(r);
+  //       //     } else if (Number(r.startDate) >= Number(forthdDay) && Number(r.startDate) < Number(fifthdDay)) {
+  //       //       this.fifthAdv.push(r);
+  //       //       this.fifthDayIncome = this.fifthDayIncome + this.calculateTotalPrice(r);
+  //       //     } else if (Number(r.startDate) >= Number(fifthdDay) && Number(r.startDate) < Number(sixtDay)) {
+  //       //       this.sixtAdv.push(r);
+  //       //       this.sixthDayIncome = this.sixthDayIncome + this.calculateTotalPrice(r);
+  //       //     } else if (Number(r.startDate) >= Number(sixtDay) && Number(r.startDate) < Number(weekAgo)) {
+  //       //       this.seventhAdv.push(r);
+  //       //       this.seventhDayIncome = this.seventhDayIncome + this.calculateTotalPrice(r);
+  //       //     }
+  //       //   }
+  //       // }
   //
-  //       for(let r of houseReservations) {
-  //         if (Number(r.startDate) >= Number(zero) && Number(r.startDate) < Number(firstDay)){
-  //           this.firstBoat.push(r)
-  //           this.firstDayIncome = r.price;
-  //         }else if (Number(r.startDate) >= Number(firstDay) && Number(r.startDate) < Number(secondDay)) {
-  //           this.secondBoat.push(r);
-  //           this.secondDayIncome = r.price;
-  //         } else if (Number(r.startDate) >= Number(secondDay) && Number(r.startDate) < Number(thirdDay)) {
-  //           this.thirdBoat.push(r);
-  //           this.thirdDayIncome = r.price;
-  //         } else if (Number(r.startDate) >= Number(thirdDay) && Number(r.startDate) < Number(forthdDay)) {
-  //           this.forthBoat.push(r);
-  //           this.forthDayIncome = r.price;
-  //         } else if (Number(r.startDate) >= Number(forthdDay) && Number(r.startDate) < Number(fifthdDay)) {
-  //           this.fifthBoat.push(r);
-  //           this.fifthDayIncome = r.price;
-  //         } else if (Number(r.startDate) >= Number(fifthdDay) && Number(r.startDate) < Number(sixtDay)) {
-  //           this.sixtBoat.push(r);
-  //           this.sixthDayIncome = r.price;
-  //         } else if (Number(r.startDate) >= Number(sixtDay) && Number(r.startDate) < Number(weekAgo)) {
-  //           this.seventhBoat.push(r);
-  //           this.seventhDayIncome = r.price;
-  //         }
-  //       }
   //
   //       this.chartWeekly = new Chart({
   //           chart: {
@@ -323,7 +337,7 @@ export class AdventureChartComponent implements OnInit {
   //             enabled: false,
   //           },
   //           title: {
-  //             text: 'Izvestaj o rezervacijama vikendice na nedeljnom nivou',
+  //             text: 'Izvestaj o rezervacijama instruktora na nedeljnom nivou',
   //           },
   //           yAxis: {
   //             visible: true,
@@ -355,13 +369,13 @@ export class AdventureChartComponent implements OnInit {
   //               color: '#E090DF',
   //               //#506ef9
   //               data: [
-  //                 {y: this.seventhBoat.length},
-  //                 {y: this.sixtBoat.length},
-  //                 {y: this.fifthBoat.length},
-  //                 {y: this.forthBoat.length},
-  //                 {y: this.thirdBoat.length},
-  //                 {y: this.secondBoat.length},
-  //                 {y: this.firstBoat.length},
+  //                 {y: this.seventhAdv.length},
+  //                 {y: this.sixtAdv.length},
+  //                 {y: this.fifthAdv.length},
+  //                 {y: this.forthAdv.length},
+  //                 {y: this.thirdAdv.length},
+  //                 {y: this.secondAdv.length},
+  //                 {y: this.firstAdv.length},
   //               ],
   //             },
   //           ],
@@ -377,7 +391,7 @@ export class AdventureChartComponent implements OnInit {
   //             enabled: false,
   //           },
   //           title: {
-  //             text: 'Izvestaj o prihodima vikendice na nedeljnom nivou',
+  //             text: 'Izvestaj o prihodima instruktora na nedeljnom nivou',
   //           },
   //           yAxis: {
   //             visible: true,
@@ -421,19 +435,33 @@ export class AdventureChartComponent implements OnInit {
   //           ],
   //         }
   //       );
+  //
   //     }
   //   )
   // }
 
+  calculateTotalPrice(r: BoatReservation){
+  //   var additionalPrice = 0;
+  //   for(let a of r.additionalServices) {
+  //     additionalPrice = additionalPrice + a.price;
+  //   }
+  //
+  //   if (r.cancelled && !this.boat.cancalletionFree){
+  //     var percantage = this.boat.cancalletionFee;
+  //     var totalPrice = r.price + additionalPrice;
+  //     totalPrice = percantage * totalPrice * 0.01;
+  //     return totalPrice;
+  //   }
+  //   else if(r.cancelled && this.boat.cancalletionFree)
+  //   {
+  //     return 0;
+  //   }
+  //   else {
+  //     return r.price + additionalPrice;
+  //   }
+   }
+
   private loadData() {
-
-  }
-
-  year2021func() {
-
-  }
-
-  year2022func() {
 
   }
 }

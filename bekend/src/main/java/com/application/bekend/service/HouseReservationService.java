@@ -98,4 +98,6 @@ public class HouseReservationService {
             }
         }
     }
+
+    public List<HouseReservation> getHouseReservationsByAdditionalServicesId(Long id) { return this.houseReservationsRepository.getHouseReservationsByAdditionalServicesId(id); }
 }

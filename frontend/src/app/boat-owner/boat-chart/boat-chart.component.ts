@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'angular-highcharts';
-// import { donutChartOptions } from './helpers/donutChartOptions';
-// import { areaChartOptions } from './helpers/areaChartOptions';
-import { barChart } from './helpers/barChart';
 import {BoatReservationService} from "../../service/boat-reservation.service";
 import {Address} from "../../model/address";
 import {NavigationEquipment} from "../../model/navigation-equipment";
@@ -11,8 +8,6 @@ import {Boat} from "../../model/boat";
 import {BoatReservation} from "../../model/boat-reservation";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BoatService} from "../../service/boat.service";
-import {HouseReservation} from "../../model/house-reservation";
-// import { oneLineBar } from './helpers/oneLineBar';
 
 @Component({
   selector: 'app-boat-chart',

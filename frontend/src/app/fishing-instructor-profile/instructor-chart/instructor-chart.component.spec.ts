@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdventureChartComponent } from './adventure-chart.component';
+import { InstructorChartComponent } from './instructor-chart.component';
 
-describe('AdventureChartComponent', () => {
-  let component: AdventureChartComponent;
-  let fixture: ComponentFixture<AdventureChartComponent>;
+describe('InstructorChartComponent', () => {
+  let component: InstructorChartComponent;
+  let fixture: ComponentFixture<InstructorChartComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AdventureChartComponent ]
+      declarations: [ InstructorChartComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AdventureChartComponent);
+    fixture = TestBed.createComponent(InstructorChartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
