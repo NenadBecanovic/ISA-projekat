@@ -76,7 +76,7 @@
             <ng-template #elseBlockShow>
               <label class="form-check-label wrap">
                 Besplatno otkazivanje: NE
-                <br> Uslovi otkazivanja: {{boat.cancalletionFee}} din <br>
+                <br> Uslovi otkazivanja: {{boat.cancalletionFee}} % <br>
               </label>
             </ng-template>
           </div>
@@ -206,7 +206,7 @@
                           <li *ngFor="let a of course.additionalServices">
                             {{a.name}} : {{a.price}} din <br>
                           </li>
-                        <p class="card-text">Cena po 1 nocenju: {{ course.price }} din/dan</p>
+                        <p class="card-text">Cena bez dodatnih usluga: {{ course.price }} din/dan</p>
                         <button mat-icon-button (click)="deleteActionDialog(course.id)" class="btn delete-action-button"> <mat-icon>delete</mat-icon> </button>
                       </div>
                       <br>
@@ -250,19 +250,15 @@
               <mat-card style="width: 100%;">
                 <mat-grid-list cols="4" rowHeight="1:1" >
                   <mat-grid-tile  [colspan]="4" class="script-menu1">
-                    <div style="display:inline;">
-                      <div style="float: left; width: 75%;">
-                        <label style="font-size: 2vw; font-weight: 500; margin-left: 5px;font-family: Poppins;" ><strong> {{reserved.id }}  </strong></label>
-                      </div>
-                    </div>
                     <div style="float: right">
-                      <label>({{ reserved.guest.username }})</label>
+                      <button *ngIf="checkDate(reserved.endDate)" class="btn report" (click)="makeReport(reserved.id)"> Popuni izvestaj </button>
+                    </div>
+                    <div style="display: inline; float: left">
                       <button mat-icon-button class="btn" (click)="seeGuestProfile(reserved.id)"> <mat-icon>person</mat-icon> </button>
                     </div>
-                    <div style="float: right">
-                    </div>
                     <div style="float: left; width: 75%;">
-                      <label style="font-family: Poppins;font-weight: bold"> {{ reserved.guest.firstName }} {{ reserved.guest.lastName }} </label>                    </div>
+                      <label style="font-family: Poppins;font-weight: bold"> Gost: {{ reserved.guest.firstName }} {{ reserved.guest.lastName }} ({{ reserved.guest.username }}) [{{ reserved.id }}] </label>
+                    </div>
                     <div style="display:inline;" >
                       <div style="float: left; width: 100%;">
                         <label style="font-family: Poppins"> {{ reserved.startDate | date:'dd/MM/yyyy HH:mm:ss'}}  - {{ reserved.endDate | date:'dd/MM/yyyy HH:mm:ss' }} </label>
@@ -271,6 +267,11 @@
                     <div style="display:inline;" >
                       <div style="float: left; width: 100%;">
                         <label style="font-family: Poppins"> Cena: {{ reserved.price }} din </label>
+                      </div>
+                    </div>
+                    <div style="display:inline;" >
+                      <div style="float: left; width: 100%;" *ngFor="let a of reserved.additionalServices">
+                        <label style="font-family: Poppins">  {{ a.name }}, {{ a.price }} din </label>
                       </div>
                     </div>
                     <div style="display:inline;" >
@@ -283,9 +284,35 @@
                         <label  style="font-family: Poppins;font-weight: bold"> Rezervacija je otkazana! </label>
                       </div>
                     </div>
-                    <div style="float: right">
-                      <button *ngIf="checkDate(reserved.endDate)" class="btn report" (click)="makeReport(reserved.id)"> Popuni izvestaj </button>
-                    </div>
+
+                    <!--                    <div style="float: right">-->
+<!--                      <label>({{ reserved.guest.username }})</label>-->
+<!--                      <button mat-icon-button class="btn" (click)="seeGuestProfile(reserved.id)"> <mat-icon>person</mat-icon> </button>-->
+<!--                    </div>-->
+<!--                    <div style="float: right">-->
+<!--                    </div>-->
+<!--                    <div style="float: left; width: 75%;">-->
+<!--                      <label style="font-family: Poppins;font-weight: bold"> {{ reserved.guest.firstName }} {{ reserved.guest.lastName }} </label>                    </div>-->
+<!--                    <div style="display:inline;" >-->
+<!--                      <div style="float: left; width: 100%;">-->
+<!--                        <label style="font-family: Poppins"> {{ reserved.startDate | date:'dd/MM/yyyy HH:mm:ss'}}  - {{ reserved.endDate | date:'dd/MM/yyyy HH:mm:ss' }} </label>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                    <div style="display:inline;" >-->
+<!--                      <div style="float: left; width: 100%;">-->
+<!--                        <label style="font-family: Poppins"> Cena: {{ reserved.price }} din </label>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                    <div style="display:inline;" >-->
+<!--                      <div style="float: left; width: 100%;">-->
+<!--                        <label style="font-family: Poppins"> Maksimalno gostiju: {{ reserved.maxGuests }} </label>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                    <div style="display:inline;" *ngIf="reserved.cancelled">-->
+<!--                      <div style="float: left; width: 100%;">-->
+<!--                        <label  style="font-family: Poppins;font-weight: bold"> Rezervacija je otkazana! </label>-->
+<!--                      </div>-->
+<!--                    </div>-->
                   </mat-grid-tile>
                 </mat-grid-list>
               </mat-card>

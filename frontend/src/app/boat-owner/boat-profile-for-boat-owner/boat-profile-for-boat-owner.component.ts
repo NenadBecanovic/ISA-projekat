@@ -19,7 +19,6 @@ import {
 } from "../../house-owner/house-profile-for-house-owner/calendar-dialog/calendar-dialog-house.component";
 import {CalendarDialogBoatComponent} from "./calendar-dialog-boat/calendar-dialog-boat.component";
 import {MatDialog} from "@angular/material/dialog";
-import {AddImageHouseComponent} from "../../house-owner/add-image-house/add-image-house.component";
 import {AddImageBoatComponent} from "../add-image-boat/add-image-boat.component";
 import {DeleteImageDialogComponent} from "../../adventure-profile/delete-image-dialog/delete-image-dialog.component";
 
@@ -119,7 +118,6 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
         this._boatReservationService.getAllActionsByBoatId(this.boat.id).subscribe(
           (courses_slides: BoatReservationSlide[]) => {
             this.courses_slides = courses_slides
-            console.log(this.courses_slides)
             this.isSlideLoaded = true
           }
         )
@@ -138,7 +136,9 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
                     course.guest = user
                   }
                 )
-                this.reservedCourses.push(course);
+                if(!this.courseAlreadyInArray(course)) {
+                  this.reservedCourses.push(course);
+                }
               }
             }
             this.userSearch = this.reservedCourses
@@ -217,4 +217,16 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
       window.location.reload();
     });
   }
+
+  courseAlreadyInArray(course: BoatReservation){
+    for (let u of this.reservedCourses)
+    {
+      if (u.id == course.id)
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+
 }
