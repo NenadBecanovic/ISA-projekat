@@ -265,12 +265,12 @@ public class HouseReservationController {
             this.myUserService.save(guest);
 
             // TODO: ako je vlasnik zakazao za klijenta, poslati mejl klijentu
-            this.myUserService.sendMailToClient(dto, null, house.getName(), "");
+            this.myUserService.sendMailToClient(dto, null, null, house.getName(), "", "");
         }
 
         // TODO: ako je akcije, poslati mejl svim pretplacenim klijentima
         if (dto.isAction() == true && dto.isAvailable() == true){
-            this.myUserService.sendSubscribedUsersEmail(dto, null, house.getName(), "");
+            this.myUserService.sendSubscribedUsersEmail(dto, null, null, house.getName(), "", "");
         }
 
         return new ResponseEntity<>(HttpStatus.CREATED);

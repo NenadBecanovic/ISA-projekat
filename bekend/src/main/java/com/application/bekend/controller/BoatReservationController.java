@@ -172,12 +172,12 @@ public class BoatReservationController {
             this.myUserService.save(guest);
 
             // TODO: ako je vlasnik zakazao za klijenta, poslati mejl klijentu
-            this.myUserService.sendMailToClient(null, dto, "", boat.getName());
+            this.myUserService.sendMailToClient(null, dto, null, "", boat.getName(), "");
         }
 
         // TODO: ako je akcije, poslati mejl svim pretplacenim klijentima
         if (dto.isAction() == true && dto.isAvailable() == true){
-            this.myUserService.sendSubscribedUsersEmail(null, dto, "", boat.getName());
+            this.myUserService.sendSubscribedUsersEmail(null, dto, null, "", boat.getName(), "");
         }
 
         return new ResponseEntity<>(HttpStatus.CREATED);

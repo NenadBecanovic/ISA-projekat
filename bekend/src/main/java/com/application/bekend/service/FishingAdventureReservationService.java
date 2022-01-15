@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.mail.MessagingException;
+
 import com.application.bekend.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,7 +50,7 @@ public class FishingAdventureReservationService {
         return this.fishingAdventureReservationsRepository.save(adventureReservation);
     }
 	
-	public boolean saveReservation(AdventureReservationDTO adventureReservationDTO) {
+	public boolean saveReservation(AdventureReservationDTO adventureReservationDTO) throws MessagingException {
 		FishingAdventure fishingAdventure = this.fishingAdventureService.getFishingAdventureById(adventureReservationDTO.getAdventureId());
 		MyUser instructor = this.myUserService.findUserByAdventureId(fishingAdventure.getId());
         List<AdventureReservation> adventureReservations = this.getAllByFishingAdventure_Id(fishingAdventure.getId());
@@ -99,11 +101,20 @@ public class FishingAdventureReservationService {
             guest.setPoints(guest.getPoints() + this.companyService.getCompanyInfo((long) 1).getPointsPerReservationClient());
             this.checkUserCategory(guest);
             this.myUserService.save(guest);
+            
+            if(adventureReservationDTO.getIsOwnerReservation()) {
+            	this.myUserService.sendMailToClient(null, null, adventureReservationDTO, "", "", fishingAdventure.getName());
+            }
         }
+        
+        if (adventureReservationDTO.getIsAction() && adventureReservationDTO.getIsAvailable()){
+            this.myUserService.sendSubscribedUsersEmail(null, null, adventureReservationDTO, "", "", fishingAdventure.getName());
+        }
+        
         return true;
 	}
 
-	public boolean saveUnavailablePeriod(Long instructorId, AdventureReservationDTO adventureReservationDTO) {
+	public boolean saveUnavailablePeriod(Long instructorId, AdventureReservationDTO adventureReservationDTO) throws MessagingException {
 		// TODO Auto-generated method stub
 		List<FishingAdventure> fishingAdventures = this.fishingAdventureService.getFishingAdventuresByInstructor(instructorId);
 		for(FishingAdventure fishingAdventure : fishingAdventures) {

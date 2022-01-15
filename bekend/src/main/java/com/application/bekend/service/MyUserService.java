@@ -190,7 +190,7 @@ public class MyUserService implements UserDetailsService {
     	return true;
     }
 
-    public void sendSubscribedUsersEmail(HouseReservationDTO dto, BoatReservationDTO boatDTO, String houseName, String boatName) throws MessagingException {
+    public void sendSubscribedUsersEmail(HouseReservationDTO dto, BoatReservationDTO boatDTO, AdventureReservationDTO adventureDTO, String houseName, String boatName, String adventureName) throws MessagingException {
         List<MyUser> myUsers = new ArrayList<>();
 
         if (dto != null) {
@@ -201,16 +201,23 @@ public class MyUserService implements UserDetailsService {
             MyUser owner = findUserByHouseId(boatDTO.getBoatId());
             myUsers = this.myUserRepository.findSubscribedUsersByOwnerId(owner.getId());
             this.emailService.sendActionMail(myUsers, "", boatName);
+        } else if (adventureDTO != null){
+            MyUser instructor = findUserByAdventureId(adventureDTO.getAdventureId());
+            myUsers = this.myUserRepository.findSubscribedUsersByOwnerId(instructor.getId());
+            this.emailService.sendActionMail(myUsers, "", adventureName);
         }
     }
 
-    public void sendMailToClient(HouseReservationDTO dto, BoatReservationDTO boatDTO, String houseName, String boatName) throws MessagingException {
+    public void sendMailToClient(HouseReservationDTO dto, BoatReservationDTO boatDTO, AdventureReservationDTO adventureDTO, String houseName, String boatName, String adventureName) throws MessagingException {
         if (dto != null) {
             MyUser guest = findUserById(dto.getGuestId());
             this.emailService.sendMailForClient(guest, houseName, "");
         } else if(boatDTO != null){
             MyUser guest = findUserById(boatDTO.getGuestId());
             this.emailService.sendMailForClient(guest, "", boatName);
+        } else if(adventureDTO != null){
+            MyUser guest = findUserById(adventureDTO.getGuestId());
+            this.emailService.sendMailForClient(guest, "", adventureName);
         }
     }
   

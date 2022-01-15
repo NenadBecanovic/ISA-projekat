@@ -30,6 +30,7 @@ export class AdventureReservation {
     entityName: string = '';
     houserOwnerName: string = '';
     ownerId: number = 0;
+    isOwnerReservation = false;
 
 
     constructor(id: number, startDate: string, endDate: string, maxGuests: number, additionalServices: AdditionalService[],
