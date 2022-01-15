@@ -96,7 +96,6 @@ import { EditPersonalDescriptionDialogComponent } from './fishing-instructor-pro
 import { InstructorReservationHistoryComponent } from './clientHome/reservation/instructor-reservation-history/instructor-reservation-history.component';
 import {MatTableModule} from "@angular/material/table";
 
-
 const MaterialComponents = [
   MatSliderModule,
   MatToolbarModule,

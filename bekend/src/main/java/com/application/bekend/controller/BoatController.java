@@ -295,4 +295,32 @@ public class BoatController {
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
+
+    @PostMapping("/findAllAvailableBoats")
+    public ResponseEntity<List<BoatDTO>> findAllAvailableBoats(@RequestBody ReservationCheckDTO reservationCheckDTO){
+        List<Boat> boats = this.boatService.getAllAvailableHouses(reservationCheckDTO);
+        List<BoatDTO> boatDTOS = new ArrayList<>();
+        for(Boat boat: boats){
+            makeBoatDTOList(boat,boatDTOS);
+        }
+        return new ResponseEntity<>(boatDTOS, HttpStatus.OK);
+    }
+
+    private void makeBoatDTOList(Boat boat, List<BoatDTO> boatDTOS) {
+        AddressDTO addressDTO = new AddressDTO(boat.getAddress().getId(), boat.getAddress().getStreet(), boat.getAddress().getCity(), boat.getAddress().getState(),
+                boat.getAddress().getLongitude(), boat.getAddress().getLatitude(), boat.getAddress().getPostalCode());
+
+        BoatDTO dto = modelMapper.map(boat, BoatDTO.class);
+        dto.setAddress(addressDTO);
+        dto.setGrade(boat.getGrade());
+        Set<ImageDTO> dtoSet = new HashSet<>();
+        for(Image i: boat.getImages()){
+            ImageDTO imageDTO = modelMapper.map(i, ImageDTO.class);
+            dtoSet.add(imageDTO);
+        }
+        dto.setImages(dtoSet);
+        boatDTOS.add(dto);
+    }
+
+
 }

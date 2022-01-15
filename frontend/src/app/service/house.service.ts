@@ -5,6 +5,7 @@ import {House} from "../model/house";
 import {BoatHomeSlide} from "../model/boat-home-slide";
 import {HouseHomeSlide} from "../model/house-home-slide";
 import {HouseReservation} from "../model/house-reservation";
+import {ReservationCheck} from "../model/reservation-check";
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +43,10 @@ export class HouseService {
 
   public save(house: House): Observable<House> {
     return this._http.post<House>(`${this.userPath}/add`, house)
+  }
+
+  public getAvailableHouses(request :ReservationCheck):Observable < House[] > {
+    return this._http.post<House[]>(`${this.userPath}/findAllAvailableHouses`, request)
   }
 
 }
