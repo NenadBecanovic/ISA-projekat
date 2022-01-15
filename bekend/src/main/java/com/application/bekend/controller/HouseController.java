@@ -207,8 +207,15 @@ public class HouseController {
     @Transactional
     public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
         House house = this.houseService.getHouseById(id);
-        house.setAddress(null);
 
+        for (HouseReservation h: house.getCourses()) {
+            // ako postoji rezervacija u vikendici, ona se ne moze obrisati
+            if (h.isAvailable() == false && h.isAvailabilityPeriod() == false) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        }
+
+        house.setAddress(null);
         for (Room r: house.getRooms()) {
             Room room = this.roomService.getRoomById(r.getId());
             room.setHouse(null);

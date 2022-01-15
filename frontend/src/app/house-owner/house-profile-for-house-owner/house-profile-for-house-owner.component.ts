@@ -21,6 +21,7 @@ import {MyUser} from "../../model/my-user";
 import {AuthentificationService} from "../../auth/authentification/authentification.service";
 import {AddImageDialogComponent} from "../../adventure-profile/add-image-dialog/add-image-dialog.component";
 import {AddImageHouseComponent} from "../add-image-house/add-image-house.component";
+import {DeleteImageDialogComponent} from "../../adventure-profile/delete-image-dialog/delete-image-dialog.component";
 
 @Component({
   selector: 'app-house-profile-for-house-owner',
@@ -81,10 +82,10 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
     this._router.navigate(['/modify-house-profile', this.house.id])
   }
 
-  // TODO: obrisati
-  editActionDialog(id: number, houseId: number) {
-    this._router.navigate(['/edit-house-action', this.house.id, this.house.id])
-  }
+  // // TODO: obrisati
+  // editActionDialog(id: number, houseId: number) {
+  //   this._router.navigate(['/edit-house-action', this.house.id, this.house.id])
+  // }
 
   deleteActionDialog(id: number) {
     this._houseReservationService.delete(id).subscribe(   // OBAVEZNO SE MORA SUBSCRIBE-OVATI !!!
@@ -211,5 +212,16 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
 
   charts() {
     this._router.navigate(['/house-chart', this.house.id])
+  }
+
+  deleteImage(id :number){
+    const dialogRef = this.dialog.open(DeleteImageDialogComponent, {
+      width: '550px',
+      data: {},
+    });
+    dialogRef.componentInstance.id = id;
+    dialogRef.afterClosed().subscribe(result => {
+      window.location.reload();
+    });
   }
 }

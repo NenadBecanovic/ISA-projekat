@@ -18,7 +18,7 @@ export class HouseReservationHistoryComponent implements OnInit {
   address: Address = new Address(0,"Luka 11","Novi Sad","Srbija",0,0,21000)
   user: MyUser = new MyUser(0,"","","","","","",this.address, "", "");
   displayedColumns: string[] = ['Datum pocetka', 'Datum kraja', 'Naziv vikendice', 'Naziv vlasnika', 'Broj gostiju', 'Ukupna cena',
-  'Ocena entitet', 'Ocena vlasnik', 'Zalba entitet', 'Zalba vlasnik'];
+  'Ocena entitet', 'Ocena vlasnik', 'Zalba entitet', 'Zalba vlasnik', 'Otkazano'];
   dataSource: HouseReservation[] = new Array();
   owner: MyUser = new MyUser(0,"","","","","","",this.address, "", "");
   currentDate: Date = new Date();
@@ -38,8 +38,8 @@ export class HouseReservationHistoryComponent implements OnInit {
         this.user = user;
         this._houseReservation.getHouseReservationsByGuestId(this.user.id).subscribe(   // subscribe - da bismo dobili odgovor beka
           (reservations: HouseReservation[]) => {
-            console.log(reservations)
             this.dataSource = reservations
+            this.dataSource = this.dataSource.filter(s => s.milisEndDate < this.currentDate.getTime() || s.cancelled == true)
             for(let res of this.dataSource){
               this._myUserService.findUserByHouseid(res.houseId).subscribe(
                 (owner:MyUser) => {
@@ -51,9 +51,6 @@ export class HouseReservationHistoryComponent implements OnInit {
 
               )
             }
-
-            // this.dataSource = this.dataSource.filter(s => s.milisEndDate < this.currentDate.getTime()
-            // )
 
           },
           (error) => {

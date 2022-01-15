@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 import java.util.*;
 
@@ -168,7 +169,7 @@ public class HouseReservationController {
 
     @PostMapping("/add")
     @Transactional
-    public ResponseEntity<HouseReservation> save(@RequestBody HouseReservationDTO dto) {
+    public ResponseEntity<HouseReservation> save(@RequestBody HouseReservationDTO dto) throws MessagingException {
         House house = this.houseService.getHouseById(dto.getHouseId());
 
         // TODO: svu logiku prebaciti u servis
@@ -244,21 +245,24 @@ public class HouseReservationController {
         house.addHouseReservation(houseReservation);
         this.houseService.save(house);
 
-        if (dto.getGuestId() != null && dto.getGuestId() != 0) {
+        if (dto.getGuestId() != null && dto.getGuestId() != 0 && dto.isAvailable() == false) {
             MyUser guest = this.myUserService.findUserById(dto.getGuestId());
             houseReservation.setGuest(guest);
             this.houseService.save(house);
 
             Set<HouseReservation> houseReservations1 = guest.getHouseReservations();
-            //if (guest.)  // greska   // TODO : treba da bude transactional metoda ????
             houseReservations1.add(houseReservation);
             guest.setHouseReservations(houseReservations1);
             this.myUserService.save(guest);
+
+            // TODO: ako je vlasnik zakazao za klijenta, poslati mejl klijentu
+            this.myUserService.sendMailToClient(dto, null, house.getName(), "");
         }
 
-        // TODO: ako je vlasnik zakazao za klijenta, poslati mejl klijentu
-
         // TODO: ako je akcije, poslati mejl svim pretplacenim klijentima
+        if (dto.isAction() == true && dto.isAvailable() == true){
+            this.myUserService.sendSubscribedUsersEmail(dto, null, house.getName(), "");
+        }
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -276,10 +280,9 @@ public class HouseReservationController {
             this.additionalServicesService.save(a);
         }
 
-        houseReservation.setGuest(null);    // TODO: proveriti kad se dodaju gosti sa rezervacijama
+        houseReservation.setGuest(null);
         houseReservation.setHouse(null);  // raskinuta veza u tabeli house_reservation_table (sa strane vodece veze u ManyToMany vezi)
         houseReservation = this.houseReservationService.save(houseReservation);
-
         this.houseReservationService.delete(houseReservation.getId());  // brisanje rezervacije iz house_reservation tabele
 
         return new ResponseEntity<>(true, HttpStatus.OK);
@@ -331,6 +334,7 @@ public class HouseReservationController {
                     h.getPrice(), h.isAvailable());
             dto.setAvailabilityPeriod(h.isAvailabilityPeriod());
             dto.setAction(h.isAction());
+
             if (h.getGuest() != null) {
                 dto.setGuestId(h.getGuest().getId());
             }
@@ -343,7 +347,9 @@ public class HouseReservationController {
             dto.setHasFeedbackOwner(h.getHasFeedbackOwner());
 
             dto.setTotalPrice(this.houseReservationService.findTotalPriceForHouseReservation(h));
-            dto.setHouseName(h.getHouse().getName());
+            dto.setEntityName(h.getHouse().getName());
+            this.houseReservationService.canBeCancelled(dto,h);
+            dto.setCancelled(h.getCancelled());
 
             Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
             for(AdditionalServices add : this.additionalServicesService.getAllByHouseReservationId(h.getId())) {

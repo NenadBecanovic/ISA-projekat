@@ -1,24 +1,9 @@
 package com.application.bekend.controller;
 
-import com.application.bekend.DTO.AdditionalServicesDTO;
-import com.application.bekend.DTO.AddressDTO;
-import com.application.bekend.DTO.BoatDTO;
-import com.application.bekend.DTO.FishingAdventureDTO;
-import com.application.bekend.DTO.FishingAdventureInstructorInfoDTO;
-import com.application.bekend.DTO.HouseDTO;
-import com.application.bekend.DTO.MyUserDTO;
-import com.application.bekend.DTO.NewFishingAdventureDTO;
-import com.application.bekend.DTO.RoomDTO;
-import com.application.bekend.model.AdditionalServices;
-import com.application.bekend.model.Address;
-import com.application.bekend.model.Boat;
-import com.application.bekend.model.FishingAdventure;
-import com.application.bekend.model.House;
-import com.application.bekend.model.MyUser;
-import com.application.bekend.model.Room;
+import com.application.bekend.DTO.*;
+import com.application.bekend.model.*;
 import com.application.bekend.service.AdditionalServicesService;
 import com.application.bekend.service.AddresService;
-import com.application.bekend.service.BoatService;
 import com.application.bekend.service.FishingAdventureService;
 import com.application.bekend.service.ImageService;
 
@@ -28,6 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,13 +33,15 @@ public class FishingAdventureController {
     private final AddresService addressService;
     private final AdditionalServicesService additionalServicesService;
     private final ImageService imageService;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public FishingAdventureController(FishingAdventureService fishingAdventureService, AddresService addressService, AdditionalServicesService additionalServicesService, ImageService imageService) {
+    public FishingAdventureController(FishingAdventureService fishingAdventureService, AddresService addressService, AdditionalServicesService additionalServicesService, ImageService imageService, ModelMapper modelMapper) {
         this.fishingAdventureService = fishingAdventureService;
         this.addressService = addressService;
         this.additionalServicesService = additionalServicesService;
         this.imageService = imageService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/getFishingAdventureById/{id}")
@@ -77,9 +65,17 @@ public class FishingAdventureController {
         for(FishingAdventure f: fishingAdventures) {
 	        AddressDTO addressDTO = new AddressDTO(f.getAddress().getId(), f.getAddress().getStreet(), f.getAddress().getCity(),
 	        		f.getAddress().getState(), f.getAddress().getLongitude(), f.getAddress().getLatitude(), f.getAddress().getPostalCode());
-	        
-	        instructorFishingAdventures.add(new FishingAdventureDTO(f.getId(), f.getName(), addressDTO, f.getPromoDescription(), f.getCapacity(), f.getFishingEquipment(),
-	        		f.getBehaviourRules(), f.getPricePerHour(), f.isCancalletionFree(), f.getCancalletionFee()));
+            Set<ImageDTO> dtoSet = new HashSet<>();
+            for(Image i: f.getImages()){
+                ImageDTO imageDTO = modelMapper.map(i, ImageDTO.class);
+                dtoSet.add(imageDTO);
+            }
+            FishingAdventureDTO dto = new FishingAdventureDTO(f.getId(), f.getName(), addressDTO, f.getPromoDescription(), f.getCapacity(), f.getFishingEquipment(),
+                    f.getBehaviourRules(), f.getPricePerHour(), f.isCancalletionFree(), f.getCancalletionFee());
+            dto.setImages(dtoSet);
+	        instructorFishingAdventures.add(dto);
+
+
         }
         
         return new ResponseEntity<>(instructorFishingAdventures, HttpStatus.OK);

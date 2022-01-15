@@ -1,10 +1,6 @@
 package com.application.bekend.service;
 
-import com.application.bekend.DTO.EmailDTO;
-import com.application.bekend.DTO.FeedbackDTO;
-import com.application.bekend.DTO.MyUserDTO;
-import com.application.bekend.DTO.NewUserRequestDTO;
-import com.application.bekend.DTO.ReportAppealAnswerDTO;
+import com.application.bekend.DTO.*;
 import com.application.bekend.model.*;
 import com.application.bekend.repository.MyUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -193,9 +190,41 @@ public class MyUserService implements UserDetailsService {
     	return true;
     }
 
+    public void sendSubscribedUsersEmail(HouseReservationDTO dto, BoatReservationDTO boatDTO, String houseName, String boatName) throws MessagingException {
+        List<MyUser> myUsers = new ArrayList<>();
+
+        if (dto != null) {
+            MyUser owner = findUserByHouseId(dto.getHouseId());
+            myUsers = this.myUserRepository.findSubscribedUsersByOwnerId(owner.getId());
+            this.emailService.sendActionMail(myUsers, houseName, "");
+        } else if (boatDTO != null){
+            MyUser owner = findUserByHouseId(boatDTO.getBoatId());
+            myUsers = this.myUserRepository.findSubscribedUsersByOwnerId(owner.getId());
+            this.emailService.sendActionMail(myUsers, "", boatName);
+        }
+    }
+
+    public void sendMailToClient(HouseReservationDTO dto, BoatReservationDTO boatDTO, String houseName, String boatName) throws MessagingException {
+        if (dto != null) {
+            MyUser guest = findUserById(dto.getGuestId());
+            this.emailService.sendMailForClient(guest, houseName, "");
+        } else if(boatDTO != null){
+            MyUser guest = findUserById(boatDTO.getGuestId());
+            this.emailService.sendMailForClient(guest, "", boatName);
+        }
+    }
+  
 	public void editPersonalDescription(Long id, String personalDescription) {
 		MyUser instructor = this.findUserById(id);
 		instructor.setPersonalDescription(personalDescription);
 		this.save(instructor);
 	}
+
+    public List<MyUser> getAllInstructors() {
+        return this.myUserRepository.findAllInstructors();
+    }
+
+    public MyUser findUserByAdventureId(Long id) {
+        return myUserRepository.findMyUserByAdventureId(id);
+    }
 }

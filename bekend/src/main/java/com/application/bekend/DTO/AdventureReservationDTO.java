@@ -16,8 +16,17 @@ public class AdventureReservationDTO {
     private boolean isAction;
     private Long guestId;
     private boolean hasReport;
+	private boolean cancelled = false;
     private UserInfoDTO guest;
-    
+	private boolean canBeCancelled = false;
+	private boolean onGoing = false;
+	private Long milisStartDate;
+	private Long milisEndDate;
+	private boolean hasFeedbackOwner = false;
+	private boolean hasAppealOwner = false;
+	private Double totalPrice;
+	private String entityName;
+
 	public AdventureReservationDTO(Long id, String startDate, String endDate, int maxGuests, float price, boolean isAvailable) {
 		this.id = id;
 		this.startDate = startDate;
@@ -30,6 +39,17 @@ public class AdventureReservationDTO {
 	public AdventureReservationDTO() {
 		
 	}
+
+	public AdventureReservationDTO(Long adventureId, Long id, String startDate, String endDate, int maxGuests, float price, boolean isAvailable) {
+		this.adventureId = adventureId;
+		this.id = id;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.maxGuests = maxGuests;
+		this.price = price;
+		this.isAvailable = isAvailable;
+	}
+
 	public Long getAdventureId() {
 		return adventureId;
 	}
@@ -78,10 +98,10 @@ public class AdventureReservationDTO {
 	public void setAdditionalServices(Set<AdditionalServicesDTO> additionalServices) {
 		this.additionalServices = additionalServices;
 	}
-	public boolean getIsAvailabilityPeriod() {
+	public boolean getAvailabilityPeriod() {
 		return availabilityPeriod;
 	}
-	public void setIAvailabilityPeriod(boolean availabilityPeriod) {
+	public void setAvailabilityPeriod(boolean availabilityPeriod) {
 		this.availabilityPeriod = availabilityPeriod;
 	}
 	public boolean getIsAction() {
@@ -103,11 +123,82 @@ public class AdventureReservationDTO {
 		this.hasReport = hasReport;
 	}
 
+	public boolean getCancelled() {
+		return cancelled;
+	}
+
+	public void setCancelled(boolean cancelled) {
+		this.cancelled = cancelled;
+	}
 	public UserInfoDTO getGuest() {
 		return guest;
 	}
 
 	public void setGuest(UserInfoDTO guest) {
 		this.guest = guest;
+	}
+
+	public boolean getCanBeCancelled() {
+		return canBeCancelled;
+	}
+
+	public void setCanBeCancelled(boolean canBeCancelled) {
+		this.canBeCancelled = canBeCancelled;
+	}
+
+	public boolean getOnGoing() {
+		return onGoing;
+	}
+
+	public void setOnGoing(boolean onGoing) {
+		this.onGoing = onGoing;
+	}
+
+	public Long getMilisStartDate() {
+		return milisStartDate;
+	}
+
+	public void setMilisStartDate(Long milisStartDate) {
+		this.milisStartDate = milisStartDate;
+	}
+
+	public Long getMilisEndDate() {
+		return milisEndDate;
+	}
+
+	public void setMilisEndDate(Long milisEndDate) {
+		this.milisEndDate = milisEndDate;
+	}
+
+	public boolean isHasFeedbackOwner() {
+		return hasFeedbackOwner;
+	}
+
+	public void setHasFeedbackOwner(boolean hasFeedbackOwner) {
+		this.hasFeedbackOwner = hasFeedbackOwner;
+	}
+
+	public boolean isHasAppealOwner() {
+		return hasAppealOwner;
+	}
+
+	public void setHasAppealOwner(boolean hasAppealOwner) {
+		this.hasAppealOwner = hasAppealOwner;
+	}
+
+	public Double getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(Double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public String getEntityName() {
+		return entityName;
+	}
+
+	public void setEntityName(String entityName) {
+		this.entityName = entityName;
 	}
 }

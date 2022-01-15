@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 import java.util.*;
 
@@ -77,7 +78,7 @@ public class BoatReservationController {
 
     @PostMapping("/add")
     @Transactional
-    public ResponseEntity<BoatReservation> save(@RequestBody BoatReservationDTO dto) {
+    public ResponseEntity<BoatReservation> save(@RequestBody BoatReservationDTO dto) throws MessagingException {
         Boat boat = this.boatService.getBoatById(dto.getBoatId());
 
         List<BoatReservation> boatReservations = this.boatReservationService.getAllByBoat_Id(boat.getId());
@@ -151,21 +152,24 @@ public class BoatReservationController {
         boat.addBoatReservation(boatReservation);
         this.boatService.save(boat);
 
-        if (dto.getGuestId() != null && dto.getGuestId() != 0) {
+        if (dto.getGuestId() != null && dto.getGuestId() != 0 && dto.isAvailable() == false) {
             MyUser guest = this.myUserService.findUserById(dto.getGuestId());
             boatReservation.setGuest(guest);
             this.boatService.save(boat);
 
             Set<BoatReservation> boatReservations1 = guest.getBoatReservations();
-            //if (guest.)  // greska   // TODO : treba da bude transactional metoda ????
             boatReservations1.add(boatReservation);
             guest.setBoatReservations(boatReservations1);
             this.myUserService.save(guest);
+
+            // TODO: ako je vlasnik zakazao za klijenta, poslati mejl klijentu
+            this.myUserService.sendMailToClient(null, dto, "", boat.getName());
         }
 
-        // TODO: ako je vlasnik zakazao za klijenta, poslati mejl klijentu
-
         // TODO: ako je akcije, poslati mejl svim pretplacenim klijentima
+        if (dto.isAction() == true && dto.isAvailable() == true){
+            this.myUserService.sendSubscribedUsersEmail(null, dto, "", boat.getName());
+        }
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -281,6 +285,9 @@ public class BoatReservationController {
             String startDate = (String.valueOf(h.getStartDate().getTime()));
             String endDate = (String.valueOf(h.getEndDate().getTime()));
 
+            Long startDateMilis = h.getStartDate().getTime();
+            Long endDateMilis = h.getEndDate().getTime();
+
             BoatReservationDTO dto = new BoatReservationDTO(h.getBoat().getId(), h.getId(), startDate, endDate, h.getMaxGuests(),
                     h.getPrice(), h.isAvailable());
             dto.setAvailabilityPeriod(h.isAvailabilityPeriod());
@@ -288,6 +295,18 @@ public class BoatReservationController {
             if (h.getGuest() != null) {
                 dto.setGuestId(h.getGuest().getId());
             }
+
+            dto.setMilisStartDate(startDateMilis);
+            dto.setMilisEndDate(endDateMilis);
+            dto.setHasAppealEntity(h.getHasAppealEntity());
+            dto.setHasAppealOwner(h.getHasAppealOwner());
+            dto.setHasFeedbackEntity(h.getHasFeedbackEntity());
+            dto.setHasFeedbackOwner(h.getHasFeedbackOwner());
+
+            dto.setTotalPrice(this.boatReservationService.findTotalPriceForBoatReservation(h));
+            dto.setEntityName(h.getBoat().getName());
+            this.boatReservationService.canBeCancelled(dto,h);
+            dto.setCancelled(h.getCancelled());
 
             Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
             for(AdditionalServices add : this.additionalServicesService.getAllByBoatReservationId(h.getId())) {
@@ -329,5 +348,7 @@ public class BoatReservationController {
         }
         return new ResponseEntity<>(boatReservationDTOS, HttpStatus.OK);
     }
+
+
 
 }

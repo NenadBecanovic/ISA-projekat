@@ -94,6 +94,8 @@ import { DeclineNewUserDialogComponent } from './admin-page/decline-new-user-dia
 import { AdminRegistrationDialogComponent } from './admin-page/admin-registration-dialog/admin-registration-dialog.component';
 import { EditPersonalDescriptionDialogComponent } from './fishing-instructor-profile/edit-personal-description-dialog/edit-personal-description-dialog.component';
 import { EditCompanyRulesDialogComponent } from './admin-page/edit-company-rules-dialog/edit-company-rules-dialog.component';
+import { InstructorReservationHistoryComponent } from './clientHome/reservation/instructor-reservation-history/instructor-reservation-history.component';
+import { MatTableModule } from '@angular/material/table';
 
 const MaterialComponents = [
   MatSliderModule,
@@ -121,7 +123,7 @@ const MaterialComponents = [
 ];
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
     LoginComponent,
     RegistrationComponent,
@@ -172,38 +174,40 @@ const MaterialComponents = [
     AddImageHouseComponent,
     AddImageBoatComponent,
     AdminRegistrationDialogComponent,
+    InstructorReservationHistoryComponent,
     EditCompanyRulesDialogComponent
   ],
-  imports: [
-    RouterModule,
-    ClientModule,
-    HomePageModule,
-    BrowserModule,
-    AppRoutingModule,
-    SharedModule,
-    ReactiveFormsModule,
-    FormsModule,
-    HttpClientModule,
-    NgProgressModule,
-    MaterialComponents,
-    BrowserAnimationsModule,
-    CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory,
-    }),
-    Ng2SearchPipeModule,
-    DemoUtilsModule,
-    MatCarouselModule,
-    BsDropdownModule.forRoot(),
-    TooltipModule.forRoot(),
-    ModalModule.forRoot(),
-    AlertModule.forRoot({maxMessages: 5, timeout: 5000, positionX: "right", positionY: "top"}),
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDhUaf84F4NwNDUjw-feRmJusep1T1EB6s'   // za google maps
-    }),
-    ChartModule,
-    NgbCollapseModule,
-  ],
+    imports: [
+        RouterModule,
+        ClientModule,
+        HomePageModule,
+        BrowserModule,
+        AppRoutingModule,
+        SharedModule,
+        ReactiveFormsModule,
+        FormsModule,
+        HttpClientModule,
+        NgProgressModule,
+        MaterialComponents,
+        BrowserAnimationsModule,
+        CalendarModule.forRoot({
+            provide: DateAdapter,
+            useFactory: adapterFactory,
+        }),
+        Ng2SearchPipeModule,
+        DemoUtilsModule,
+        MatCarouselModule,
+        BsDropdownModule.forRoot(),
+        TooltipModule.forRoot(),
+        ModalModule.forRoot(),
+        AlertModule.forRoot({maxMessages: 5, timeout: 5000, positionX: "right", positionY: "top"}),
+        AgmCoreModule.forRoot({
+            apiKey: 'AIzaSyDhUaf84F4NwNDUjw-feRmJusep1T1EB6s'   // za google maps
+        }),
+        ChartModule,
+        NgbCollapseModule,
+        MatTableModule,
+    ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

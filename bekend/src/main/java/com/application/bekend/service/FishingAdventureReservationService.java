@@ -5,21 +5,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.application.bekend.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.application.bekend.DTO.AdditionalServicesDTO;
 import com.application.bekend.DTO.AdventureReservationDTO;
 import com.application.bekend.DTO.EmailDTO;
 import com.application.bekend.DTO.UserInfoDTO;
-import com.application.bekend.model.AdditionalServices;
-import com.application.bekend.model.AdventureReservation;
-import com.application.bekend.model.FishingAdventure;
-import com.application.bekend.model.House;
-import com.application.bekend.model.HouseReservation;
-import com.application.bekend.model.MyUser;
 import com.application.bekend.repository.FishingAdventureReservationRepository;
 
 @Service
@@ -69,7 +62,7 @@ public class FishingAdventureReservationService {
         Date startDate = new Date(Long.parseLong(adventureReservationDTO.getStartDate()));
         Date endDate = new Date(Long.parseLong(adventureReservationDTO.getEndDate()));
         AdventureReservation adventureReservation = new AdventureReservation(adventureReservationDTO.getId(), startDate, endDate, adventureReservationDTO.getMaxGuests(), adventureReservationDTO.getPrice(), adventureReservationDTO.getIsAvailable(), fishingAdventure);
-        adventureReservation.setAvailabilityPeriod(adventureReservationDTO.getIsAvailabilityPeriod());
+        adventureReservation.setAvailabilityPeriod(adventureReservationDTO.getAvailabilityPeriod());
         adventureReservation.setAction(adventureReservationDTO.getIsAction());
         if(adventureReservation.isAction()) {
         //	this.emailService.sendAnswerEmail(new EmailDTO("Odgovor na žalbu", answerDTO.getGuestResponse(), appeal.getSenderId().getEmail()));
@@ -121,7 +114,7 @@ public class FishingAdventureReservationService {
 	            String endDate = (String.valueOf(a.getEndDate().getTime()));
 	
 	            AdventureReservationDTO adventureReservationDTO = new AdventureReservationDTO(a.getId(), startDate, endDate, a.getMaxGuests(), a.getPrice(), a.isAvailable());
-	            adventureReservationDTO.setIAvailabilityPeriod(a.isAvailabilityPeriod());
+	            adventureReservationDTO.setAvailabilityPeriod(a.isAvailabilityPeriod());
 	            adventureReservationDTO.setIsAction(a.isAction());
 	            if (a.getGuest() != null) {
 	            	adventureReservationDTO.setGuestId(a.getGuest().getId());
@@ -175,7 +168,7 @@ public class FishingAdventureReservationService {
                     continue;
                 }
                 AdventureReservationDTO aventureReservationDTO = new AdventureReservationDTO(a.getId(), startDate.toString(), endDate.toString(), a.getMaxGuests(), a.getPrice(), a.isAvailable());
-                aventureReservationDTO.setIAvailabilityPeriod(a.isAvailabilityPeriod());
+                aventureReservationDTO.setAvailabilityPeriod(a.isAvailabilityPeriod());
                 aventureReservationDTO.setIsAction(a.isAction());
                 if (a.getGuest() != null) {
                 	aventureReservationDTO.setGuestId(a.getGuest().getId());
@@ -216,10 +209,58 @@ public class FishingAdventureReservationService {
 	            String endDate = (String.valueOf(a.getEndDate().getTime()));
 	
 	            AdventureReservationDTO adventureReservationDTO = new AdventureReservationDTO(a.getId(), startDate, endDate, a.getMaxGuests(), a.getPrice(), a.isAvailable());
-	            adventureReservationDTO.setIAvailabilityPeriod(a.isAvailabilityPeriod());
+	            adventureReservationDTO.setAvailabilityPeriod(a.isAvailabilityPeriod());
 	            adventureReservationDTOS.add(adventureReservationDTO);
         	
         }
         return adventureReservationDTOS;
 	}
+
+
+    public List<AdventureReservation> getAdventureReservationsByGuestId(Long id) {
+        return this.fishingAdventureReservationsRepository.getAdventureReservationByGuestId(id);
+    }
+
+    public double findTotalPriceForAdventureReservation(AdventureReservation adventureReservation){
+        int hoursDifference = this.getHoursDifference(adventureReservation.getStartDate(), adventureReservation.getEndDate());
+        double totalPrice = hoursDifference*adventureReservation.getPrice();
+        return totalPrice;
+    }
+
+    private int getHoursDifference(Date startData, Date endDate){
+        long date1InMs = startData.getTime();
+        long date2InMs = endDate.getTime();
+
+        long timeDiff = 0;
+        if(date1InMs > date2InMs) {
+            timeDiff = date1InMs - date2InMs;
+        } else {
+            timeDiff = date2InMs - date1InMs;
+        }
+
+        // converting diff into days
+        int hoursDiff = (int) (timeDiff / (1000 * 60 * 60));
+
+        return hoursDiff;
+    }
+
+    public void canBeCancelled(AdventureReservationDTO dto, AdventureReservation b){
+
+        Date currentDate = new Date();
+        long startDateTime = b.getStartDate().getTime();
+        long currentMilis = currentDate.getTime();
+        long endDateTime = b.getEndDate().getTime();
+        if(currentMilis < endDateTime) {
+            if(currentMilis >= startDateTime && currentMilis <=endDateTime){
+                dto.setOnGoing(true);
+            }else{
+                long timeDiff = startDateTime -  currentMilis;
+                float daysDiff = timeDiff / (1000 * 60 * 60* 24);
+                if (daysDiff >= 3 && b.getCancelled() ==  false){
+                    dto.setCanBeCancelled(true);
+                }
+            }
+        }
+    }
+
 }

@@ -7,6 +7,7 @@ import {DeleteRequest} from "../model/delete-request"
 import {Image} from "../model/image";
 import {Subscription} from "../model/subscription";
 import {Feedback} from "../model/feedback";
+import {CancelReservation} from "../model/cancel-reservation";
 import {Appeal} from "../model/appeal";
 import { UserInfo } from '../model/user-info';
 import { AdminAnswer } from '../model/admin-answer';
@@ -51,8 +52,8 @@ export class MyUserService {
     return this._http.get<MyUser>(`${this.userPath}/findUserByHouseId/`+id)
   }
 
-  public findUserByBoatid(id: number): Observable<MyUser>{
-    return this._http.get<MyUser>(`${this.userPath}/findUserByBoatid/`+id)
+  public findUserByBoatId(id: number): Observable<MyUser>{
+    return this._http.get<MyUser>(`${this.userPath}/findUserByBoatId/`+id)
   }
 
   public saveSubscription(subscription: Subscription): Observable<Subscription>{
@@ -60,7 +61,7 @@ export class MyUserService {
   }
 
   public checkIfUserIsSubscribes(userId: number, ownerId: number): Observable<Boolean>{
-    return this._http.get<Boolean>(`${this.userPath}/saveSubscription/`+ userId + '/' + ownerId)
+    return this._http.get<Boolean>(`${this.userPath}/checkIfUserIsSubscribed/`+ userId + '/' + ownerId)
   }
 
   public findAllSubscriptionsByUserId(userId: number): Observable<Subscription[]>{
@@ -74,9 +75,13 @@ export class MyUserService {
   public saveApeal(appeal: Appeal): Observable<Appeal>{
     return this._http.post<Appeal>(`${this.userPath}/saveAppeal`,appeal)
   }
-  
+
   public findUserByFishingAdventureReservationId(id: number): Observable<MyUser>{
     return this._http.get<MyUser>(`${this.userPath}/findUserByFishingAdventureReservationId/`+id)
+  }
+
+  public cancelReservation(cancelReservation: CancelReservation): Observable<CancelReservation>{
+    return this._http.post<CancelReservation>(`${this.userPath}/cancelReservation`, cancelReservation)
   }
 
   public getAllUsers(): Observable<UserInfo[]>{
@@ -126,4 +131,17 @@ export class MyUserService {
   public getFishingAdventureInstructor(id: number): Observable<FishingAdventureInstructorDTO>{
     return this._http.get<FishingAdventureInstructorDTO>(`${this.userPath}/getFishingAdventureInstructor/`+id)
   }
+
+  public getAllInstructors(): Observable<MyUser[]>{
+    return this._http.get<MyUser[]>(`${this.userPath}/getAllInstructors`)
+  }
+
+  public getUserById(id: number): Observable<MyUser>{
+    return this._http.get<MyUser>(`${this.userPath}/findUserById/` + id)
+  }
+
+  public findUserByAdventureId(id: number): Observable<MyUser>{
+    return this._http.get<MyUser>(`${this.userPath}/findUserByAdventureId/`+id)
+  }
 }
+

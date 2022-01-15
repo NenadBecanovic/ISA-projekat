@@ -1,10 +1,6 @@
 package com.application.bekend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.*;
@@ -41,22 +37,22 @@ public class MyUser implements UserDetails {
     private String personalDescription;
     
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Boat> boats = new HashSet<Boat>();
+    private Set<Boat> boats = new HashSet<>();
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<House> houses = new HashSet<House>();
+    private Set<House> houses = new HashSet<>();
 
     @OneToMany(mappedBy = "instructor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<FishingAdventure> fishingAdventures = new HashSet<FishingAdventure>();
+    private Set<FishingAdventure> fishingAdventures = new HashSet<>();
 
     @OneToMany(mappedBy = "guest", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<HouseReservation> houseReservations = new HashSet<HouseReservation>();
+    private Set<HouseReservation> houseReservations = new HashSet<>();
 
     @OneToMany(mappedBy = "guest", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<BoatReservation> boatReservations = new HashSet<BoatReservation>();
+    private Set<BoatReservation> boatReservations = new HashSet<>();
     
     @OneToMany(mappedBy = "guest", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<AdventureReservation> adventureReservations = new HashSet<AdventureReservation>();
+    private Set<AdventureReservation> adventureReservations = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id")

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ClientProfileComponent } from '../clientHome/client-profile/client-profile.component';
+import { ClientProfileComponent } from '../clientHome/dialog/client-profile/client-profile.component';
 import { AdminAnswer } from '../model/admin-answer';
 import { Appeal } from '../model/appeal';
 import { DeleteRequest } from '../model/delete-request';

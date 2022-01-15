@@ -1,7 +1,6 @@
 package com.application.bekend.controller;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.mail.MessagingException;
 import javax.transaction.Transactional;
@@ -20,11 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.application.bekend.DTO.FeedbackDTO;
 import com.application.bekend.DTO.FeedbackInfoDTO;
-import com.application.bekend.model.AdditionalServices;
-import com.application.bekend.model.Boat;
-import com.application.bekend.model.BoatReservation;
-import com.application.bekend.model.Image;
-import com.application.bekend.model.NavigationEquipment;
 import com.application.bekend.service.FeedbackService;
 
 @RestController
@@ -40,15 +34,15 @@ public class FeedbackController {
 	
 	 @PostMapping("/saveFeedback")
 	 public ResponseEntity<FeedbackDTO> saveFeedbackEntity(@RequestBody FeedbackDTO dto){
-		 if(dto.isHasHouse()){
+		 if(dto.getHasHouse()){
 			 this.feedbackService.saveFeedbackHouse(dto);
-	     }else if(dto.isHasHouseOwner()){
+	     }else if(dto.getHasHouseOwner()){
 	         this.feedbackService.saveFeedbackHouseOwner(dto);
-	     }else if(dto.isHasBoat()){
+	     }else if(dto.getHasBoat()){
 	         this.feedbackService.saveFeedbackBoat(dto);
-	     }else if(dto.isHasBoatOwner()){
+	     }else if(dto.getHasBoatOwner()){
 	         this.feedbackService.saveFeedbackBoatOwner(dto);
-	     }else{
+	     }else if(dto.getHasInstructor()){
 	         this.feedbackService.saveFeedbackInstructor(dto);
 	     }
 		 

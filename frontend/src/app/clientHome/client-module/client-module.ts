@@ -1,7 +1,6 @@
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ClientHomePageComponent} from "../client-home-page/client-home-page.component";
-import {DashboardComponent} from "../dashboard/dashboard.component";
 import {RouterModule} from "@angular/router";
 import {SharedModule} from "../shared/shared.module";
 import {MatSidenavModule} from "@angular/material/sidenav";
@@ -18,20 +17,17 @@ import {TokenInterceptor} from "../../auth/interceptor/token-interceptor";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatIconModule} from "@angular/material/icon";
 import {MatRadioModule} from "@angular/material/radio";
-import {ClientProfileComponent} from "../client-profile/client-profile.component";
-import {ClientHousesComponent} from "../client-houses/client-houses.component";
-import {ClientBoatsComponent} from "../client-boats/client-boats.component";
-import {ClientAdventuresComponent} from "../client-adventures/client-adventures.component";
-import {ClientHouseReservationsComponent} from "../client-house-reservations/client-house-reservations.component";
+import {ClientProfileComponent} from "../dialog/client-profile/client-profile.component";
+import {ClientHousesComponent} from "../client-house-page/client-houses/client-houses.component";
+import {ClientBoatsComponent} from "../client-boat-page/client-boats/client-boats.component";
 import {FormsModule} from "@angular/forms";
 import {AlertModule} from "ngx-alerts";
-import {DeleteAccountComponent} from "../delete-account/delete-account.component";
+import {DeleteAccountComponent} from "../dialog/delete-account/delete-account.component";
 import {MatButtonModule} from "@angular/material/button";
-import {ClientHouseComponent} from "../client-house/client-house.component";
+import {ClientHouseComponent} from "../client-house-page/client-house/client-house.component";
 import {AgmCoreModule} from "@agm/core";
 import {MatCarouselModule} from "ng-mat-carousel";
-import {YesNoDialogComponent} from "../yes-no-dialog/yes-no-dialog.component";
-import {ClientBoatComponent} from "../client-boat/client-boat.component";
+import {ClientBoatComponent} from "../client-boat-page/client-boat/client-boat.component";
 import {ClientSubscriptionsComponent} from "../client-subscriptions/client-subscriptions.component";
 import {
   HouseReservationHistoryComponent
@@ -39,25 +35,29 @@ import {
 import {CreateFeedbackComponent} from "../dialog/create-feedback/create-feedback.component";
 import {CreateAppealEntityComponent} from "../dialog/create-appeal-entity/create-appeal-entity.component";
 import {MatSelectModule} from "@angular/material/select";
+import {
+  BoatReservationHistoryComponent
+} from "../reservation/boat-reservation-history/boat-reservation-history.component";
+import {FutureReservationComponent} from "../reservation/future-reservation/future-reservation.component";
+import {ClientInstructorsComponent} from "../client-instructors/client-instructors.component";
 
 
 @NgModule({
   declarations: [
     ClientHomePageComponent,
-    DashboardComponent,
     ClientProfileComponent,
     ClientHousesComponent,
     ClientBoatsComponent,
-    ClientAdventuresComponent,
-    ClientHouseReservationsComponent,
     DeleteAccountComponent,
     ClientHouseComponent,
-    YesNoDialogComponent,
     ClientBoatComponent,
     ClientSubscriptionsComponent,
     HouseReservationHistoryComponent,
     CreateFeedbackComponent,
     CreateAppealEntityComponent,
+    BoatReservationHistoryComponent,
+    FutureReservationComponent,
+    ClientInstructorsComponent,
   ],
   imports: [
     CommonModule,

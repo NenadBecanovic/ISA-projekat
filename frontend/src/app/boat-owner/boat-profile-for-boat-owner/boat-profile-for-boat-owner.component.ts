@@ -21,6 +21,7 @@ import {CalendarDialogBoatComponent} from "./calendar-dialog-boat/calendar-dialo
 import {MatDialog} from "@angular/material/dialog";
 import {AddImageHouseComponent} from "../../house-owner/add-image-house/add-image-house.component";
 import {AddImageBoatComponent} from "../add-image-boat/add-image-boat.component";
+import {DeleteImageDialogComponent} from "../../adventure-profile/delete-image-dialog/delete-image-dialog.component";
 
 
 @Component({
@@ -201,5 +202,16 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
 
   charts() {
     this._router.navigate(['/boat-chart', this.boat.id])
+  }
+
+  deleteImage(id :number){
+    const dialogRef = this.dialog.open(DeleteImageDialogComponent, {
+      width: '550px',
+      data: {},
+    });
+    dialogRef.componentInstance.id = id;
+    dialogRef.afterClosed().subscribe(result => {
+      window.location.reload();
+    });
   }
 }

@@ -23,6 +23,7 @@ export class CreateAppealEntityComponent implements OnInit {
     this.appeal.hasBoat = this.data.isBoat;
     this.appeal.hasHouseOwner = this.data.isHouseOwner;
     this.appeal.hasBoatOwner = this.data.isHouseOwner;
+    this.appeal.hasInstructor = this.data.isInstructor
     this.appeal.ownerId = this.data.ownerId;
     this.appeal.senderId = this.data.senderId;
     console.log(this.data)

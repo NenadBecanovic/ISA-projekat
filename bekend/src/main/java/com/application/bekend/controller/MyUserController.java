@@ -5,6 +5,7 @@ import com.application.bekend.DTO.*;
 import com.application.bekend.model.RequestForAccountDeleting;
 import com.application.bekend.model.Subscription;
 import com.application.bekend.service.AppealService;
+import com.application.bekend.service.CancelReservationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,13 +33,15 @@ public class MyUserController {
     private final ModelMapper modelMapper;
     private final HouseService houseService;
     private final AppealService appealService;
+    private final CancelReservationService cancelReservationService;
 
     @Autowired
-    public MyUserController(MyUserService myUserService, ModelMapper modelMapper, HouseService houseService, AppealService appealService) {
+    public MyUserController(MyUserService myUserService, ModelMapper modelMapper, HouseService houseService, AppealService appealService, CancelReservationService cancelReservationService) {
         this.myUserService = myUserService;
         this.modelMapper = modelMapper;
         this.houseService = houseService;
         this.appealService = appealService;
+        this.cancelReservationService = cancelReservationService;
     }
 
     @GetMapping("/findUserByEmail/{email}")
@@ -165,7 +168,14 @@ public class MyUserController {
         List<Subscription> subscriptions = this.myUserService.findAllBySubscribedUserId(id);
         List<SubscriptionDTO> subscriptionDTOS = new ArrayList<>();
         for(Subscription subscription: subscriptions){
-            SubscriptionDTO dto = modelMapper.map(subscription, SubscriptionDTO.class);
+            MyUser owner = this.myUserService.findUserById(subscription.getOwner().getId());
+            UserInfoDTO ownerInfo = modelMapper.map(owner, UserInfoDTO.class);
+            MyUser subcriber = this.myUserService.findUserById(subscription.getSubscribedUser().getId());
+            UserInfoDTO subcriberInfo = modelMapper.map(owner, UserInfoDTO.class);
+            SubscriptionDTO dto = new SubscriptionDTO();
+            dto.setId(subscription.getId());
+            dto.setSubscribedUser(subcriberInfo);
+            dto.setOwner(ownerInfo);
             subscriptionDTOS.add(dto);
         }
 
@@ -189,7 +199,7 @@ public class MyUserController {
             this.appealService.saveAppealBoat(dto);
         }else if(dto.isHasBoatOwner()){
             this.appealService.saveAppealBoatOwner(dto);
-        }else{
+        }else if(dto.isHasInstructor()){
             this.appealService.saveAppealInstructor(dto);
         }
 
@@ -204,6 +214,14 @@ public class MyUserController {
 
         return new ResponseEntity<>(adventureUserDTO, HttpStatus.OK);
     }
+
+
+    @PostMapping("/cancelReservation")
+    public ResponseEntity<ReservationCancelDTO> cancelReservation(@RequestBody ReservationCancelDTO dto){
+        this.cancelReservationService.cancelReservation(dto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     
     @GetMapping("/getAllUsers")
     public ResponseEntity<List<UserInfoDTO>> getAllUsers() {
@@ -299,4 +317,36 @@ public class MyUserController {
         this.myUserService.editPersonalDescription(id, personalDescription);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/getAllInstructors")
+    public ResponseEntity<List<UserDTO>> getAllInstructors(){
+        List<MyUser> myUsers = this.myUserService.getAllInstructors();
+        List<UserDTO> userInfoDTOS = new ArrayList<>();
+        for(MyUser m: myUsers){
+            UserDTO userInfoDTO = modelMapper.map(m, UserDTO.class);
+            AddressDTO addressDTO = modelMapper.map(m.getAddress(), AddressDTO.class);
+            userInfoDTO.setAddressDTO(addressDTO);
+            userInfoDTOS.add(userInfoDTO);
+        }
+
+        return new ResponseEntity<>(userInfoDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping("/findUserById/{id}")
+    public ResponseEntity<UserDTO> findUserById(@PathVariable("id") Long id){
+        MyUser myUser = this.myUserService.findUserById(id);
+        UserDTO userDTO = modelMapper.map(myUser, UserDTO.class);
+        AddressDTO addressDTO = modelMapper.map(myUser.getAddress(), AddressDTO.class);
+        userDTO.setAddressDTO(addressDTO);
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/findUserByAdventureId/{id}")
+    public ResponseEntity<MyUserDTO> findUserByAdventureId(@PathVariable("id") Long id){
+        MyUser myUser = this.myUserService.findUserByAdventureId(id);
+        MyUserDTO dto =  modelMapper.map(myUser, MyUserDTO.class);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+
 }

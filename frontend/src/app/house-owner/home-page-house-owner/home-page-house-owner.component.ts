@@ -5,11 +5,12 @@ import {Router} from "@angular/router";
 import {Address} from "../../model/address";
 import {MyUser} from "../../model/my-user";
 import {AuthentificationService} from "../../auth/authentification/authentification.service";
-import {ClientProfileComponent} from "../../clientHome/client-profile/client-profile.component";
+import {ClientProfileComponent} from "../../clientHome/dialog/client-profile/client-profile.component";
 import {MatDialog} from "@angular/material/dialog";
-import {DeleteAccountComponent} from "../../clientHome/delete-account/delete-account.component";
+import {DeleteAccountComponent} from "../../clientHome/dialog/delete-account/delete-account.component";
 import {HouseReservationService} from "../../service/house-reservation.service";
 import {HouseReservation} from "../../model/house-reservation";
+import {AlertService} from "ngx-alerts";
 
 @Component({
   selector: 'app-home-page-house-owner',
@@ -26,7 +27,7 @@ export class HomePageHouseOwnerComponent implements OnInit {
   houseAddressSearch: string = "";
 
   constructor(private _houseService: HouseService, private _router: Router, private _authentification: AuthentificationService, public dialog: MatDialog,
-              private _houseReservationService: HouseReservationService) { }
+              private _houseReservationService: HouseReservationService, private _alertService: AlertService) { }
 
   ngOnInit(): void {
     this.loadData();
@@ -78,6 +79,9 @@ export class HomePageHouseOwnerComponent implements OnInit {
     this._houseService.delete(id).subscribe(
       (boolean:boolean) =>{
         this.loadData()
+      },
+      (error) => {
+        this._alertService.danger('Rezervisana vikendica se ne može obrisati');
       }
     )
   }
@@ -119,22 +123,4 @@ export class HomePageHouseOwnerComponent implements OnInit {
     this.houseAddressSearch = "";
   }
 
-  houseCanBeDeleted(id: number) {
-    // this._houseReservationService.getAllByHouseIdPlane(id).subscribe(
-    //   (reservations: HouseReservation[]) => {
-    //     if (reservations != null) {
-    //       // console.log(reservations)
-    //       if (reservations.length == 0) {
-    //         return true;
-    //       }
-    //       for (let r of reservations) {
-    //         if (r.availabilityPeriod = false && r.available == false) {
-    //           return false;
-    //         }
-    //       }
-    //     }
-    //     return true;
-    //   }
-    // )
-  }
 }
