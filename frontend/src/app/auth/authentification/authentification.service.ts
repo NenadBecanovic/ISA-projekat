@@ -46,6 +46,10 @@ export class AuthentificationService {
     return this.getToken() !== '' && this.getCurrentUser().roles.indexOf('ROLE_BOAT_OWNER') !== -1;
   }
 
+  getUserEmail(): string{
+    return this.getCurrentUser().email;
+  }
+
   getCurrentUser(): any {
     if (localStorage['currentUser']) {
       return JSON.parse(localStorage['currentUser']);

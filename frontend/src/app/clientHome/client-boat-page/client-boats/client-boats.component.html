@@ -10,12 +10,13 @@
     </mat-grid-tile>
     <mat-grid-tile [colspan]="4" style="margin-top: 10px" >
       <div style="width: 100%; display: flex">
-        <input type="datetime-local" name="startDate" style="width: 30%" placeholder="Unesite datum i vreme pocetka" required>
-        <input type="number" name="duration"  [min]="1" [step] =1 style="width: 30%" placeholder="Unesite broj dana">
-        <input type="number" name="duration"  [min]="1" [step] =1 style="width: 30%" placeholder="Unesite broj gostiju">
+        <input type="datetime-local" name="startDate" [(ngModel)]="dateStartString" style="width: 27%" placeholder="Unesite datum i vreme pocetka" required>
+        <input type="number" name="duration" [(ngModel)]= "dayNumber"  [min]="1" [step] =1 style="width: 27%" placeholder="Unesite broj dana">
+        <input type="number" name="duration" [(ngModel)]= "maxGuest"  [min]="1" [step] =1 style="width: 27%" placeholder="Unesite broj gostiju">
         <button (click)="searchBoats()">
           <mat-icon >search</mat-icon>
         </button>
+        <button (click)="restartAll()"> <mat-icon >restart_alt</mat-icon></button>
       </div>
     </mat-grid-tile>
 
@@ -97,7 +98,7 @@
                   <button mat-raised-button color="primary" (click)="goToBoat(boat.id)">Pogledaj brod</button>
                 </div>
                 <div style="float: left; width: 30%;">
-                  <button mat-raised-button color="primary" [disabled]="onGoingSearch" >Zakazi rezervaciju</button>
+                  <button mat-raised-button color="primary" (click)="reservate(boat.id)" >Zakazi rezervaciju</button>
                 </div>
               </div>
             </mat-grid-tile>
@@ -177,7 +178,7 @@
   </mat-grid-list>
 
 
-
+<ngx-alerts></ngx-alerts>
 </div>
 
 
