@@ -21,6 +21,8 @@ public class FishingAdventure {
     private String fishingEquipment;
     @Column(name = "grade", nullable = true)
     private double grade;
+    @Column(name = "is_deleted", nullable = true)
+    private boolean isDeleted = false;
     
     @OneToMany(mappedBy = "fishingAdventure", fetch = FetchType.EAGER)
     private Set<Feedback> feedbacks= new HashSet<>();
@@ -206,4 +208,12 @@ public class FishingAdventure {
     {
         this.adventureReservations.add(adventureReservation);
     }
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 }

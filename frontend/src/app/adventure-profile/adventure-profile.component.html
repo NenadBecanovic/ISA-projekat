@@ -26,6 +26,7 @@
             <span class="adventure-view-adventure-name ms-3 display-6">
               {{fishingAdventure.name}}
             </span>
+            <button mat-icon-button (click)="deleteAdventure()"> <mat-icon>delete</mat-icon> </button>
           </div>
           <div class="d-flex right align-items-center justify-content-end">
             <button mat-raised-button (click)="editAdventureDialog()" class="btn add-action-button">Izmeni avanturu</button>

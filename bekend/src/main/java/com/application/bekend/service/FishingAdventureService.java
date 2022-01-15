@@ -70,4 +70,11 @@ public class FishingAdventureService {
     	MyUser instructor = adventure.getInstructor();
     	return new FishingAdventureInstructorInfoDTO(instructor.getId(), instructor.getFirstName(), instructor.getLastName(),instructor.getPhoneNumber(),instructor.getEmail(),instructor.getPersonalDescription());
     }
+
+	public void delete(Long id) {
+		// TODO Auto-generated method stub
+		FishingAdventure fishingAdventure = this.getFishingAdventureById(id);
+		fishingAdventure.setDeleted(true);
+		this.save(fishingAdventure);
+	}
 }

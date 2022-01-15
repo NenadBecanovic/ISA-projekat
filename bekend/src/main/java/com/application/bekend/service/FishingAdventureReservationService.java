@@ -298,4 +298,16 @@ public class FishingAdventureReservationService {
     	user.setCategory(cat);
     }
 
+	public boolean canAdventureBeChanged(Long id) {
+		List<AdventureReservation> allReservations = this.getAllByFishingAdventure_Id(id);
+		Long currentTime = new Date().getTime();
+		
+		for(AdventureReservation a: allReservations) {
+			if(a.getStartDate().getTime() > currentTime || a.getEndDate().getTime() > currentTime) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 }
