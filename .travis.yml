@@ -10,7 +10,7 @@ before_install:
 
 addons:
   sonarcloud:
-  organization: isa-tim17
+  organization: "isa-tim17"
   token: $SONAR_TOKEN
 
 script:
