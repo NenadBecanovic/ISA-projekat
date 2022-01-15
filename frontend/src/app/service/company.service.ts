@@ -13,8 +13,12 @@ export class CompanyService {
 
   private readonly userPath = 'http://localhost:8080/api/company';
 
-  public save(userCategory: UserCategory): Observable<UserCategory> {
-    return this._http.post<UserCategory>(`${this.userPath}/addCategory`, userCategory)
+  public saveCategory(userCategory: UserCategory): Observable<Boolean> {
+    return this._http.post<Boolean>(`${this.userPath}/addCategory`, userCategory)
+  }
+
+  public save(company: Company): Observable<Boolean> {
+    return this._http.put<Boolean>(`${this.userPath}/saveChanges/1`, company)
   }
 
   public getAllUserCategories(): Observable<UserCategory[]>{
@@ -22,11 +26,15 @@ export class CompanyService {
   }
 
   public getCompanyInfo(): Observable<Company>{
-    return this._http.get<Company>(`${this.userPath}/getCompanyInfo`)
+    return this._http.get<Company>(`${this.userPath}/getCompanyInfo/1`)
   }
 
   public delete(id: number): Observable<boolean> {
     return this._http.delete<boolean>(`${this.userPath}/delete/`+id)
+  }
+
+  public edit(category: UserCategory): Observable<boolean> {
+    return this._http.put<boolean>(`${this.userPath}/edit/`+category.id, category)
   }
 
 }

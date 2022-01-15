@@ -27,6 +27,10 @@ public class Company {
 		this.pointsPerReservationClient = pointsPerReservationClient;
 		this.pointsPerReservationOwner = pointsPerReservationOwner;
 	}
+	
+	public Company() {
+		
+	}
 
 	public Long getId() {
 		return id;

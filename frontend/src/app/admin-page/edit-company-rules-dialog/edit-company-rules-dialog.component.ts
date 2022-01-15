@@ -34,8 +34,16 @@ export class EditCompanyRulesDialogComponent implements OnInit {
     )
   }
 
-  deleteAdditionalService(id: number) {
+  deleteCategory(id: number) {
     this._companyService.delete(id).subscribe(   // OBAVEZNO SE MORA SUBSCRIBE-OVATI !!!
+      (boolean:boolean) =>{
+        this.reloadServices()
+      }
+    )
+  }
+
+  editCategory(category: UserCategory) {
+    this._companyService.edit(category).subscribe(   // OBAVEZNO SE MORA SUBSCRIBE-OVATI !!!
       (boolean:boolean) =>{
         this.reloadServices()
       }
@@ -50,10 +58,10 @@ export class EditCompanyRulesDialogComponent implements OnInit {
     )
   }
 
-  addService(){
+  addCategory(){
     if(this.userCategory.name != ''){
-      this._companyService.save(this.userCategory).subscribe(   // subscribe - da bismo dobili odgovor beka
-        (userCategory: UserCategory) => {
+      this._companyService.saveCategory(this.userCategory).subscribe(   // subscribe - da bismo dobili odgovor beka
+        (isAdded: Boolean) => {
           this.reloadServices();
           this.userCategory.name = '';
           this.userCategory.points = 0;
@@ -66,8 +74,15 @@ export class EditCompanyRulesDialogComponent implements OnInit {
     }
   }
 
-  ok(){
-    
+  save(){
+    this._companyService.save(this.company).subscribe(   // subscribe - da bismo dobili odgovor beka
+      (isSaved: Boolean) => {
+        this.dialogRef.close();
+      },
+      (error) => {
+        //this._alertService.danger('Doslo je do greske');
+      },
+    )
   }
 
 }

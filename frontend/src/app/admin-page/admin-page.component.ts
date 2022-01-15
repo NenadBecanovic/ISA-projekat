@@ -254,7 +254,7 @@ export class AdminPageComponent implements OnInit {
 
   companyRules(){
     const dialogRef = this.dialog.open(EditCompanyRulesDialogComponent, {
-      width: '600px',
+      width: '1000px',
       data: {},
     });
 

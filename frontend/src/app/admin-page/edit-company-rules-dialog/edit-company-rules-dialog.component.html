@@ -10,7 +10,7 @@
         <input type="number" min="0" step="1" class="form-control" name="time" [(ngModel)]="userCategory.points">
         <span class="">Popust(%)</span>
         <input type="number" class="form-control" name="time" [(ngModel)]="userCategory.discountPercentage">
-        <input type="button" min="0" step="1" (click)="addService()" value="Dodaj kategoriju" class="btn3 mt-1">
+        <input type="button" min="0" step="1" (click)="addCategory()" value="Dodaj kategoriju" class="btn3 mt-1">
         <table class = "input-box">
           <tr>
             <th>Naziv</th>
@@ -19,16 +19,17 @@
           </tr>
           <tr *ngFor="let category of company.userCategories;let index = index;">
             <td>
-              <input type="text" name=b{{index}} readonly [(ngModel)]="category.name" placeholder="Unesite naziv usluge">
+              <input type="text" name=b{{index}} ng-disabled="category.name == 'Basic'" [(ngModel)]="category.name" placeholder="Unesite naziv usluge">
             </td>
             <td>
-              <input type="number" name=c{{index}} readonly [(ngModel)]="category.points" placeholder="Unesite cenu usluge">
+              <input type="number" name=c{{index}} ng-disabled="category.name == 'Basic'" [(ngModel)]="category.points" placeholder="Unesite cenu usluge">
             </td>
             <td>
-              <input type="number" name=d{{index}} readonly [(ngModel)]="category.discountPercentage" placeholder="Unesite cenu usluge">
+              <input type="number" name=d{{index}} [(ngModel)]="category.discountPercentage" placeholder="Unesite cenu usluge">
             </td>
             <td>
-              <button mat-icon-button (click)="deleteAdditionalService(category.id)"> <mat-icon>delete</mat-icon> </button>
+              <button mat-icon-button (click)="deleteCategory(category.id)"> <mat-icon>delete</mat-icon> </button>
+              <button mat-icon-button (click)="editCategory(category)"> <mat-icon>edit</mat-icon> </button>
             </td>
           </tr>
         </table>
@@ -46,7 +47,7 @@
   </div>
   <div mat-dialog-actions style="margin: 20px auto auto 188px;">
     <button mat-button  (click)="onNoClick()">Otkaži</button>
-    <button mat-button cdkFocusInitial style="margin-left: 10px" (click)="ok()">Sačuvaj</button>
+    <button mat-button cdkFocusInitial style="margin-left: 10px" (click)="save()">Sačuvaj</button>
   </div>
   <ngx-alerts></ngx-alerts>
   </body>
