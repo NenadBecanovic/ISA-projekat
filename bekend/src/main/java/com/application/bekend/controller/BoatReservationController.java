@@ -23,14 +23,18 @@ public class BoatReservationController {
     private final BoatService boatService;
     private final MyUserService myUserService;
     private final HouseReservationService houseReservationService;
+    private final UserCategoryService userCategoryService;
+	private final CompanyService companyService;
 
     @Autowired
-    public BoatReservationController(BoatReservationService boatReservationService, AdditionalServicesService additionalServicesService, BoatService boatService, MyUserService myUserService, HouseReservationService houseReservationService) {
+    public BoatReservationController(BoatReservationService boatReservationService, AdditionalServicesService additionalServicesService, BoatService boatService, MyUserService myUserService, HouseReservationService houseReservationService, UserCategoryService userCategoryService, CompanyService companyService) {
         this.boatReservationService = boatReservationService;
         this.additionalServicesService = additionalServicesService;
         this.boatService = boatService;
         this.myUserService = myUserService;
         this.houseReservationService = houseReservationService;
+        this.userCategoryService = userCategoryService;
+        this.companyService = companyService;
     }
 
     @GetMapping("/getAllByBoatId/{id}")
@@ -80,7 +84,7 @@ public class BoatReservationController {
     @Transactional
     public ResponseEntity<BoatReservation> save(@RequestBody BoatReservationDTO dto) throws MessagingException {
         Boat boat = this.boatService.getBoatById(dto.getBoatId());
-
+        MyUser owner = this.myUserService.findUserByBoatId(dto.getBoatId());
         List<BoatReservation> boatReservations = this.boatReservationService.getAllByBoat_Id(boat.getId());
         for (BoatReservation h: boatReservations) {
             Long start =  h.getStartDate().getTime();
@@ -132,6 +136,9 @@ public class BoatReservationController {
         boatReservation = this.boatReservationService.save(boatReservation); // sacuvali smo rezervaciju i povratna vrednost metode je tacno ta rezervacija iz baze (sa ispravno generisanim id-em ...)
         // ovaj korak je obavezan jer se rezervacija koju dodajemo ovde (***) mora nalaziti u bazi
 
+        owner.setPoints(owner.getPoints() + this.companyService.getCompanyInfo((long) 1).getPointsPerReservationOwner());
+        this.checkUserCategory(owner);
+        
         Set<AdditionalServices> additionalServicesSet = new HashSet<>();
         for(AdditionalServicesDTO add : dto.getAdditionalServices()){
 
@@ -160,6 +167,8 @@ public class BoatReservationController {
             Set<BoatReservation> boatReservations1 = guest.getBoatReservations();
             boatReservations1.add(boatReservation);
             guest.setBoatReservations(boatReservations1);
+            guest.setPoints(guest.getPoints() + this.companyService.getCompanyInfo((long) 1).getPointsPerReservationClient());
+            this.checkUserCategory(guest);
             this.myUserService.save(guest);
 
             // TODO: ako je vlasnik zakazao za klijenta, poslati mejl klijentu
@@ -348,7 +357,19 @@ public class BoatReservationController {
         }
         return new ResponseEntity<>(boatReservationDTOS, HttpStatus.OK);
     }
-
+    
+    private void checkUserCategory(MyUser user) {
+    	List<UserCategory> allCategories = this.userCategoryService.findAll();
+    	int min = 0;
+    	UserCategory cat = new UserCategory();
+    	for(UserCategory category: allCategories) {
+    		if(category.getPoints() > min && user.getPoints() > category.getPoints()) {
+    			min = category.getPoints();
+    			cat = category;
+    		}
+    	}
+    	user.setCategory(cat);
+    }
 
 
 }

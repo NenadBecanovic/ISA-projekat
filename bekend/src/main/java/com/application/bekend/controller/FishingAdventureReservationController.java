@@ -87,9 +87,6 @@ public class FishingAdventureReservationController {
         if(!isCreated) {
         	return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        // TODO: ako je vlasnik zakazao za klijenta, poslati mejl klijentu
-
-        // TODO: ako je akcije, poslati mejl svim pretplacenim klijentima
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -101,9 +98,6 @@ public class FishingAdventureReservationController {
         if(!isCreated) {
         	return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        // TODO: ako je vlasnik zakazao za klijenta, poslati mejl klijentu
-
-        // TODO: ako je akcije, poslati mejl svim pretplacenim klijentima
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

@@ -42,13 +42,22 @@ public class UserCategoryService {
 
 	public boolean delete(int id) {
 		List<MyUser> allUsers = this.myUserService.getAllUsers();
-		UserCategory deletedCategory = this.userCategoryRepository.getById(id);
-		UserCategory regularCategory = this.userCategoryRepository.findUserCategoryByName("Basic");
+		UserCategory deletedCategory = this.userCategoryRepository.getById(id);	
+		List<UserCategory> allCategories = this.userCategoryRepository.findAll();
 		for(MyUser user: allUsers) {
-			if(user.getCategory().getId() == id) {
-				user.setCategory(regularCategory);
-				this.myUserService.save(user);
+			int min = 0;
+			UserCategory cat = new UserCategory();
+			for(UserCategory category: allCategories) {
+				if(category.getId() == id) {
+					continue;
+				}
+				if(category.getPoints() > min && user.getPoints() > category.getPoints()) {
+					min = category.getPoints();
+					cat = category;
+				}
 			}
+			user.setCategory(cat);
+			this.myUserService.save(user);
 		}
 		this.userCategoryRepository.delete(deletedCategory);
 		return true;
@@ -61,5 +70,9 @@ public class UserCategoryService {
 		category.setPoints(dto.getPoints());
 		this.userCategoryRepository.save(category);
 		return true;
+	}
+	
+	public UserCategory findUserCategoryByName(String name) {
+		return this.userCategoryRepository.findUserCategoryByName(name);
 	}
 }

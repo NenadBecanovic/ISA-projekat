@@ -22,14 +22,18 @@ public class FishingAdventureReservationService {
 	private final FishingAdventureService fishingAdventureService;
 	private final AdditionalServicesService additionalServicesService;
 	private final MyUserService myUserService;
+	private final UserCategoryService userCategoryService;
+	private final CompanyService companyService;
 	
 	@Autowired
 	public FishingAdventureReservationService(FishingAdventureReservationRepository fishingAdventureReservationRepository, FishingAdventureService fishingAdventureService, AdditionalServicesService additionalServicesService,
-			MyUserService myUserService) {
+			MyUserService myUserService, UserCategoryService userCategoryService, CompanyService companyService) {
 		this.fishingAdventureReservationsRepository = fishingAdventureReservationRepository;
 		this.fishingAdventureService = fishingAdventureService;
 		this.additionalServicesService = additionalServicesService;
 		this.myUserService = myUserService;
+		this.userCategoryService = userCategoryService;
+		this.companyService = companyService;
 	}
 	
 	public List<AdventureReservation> getAllByFishingAdventure_Id(Long id) {
@@ -46,6 +50,7 @@ public class FishingAdventureReservationService {
 	
 	public boolean saveReservation(AdventureReservationDTO adventureReservationDTO) {
 		FishingAdventure fishingAdventure = this.fishingAdventureService.getFishingAdventureById(adventureReservationDTO.getAdventureId());
+		MyUser instructor = this.myUserService.findUserByAdventureId(fishingAdventure.getId());
         List<AdventureReservation> adventureReservations = this.getAllByFishingAdventure_Id(fishingAdventure.getId());
         for (AdventureReservation a: adventureReservations) {
             Long start =  a.getStartDate().getTime();
@@ -67,8 +72,11 @@ public class FishingAdventureReservationService {
         if(adventureReservation.isAction()) {
         //	this.emailService.sendAnswerEmail(new EmailDTO("Odgovor na žalbu", answerDTO.getGuestResponse(), appeal.getSenderId().getEmail()));
         }
-        adventureReservation = this.save(adventureReservation); 
-
+        adventureReservation = this.save(adventureReservation);
+        
+        instructor.setPoints(instructor.getPoints() + this.companyService.getCompanyInfo((long) 1).getPointsPerReservationOwner());
+        this.checkUserCategory(instructor);
+        
         Set<AdditionalServices> additionalServicesSet = new HashSet<>();
         for(AdditionalServicesDTO add : adventureReservationDTO.getAdditionalServices()){
             AdditionalServices additionalServices = this.additionalServicesService.getAdditionalServicesById(add.getId());
@@ -78,6 +86,7 @@ public class FishingAdventureReservationService {
         }
         fishingAdventure.addAdventureReservation(adventureReservation);
         this.fishingAdventureService.save(fishingAdventure);
+        this.myUserService.save(instructor);
 
         if (adventureReservationDTO.getGuestId() != null && adventureReservationDTO.getGuestId() != 0) {
             MyUser guest = this.myUserService.findUserById(adventureReservationDTO.getGuestId());
@@ -87,6 +96,8 @@ public class FishingAdventureReservationService {
             Set<AdventureReservation> adventureReservationsGuest = guest.getAdventureReservations();
             adventureReservationsGuest.add(adventureReservation);
             guest.setAdventureReservations(adventureReservationsGuest);
+            guest.setPoints(guest.getPoints() + this.companyService.getCompanyInfo((long) 1).getPointsPerReservationClient());
+            this.checkUserCategory(guest);
             this.myUserService.save(guest);
         }
         return true;
@@ -261,6 +272,19 @@ public class FishingAdventureReservationService {
                 }
             }
         }
+    }
+    
+    private void checkUserCategory(MyUser user) {
+    	List<UserCategory> allCategories = this.userCategoryService.findAll();
+    	int min = 0;
+    	UserCategory cat = new UserCategory();
+    	for(UserCategory category: allCategories) {
+    		if(category.getPoints() > min && user.getPoints() > category.getPoints()) {
+    			min = category.getPoints();
+    			cat = category;
+    		}
+    	}
+    	user.setCategory(cat);
     }
 
 }

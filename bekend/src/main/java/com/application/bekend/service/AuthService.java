@@ -4,6 +4,7 @@ import com.application.bekend.DTO.MyUserDTO;
 import com.application.bekend.model.Address;
 import com.application.bekend.model.Authority;
 import com.application.bekend.model.MyUser;
+import com.application.bekend.model.UserCategory;
 import com.application.bekend.model.VerificationRequest;
 import com.application.bekend.repository.MyUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class AuthService {
     private VerificationTokenService verificationTokenService;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private UserCategoryService userCategoryService;
 
     @Autowired
     public AuthService(VerificationRequestService verificationRequestService) {
@@ -81,6 +84,8 @@ public class AuthService {
         myUser.setActivated(false);
         myUser.setPhoneNumber(myUserDTO.getPhoneNumber());
         myUser.setPersonalDescription(myUserDTO.getPersonalDescription());
+        UserCategory userCategory = this.userCategoryService.findUserCategoryByName("Basic");
+        myUser.setCategory(userCategory);
 
         // poslati mejl za obicnog usera
         if(myUserDTO.getAuthority().equals("ROLE_USER")){
