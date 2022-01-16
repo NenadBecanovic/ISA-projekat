@@ -3,51 +3,8 @@
     <app-header></app-header>
     <div class="adventure-container">
       <div class="d-flex flex-column adventure-view-title-container">
-        <!--div class="d-flex flex-row">
-          <div class="d-flex me-5">
-            <img class="profile-picture" src="https://mackenzienz.com/wp-content/uploads/2015/09/Fishing-PAge-BAnner.jpg?fbclid=IwAR1c5dayMLBGnI0cFCy6Z8zFfBjmkX17Z9krEkjT5v2vDbf5xKxvVNgFSmk"/>
-          </div>
-          <div class="d-flex flex-row ms-5">
-            <span>It’s time to book a fishing trip in Montenegro with Captain Ivan Fishing Tour. Captain Ivan himself
-              will show you a great day out on the water and will guarantee that you’ll catch fish. He is happy to stay
-              longer until you do. Capt. Ivan is a local who speaks English and knows these waters like the back of his
-              hand.<br>
-
-              Capt. Ivan is great to fish with as he knows the local history of the area. For example, the live bait
-              you’ll be using is a special type that lives in the muddy parts of the bay. This area used to be an
-              Austro-Hungarian salt factory!<br>
-
-              Groups of 10 will have plenty of room on the captain’s 27’ center console boat with a T-top. There are
-              seats in the shade and space to catch some rays in the sun. Three anglers can fish at once.<br>
-
-              These short trips are great, as you’ll stay in the calmer waters of the bay. The location and the short
-              trips make Captain Ivan Fishing Tour great for kids. Throughout the year you’ll be able to catch the likes
-              of Common Pandora, Mahi Mahi, Sea Bream, Mackerel, and Bonito. These are great tablefare that can be
-              cooked for you by local restaurants for a small charge.
-            </span>
-          </div>
-          
-        </div-->
         <div class="d-flex flex-row mt-3">
           <div class="d-flex flex-column info">
-            <span class="instructor-name display-6">
-              aa ok
-            </span>
-            <div class="form-check">
-              <label class="form-check-label" for="flexCheckShowAll">
-                Korisničko ime: okok ok
-              </label>
-            </div>
-            <div class="form-check">
-              <label class="form-check-label" for="flexCheckBarbecue">
-                Adresa: ok, ok, ok
-              </label>
-            </div>
-            <div class="form-check">
-              <label class="form-check-label" for="flexCheckChinese">
-                Broj telefona: <br> ok
-              </label>
-            </div>
             <div class="form-check">
               <button type="button" (click)="showAllUsers()" class="btn btn-danger menu-btn justify-end align-items-center" >
                 <span>Korisnici</span>
@@ -79,15 +36,25 @@
               </button>
             </div>
             <div class="form-check">
+              <button type="button" (click)="companyRules()" class="btn btn-danger menu-btn justify-end align-items-center" >
+                <span>Pravila poslovanja</span>
+              </button>
+            </div>
+            <div class="form-check">
               <button type="button" (click)="openProfileDialog()" class="btn btn-danger menu-btn justify-end align-items-center" >
                 <span>Izmeni profil</span>
               </button>
             </div>
+            <div class="form-check">
+              <button type="button" (click)="calculateCompanyProfits()" class="btn btn-danger menu-btn justify-end align-items-center" >
+                <span>Profit kompanije</span>
+              </button>
+            </div>
           </div>
           <div class="d-flex ms-5 flex-column adventures" *ngIf="content == 'users'">
-            <div class="d-flex flex-row mt-2">
+            <div class="d-flex flex-row">
               <span class="adventure-section me-2">Korisnici</span>
-              <a class="red-link no-wrap mt-2" (click)="addAdmin()">Dodaj admina</a>
+              <a class="red-link mt-2" (click)="addAdmin()">Dodaj admina</a>
               <div class="d-flex search justify-content-end">
                 <input type="text" placeholder="Pretraži..." name="search" [(ngModel)]="filterTerm">
               </div>
@@ -138,11 +105,11 @@
                 </div>
                 <div class="d-flex right me-3 mb-3 align-items-center justify-content-end">
                   <button type="button" class="btn add-action-button"
-                    (click)="activateNewUser(newUserRequest.id)">REZERVIŠI</button>
+                    (click)="activateNewUser(newUserRequest.id)">ODOBRI</button>
                 </div>
                 <div class="d-flex right me-3 mb-3 align-items-center justify-content-end">
                   <button type="button" class="btn add-action-button"
-                    (click)="declineNewUser(newUserRequest.id)">REZERVIŠI</button>
+                    (click)="declineNewUser(newUserRequest.id)">ODBIJ</button>
                 </div>
               </div> 
             </div>
@@ -254,53 +221,39 @@
                 <input type="text" placeholder="Pretraži..." name="search" [(ngModel)]="filterTerm">
               </div>
             </div>
-            <div class="d-flex flex-row mt-3 adventures-container" *ngFor="let feedback of notApprovedFeedbacks | filter:filterTerm">
-              <div class="card card-design">
+            <div class="d-flex flex-row mt-3" *ngFor="let feedback of notApprovedFeedbacks | filter:filterTerm">
+              <div class="card comment-card">
                 <div class="card-body">
                   <div class="d-flex flex-row">
                     <div class="d-flex flex-column me-3">
-                      <img class="profile-picture" src="https://mackenzienz.com/wp-content/uploads/2015/09/Fishing-PAge-BAnner.jpg?fbclid=IwAR1c5dayMLBGnI0cFCy6Z8zFfBjmkX17Z9krEkjT5v2vDbf5xKxvVNgFSmk"/>
-                    </div>
-                    <div class="d-flex flex-column">
-                      <h4 class="card-title" (click)="addAdventure()">ok</h4>
-                      <p class="card-text">ok, ok, ok </p>
-                      <p class="card-text">Broj osoba: 3</p>
-                      <p class="card-text">Cena: 423 din/h</p>
+                      <h4 class="card-title">{{feedback.type}} {{feedback.name}} </h4>
+                      <p class="card-text">Ocena: {{feedback.grade}}</p>
+                      <p class="card-text">Komentar: {{feedback.review}}</p>
                     </div>
                   </div>
                 </div>
-                <div class="d-flex right me-3 mb-3 align-items-center justify-content-end">
-                  <button type="button" class="btn add-action-button"
+                <div class="d-flex flex-row-reverse">
+                  <div class="d-flex me-3 mb-3 justify-content-end ">
+                    <button type="button" class="btn add-action-button"
                     (click)="approveFeedback(feedback.id)">Odobri</button>
-                </div>
-                <div class="d-flex right me-3 mb-3 align-items-center justify-content-end">
-                  <button type="button" class="btn add-action-button"
+                  </div>
+                  <div class="d-flex me-3 mb-3 justify-content-end" >
+                    <button type="button" class="btn add-action-button"
                     (click)="deleteFeedback(feedback.id)">Izbriši</button>
+                  </div>
                 </div>
               </div> 
             </div>
-            <div class="d-flex flex-row mt-3 adventures-container" *ngFor="let feedback of approvedFeedbacks | filter:filterTerm">
-              <div class="card card-design">
+            <div class="d-flex flex-row mt-3" *ngFor="let feedback of approvedFeedbacks | filter:filterTerm">
+              <div class="card comment-card">
                 <div class="card-body">
                   <div class="d-flex flex-row">
                     <div class="d-flex flex-column me-3">
-                      <img class="profile-picture" src="https://mackenzienz.com/wp-content/uploads/2015/09/Fishing-PAge-BAnner.jpg?fbclid=IwAR1c5dayMLBGnI0cFCy6Z8zFfBjmkX17Z9krEkjT5v2vDbf5xKxvVNgFSmk"/>
-                    </div>
-                    <div class="d-flex flex-column">
-                      <h4 class="card-title" (click)="addAdventure()">ok</h4>
-                      <p class="card-text">ok, ok, ok </p>
-                      <p class="card-text">Broj osoba: 3</p>
-                      <p class="card-text">Cena: 423 din/h</p>
+                      <h4 class="card-title">{{feedback.type}} {{feedback.name}} </h4>
+                      <p class="card-text">Ocena: {{feedback.grade}}</p>
+                      <p class="card-text">Komentar: {{feedback.review}}</p>
                     </div>
                   </div>
-                </div>
-                <div class="d-flex right me-3 mb-3 align-items-center justify-content-end">
-                  <button type="button" class="btn add-action-button"
-                    (click)="approveFeedback(feedback.id)">Odobri</button>
-                </div>
-                <div class="d-flex right me-3 mb-3 align-items-center justify-content-end">
-                  <button type="button" class="btn add-action-button"
-                    (click)="deleteFeedback(feedback.id)">Izbriši</button>
                 </div>
               </div> 
             </div>

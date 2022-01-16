@@ -22,11 +22,14 @@ export class AdventureProfileService {
   }
 
   public save(fishingAdventure: NewFishingAdventure): Observable<FishingAdventure> {
-    alert("SAVE")
     return this._http.post<FishingAdventure>(`${this.userPath}/add`, fishingAdventure)
   }
 
   public edit(fishingAdventure :FishingAdventure):Observable <FishingAdventure> {
     return this._http.put<FishingAdventure>(`${this.userPath}/edit/` + fishingAdventure.id, fishingAdventure)
+  }
+
+  public delete(id: number): Observable<Boolean> {
+    return this._http.delete<Boolean>(`${this.userPath}/delete/`+id)
   }
 }

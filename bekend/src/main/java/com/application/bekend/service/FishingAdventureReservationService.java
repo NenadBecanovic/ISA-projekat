@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.mail.MessagingException;
+
 import com.application.bekend.DTO.ReservationCheckDTO;
 import com.application.bekend.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import com.application.bekend.DTO.AdditionalServicesDTO;
 import com.application.bekend.DTO.AdventureReservationDTO;
+import com.application.bekend.DTO.CompanyDTO;
+import com.application.bekend.DTO.EmailDTO;
 import com.application.bekend.DTO.UserInfoDTO;
 import com.application.bekend.repository.FishingAdventureReservationRepository;
 
@@ -22,14 +26,18 @@ public class FishingAdventureReservationService {
 	private final FishingAdventureService fishingAdventureService;
 	private final AdditionalServicesService additionalServicesService;
 	private final MyUserService myUserService;
+	private final UserCategoryService userCategoryService;
+	private final CompanyService companyService;
 	
 	@Autowired
 	public FishingAdventureReservationService(FishingAdventureReservationRepository fishingAdventureReservationRepository, FishingAdventureService fishingAdventureService, AdditionalServicesService additionalServicesService,
-			MyUserService myUserService) {
+			MyUserService myUserService, UserCategoryService userCategoryService, CompanyService companyService) {
 		this.fishingAdventureReservationsRepository = fishingAdventureReservationRepository;
 		this.fishingAdventureService = fishingAdventureService;
 		this.additionalServicesService = additionalServicesService;
 		this.myUserService = myUserService;
+		this.userCategoryService = userCategoryService;
+		this.companyService = companyService;
 	}
 	
 	public List<AdventureReservation> getAllByFishingAdventure_Id(Long id) {
@@ -44,8 +52,9 @@ public class FishingAdventureReservationService {
         return this.fishingAdventureReservationsRepository.save(adventureReservation);
     }
 	
-	public boolean saveReservation(AdventureReservationDTO adventureReservationDTO) {
+	public boolean saveReservation(AdventureReservationDTO adventureReservationDTO) throws MessagingException {
 		FishingAdventure fishingAdventure = this.fishingAdventureService.getFishingAdventureById(adventureReservationDTO.getAdventureId());
+		MyUser instructor = this.myUserService.findUserByAdventureId(fishingAdventure.getId());
         List<AdventureReservation> adventureReservations = this.getAllByFishingAdventure_Id(fishingAdventure.getId());
         for (AdventureReservation a: adventureReservations) {
             Long start =  a.getStartDate().getTime();
@@ -64,8 +73,14 @@ public class FishingAdventureReservationService {
         AdventureReservation adventureReservation = new AdventureReservation(adventureReservationDTO.getId(), startDate, endDate, adventureReservationDTO.getMaxGuests(), adventureReservationDTO.getPrice(), adventureReservationDTO.getIsAvailable(), fishingAdventure);
         adventureReservation.setAvailabilityPeriod(adventureReservationDTO.getAvailabilityPeriod());
         adventureReservation.setAction(adventureReservationDTO.getIsAction());
-        adventureReservation = this.save(adventureReservation); 
-
+        if(adventureReservation.isAction()) {
+        //	this.emailService.sendAnswerEmail(new EmailDTO("Odgovor na žalbu", answerDTO.getGuestResponse(), appeal.getSenderId().getEmail()));
+        }
+        adventureReservation = this.save(adventureReservation);
+        
+        instructor.setPoints(instructor.getPoints() + this.companyService.getCompanyInfo((long) 1).getPointsPerReservationOwner());
+        this.checkUserCategory(instructor);
+        
         Set<AdditionalServices> additionalServicesSet = new HashSet<>();
         for(AdditionalServicesDTO add : adventureReservationDTO.getAdditionalServices()){
             AdditionalServices additionalServices = this.additionalServicesService.getAdditionalServicesById(add.getId());
@@ -75,6 +90,7 @@ public class FishingAdventureReservationService {
         }
         fishingAdventure.addAdventureReservation(adventureReservation);
         this.fishingAdventureService.save(fishingAdventure);
+        this.myUserService.save(instructor);
 
         if (adventureReservationDTO.getGuestId() != null && adventureReservationDTO.getGuestId() != 0) {
             MyUser guest = this.myUserService.findUserById(adventureReservationDTO.getGuestId());
@@ -84,12 +100,21 @@ public class FishingAdventureReservationService {
             Set<AdventureReservation> adventureReservationsGuest = guest.getAdventureReservations();
             adventureReservationsGuest.add(adventureReservation);
             guest.setAdventureReservations(adventureReservationsGuest);
+            guest.setPoints(guest.getPoints() + this.companyService.getCompanyInfo((long) 1).getPointsPerReservationClient());
+            this.checkUserCategory(guest);
             this.myUserService.save(guest);
+            
+            this.myUserService.sendMailToClient(null, null, adventureReservationDTO, "", "", fishingAdventure.getName());
         }
+        
+        if (adventureReservationDTO.getIsAction() && adventureReservationDTO.getIsAvailable()){
+            this.myUserService.sendSubscribedUsersEmail(null, null, adventureReservationDTO, "", "", fishingAdventure.getName());
+        }
+        
         return true;
 	}
 
-	public boolean saveUnavailablePeriod(Long instructorId, AdventureReservationDTO adventureReservationDTO) {
+	public boolean saveUnavailablePeriod(Long instructorId, AdventureReservationDTO adventureReservationDTO) throws MessagingException {
 		// TODO Auto-generated method stub
 		List<FishingAdventure> fishingAdventures = this.fishingAdventureService.getFishingAdventuresByInstructor(instructorId);
 		for(FishingAdventure fishingAdventure : fishingAdventures) {
@@ -259,6 +284,56 @@ public class FishingAdventureReservationService {
             }
         }
     }
+    
+    private void checkUserCategory(MyUser user) {
+    	List<UserCategory> allCategories = this.userCategoryService.findAll();
+    	int min = 0;
+    	UserCategory cat = new UserCategory();
+    	for(UserCategory category: allCategories) {
+    		if(category.getPoints() > min && user.getPoints() > category.getPoints()) {
+    			min = category.getPoints();
+    			cat = category;
+    		}
+    	}
+    	user.setCategory(cat);
+    }
 
+	public boolean canAdventureBeChanged(Long id) {
+		List<AdventureReservation> allReservations = this.getAllByFishingAdventure_Id(id);
+		Long currentTime = new Date().getTime();
+		
+		for(AdventureReservation a: allReservations) {
+			if(a.getStartDate().getTime() > currentTime || a.getEndDate().getTime() > currentTime) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public double getCompanyProfit(String startDate, String endDate) {
+		List<AdventureReservation> adventureReservations = this.fishingAdventureReservationsRepository.findAll();
+		CompanyDTO company = this.companyService.getCompanyInfo((long) 1);
+		double profit = 0;
+        for (AdventureReservation a : adventureReservations) { 
+        	Long reservationStartDate = a.getStartDate().getTime();
+            Long today = new Date().getTime();
+            double adventurePrice = 0;
+
+            if (reservationStartDate < today && Long.parseLong(startDate) <= reservationStartDate && Long.parseLong(endDate) >= reservationStartDate) {
+            	adventurePrice += a.getPrice();
+
+	            Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
+	            // dobavljamo set dodatnih usluga za onu konkretnu rezervaciju iz baze i pretvaramo u DTO (a mozemo samo i pristupiti setu dodatnih usluga direktno preko rezervacije (a.getAdditionalServices()))
+	            for (AdditionalServices add : a.getAdditionalServices()) {  // a.getAdditionalServices()
+	            	adventurePrice += add.getPrice();
+	            }
+	            double companyProfit = adventurePrice * company.getPercentagePerReservation() * 0.01;
+	            double clientBenefit = a.getGuest().getCategory().getDiscountPercentage() * companyProfit * 0.01;
+	            double ownerBenefit = a.getFishingAdventure().getInstructor().getCategory().getDiscountPercentage() * companyProfit * 0.01;
+	            profit += companyProfit - clientBenefit - ownerBenefit;
+            }
+        }
+        return profit;
+	}
 
 }

@@ -14,7 +14,9 @@ import { MyUserService } from '../service/my-user.service';
 import { ReportService } from '../service/report.service';
 import { AdminRegistrationDialogComponent } from './admin-registration-dialog/admin-registration-dialog.component';
 import { AppealAnswerDialogComponent } from './appeal-answer-dialog/appeal-answer-dialog.component';
+import { CompanyProfitDialogComponent } from './company-profit-dialog/company-profit-dialog.component';
 import { DeleteRequestAnswerDialogComponent } from './delete-request-answer-dialog/delete-request-answer-dialog.component';
+import { EditCompanyRulesDialogComponent } from './edit-company-rules-dialog/edit-company-rules-dialog.component';
 import { ReportAnswerDialogComponent } from './report-answer-dialog/report-answer-dialog.component';
 
 @Component({
@@ -248,6 +250,26 @@ export class AdminPageComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       window.location.reload();
+    });
+  }
+
+  companyRules(){
+    const dialogRef = this.dialog.open(EditCompanyRulesDialogComponent, {
+      width: '1000px',
+      data: {},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      window.location.reload();
+    });
+  }
+
+  calculateCompanyProfits(){
+    const dialogRef = this.dialog.open(CompanyProfitDialogComponent, {
+      width: '650px',
+      data: {},
+    });
+    dialogRef.afterClosed().subscribe(result => {
     });
   }
 }

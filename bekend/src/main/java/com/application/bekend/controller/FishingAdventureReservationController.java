@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 
 import com.application.bekend.DTO.*;
@@ -82,29 +83,23 @@ public class FishingAdventureReservationController {
     }
     
     @PostMapping("/add")
-    public ResponseEntity<AdventureReservationDTO> save(@RequestBody AdventureReservationDTO adventureReservationDTO) {
+    public ResponseEntity<AdventureReservationDTO> save(@RequestBody AdventureReservationDTO adventureReservationDTO) throws MessagingException {
         boolean isCreated = this.fishingAdventureReservationService.saveReservation(adventureReservationDTO);
         
         if(!isCreated) {
         	return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        // TODO: ako je vlasnik zakazao za klijenta, poslati mejl klijentu
-
-        // TODO: ako je akcije, poslati mejl svim pretplacenim klijentima
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
     
     @PostMapping("/saveUnavailablePeriod/{id}")
-    public ResponseEntity<AdventureReservationDTO> saveUnavailablePeriod(@PathVariable("id") Long instructorId, @RequestBody AdventureReservationDTO adventureReservationDTO) {
+    public ResponseEntity<AdventureReservationDTO> saveUnavailablePeriod(@PathVariable("id") Long instructorId, @RequestBody AdventureReservationDTO adventureReservationDTO) throws MessagingException {
         boolean isCreated = this.fishingAdventureReservationService.saveUnavailablePeriod(instructorId,adventureReservationDTO);
         
         if(!isCreated) {
         	return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        // TODO: ako je vlasnik zakazao za klijenta, poslati mejl klijentu
-
-        // TODO: ako je akcije, poslati mejl svim pretplacenim klijentima
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -185,6 +180,13 @@ public class FishingAdventureReservationController {
             adventureReservationDTOS.add(dto);
         }
         return new ResponseEntity<>(adventureReservationDTOS, HttpStatus.OK);
+    }
+    
+    @GetMapping("/getCompanyProfit/{startDate}/{endDate}")
+    public ResponseEntity<Double> getCompanyInfo(@PathVariable("startDate") String startDate, @PathVariable("endDate") String endDate){
+		double profit = this.fishingAdventureReservationService.getCompanyProfit(startDate,endDate);
+        
+        return new ResponseEntity<>(profit, HttpStatus.OK);
     }
 
 }

@@ -149,4 +149,8 @@ public class HouseReservationService {
     private boolean IsTimeBetween(Long reservationMilis, Long startDateMilis, Long endDataMilis) {
         return reservationMilis >= startDateMilis && reservationMilis <= endDataMilis;
     }
+    
+    public List<HouseReservation> findAll(){
+    	return this.houseReservationsRepository.findAll();
+    }
 }

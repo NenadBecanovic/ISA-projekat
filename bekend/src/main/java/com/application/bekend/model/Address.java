@@ -25,6 +25,9 @@ public class Address {
 
     @OneToMany(mappedBy = "address", fetch = FetchType.LAZY)
     private Set<House> houses= new HashSet<House>();
+    
+    @OneToMany(mappedBy = "address", fetch = FetchType.LAZY)
+    private Set<FishingAdventure> fishingAdventures= new HashSet<FishingAdventure>();
 
     public Address(Long id, String street, String city, String state, Float longitude, Float latitude, Integer postalCode) {
         this.id = id;
@@ -114,4 +117,12 @@ public class Address {
     public int getPostalCode() { return postalCode; }
 
     public void setPostalCode(int postalCode) { this.postalCode = postalCode; }
+
+	public Set<FishingAdventure> getFishingAdventures() {
+		return fishingAdventures;
+	}
+
+	public void setFishingAdventures(Set<FishingAdventure> fishingAdventures) {
+		this.fishingAdventures = fishingAdventures;
+	}
 }

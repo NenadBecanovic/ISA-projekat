@@ -18,9 +18,11 @@ import java.util.List;
 import java.util.Set;
 
 import javax.mail.MessagingException;
+import javax.transaction.Transactional;
 
 @RestController
 @RequestMapping("api/user")
+@Transactional
 public class MyUserController {
 
     private final MyUserService myUserService;
@@ -45,9 +47,11 @@ public class MyUserController {
         MyUser myUser = this.myUserService.findUserByEmail(email);
         MyUserDTO dto = modelMapper.map(myUser, MyUserDTO.class);
         AddressDTO addressDTO = modelMapper.map(myUser.getAddress(), AddressDTO.class);
+        UserCategoryDTO userCategoryDTO = modelMapper.map(myUser.getCategory(), UserCategoryDTO.class);
 
         dto.setAuthority(myUser.getAuthorities().get(0).getName());
         dto.setAddressDTO(addressDTO);
+        dto.setUserCategory(userCategoryDTO);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
@@ -249,7 +253,7 @@ public class MyUserController {
     }
     
     @GetMapping("/getAllDeleteRequests")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     public ResponseEntity<List<RequestForAccountDeletingDTO>> getAllDeleteRequests() {
         List<RequestForAccountDeleting> allRequests = this.myUserService.getAllDeleteRequests();
         List<RequestForAccountDeletingDTO> allRequestsDTO = new ArrayList<RequestForAccountDeletingDTO>();
@@ -261,7 +265,7 @@ public class MyUserController {
     }
     
     @GetMapping("/getAllAppeals")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     public ResponseEntity<List<AppealDTO>> getAllAppeals() {
         List<Appeal> allAppeals = this.appealService.getAllAppeals();
         List<AppealDTO> allAppealsDTO = new ArrayList<AppealDTO>();
@@ -286,7 +290,7 @@ public class MyUserController {
     }
     
     @GetMapping("/getAllNewUserRequests")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     public ResponseEntity<List<NewUserRequestDTO>> getAllNewUserRequests(){
     	List<MyUser> allUserRequests = this.myUserService.getAllNotActivated();
     	List<NewUserRequestDTO> allRequestsDTO = new ArrayList<NewUserRequestDTO>();
@@ -326,6 +330,7 @@ public class MyUserController {
         for(MyUser m: myUsers){
             UserDTO userInfoDTO = modelMapper.map(m, UserDTO.class);
             AddressDTO addressDTO = modelMapper.map(m.getAddress(), AddressDTO.class);
+            UserCategoryDTO userCategoryDTO = modelMapper.map(m.getCategory(), UserCategoryDTO.class);
             userInfoDTO.setAddressDTO(addressDTO);
             userInfoDTOS.add(userInfoDTO);
         }

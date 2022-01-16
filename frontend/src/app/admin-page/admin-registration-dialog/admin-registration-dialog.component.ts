@@ -20,7 +20,7 @@ export class AdminRegistrationDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {  // tu pozivam metode iz servisa
-    this.user.authority = "ROLE_ADMIN";
+    this.user.authority = "ROLE_ADMINISTRATOR";
   }
 
   registerUser() {

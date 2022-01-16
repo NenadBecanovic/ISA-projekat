@@ -46,6 +46,10 @@ export class AuthentificationService {
     return this.getToken() !== '' && this.getCurrentUser().roles.indexOf('ROLE_BOAT_OWNER') !== -1;
   }
 
+  isLoggedInInstructor(): boolean {
+    return this.getToken() !== '' && this.getCurrentUser().roles.indexOf('ROLE_INSTRUCTOR') !== -1;
+  }
+
   getUserEmail(): string{
     return this.getCurrentUser().email;
   }

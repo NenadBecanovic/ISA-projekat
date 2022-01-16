@@ -156,6 +156,10 @@
      width: 100%;
    }
 
+   .comment-card{
+    width: 100% !important;
+  }
+  
    .adventures-container{
      padding-left: 15vw;
      padding-right: 15vw;
@@ -212,7 +216,7 @@
 }
 
 .search{
-    flex-basis: 100%;
+    flex-basis: 80%;
   }
 
 .instructor-name{

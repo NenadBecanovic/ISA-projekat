@@ -4,6 +4,7 @@ import com.application.bekend.DTO.*;
 import com.application.bekend.model.*;
 import com.application.bekend.service.AdditionalServicesService;
 import com.application.bekend.service.AddresService;
+import com.application.bekend.service.FishingAdventureReservationService;
 import com.application.bekend.service.FishingAdventureService;
 import com.application.bekend.service.ImageService;
 
@@ -17,6 +18,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,14 +36,17 @@ public class FishingAdventureController {
     private final AdditionalServicesService additionalServicesService;
     private final ImageService imageService;
     private final ModelMapper modelMapper;
+    private final FishingAdventureReservationService fishingAdventureReservationService;
 
     @Autowired
-    public FishingAdventureController(FishingAdventureService fishingAdventureService, AddresService addressService, AdditionalServicesService additionalServicesService, ImageService imageService, ModelMapper modelMapper) {
+    public FishingAdventureController(FishingAdventureService fishingAdventureService, AddresService addressService, AdditionalServicesService additionalServicesService, 
+    		ImageService imageService, ModelMapper modelMapper, FishingAdventureReservationService fishingAdventureReservationService) {
         this.fishingAdventureService = fishingAdventureService;
         this.addressService = addressService;
         this.additionalServicesService = additionalServicesService;
         this.imageService = imageService;
         this.modelMapper = modelMapper;
+        this.fishingAdventureReservationService = fishingAdventureReservationService;
     }
 
     @GetMapping("/getFishingAdventureById/{id}")
@@ -63,19 +68,19 @@ public class FishingAdventureController {
         List<FishingAdventureDTO> instructorFishingAdventures = new ArrayList<FishingAdventureDTO>();
         
         for(FishingAdventure f: fishingAdventures) {
-	        AddressDTO addressDTO = new AddressDTO(f.getAddress().getId(), f.getAddress().getStreet(), f.getAddress().getCity(),
-	        		f.getAddress().getState(), f.getAddress().getLongitude(), f.getAddress().getLatitude(), f.getAddress().getPostalCode());
-            Set<ImageDTO> dtoSet = new HashSet<>();
-            for(Image i: f.getImages()){
-                ImageDTO imageDTO = modelMapper.map(i, ImageDTO.class);
-                dtoSet.add(imageDTO);
-            }
-            FishingAdventureDTO dto = new FishingAdventureDTO(f.getId(), f.getName(), addressDTO, f.getPromoDescription(), f.getCapacity(), f.getFishingEquipment(),
-                    f.getBehaviourRules(), f.getPricePerHour(), f.isCancalletionFree(), f.getCancalletionFee());
-            dto.setImages(dtoSet);
-	        instructorFishingAdventures.add(dto);
-
-
+        	if(!f.isDeleted()) {
+		        AddressDTO addressDTO = new AddressDTO(f.getAddress().getId(), f.getAddress().getStreet(), f.getAddress().getCity(),
+		        		f.getAddress().getState(), f.getAddress().getLongitude(), f.getAddress().getLatitude(), f.getAddress().getPostalCode());
+	            Set<ImageDTO> dtoSet = new HashSet<>();
+	            for(Image i: f.getImages()){
+	                ImageDTO imageDTO = modelMapper.map(i, ImageDTO.class);
+	                dtoSet.add(imageDTO);
+	            }
+	            FishingAdventureDTO dto = new FishingAdventureDTO(f.getId(), f.getName(), addressDTO, f.getPromoDescription(), f.getCapacity(), f.getFishingEquipment(),
+	                    f.getBehaviourRules(), f.getPricePerHour(), f.isCancalletionFree(), f.getCancalletionFee());
+	            dto.setImages(dtoSet);
+		        instructorFishingAdventures.add(dto);
+        	}
         }
         
         return new ResponseEntity<>(instructorFishingAdventures, HttpStatus.OK);
@@ -90,6 +95,7 @@ public class FishingAdventureController {
         FishingAdventure fishingAdventure = new FishingAdventure(Long.valueOf(0),newFishingAdventure.getName(),address,newFishingAdventure.getPromoDescription(),newFishingAdventure.getCapacity(),newFishingAdventure.getFishingEquipment(),
         						new HashSet<>(),newFishingAdventure.getBehaviourRules(), newFishingAdventure.getPricePerHour(),new HashSet<>(),newFishingAdventure.isCancellationFree(),
         						newFishingAdventure.getCancellationFee(), new HashSet<>());
+        fishingAdventure.setDeleted(false);
         fishingAdventure = this.fishingAdventureService.save(fishingAdventure);
         imageService.uploadAdventureImage(newFishingAdventure.getImage(), fishingAdventure.getId());
         additionalServicesService.addMultipleFishingAdventureServices(fishingAdventure, newFishingAdventure.getAdditionalServices());
@@ -100,7 +106,11 @@ public class FishingAdventureController {
     public ResponseEntity<FishingAdventureDTO> save(@RequestBody FishingAdventureDTO fishingAdventureDTO) {
         FishingAdventure fishingAdventure = this.fishingAdventureService.getFishingAdventureById(fishingAdventureDTO.getId());
         List<AdditionalServices> additionalServices = this.additionalServicesService.getAllByFishingAdventureId(fishingAdventureDTO.getId());
-
+        
+        if(!this.fishingAdventureReservationService.canAdventureBeChanged(fishingAdventure.getId())) {
+        	return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        
         for (AdditionalServices a: additionalServices)
         {
             for (AdditionalServicesDTO additionalServicesDTO: fishingAdventureDTO.getAdditionalServices())
@@ -141,6 +151,16 @@ public class FishingAdventureController {
     public ResponseEntity<FishingAdventureInstructorInfoDTO> findUserByHouseReservationId(@PathVariable("id") Long id) {
         FishingAdventureInstructorInfoDTO instructor = this.fishingAdventureService.getFishingAdventureInstructor(id);
         return new ResponseEntity<>(instructor, HttpStatus.OK);
+    }
+    
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
+        
+        if(!this.fishingAdventureReservationService.canAdventureBeChanged(id)) {
+        	return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        this.fishingAdventureService.delete(id);
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
     
 }

@@ -18,6 +18,8 @@ import { AddFishingAdventureActionDialogComponent } from './add-action-dialog/ad
 import { EditAdventureProfileDialogComponent } from './edit-adventure-profile-dialog/edit-adventure-profile-dialog.component';
 import { MyUserService } from '../service/my-user.service';
 import { DeleteImageDialogComponent } from './delete-image-dialog/delete-image-dialog.component';
+import { FeedbackInfo } from '../model/feedback-info';
+import { FeedbackService } from '../service/feedback.service';
 
 @Component({
   selector: 'app-adventure-profile',
@@ -32,13 +34,14 @@ export class AdventureProfileComponent implements OnInit {
   fishingAdventure: FishingAdventure= new FishingAdventure(0,"", this.address, "", 0, "", "", 0,true, 0);
   images: Image[] = new Array<Image>();
   actions: AdventureReservation[] = new Array<AdventureReservation>();
+  allFeedbacks: FeedbackInfo[] = new Array<FeedbackInfo>();
   isLoaded: boolean = false;
   adventureId: number = 0;
   savings: number[] = new Array();
   currentImageId: number = 0;
 
   constructor(public dialog: MatDialog, private _route: ActivatedRoute, private _adventureService: AdventureProfileService, private _additionalServices: AdditionalServicesService, private _imageService: ImageService, private _router: Router,
-    private _adventureReservationService: AdventureReservationService, private _myUserService: MyUserService) {
+    private _adventureReservationService: AdventureReservationService, private _myUserService: MyUserService, private _feedbackService: FeedbackService) {
    }
 
   ngOnInit() {
@@ -146,6 +149,12 @@ export class AdventureProfileComponent implements OnInit {
             }
           }
         )
+
+        this._feedbackService.getAllFeedbacksByAdventureId(this.fishingAdventure.id).subscribe(
+          (feedbacks: FeedbackInfo[]) => {
+            this.allFeedbacks = feedbacks;
+          }
+        )
       }
     )
   }
@@ -173,6 +182,17 @@ export class AdventureProfileComponent implements OnInit {
     this._adventureReservationService.delete(id).subscribe(
       (deleted: Boolean) => {
         window.location.reload();
+      }
+    )
+  }
+
+  deleteAdventure(){
+    this._adventureService.delete(this.adventureId).subscribe(
+      (deleted: Boolean) => {
+        this._router.navigate(['/fishing-instructor/'+this.instructor.id]);
+      },
+      (error) => {
+        alert('Ne moze se obrisati avantura jer postoje rezervacije za nju!');
       }
     )
   }

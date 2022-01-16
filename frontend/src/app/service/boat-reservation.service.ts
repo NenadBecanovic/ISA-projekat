@@ -5,6 +5,7 @@ import {HouseReservationSlide} from "../model/house-reservation-slide";
 import {BoatReservationSlide} from "../model/boat-reservation-slide";
 import {HouseReservation} from "../model/house-reservation";
 import {BoatReservation} from "../model/boat-reservation";
+import { TimePeriod } from '../model/time-period';
 
 @Injectable({
   providedIn: 'root'
@@ -45,5 +46,9 @@ export class BoatReservationService {
 
   public getBoatReservationByBoatOwnerId(id: number): Observable<BoatReservation[]> {
     return this._http.get<BoatReservation[]>(`${this.userPath}/getBoatReservationByBoatOwnerId/`+id)
+  }
+
+  public calculatePeriodProfit(timePeriod: TimePeriod): Observable<number>{
+    return this._http.get<number>(`${this.userPath}/getCompanyProfit/`+timePeriod.startDate+`/`+timePeriod.endDate)
   }
 }

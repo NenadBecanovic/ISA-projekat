@@ -1,0 +1,54 @@
+<body>
+  <h1 mat-dialog-title class="ms-3">Pravila poslovanja</h1>
+  <div mat-dialog-content>
+    <div class=" d-flex flex-row">
+      <div class="d-flex flex-column ms-3 me-5">
+        <h3>Loyalty program</h3>
+        <span class="">Naziv</span>
+        <input type="text" class="form-control" name="time" [(ngModel)]="userCategory.name">
+        <span class="">Potrebni poeni</span>
+        <input type="number" min="0" step="1" class="form-control" name="time" [(ngModel)]="userCategory.points">
+        <span class="">Popust(%)</span>
+        <input type="number" class="form-control" name="time" [(ngModel)]="userCategory.discountPercentage">
+        <input type="button" min="0" step="1" (click)="addCategory()" value="Dodaj kategoriju" class="btn3 mt-1">
+        <table class = "input-box">
+          <tr>
+            <th>Naziv</th>
+            <th>Potrebni poeni</th>
+            <th>Popust</th>
+          </tr>
+          <tr *ngFor="let category of company.userCategories;let index = index;">
+            <td>
+              <input type="text" name=b{{index}} ng-disabled="category.name == 'Basic'" [(ngModel)]="category.name" placeholder="Unesite naziv usluge">
+            </td>
+            <td>
+              <input type="number" name=c{{index}} ng-disabled="category.name == 'Basic'" [(ngModel)]="category.points" placeholder="Unesite cenu usluge">
+            </td>
+            <td>
+              <input type="number" name=d{{index}} [(ngModel)]="category.discountPercentage" placeholder="Unesite cenu usluge">
+            </td>
+            <td>
+              <button mat-icon-button (click)="deleteCategory(category.id)"> <mat-icon>delete</mat-icon> </button>
+              <button mat-icon-button (click)="editCategory(category)"> <mat-icon>edit</mat-icon> </button>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="d-flex flex-column ms-5">
+        <h3>Rezervacije</h3>
+        <span>Procenat od rezervacije</span>
+        <input type="text" class="form-control" required name="surname" [(ngModel)]="company.percentagePerReservation">
+        <span>Poeni za rezervaciju(klijent)</span>
+        <input type="text" class="form-control" required name="city" [(ngModel)]="company.pointsPerReservationClient">
+        <span>Poeni za rezervaciju(vlasnik)</span>
+        <input type="number" class="form-control" required name="posatlCode"  [(ngModel)]="company.pointsPerReservationOwner">
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions style="margin: 20px auto auto 188px;">
+    <button mat-button  (click)="onNoClick()">Otkaži</button>
+    <button mat-button cdkFocusInitial style="margin-left: 10px" (click)="save()">Sačuvaj</button>
+  </div>
+  <ngx-alerts></ngx-alerts>
+  </body>
+  
