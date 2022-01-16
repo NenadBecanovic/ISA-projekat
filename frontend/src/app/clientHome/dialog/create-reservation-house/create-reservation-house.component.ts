@@ -16,6 +16,7 @@ import {HouseService} from "../../../service/house.service";
 import {House} from "../../../model/house";
 import {Room} from "../../../model/room";
 import {ClientReservationService} from "../../../service/client-reservation-service";
+import { CompanyService } from 'src/app/service/company.service';
 
 @Component({
   selector: 'app-create-reservation-house',
@@ -40,12 +41,13 @@ export class CreateReservationHouseComponent implements OnInit {
   rooms: Room[] = new Array()
   house: House = new House(0,"", this.address,'','',0,false,0, this.rooms,
     this.additionalServices,0,0)
+  companyPercentage: number = 0;
 
 
   constructor(@Inject(MAT_DIALOG_DATA) public dataDialog: any,private _route: ActivatedRoute, private _houseReservationService: HouseReservationService,
               private _alertService: AlertService, private _router: Router, private _additionalServicesService: AdditionalServicesService,
               private _myUserService: MyUserService, public datepipe: DatePipe,   public dialogRef: MatDialogRef<CreateReservationHouseComponent>,private _authentificationService: AuthentificationService,
-              private _houseService: HouseService, private _clientResrvationService: ClientReservationService
+              private _houseService: HouseService, private _clientResrvationService: ClientReservationService,  private _companyService: CompanyService
               ) { }
 
   ngOnInit(): void {
@@ -70,6 +72,12 @@ export class CreateReservationHouseComponent implements OnInit {
       (additionalServices: AdditionalService[]) => {
         this.additionalServices = additionalServices
         console.log(this.additionalServices)
+      }
+    )
+
+    this._companyService.getCompanyPercentage().subscribe(
+      (percentage: number) =>{
+        this.companyPercentage = percentage;
       }
     )
 
@@ -110,7 +118,8 @@ export class CreateReservationHouseComponent implements OnInit {
     this.houseReservation.additionalServices = this.additionalServicesFinal
     console.log(this.houseReservation)
     price = price + this.duration*this.house.pricePerDay
-
+    var companyProfit = price * this.companyPercentage * 0.01;
+    price = price - (companyProfit * this.selectedUser.userCategory.discountPercentage * 0.01);
 
     if (confirm("Da li ste sigurni da zelite da reservisete vikendicu. Cena je " + price.toString() + " dinara" )) {
      this._clientResrvationService.saveHouseReservation(this.houseReservation).subscribe((bool: boolean)=>{
