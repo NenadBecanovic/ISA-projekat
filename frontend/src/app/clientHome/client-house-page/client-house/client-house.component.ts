@@ -16,6 +16,15 @@ import {MyUserService} from "../../../service/my-user.service";
 import {MyUser} from "../../../model/my-user";
 import {Subscription} from "../../../model/subscription";
 import {AuthentificationService} from "../../../auth/authentification/authentification.service";
+import {
+  CreateReservationHouseComponent
+} from "../../dialog/create-reservation-house/create-reservation-house.component";
+import {MatDialog} from "@angular/material/dialog";
+import {ActionDTO} from "../../../model/action-dto";
+import {ClientReservationService} from "../../../service/client-reservation-service";
+import {AlertService} from "ngx-alerts";
+import {HouseReservation} from "../../../model/house-reservation";
+
 
 @Component({
   selector: 'app-client-house',
@@ -41,11 +50,14 @@ export class ClientHouseComponent implements OnInit {
   duration: number = 0;
   id: number = 0;
   isSubscribed: Boolean = false;
+  daysDifference: number = 0
+  action: ActionDTO = new ActionDTO()
 
 
   constructor(private _houseService: HouseService, private _addressService: AddressService, private _roomService: RoomService,
               private _additionalServices: AdditionalServicesService, private _imageService: ImageService, private _houseReservationService: HouseReservationService,
-              private _router: Router, private _route: ActivatedRoute, private _myUserService: MyUserService, private _authentification: AuthentificationService) {
+              private _router: Router, private _route: ActivatedRoute, private _myUserService: MyUserService, private _authentification: AuthentificationService,
+              public dialog: MatDialog, private _clientResrvationService: ClientReservationService, private _alertService: AlertService) {
   }
 
   ngOnInit(): void {
@@ -83,9 +95,11 @@ export class ClientHouseComponent implements OnInit {
           }
         )
 
-        this._houseReservationService.getAllByHouseId(this.house.id).subscribe(
+        this._houseReservationService.getAllActionsByHouseId(this.house.id).subscribe(
           (courses_slides: HouseReservationSlide[]) => {
             this.courses_slides = courses_slides
+            console.log(this.courses_slides)
+            this.getSavingsForAction(this.courses_slides)
             this.isSlideLoaded = true
           }
         )
@@ -125,6 +139,50 @@ export class ClientHouseComponent implements OnInit {
           this.loadData(this.id)
         }
       )
+    }
+  }
+
+  reservate() {
+    const dialogRef = this.dialog.open(CreateReservationHouseComponent,{
+      width: '600px',
+      data: {
+        houseId: this.id,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
+  }
+
+  getSavingsForAction(courses: HouseReservationSlide[] ){
+    for(let h of courses){
+      for(let h1 of h.houseReservationDTOList){
+        var duration = Number.parseInt(((Number.parseInt(h1.endDate) -  Number.parseInt(h1.startDate))/1000/60/60/24).toFixed(0))
+
+        var actionPrice = h1.price
+        var housePrice = this.house.pricePerDay * duration
+        h1.savings = housePrice - actionPrice
+      }
+    }
+  }
+
+  setActionGuest(course: HouseReservation) {
+
+    this.action.entityId = course.id
+    this.action.userId = this.currentUser.id
+
+    if (confirm("Da li ste sigurni da zelite da rezervisete akciju. Usteda je " + course.savings.toString() + " dinara" )) {
+      this._clientResrvationService.editHouseAction(this.action).subscribe((bool: boolean)=>{
+        console.log(bool)
+        if(bool){
+          this._alertService.success("Rezervacija je uspjesna, pogledajte mejl");
+        }else{
+          this._alertService.warning("Rezervacija je vec zauzeta");
+        }
+      }, (error => {
+        this._alertService.danger("Doslo je do greske pokusajte opet");
+      }))
     }
   }
 }

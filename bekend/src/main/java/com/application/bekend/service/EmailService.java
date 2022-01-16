@@ -97,13 +97,22 @@ public class EmailService {
     public void sendMailForClient(MyUser user, String houseName, String boatName) throws MessagingException{
         Context context = new Context();
         context.setVariable("title", "Obaveštenje o novoj rezervaciji");
-
         if (houseName != "") {
             context.setVariable("content", "Obaveštavamo Vas da je kreirana nova rezervacija u vikendici " + houseName + ". ");
         } else if (boatName != ""){
             context.setVariable("content", "Obaveštavamo Vas da je kreirana nova rezervacija na brodu " + boatName + ". ");
         }
+        sendEmail(templateEngine, context, javaMailSender, user);
+    }
 
+    public void sendMailForClientAdventure(MyUser user, String adventureName) throws MessagingException{
+        Context context = new Context();
+        context.setVariable("title", "Obaveštenje o novoj rezervaciji");
+        context.setVariable("content", "Obaveštavamo Vas da je kreirana nova rezervacija u avanturi " + adventureName + ". ");
+        sendEmail(templateEngine, context, javaMailSender, user);
+    }
+
+    private void sendEmail(TemplateEngine templateEngine, Context context, JavaMailSender javaMailSender, MyUser user) throws MessagingException {
         String body = templateEngine.process("newAction", context);
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -111,5 +120,23 @@ public class EmailService {
         helper.setText(body, true);
         helper.setTo(user.getEmail());
         javaMailSender.send(message);
+    }
+
+    public void sendMailForClientAction(MyUser guest, String houseName, String boatName) throws MessagingException {
+        Context context = new Context();
+        context.setVariable("title", "Obaveštenje o prihvacenoj akciji");
+        if (houseName != "") {
+            context.setVariable("content", "Obaveštavamo Vas da je prihvacena akcija u vikendici " + houseName + ". ");
+        } else if (boatName != ""){
+            context.setVariable("content", "Obaveštavamo Vas da je  prihvacena akcija na brodu " + boatName + ". ");
+        }
+        sendEmail(templateEngine, context, javaMailSender, guest);
+    }
+
+    public void sendMailForClientActionAdventure(MyUser guest, String adventureName) throws MessagingException {
+        Context context = new Context();
+        context.setVariable("title", "Obaveštenje o prihvacenoj akciji");
+        context.setVariable("content", "Obaveštavamo Vas da je prihvacena akcija u  avanturi " + adventureName + ". ");
+        sendEmail(templateEngine, context, javaMailSender, guest);
     }
 }

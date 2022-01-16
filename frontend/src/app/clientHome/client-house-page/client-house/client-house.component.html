@@ -27,6 +27,7 @@
         <span class="house-name display-5" style="margin-left: 10px">
                 {{house.name}}
           <button mat-raised-button [disabled] = "isSubscribed" (click)="subscribe()" class="btn modify-profile-button">Preplati se</button>
+                     <button mat-raised-button [disabled]="isSubscribed" (click)="reservate()" class="btn modify-profile-button1">Reservisi</button>
               </span>
         </div>
         <!-- adresa vikednice -->
@@ -78,7 +79,7 @@
               <ng-template #elseBlockShow>
                 <label class="form-check-label wrap">
                   Besplatno otkazivanje: NE
-                  <br> Uslovi otkazivanja: {{house.cancalletionFee}} din <br>
+                  <br>  Procenat pri otkazivanju: {{house.cancalletionFee}} % <br>
                 </label>
               </ng-template>
             </div>
@@ -123,9 +124,10 @@
                           <li *ngFor="let a of course.additionalServices">
                             {{a.name}} : {{a.price}} din <br>
                           </li>
-                          <p class="card-text">Cena po 1 nocenju: {{ course.price }} din/dan</p>
+                          <p class="card-text">Cena bez dodatnih usluga: {{ course.price }} din/dan</p>
+                          <p class="card-text">Usteda: {{ course.savings }} din/dan</p>
                           <!--                        <p class="card-text"> Slobodna: {{ course.available }} din/dan</p>-->
-                          <button mat-raised-button color="primary"  >Zakazi brzu rezervaciju</button>
+                          <button mat-raised-button color="primary" (click)="setActionGuest(course)" >Zakazi brzu rezervaciju</button>
                         </div>
                         <br>
                       </div>
@@ -144,5 +146,6 @@
       </div>
     </div>
   </div>
+  <ngx-alerts></ngx-alerts>
 </div>
 

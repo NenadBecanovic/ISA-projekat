@@ -2,25 +2,27 @@ package com.application.bekend.service;
 
 import com.application.bekend.DTO.BoatReservationDTO;
 import com.application.bekend.DTO.ReservationCheckDTO;
+import com.application.bekend.model.AdditionalServices;
 import com.application.bekend.model.BoatReservation;
-import com.application.bekend.model.HouseReservation;
 import com.application.bekend.model.MyUser;
-import com.application.bekend.repository.BoatRepository;
 import com.application.bekend.repository.BoatReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class BoatReservationService {
 
     private final BoatReservationRepository boatReservationRepository;
+    private final AdditionalServicesService additionalServicesService;
 
     @Autowired
-    public BoatReservationService(BoatReservationRepository boatReservationRepository) {
+    public BoatReservationService(BoatReservationRepository boatReservationRepository, AdditionalServicesService additionalServicesService) {
         this.boatReservationRepository = boatReservationRepository;
+        this.additionalServicesService = additionalServicesService;
     }
 
     public List<BoatReservation> getAllByBoat_Id(Long id) {return boatReservationRepository.getAllByBoat_Id(id); }
@@ -42,28 +44,13 @@ public class BoatReservationService {
     public List<BoatReservation> getBoatReservationByBoatOwnerId(Long id) { return this.boatReservationRepository.getBoatReservationByBoatOwnerId(id); }
 
     public double findTotalPriceForBoatReservation(BoatReservation boatReservation){
-        int daysDifference = this.getDaysDifference(boatReservation.getStartDate(), boatReservation.getEndDate());
-        double totalPrice = daysDifference*boatReservation.getPrice();
+        Set<AdditionalServices> additionalServices =  this.additionalServicesService.getAllByBoatReservationId(boatReservation.getId());
+        double totalPrice = boatReservation.getPrice();
+        for(AdditionalServices a: additionalServices){
+            totalPrice = totalPrice + a.getPrice();
+        }
         return totalPrice;
     }
-
-    private int getDaysDifference(Date startData, Date endDate){
-        long date1InMs = startData.getTime();
-        long date2InMs = endDate.getTime();
-
-        long timeDiff = 0;
-        if(date1InMs > date2InMs) {
-            timeDiff = date1InMs - date2InMs;
-        } else {
-            timeDiff = date2InMs - date1InMs;
-        }
-
-        // converting diff into days
-        int daysDiff = (int) (timeDiff / (1000 * 60 * 60* 24));
-
-        return daysDiff;
-    }
-
 
     public void canBeCancelled(BoatReservationDTO dto, BoatReservation b){
 

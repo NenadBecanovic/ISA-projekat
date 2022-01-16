@@ -29,6 +29,7 @@ export class HouseReservation {
   public canBeCancelled : boolean = true;
   public onGoing: boolean = true;
   public cancelled: boolean = false;
+  public savings: number = 0;
 
   constructor(id: number, startDate: string, endDate: string, maxGuests: number, additionalServices: AdditionalService[],
               price: number, isAvailable: boolean) {

@@ -53,8 +53,6 @@ export class CreateReservationHouseComponent implements OnInit {
   ngOnInit(): void {
     // @ts-ignore
     this.houseId = this.dataDialog.houseId;
-    this.reservationCheck.email = this.dataDialog.userEmail
-    console.log(this.houseId)
     this.dateString = new Date().toISOString().slice(0, 16);
     this.startDate = new Date().toISOString().slice(0, 16);
     this.loadData();
