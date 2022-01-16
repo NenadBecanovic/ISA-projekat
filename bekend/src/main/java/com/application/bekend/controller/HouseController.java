@@ -67,19 +67,7 @@ public class HouseController {
         List<House> houses = this.houseService.findAll();
         List<HouseDTO> houseDTOS = new ArrayList<>();
         for(House house: houses){
-            AddressDTO addressDTO = new AddressDTO(house.getAddress().getId(), house.getAddress().getStreet(), house.getAddress().getCity(), house.getAddress().getState(),
-                    house.getAddress().getLongitude(), house.getAddress().getLatitude(), house.getAddress().getPostalCode());
-
-            HouseDTO dto = new HouseDTO(house.getId(), house.getName(), addressDTO, house.getPromoDescription(), house.getBehaviourRules(),
-                    house.getPricePerDay(), house.isCancalletionFree(), house.getCancalletionFee());
-            dto.setGrade(house.getGrade());
-            Set<ImageDTO> dtoSet = new HashSet<>();
-            for(Image i: house.getImages()){
-                ImageDTO imageDTO = modelMapper.map(i, ImageDTO.class);
-                dtoSet.add(imageDTO);
-            }
-            dto.setImages(dtoSet);
-            houseDTOS.add(dto);
+            makeHouseDTOList(house, houseDTOS);
         }
         return new ResponseEntity<>(houseDTOS, HttpStatus.OK);
     }
@@ -316,6 +304,33 @@ public class HouseController {
         house = this.houseService.save(house);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+
+    @PostMapping("/findAllAvailableHouses")
+    public ResponseEntity<List<HouseDTO>> findAllAvailableHouses(@RequestBody ReservationCheckDTO reservationCheckDTO){
+        List<House> houses = this.houseService.getAllAvailableHouses(reservationCheckDTO);
+        List<HouseDTO> houseDTOS = new ArrayList<>();
+        for(House house: houses){
+            makeHouseDTOList(house,houseDTOS);
+        }
+        return new ResponseEntity<>(houseDTOS, HttpStatus.OK);
+    }
+
+    private void makeHouseDTOList(House house, List<HouseDTO> houseDTOS) {
+        AddressDTO addressDTO = new AddressDTO(house.getAddress().getId(), house.getAddress().getStreet(), house.getAddress().getCity(), house.getAddress().getState(),
+                house.getAddress().getLongitude(), house.getAddress().getLatitude(), house.getAddress().getPostalCode());
+
+        HouseDTO dto = new HouseDTO(house.getId(), house.getName(), addressDTO, house.getPromoDescription(), house.getBehaviourRules(),
+                house.getPricePerDay(), house.isCancalletionFree(), house.getCancalletionFee());
+        dto.setGrade(house.getGrade());
+        Set<ImageDTO> dtoSet = new HashSet<>();
+        for(Image i: house.getImages()){
+            ImageDTO imageDTO = modelMapper.map(i, ImageDTO.class);
+            dtoSet.add(imageDTO);
+        }
+        dto.setImages(dtoSet);
+        houseDTOS.add(dto);
     }
 
 }

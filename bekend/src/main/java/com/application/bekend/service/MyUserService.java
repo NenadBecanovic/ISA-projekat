@@ -34,8 +34,8 @@ public class MyUserService implements UserDetailsService {
     }       // za enkodovanje lozinke
 
     @Autowired
-    public MyUserService(AddresService addresService, RequestForAccountDeletingService requestForAccountDeletingService, SubscriptionService subscriptionService, HouseReservationService houseReservationService, 
-    		BoatReservationService boatReservationService, EmailService emailService) {
+    public MyUserService(AddresService addresService, RequestForAccountDeletingService requestForAccountDeletingService, SubscriptionService subscriptionService, HouseReservationService houseReservationService,
+                         BoatReservationService boatReservationService, EmailService emailService) {
         this.addresService = addresService;
         this.requestForAccountDeletingService = requestForAccountDeletingService;
         this.subscriptionService = subscriptionService;
@@ -231,4 +231,6 @@ public class MyUserService implements UserDetailsService {
     public MyUser findUserByAdventureId(Long id) {
         return myUserRepository.findMyUserByAdventureId(id);
     }
+
+
 }

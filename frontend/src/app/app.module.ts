@@ -96,7 +96,6 @@ import { InstructorReservationHistoryComponent } from './clientHome/reservation/
 import {MatTableModule} from "@angular/material/table";
 import { InstructorChartComponent } from './fishing-instructor-profile/instructor-chart/instructor-chart.component';
 
-
 const MaterialComponents = [
   MatSliderModule,
   MatToolbarModule,

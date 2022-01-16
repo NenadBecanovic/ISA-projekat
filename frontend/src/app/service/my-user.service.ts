@@ -14,6 +14,8 @@ import { AdminAnswer } from '../model/admin-answer';
 import { ReportAppealAnswer } from '../model/report-appeal-answer';
 import { NewUserRequest } from '../model/new-user-request';
 import { FishingAdventureInstructorDTO } from '../model/fishing-adventure-instructorDTO';
+import {ReservationCheck} from "../model/reservation-check";
+import {Boat} from "../model/boat";
 
 @Injectable({
   providedIn: 'root'
@@ -142,6 +144,10 @@ export class MyUserService {
 
   public findUserByAdventureId(id: number): Observable<MyUser>{
     return this._http.get<MyUser>(`${this.userPath}/findUserByAdventureId/`+id)
+  }
+
+  public findAllAvailableInstructors(request: ReservationCheck): Observable<MyUser[]>{
+    return this._http.post<MyUser[]>(`${this.userPath}/getAllAvailableInstructors`, request)
   }
 }
 
