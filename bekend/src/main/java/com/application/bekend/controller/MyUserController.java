@@ -2,18 +2,12 @@ package com.application.bekend.controller;
 
 
 import com.application.bekend.DTO.*;
-import com.application.bekend.model.RequestForAccountDeleting;
-import com.application.bekend.model.Subscription;
-import com.application.bekend.service.AppealService;
-import com.application.bekend.service.CancelReservationService;
+import com.application.bekend.model.*;
+import com.application.bekend.service.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.application.bekend.model.Appeal;
-import com.application.bekend.model.MyUser;
-import com.application.bekend.service.HouseService;
-import com.application.bekend.service.MyUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -34,14 +28,16 @@ public class MyUserController {
     private final HouseService houseService;
     private final AppealService appealService;
     private final CancelReservationService cancelReservationService;
+    private final FishingInstructorService fishingInstructorService;
 
     @Autowired
-    public MyUserController(MyUserService myUserService, ModelMapper modelMapper, HouseService houseService, AppealService appealService, CancelReservationService cancelReservationService) {
+    public MyUserController(MyUserService myUserService, ModelMapper modelMapper, HouseService houseService, AppealService appealService, CancelReservationService cancelReservationService, FishingInstructorService fishingInstructorService) {
         this.myUserService = myUserService;
         this.modelMapper = modelMapper;
         this.houseService = houseService;
         this.appealService = appealService;
         this.cancelReservationService = cancelReservationService;
+        this.fishingInstructorService = fishingInstructorService;
     }
 
     @GetMapping("/findUserByEmail/{email}")
@@ -321,6 +317,11 @@ public class MyUserController {
     @GetMapping("/getAllInstructors")
     public ResponseEntity<List<UserDTO>> getAllInstructors(){
         List<MyUser> myUsers = this.myUserService.getAllInstructors();
+        List<UserDTO> userInfoDTOS = getUserDTOS(myUsers);
+        return new ResponseEntity<>(userInfoDTOS, HttpStatus.OK);
+    }
+
+    private List<UserDTO> getUserDTOS(List<MyUser> myUsers) {
         List<UserDTO> userInfoDTOS = new ArrayList<>();
         for(MyUser m: myUsers){
             UserDTO userInfoDTO = modelMapper.map(m, UserDTO.class);
@@ -328,8 +329,7 @@ public class MyUserController {
             userInfoDTO.setAddressDTO(addressDTO);
             userInfoDTOS.add(userInfoDTO);
         }
-
-        return new ResponseEntity<>(userInfoDTOS, HttpStatus.OK);
+        return userInfoDTOS;
     }
 
     @GetMapping("/findUserById/{id}")
@@ -346,6 +346,13 @@ public class MyUserController {
         MyUser myUser = this.myUserService.findUserByAdventureId(id);
         MyUserDTO dto =  modelMapper.map(myUser, MyUserDTO.class);
         return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @PostMapping("/getAllAvailableInstructors")
+    public ResponseEntity<List<UserDTO>> getAllInstructors(@RequestBody ReservationCheckDTO reservationCheckDTO){
+        List<MyUser> myUsers = this.fishingInstructorService.getAllAvailableInstructors(reservationCheckDTO);
+        List<UserDTO> userInfoDTOS = getUserDTOS(myUsers);
+        return new ResponseEntity<>(userInfoDTOS, HttpStatus.OK);
     }
 
 

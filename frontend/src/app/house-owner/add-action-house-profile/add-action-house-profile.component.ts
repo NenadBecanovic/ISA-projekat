@@ -46,6 +46,7 @@ export class AddActionHouseProfileComponent implements OnInit {
     this.houseReservation.action = true;
     this.houseReservation.available = true;
     this.houseReservation.availabilityPeriod = false;
+    this.houseReservation.cancelled = false;
 
     var startDate = Date.parse(this.houseReservation.startDate)
     this.date =  new Date(startDate)

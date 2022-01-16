@@ -54,6 +54,7 @@ public class HouseReservationController {
             HouseReservationDTO houseReservationDTO = new HouseReservationDTO(a.getId(), startDate, endDate, a.getMaxGuests(), a.getPrice(), a.isAvailable());
             houseReservationDTO.setAvailabilityPeriod(a.isAvailabilityPeriod());
             houseReservationDTO.setAction(a.isAction());
+            houseReservationDTO.setCancelled(a.getCancelled());
             if (a.getGuest() != null) {
                 houseReservationDTO.setGuestId(a.getGuest().getId());
             }
@@ -104,6 +105,7 @@ public class HouseReservationController {
                 HouseReservationDTO houseReservationDTO = new HouseReservationDTO(a.getId(), startDate, endDate, a.getMaxGuests(), a.getPrice(), a.isAvailable());
                 houseReservationDTO.setAvailabilityPeriod(a.isAvailabilityPeriod());
                 houseReservationDTO.setAction(a.isAction());
+                houseReservationDTO.setCancelled(a.getCancelled());
                 if (a.getGuest() != null) {
                     houseReservationDTO.setGuestId(a.getGuest().getId());
                 }
@@ -153,6 +155,7 @@ public class HouseReservationController {
             HouseReservationDTO houseReservationDTO = new HouseReservationDTO(a.getId(), startDate, endDate, a.getMaxGuests(), a.getPrice(), a.isAvailable());
             houseReservationDTO.setAvailabilityPeriod(a.isAvailabilityPeriod());
             houseReservationDTO.setAction(a.isAction());
+            houseReservationDTO.setCancelled(a.getCancelled());
             if (a.getGuest() != null) {
                 houseReservationDTO.setGuestId(a.getGuest().getId());
             }
@@ -183,11 +186,12 @@ public class HouseReservationController {
             Long start =  h.getStartDate().getTime();
             Long end = h.getEndDate().getTime();
 
-            if (Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getEndDate()) <=  end ||
-                    Long.parseLong(dto.getStartDate()) <= start && Long.parseLong(dto.getEndDate()) >= start  ||
-                    Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getStartDate()) <= end  )
-            {
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            if (!h.getCancelled()) {
+                if (Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getEndDate()) <= end ||
+                        Long.parseLong(dto.getStartDate()) <= start && Long.parseLong(dto.getEndDate()) >= start ||
+                        Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getStartDate()) <= end) {
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                }
             }
         }
 
@@ -199,11 +203,12 @@ public class HouseReservationController {
             Long start =  h.getStartDate().getTime();
             Long end = h.getEndDate().getTime();
 
-            if (Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getEndDate()) <=  end ||
-                    Long.parseLong(dto.getStartDate()) <= start && Long.parseLong(dto.getEndDate()) >= start  ||
-                    Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getStartDate()) <= end  )
-            {
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            if (!h.getCancelled()) {
+                if (Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getEndDate()) <= end ||
+                        Long.parseLong(dto.getStartDate()) <= start && Long.parseLong(dto.getEndDate()) >= start ||
+                        Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getStartDate()) <= end) {
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                }
             }
         }
 
@@ -211,11 +216,12 @@ public class HouseReservationController {
             Long start =  h.getStartDate().getTime();
             Long end = h.getEndDate().getTime();
 
-            if (Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getEndDate()) <=  end ||
-                    Long.parseLong(dto.getStartDate()) <= start && Long.parseLong(dto.getEndDate()) >= start  ||
-                    Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getStartDate()) <= end  )
-            {
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            if (!h.getCancelled()) {
+                if (Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getEndDate()) <= end ||
+                        Long.parseLong(dto.getStartDate()) <= start && Long.parseLong(dto.getEndDate()) >= start ||
+                        Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getStartDate()) <= end) {
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                }
             }
         }
         // kraj provere za klijenta
@@ -225,6 +231,7 @@ public class HouseReservationController {
         HouseReservation houseReservation = new HouseReservation(dto.getId(), startDate, endDate, dto.getMaxGuests(), dto.getPrice(), dto.isAvailable(), house);
         houseReservation.setAvailabilityPeriod(dto.isAvailabilityPeriod());
         houseReservation.setAction(dto.isAction());
+        houseReservation.setCancelled(dto.getCancelled());
 
         houseReservation = this.houseReservationService.save(houseReservation); // sacuvali smo rezervaciju i povratna vrednost metode je tacno ta rezervacija iz baze (sa ispravno generisanim id-em ...)
         // ovaj korak je obavezan jer se rezervacija koju dodajemo ovde (***) mora nalaziti u bazi
@@ -306,6 +313,8 @@ public class HouseReservationController {
                 houseReservation.getMaxGuests(), houseReservation.getPrice(), houseReservation.isAvailable());
         dto.setAction(houseReservation.isAction());
         dto.setAvailabilityPeriod(houseReservation.isAvailabilityPeriod());
+        dto.setCancelled(houseReservation.getCancelled());
+
         if (houseReservation.getGuest() != null) {
             dto.setGuestId(houseReservation.getGuest().getId());
         }
@@ -321,6 +330,7 @@ public class HouseReservationController {
         for(HouseReservation houseReservation: houseReservations){
             HouseReservationDTO dto = new HouseReservationDTO(houseReservation.getId(), houseReservation.getStartDate().toString(), houseReservation.getEndDate().toString(),
                     houseReservation.getMaxGuests(), houseReservation.getPrice(), houseReservation.isAvailable());
+            dto.setCancelled(houseReservation.getCancelled());
             houseReservationDTOS.add(dto);
         }
 
@@ -343,6 +353,7 @@ public class HouseReservationController {
                     h.getPrice(), h.isAvailable());
             dto.setAvailabilityPeriod(h.isAvailabilityPeriod());
             dto.setAction(h.isAction());
+            dto.setCancelled(h.getCancelled());
 
             if (h.getGuest() != null) {
                 dto.setGuestId(h.getGuest().getId());

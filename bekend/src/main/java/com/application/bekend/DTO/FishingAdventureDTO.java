@@ -1,23 +1,6 @@
 package com.application.bekend.DTO;
 
-import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
-import com.application.bekend.model.AdditionalServices;
-import com.application.bekend.model.Address;
-import com.application.bekend.model.AdventureReservation;
-import com.application.bekend.model.Image;
-import com.application.bekend.model.MyUser;
 
 public class FishingAdventureDTO {
 
@@ -29,8 +12,8 @@ public class FishingAdventureDTO {
     private String fishingEquipment;
     private String behaviourRules;
     private float pricePerHour;
-    private boolean isCancalletionFree;
-    private int cancalletionFee;
+    private boolean cancellationFree;
+    private int cancellationFee;
     private Set<ImageDTO> images;
     private Set<AdditionalServicesDTO> additionalServices;
     private Long instructorId;
@@ -47,8 +30,8 @@ public class FishingAdventureDTO {
 		this.fishingEquipment = fishingEquipment;
 		this.behaviourRules = behaviourRules;
 		this.pricePerHour = pricePerHour;
-		this.isCancalletionFree = isCancalletionFree;
-		this.cancalletionFee = cancalletionFee;
+		this.cancellationFree = isCancalletionFree;
+		this.cancellationFee = cancalletionFee;
 	}
 	
 	public FishingAdventureDTO() {
@@ -103,17 +86,17 @@ public class FishingAdventureDTO {
 	public void setPricePerHour(float pricePerHour) {
 		this.pricePerHour = pricePerHour;
 	}
-	public boolean isCancalletionFree() {
-		return isCancalletionFree;
+	public boolean isCancellationFree() {
+		return cancellationFree;
 	}
-	public void setCancalletionFree(boolean isCancalletionFree) {
-		this.isCancalletionFree = isCancalletionFree;
+	public void setCancellationFree(boolean isCancalletionFree) {
+		this.cancellationFree = isCancalletionFree;
 	}
-	public int getCancalletionFee() {
-		return cancalletionFee;
+	public int getCancellationFee() {
+		return cancellationFee;
 	}
-	public void setCancalletionFee(int cancalletionFee) {
-		this.cancalletionFee = cancalletionFee;
+	public void setCancellationFee(int cancellationFee) {
+		this.cancellationFee = cancellationFee;
 	}
     
     public Set<ImageDTO> getImages() {

@@ -1,18 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {HouseReservationService} from "../../service/house-reservation.service";
 import {AlertService} from "ngx-alerts";
 import {AdditionalServicesService} from "../../service/additional-services.service";
 import {MyUserService} from "../../service/my-user.service";
 import {DatePipe} from "@angular/common";
 import {AdditionalService} from "../../model/additional-service";
-import {HouseReservation} from "../../model/house-reservation";
 import {MyUser} from "../../model/my-user";
 import {Address} from "../../model/address";
 import {BoatReservation} from "../../model/boat-reservation";
 import {BoatReservationService} from "../../service/boat-reservation.service";
 import {AuthentificationService} from "../../auth/authentification/authentification.service";
-import {fakeAsync} from "@angular/core/testing";
 
 @Component({
   selector: 'app-create-reservation-for-client-boat',
@@ -79,7 +76,7 @@ export class CreateReservationForClientBoatComponent implements OnInit {
                 this.datepipe.transform(this.date, 'dd/MM/yyyy HH:mm:ss');
 
                 if (Number(reservation.startDate) < Number(Date.parse(this.date.toString()).toString()) &&  // ako rezervacija trenutno traje
-                  Number(reservation.endDate) > Number(Date.parse(this.date.toString()).toString()) )
+                  Number(reservation.endDate) > Number(Date.parse(this.date.toString()).toString()) && !reservation.cancelled)
                 {
                   if (this.userAlreadyInArray(user) == false) {
                     this.finalUsers.push(user)
@@ -111,6 +108,7 @@ export class CreateReservationForClientBoatComponent implements OnInit {
     this.boatReservation.available = false;
     this.boatReservation.availabilityPeriod = false;
     this.boatReservation.guestId = this.selectedUser.id;
+    this.boatReservation.cancelled = false;
 
     var startDate = Date.parse(this.boatReservation.startDate)
     this.date =  new Date(startDate)

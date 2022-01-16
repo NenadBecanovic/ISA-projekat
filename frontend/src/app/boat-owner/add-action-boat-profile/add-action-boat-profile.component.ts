@@ -64,6 +64,7 @@ export class AddActionBoatProfileComponent implements OnInit {
     this.boatReservation.action = true;
     this.boatReservation.available = true;
     this.boatReservation.availabilityPeriod = false;
+    this.boatReservation.cancelled = false;
 
     var startDate = Date.parse(this.boatReservation.startDate)
     this.date =  new Date(startDate)
@@ -120,19 +121,19 @@ export class AddActionBoatProfileComponent implements OnInit {
           for(let b of boatReservations)
           {
             // ako postoje termini u periodu kada zakazujemo novi termin, potrebno je proveriti zauzetost vlasnika
-            if (actionStart >= Number(b.startDate) && actionEnd <= Number(b.endDate) ||
-              actionStart <= Number(b.startDate) && actionEnd >= Number(b.startDate) ||
-              actionStart >= Number(b.startDate) && actionStart <= Number(b.endDate))
-            {
-                for(let a of b.additionalServices)
-                {
-                // if u dodatnim uslugama postoji vlasnik kao kapetan izbaciti tu uslugu iz additionalServices +  return;
-                // doslo je do preklapanja, izbaciti dodatnu uslugu kapetana
-                  if (a.name == "prisustvo kapetana"){
+            if (!b.cancelled) {
+              if (actionStart >= Number(b.startDate) && actionEnd <= Number(b.endDate) ||
+                actionStart <= Number(b.startDate) && actionEnd >= Number(b.startDate) ||
+                actionStart >= Number(b.startDate) && actionStart <= Number(b.endDate)) {
+                for (let a of b.additionalServices) {
+                  // if u dodatnim uslugama postoji vlasnik kao kapetan izbaciti tu uslugu iz additionalServices +  return;
+                  // doslo je do preklapanja, izbaciti dodatnu uslugu kapetana
+                  if (a.name == "prisustvo kapetana") {
                     this.deleteCaptainAsAdditionalService();
                     return;
                   }
                 }
+              }
             }
           }
       }

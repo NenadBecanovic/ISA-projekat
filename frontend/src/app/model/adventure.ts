@@ -12,8 +12,8 @@ export class Adventure {
   fishingEquipment: String;
   behaviourRules: String;
   pricePerDay: number;
-  cancalletionFree: boolean;
-  cancalletionFee: number;
+  cancelletionFree: boolean;
+  cancelletionFee: number;
   images: Image[] = new Array();
 
 
@@ -26,7 +26,7 @@ export class Adventure {
     this.fishingEquipment = fishingEquipment;
     this.behaviourRules = behaviourRules;
     this.pricePerDay = pricePerDay;
-    this.cancalletionFree = cancalletionFree;
-    this.cancalletionFee = cancalletionFee;
+    this.cancelletionFree = cancalletionFree;
+    this.cancelletionFee = cancalletionFee;
   }
 }

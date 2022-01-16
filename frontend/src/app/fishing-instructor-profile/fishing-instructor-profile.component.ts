@@ -78,20 +78,6 @@ export class FishingInstructorProfileComponent implements OnInit {
     });
   }
 
-  makeReservation(a: FishingAdventure){
-    const dialogRef = this.dialog.open(MakeReservationDialogComponent, {
-      width: '500px',
-      height: '570px',
-      data: {},
-    });
-    dialogRef.componentInstance.adventure = a;
-    dialogRef.componentInstance.instructorId = this.instructor.id;
-    dialogRef.componentInstance.adventureReservation.guestId = this.getCurrentGuest();
-    dialogRef.afterClosed().subscribe(result => {
-
-    });
-  }
-
   getCurrentGuest(): number{
     var currentDateAndTime = Number(new Date());
     for(let reservation of this.allReservations){
@@ -162,4 +148,8 @@ export class FishingInstructorProfileComponent implements OnInit {
       window.location.reload();
     });
   }
+
+  // instructorChart(id: number) {
+  //   this._router.navigate(['/instructor-chart', id])
+  // }
 }

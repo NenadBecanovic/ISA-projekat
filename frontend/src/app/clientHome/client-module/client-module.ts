@@ -40,6 +40,15 @@ import {
 } from "../reservation/boat-reservation-history/boat-reservation-history.component";
 import {FutureReservationComponent} from "../reservation/future-reservation/future-reservation.component";
 import {ClientInstructorsComponent} from "../client-instructors/client-instructors.component";
+import {
+  InstructorReservationHistoryComponent
+} from "../reservation/instructor-reservation-history/instructor-reservation-history.component";
+import {CreateReservationBoatComponent} from "../dialog/create-reservation-boat/create-reservation-boat.component";
+import {CreateReservationHouseComponent} from "../dialog/create-reservation-house/create-reservation-house.component";
+import {
+  CreateReservationInstructorComponent
+} from "../dialog/create-reservation-instructor/create-reservation-instructor.component";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 
 @NgModule({
@@ -58,6 +67,10 @@ import {ClientInstructorsComponent} from "../client-instructors/client-instructo
     BoatReservationHistoryComponent,
     FutureReservationComponent,
     ClientInstructorsComponent,
+    InstructorReservationHistoryComponent,
+    CreateReservationBoatComponent,
+    CreateReservationHouseComponent,
+    CreateReservationInstructorComponent,
   ],
   imports: [
     CommonModule,
@@ -79,7 +92,8 @@ import {ClientInstructorsComponent} from "../client-instructors/client-instructo
     MatButtonModule,
     AgmCoreModule,
     MatCarouselModule,
-    MatSelectModule
+    MatSelectModule,
+    MatCheckboxModule
 
   ],
   providers:[

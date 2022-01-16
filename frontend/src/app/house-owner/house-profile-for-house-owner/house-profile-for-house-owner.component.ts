@@ -22,6 +22,7 @@ import {AuthentificationService} from "../../auth/authentification/authentificat
 import {AddImageDialogComponent} from "../../adventure-profile/add-image-dialog/add-image-dialog.component";
 import {AddImageHouseComponent} from "../add-image-house/add-image-house.component";
 import {DeleteImageDialogComponent} from "../../adventure-profile/delete-image-dialog/delete-image-dialog.component";
+import {BoatReservation} from "../../model/boat-reservation";
 
 @Component({
   selector: 'app-house-profile-for-house-owner',
@@ -82,14 +83,11 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
     this._router.navigate(['/modify-house-profile', this.house.id])
   }
 
-  // // TODO: obrisati
-  // editActionDialog(id: number, houseId: number) {
-  //   this._router.navigate(['/edit-house-action', this.house.id, this.house.id])
-  // }
-
   deleteActionDialog(id: number) {
     this._houseReservationService.delete(id).subscribe(   // OBAVEZNO SE MORA SUBSCRIBE-OVATI !!!
       (boolean:boolean) =>{
+        this.isLoaded = false;
+        this.isSlideLoaded = false;
         this.loadData()
       }
     )
@@ -144,7 +142,9 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
                       course.guest = user
                     }
                   )
+                if(!this.courseAlreadyInArray(course)) {
                   this.reservedCourses.push(course);
+                }
               }
             }
             this.userSearch = this.reservedCourses
@@ -223,5 +223,16 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       window.location.reload();
     });
+  }
+
+  courseAlreadyInArray(course: HouseReservation){
+    for (let u of this.reservedCourses)
+    {
+      if (u.id == course.id)
+      {
+        return true;
+      }
+    }
+    return false;
   }
 }

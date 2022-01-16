@@ -24,7 +24,6 @@ public class HouseReservation {
     private Boolean hasAppealEntity = false;
     private Boolean isCancelled = false;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "guest_id")
     private MyUser guest;

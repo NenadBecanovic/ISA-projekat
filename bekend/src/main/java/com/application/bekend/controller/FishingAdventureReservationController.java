@@ -61,6 +61,7 @@ public class FishingAdventureReservationController {
 	            AdventureReservationDTO adventureReservationDTO = new AdventureReservationDTO(a.getId(), startDate, endDate, a.getMaxGuests(), a.getPrice(), a.isAvailable());
 	            adventureReservationDTO.setAvailabilityPeriod(a.isAvailabilityPeriod());
 	            adventureReservationDTO.setIsAction(a.isAction());
+                adventureReservationDTO.setCancelled(a.getCancelled());
 	            if (a.getGuest() != null) {
 	            	adventureReservationDTO.setGuestId(a.getGuest().getId());
 	            	MyUser user = this.myUserService.findUserById(a.getGuest().getId());

@@ -34,8 +34,8 @@ public class MyUserService implements UserDetailsService {
     }       // za enkodovanje lozinke
 
     @Autowired
-    public MyUserService(AddresService addresService, RequestForAccountDeletingService requestForAccountDeletingService, SubscriptionService subscriptionService, HouseReservationService houseReservationService, 
-    		BoatReservationService boatReservationService, EmailService emailService) {
+    public MyUserService(AddresService addresService, RequestForAccountDeletingService requestForAccountDeletingService, SubscriptionService subscriptionService, HouseReservationService houseReservationService,
+                         BoatReservationService boatReservationService, EmailService emailService) {
         this.addresService = addresService;
         this.requestForAccountDeletingService = requestForAccountDeletingService;
         this.subscriptionService = subscriptionService;
@@ -196,15 +196,21 @@ public class MyUserService implements UserDetailsService {
         if (dto != null) {
             MyUser owner = findUserByHouseId(dto.getHouseId());
             myUsers = this.myUserRepository.findSubscribedUsersByOwnerId(owner.getId());
-            this.emailService.sendActionMail(myUsers, houseName, "");
+            if (myUsers != null) {
+                this.emailService.sendActionMail(myUsers, houseName, "");
+            }
         } else if (boatDTO != null){
-            MyUser owner = findUserByHouseId(boatDTO.getBoatId());
+            MyUser owner = findUserByBoatId(boatDTO.getBoatId());
             myUsers = this.myUserRepository.findSubscribedUsersByOwnerId(owner.getId());
-            this.emailService.sendActionMail(myUsers, "", boatName);
+            if (myUsers != null) {
+                this.emailService.sendActionMail(myUsers, "", boatName);
+            }
         } else if (adventureDTO != null){
             MyUser instructor = findUserByAdventureId(adventureDTO.getAdventureId());
             myUsers = this.myUserRepository.findSubscribedUsersByOwnerId(instructor.getId());
-            this.emailService.sendActionMail(myUsers, "", adventureName);
+            if (myUsers != null) {
+                this.emailService.sendActionMail(myUsers, "", adventureName);
+            }
         }
     }
 
@@ -234,4 +240,6 @@ public class MyUserService implements UserDetailsService {
     public MyUser findUserByAdventureId(Long id) {
         return myUserRepository.findMyUserByAdventureId(id);
     }
+
+
 }
