@@ -444,25 +444,18 @@ export class InstructorChartComponent implements OnInit {
     for(let a of r.additionalServices) {
       additionalPrice = additionalPrice + a.price;
     }
-    console.log(this.adventure)
+
     if (r.cancelled && !this.adventure.cancellationFree){
       var percantage = this.adventure.cancellationFee;
-      console.log(percantage)
-      console.log(this.adventure.cancellationFee)
       var totalPrice = r.price + additionalPrice;
-      console.log(totalPrice)
       totalPrice = percantage * totalPrice * 0.01;
-      console.log(1111)
       return totalPrice;
     }
     else if(r.cancelled && this.adventure.cancellationFree)
     {
-      console.log(2222)
       return 0;
     }
     else {
-      console.log(3333)
-      console.log(this.adventure.cancellationFree)
       return r.price + additionalPrice;
     }
    }
