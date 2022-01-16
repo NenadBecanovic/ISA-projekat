@@ -106,7 +106,8 @@ export class CreateReservationBoatComponent implements OnInit {
 
     this.boatReservation.additionalServices = this.additionalServicesFinal
 
-    price = price = this.duration*this.boat.pricePerDay
+    price = price + this.duration*this.boat.pricePerDay
+    this.boatReservation.price = this.duration*this.boat.pricePerDay
     if (confirm("Da li ste sigurni da zelite da reservisete vikendicu. Cena je " + price.toString() + " dinara" )) {
       this._clientReservationService.saveBoatReservation(this.boatReservation).subscribe((bool: boolean)=>{
         if(bool){

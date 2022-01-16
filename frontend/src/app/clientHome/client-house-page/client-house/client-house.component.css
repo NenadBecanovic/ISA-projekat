@@ -105,6 +105,18 @@
   font-size: 20px;
 }
 
+.modify-profile-button1 {
+  font-family: "Poppins", sans-serif;
+  color: white;
+  background-color: #31B4E5;
+  position: absolute;
+  top: 7vw;
+  left: 93%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  font-size: 20px;
+}
+
 .add-action-button{
   font-family: "Poppins", sans-serif;
   color:white;

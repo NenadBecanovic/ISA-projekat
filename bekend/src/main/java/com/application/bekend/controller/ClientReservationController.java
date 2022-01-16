@@ -1,5 +1,6 @@
 package com.application.bekend.controller;
 
+import com.application.bekend.DTO.ActionDTO;
 import com.application.bekend.DTO.AdventureReservationDTO;
 import com.application.bekend.DTO.BoatReservationDTO;
 import com.application.bekend.DTO.HouseReservationDTO;
@@ -11,8 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 
 @RestController
@@ -28,24 +27,51 @@ public class ClientReservationController {
 
 
     @PostMapping("/house")
-    public ResponseEntity<Boolean> addHouseReservationClient(@RequestBody HouseReservationDTO dto) throws MessagingException {
+    @Transactional
+    public ResponseEntity<Boolean> addHouseReservationClient(@RequestBody HouseReservationDTO dto) {
 
         Boolean success = this.clientReservationService.addHouseReservationClient(dto);
         return new ResponseEntity<>(success,HttpStatus.OK);
     }
 
     @PostMapping("/boat")
-    public ResponseEntity addBoatReservationClient(@RequestBody BoatReservationDTO dto){
+    @Transactional
+    public ResponseEntity<Boolean> addBoatReservationClient(@RequestBody BoatReservationDTO dto){
 
         Boolean success = this.clientReservationService.addBoatReservationClient(dto);
         return new ResponseEntity<>(success, HttpStatus.OK);
     }
 
 
-    @PostMapping("/adventure")
-    public ResponseEntity addAdventureReservationClient(@RequestBody AdventureReservationDTO dto){
+    @PostMapping("/action/adventure")
+    public ResponseEntity<Boolean> addAdventureReservationClient(@RequestBody AdventureReservationDTO dto){
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        Boolean success = this.clientReservationService.addAdventureReservationClient(dto);
+        return new ResponseEntity<>(success, HttpStatus.OK);
+    }
+
+    @PostMapping("/action/house")
+    @Transactional
+    public ResponseEntity<Boolean> addHouseActionClient(@RequestBody ActionDTO dto) {
+
+        Boolean success = this.clientReservationService.addHouseActionClient(dto);
+        return new ResponseEntity<>(success,HttpStatus.OK);
+    }
+
+    @PostMapping("/action/boat")
+    @Transactional
+    public ResponseEntity<Boolean> addBoatActionClient(@RequestBody ActionDTO dto){
+
+        Boolean success = this.clientReservationService.addBoatActionClient(dto);
+        return new ResponseEntity<>(success, HttpStatus.OK);
+    }
+
+
+    @PostMapping("/adventure")
+    public ResponseEntity<Boolean> addAdventureActionClient(@RequestBody ActionDTO dto){
+
+        Boolean success = this.clientReservationService.addAdventureActionClient(dto);
+        return new ResponseEntity<>(success, HttpStatus.OK);
     }
 
 
