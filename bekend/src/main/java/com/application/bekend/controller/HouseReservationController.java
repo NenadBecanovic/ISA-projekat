@@ -403,7 +403,33 @@ public class HouseReservationController {
     	user.setCategory(cat);
     }
 
+    @GetMapping("/getCompanyProfit/{startDate}/{endDate}")
+    public ResponseEntity<Double> getCompanyInfo(@PathVariable("startDate") String startDate, @PathVariable("endDate") String endDate){
+    	List<HouseReservation> houseReservations = this.houseReservationService.findAll();
+		CompanyDTO company = this.companyService.getCompanyInfo((long) 1);
+		double profit = 0;
+        for (HouseReservation a : houseReservations) { 
+        	Long reservationStartDate = a.getStartDate().getTime();
+            Long today = new Date().getTime();
+            double adventurePrice = 0;
 
+            if (reservationStartDate < today && Long.parseLong(startDate) <= reservationStartDate && Long.parseLong(endDate) >= reservationStartDate) {
+            	adventurePrice += a.getPrice();
+
+	            Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
+	            // dobavljamo set dodatnih usluga za onu konkretnu rezervaciju iz baze i pretvaramo u DTO (a mozemo samo i pristupiti setu dodatnih usluga direktno preko rezervacije (a.getAdditionalServices()))
+	            for (AdditionalServices add : a.getAdditionalServices()) {  // a.getAdditionalServices()
+	            	adventurePrice += add.getPrice();
+	            }
+	            double companyProfit = adventurePrice * company.getPercentagePerReservation() * 0.01;
+	            double clientBenefit = a.getGuest().getCategory().getDiscountPercentage() * companyProfit * 0.01;
+	            double ownerBenefit = a.getHouse().getOwner().getCategory().getDiscountPercentage() * companyProfit * 0.01;
+	            profit += companyProfit - clientBenefit - ownerBenefit;
+            }
+        }
+        
+        return new ResponseEntity<>(profit, HttpStatus.OK);
+    }
 
 
 

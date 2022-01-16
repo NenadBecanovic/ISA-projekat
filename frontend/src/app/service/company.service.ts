@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Company } from '../model/company';
+import { TimePeriod } from '../model/time-period';
 import { UserCategory } from '../model/user-category';
 
 @Injectable({

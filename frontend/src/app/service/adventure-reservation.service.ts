@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AdventureReservation } from '../model/adventure-reservation';
+import { TimePeriod } from '../model/time-period';
 
 @Injectable({
   providedIn: 'root'
@@ -51,5 +52,9 @@ export class AdventureReservationService {
 
   public delete(id: number): Observable<boolean> {
     return this._http.delete<boolean>(`${this.userPath}/delete/`+id)
+  }
+
+  public calculatePeriodProfit(timePeriod: TimePeriod): Observable<number>{
+    return this._http.get<number>(`${this.userPath}/getCompanyProfit/`+timePeriod.startDate+`/`+timePeriod.endDate)
   }
 }

@@ -45,6 +45,11 @@
                 <span>Izmeni profil</span>
               </button>
             </div>
+            <div class="form-check">
+              <button type="button" (click)="calculateCompanyProfits()" class="btn btn-danger menu-btn justify-end align-items-center" >
+                <span>Profit kompanije</span>
+              </button>
+            </div>
           </div>
           <div class="d-flex ms-5 flex-column adventures" *ngIf="content == 'users'">
             <div class="d-flex flex-row">
@@ -100,11 +105,11 @@
                 </div>
                 <div class="d-flex right me-3 mb-3 align-items-center justify-content-end">
                   <button type="button" class="btn add-action-button"
-                    (click)="activateNewUser(newUserRequest.id)">REZERVIŠI</button>
+                    (click)="activateNewUser(newUserRequest.id)">ODOBRI</button>
                 </div>
                 <div class="d-flex right me-3 mb-3 align-items-center justify-content-end">
                   <button type="button" class="btn add-action-button"
-                    (click)="declineNewUser(newUserRequest.id)">REZERVIŠI</button>
+                    (click)="declineNewUser(newUserRequest.id)">ODBIJ</button>
                 </div>
               </div> 
             </div>

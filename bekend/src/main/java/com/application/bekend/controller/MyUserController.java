@@ -18,9 +18,11 @@ import java.util.List;
 import java.util.Set;
 
 import javax.mail.MessagingException;
+import javax.transaction.Transactional;
 
 @RestController
 @RequestMapping("api/user")
+@Transactional
 public class MyUserController {
 
     private final MyUserService myUserService;

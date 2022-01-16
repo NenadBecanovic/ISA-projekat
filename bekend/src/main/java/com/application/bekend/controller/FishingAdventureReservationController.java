@@ -181,5 +181,12 @@ public class FishingAdventureReservationController {
         }
         return new ResponseEntity<>(adventureReservationDTOS, HttpStatus.OK);
     }
+    
+    @GetMapping("/getCompanyProfit/{startDate}/{endDate}")
+    public ResponseEntity<Double> getCompanyInfo(@PathVariable("startDate") String startDate, @PathVariable("endDate") String endDate){
+		double profit = this.fishingAdventureReservationService.getCompanyProfit(startDate,endDate);
+        
+        return new ResponseEntity<>(profit, HttpStatus.OK);
+    }
 
 }

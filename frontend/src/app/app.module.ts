@@ -96,6 +96,7 @@ import { EditCompanyRulesDialogComponent } from './admin-page/edit-company-rules
 import { InstructorReservationHistoryComponent } from './clientHome/reservation/instructor-reservation-history/instructor-reservation-history.component';
 import { MatTableModule } from '@angular/material/table';
 import { InstructorChartComponent } from './adventure-profile/instructor-chart/instructor-chart.component';
+import { CompanyProfitDialogComponent } from './admin-page/company-profit-dialog/company-profit-dialog.component';
 
 const MaterialComponents = [
   MatSliderModule,
@@ -175,6 +176,7 @@ const MaterialComponents = [
     AdminRegistrationDialogComponent,
     EditCompanyRulesDialogComponent,
     InstructorChartComponent,
+    CompanyProfitDialogComponent
   ],
     imports: [
         RouterModule,

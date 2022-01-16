@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.application.bekend.DTO.AdditionalServicesDTO;
 import com.application.bekend.DTO.AdventureReservationDTO;
+import com.application.bekend.DTO.CompanyDTO;
 import com.application.bekend.DTO.EmailDTO;
 import com.application.bekend.DTO.UserInfoDTO;
 import com.application.bekend.repository.FishingAdventureReservationRepository;
@@ -309,5 +310,30 @@ public class FishingAdventureReservationService {
 		return true;
 	}
 
+	public double getCompanyProfit(String startDate, String endDate) {
+		List<AdventureReservation> adventureReservations = this.fishingAdventureReservationsRepository.findAll();
+		CompanyDTO company = this.companyService.getCompanyInfo((long) 1);
+		double profit = 0;
+        for (AdventureReservation a : adventureReservations) { 
+        	Long reservationStartDate = a.getStartDate().getTime();
+            Long today = new Date().getTime();
+            double adventurePrice = 0;
+
+            if (reservationStartDate < today && Long.parseLong(startDate) <= reservationStartDate && Long.parseLong(endDate) >= reservationStartDate) {
+            	adventurePrice += a.getPrice();
+
+	            Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
+	            // dobavljamo set dodatnih usluga za onu konkretnu rezervaciju iz baze i pretvaramo u DTO (a mozemo samo i pristupiti setu dodatnih usluga direktno preko rezervacije (a.getAdditionalServices()))
+	            for (AdditionalServices add : a.getAdditionalServices()) {  // a.getAdditionalServices()
+	            	adventurePrice += add.getPrice();
+	            }
+	            double companyProfit = adventurePrice * company.getPercentagePerReservation() * 0.01;
+	            double clientBenefit = a.getGuest().getCategory().getDiscountPercentage() * companyProfit * 0.01;
+	            double ownerBenefit = a.getFishingAdventure().getInstructor().getCategory().getDiscountPercentage() * companyProfit * 0.01;
+	            profit += companyProfit - clientBenefit - ownerBenefit;
+            }
+        }
+        return profit;
+	}
 
 }

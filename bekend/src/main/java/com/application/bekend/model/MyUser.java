@@ -209,15 +209,6 @@ public class MyUser implements UserDetails {
 	public List<Authority> getAuthorities() {
 		return authorities;
 	}
-
-	public Boolean getIsActivated() {
-		return isActivated;
-	}
-
-
-	public void setIsActivated(Boolean isActivated) {
-		this.isActivated = isActivated;
-	}
   
     public int getPenalties() {
         return penalties;
@@ -312,11 +303,11 @@ public class MyUser implements UserDetails {
     }
 
     public Boolean getActivated() {
-        return isActivated;
+        return this.isActivated;
     }
 
     public void setActivated(Boolean activated) {
-        isActivated = activated;
+        this.isActivated = activated;
     }
 
     public Set<Subscription> getSubscriptions_guests() {
