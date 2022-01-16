@@ -1,14 +1,8 @@
 package com.application.bekend.controller;
 
 import com.application.bekend.DTO.AdditionalServicesDTO;
-import com.application.bekend.model.AdditionalServices;
-import com.application.bekend.model.Boat;
-import com.application.bekend.model.FishingAdventure;
-import com.application.bekend.model.House;
-import com.application.bekend.service.AdditionalServicesService;
-import com.application.bekend.service.BoatService;
-import com.application.bekend.service.FishingAdventureService;
-import com.application.bekend.service.HouseService;
+import com.application.bekend.model.*;
+import com.application.bekend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,13 +21,15 @@ public class AdditionalServicesContoller {
     private final HouseService houseService;
     private final BoatService boatService;
     private final FishingAdventureService fishingAdventureService;
+    private final HouseReservationService houseReservationService;
 
     @Autowired
-    public AdditionalServicesContoller(AdditionalServicesService additionalServicesService, HouseService houseService, BoatService boatService, FishingAdventureService fishingAdventureService) {
+    public AdditionalServicesContoller(AdditionalServicesService additionalServicesService, HouseService houseService, BoatService boatService, FishingAdventureService fishingAdventureService, HouseReservationService houseReservationService) {
         this.additionalServicesService = additionalServicesService;
         this.houseService = houseService;
         this.boatService = boatService;
         this.fishingAdventureService = fishingAdventureService;
+        this.houseReservationService = houseReservationService;
     }
 
     @GetMapping("/getAllByHouseId/{id}")
@@ -106,6 +102,17 @@ public class AdditionalServicesContoller {
     @Transactional
     public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
         AdditionalServices additionalServices = this.additionalServicesService.getAdditionalServicesById(id);
+
+//        for (HouseReservation h: this.houseReservationService.getHouseReservationsByAdditionalServicesId(id)) {
+//            Long endDate = h.getEndDate().getTime();
+//            Calendar date = Calendar.getInstance();
+//            long millisecondsDate = date.getTimeInMillis();
+//
+//            if (h.isAvailable() == false && h.isAvailabilityPeriod() == false && endDate >= millisecondsDate) {
+//                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//            }
+//        }
+
         additionalServices.setHouses(null);
         additionalServices.setHouseReservationsServices(null);
 
@@ -127,11 +134,31 @@ public class AdditionalServicesContoller {
         FishingAdventure adventure = this.fishingAdventureService.getFishingAdventureById(dto.getAdventureId());
 
         if (house != null) {
+            for (HouseReservation h: house.getCourses()) {
+                Long endDate = h.getEndDate().getTime();
+                Calendar date = Calendar.getInstance();
+                long millisecondsDate = date.getTimeInMillis();
+
+                if (h.isAvailable() == false && h.isAvailabilityPeriod() == false && endDate >= millisecondsDate) {
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
+            }
+
             Set<House> houses = additionalServices.getHouses();
             houses.add(house);
             additionalServices.setHouses(houses);
         }
         else if (boat != null) {
+            for (BoatReservation h: boat.getCourses()) {
+                Long endDate = h.getEndDate().getTime();
+                Calendar date = Calendar.getInstance();
+                long millisecondsDate = date.getTimeInMillis();
+
+                if (h.isAvailable() == false && h.isAvailabilityPeriod() == false && endDate >= millisecondsDate) {
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
+            }
+
             Set<Boat> boats = additionalServices.getBoats();
             boats.add(boat);
             additionalServices.setBoats(boats);

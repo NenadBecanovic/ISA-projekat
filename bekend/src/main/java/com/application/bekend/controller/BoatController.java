@@ -13,10 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
-import java.util.Set;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("api/boat")
@@ -30,9 +27,10 @@ public class BoatController {
     private final ImageService imageService;
     private final BoatReservationService boatReservationService;
     private final MyUserService myUserService;
+    private final ReportService reportService;
 
     @Autowired
-    public BoatController(BoatService boatService, AdditionalServicesService additionalServicesService, NavigationEquipmentService navigationEquipmentService, AddresService addresService, ImageService imageService, BoatReservationService boatReservationService, MyUserService myUserService) {
+    public BoatController(BoatService boatService, AdditionalServicesService additionalServicesService, NavigationEquipmentService navigationEquipmentService, AddresService addresService, ImageService imageService, BoatReservationService boatReservationService, MyUserService myUserService, ReportService reportService) {
         this.boatService = boatService;
         this.additionalServicesService = additionalServicesService;
         this.navigationEquipmentService = navigationEquipmentService;
@@ -40,6 +38,7 @@ public class BoatController {
         this.imageService = imageService;
         this.boatReservationService = boatReservationService;
         this.myUserService = myUserService;
+        this.reportService = reportService;
     }
     @Autowired
     private ModelMapper modelMapper;
@@ -78,6 +77,18 @@ public class BoatController {
     @PutMapping("/edit/{id}")
     public ResponseEntity<BoatDTO> edit(@RequestBody BoatDTO dto) {
         Boat boat = this.boatService.getBoatById(dto.getId());
+
+        // ako postoji rezervacija u brodu, ona se ne moze izmeniti
+        for (BoatReservation h: boat.getCourses()) {
+            Long endDate = h.getEndDate().getTime();
+            Calendar date = Calendar.getInstance();
+            long millisecondsDate = date.getTimeInMillis();
+
+            if (h.isAvailable() == false && h.isAvailabilityPeriod() == false && endDate >= millisecondsDate) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        }
+
         Address address = boat.getAddress();
         List<AdditionalServices> additionalServices = this.additionalServicesService.getAllByBoatId(dto.getId());
 
@@ -235,9 +246,13 @@ public class BoatController {
     public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
         Boat boat = this.boatService.getBoatById(id);
 
+        // ako postoji rezervacija u brodu, ona se ne moze izmeniti
         for (BoatReservation h: boat.getCourses()) {
-            // ako postoji rezervacija u brodu, on se ne moze obrisati
-            if (h.isAvailable() == false && h.isAvailabilityPeriod() == false) {
+            Long endDate = h.getEndDate().getTime();
+            Calendar date = Calendar.getInstance();
+            long millisecondsDate = date.getTimeInMillis();
+
+            if (h.isAvailable() == false && h.isAvailabilityPeriod() == false && endDate >= millisecondsDate) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
         }
@@ -256,6 +271,11 @@ public class BoatController {
         // rezervacije
         for (BoatReservation h: boat.getCourses()) {
             BoatReservation boatReservation = this.boatReservationService.getBoatReservationById(h.getId());
+
+            Report report = this.reportService.getReportByBoatReservationId(h.getId());
+            if(report != null) {
+                this.reportService.delete(report.getId());
+            }
 
             Set<AdditionalServices> additionalServices =  boatReservation.getAdditionalServices();
             for(AdditionalServices a: additionalServices){

@@ -73,4 +73,8 @@ public class ReportService {
     	this.reportRepository.save(report);
     	return true;
     }
+
+	public void delete(Long id){
+		reportRepository.deleteById(id);
+	}
 }

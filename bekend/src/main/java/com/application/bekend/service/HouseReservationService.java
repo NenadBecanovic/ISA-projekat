@@ -99,8 +99,6 @@ public class HouseReservationService {
         }
     }
 
-
-
     public boolean checkMaxGuest(int maxGuest, House h) {
         int maxGuestHouse = 0;
         for(Room r: h.getRooms()){

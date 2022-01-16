@@ -15,7 +15,7 @@ export class FishingAdventure {
   fishingEquipment: String;
   behaviourRules: String;
   pricePerHour: number;
-  isCancellationFree: boolean;
+  cancellationFree: boolean;
   cancellationFee: number;
   additionalServices: AdditionalService[] = new Array<AdditionalService>();
   instructorId : number = 0;
@@ -30,7 +30,7 @@ export class FishingAdventure {
     this.fishingEquipment = fishingEquipment;
     this.behaviourRules = behaviourRules;
     this.pricePerHour = pricePerHour;
-    this.isCancellationFree = isCancellationFree;
+    this.cancellationFree = isCancellationFree;
     this.cancellationFee = cancelationFee;
   }
 
