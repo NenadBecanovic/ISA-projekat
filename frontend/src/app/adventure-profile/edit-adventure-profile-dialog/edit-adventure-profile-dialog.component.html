@@ -28,7 +28,7 @@
         <input type="number" class="form-control" name="time" [(ngModel)]="adventure.pricePerHour">
         <span>Besplatno otkazivanje</span>
         <div class="input-box mt-2">
-          <mat-checkbox name="checkbox" [(ngModel)]="adventure.isCancellationFree" (change)="checkboxChanged($event)"> </mat-checkbox>
+          <mat-checkbox name="checkbox" [(ngModel)]="adventure.cancellationFree" (change)="checkboxChanged($event)"> </mat-checkbox>
         </div>
         <span class="mt-1">Procenat prilikom otkazivanja</span>
         <input type="number" class="form-control" name="time" [(ngModel)]="adventure.cancellationFee">

@@ -3,6 +3,7 @@ package com.application.bekend.controller;
 import com.application.bekend.DTO.RoomDTO;
 import com.application.bekend.model.AdditionalServices;
 import com.application.bekend.model.House;
+import com.application.bekend.model.HouseReservation;
 import com.application.bekend.model.Room;
 import com.application.bekend.service.HouseService;
 import com.application.bekend.service.RoomService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -48,6 +50,16 @@ public class RoomController {
     public ResponseEntity<Room> save(@RequestBody RoomDTO dto) {
         Room room = new Room(dto.getNumberOfBeds());
         House house = this.houseService.getHouseById(dto.getHouseId());
+
+        for (HouseReservation h: house.getCourses()) {
+            Long endDate = h.getEndDate().getTime();
+            Calendar date = Calendar.getInstance();
+            long millisecondsDate = date.getTimeInMillis();
+
+            if (h.isAvailable() == false && h.isAvailabilityPeriod() == false && endDate >= millisecondsDate) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        }
 
         room.setHouse(house);
         this.roomService.save(room);

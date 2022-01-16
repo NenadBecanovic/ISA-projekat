@@ -26,9 +26,10 @@ public class HouseController {
     private final ImageService imageService;
     private final AddresService addresService;
     private final MyUserService myUserService;
+    private final ReportService reportService;
   
     @Autowired
-    public HouseController(HouseService houseService, RoomService roomService, AdditionalServicesService additionalServicesService, HouseReservationService houseReservationService, ImageService imageService, AddresService addresService, MyUserService myUserService) {
+    public HouseController(HouseService houseService, RoomService roomService, AdditionalServicesService additionalServicesService, HouseReservationService houseReservationService, ImageService imageService, AddresService addresService, MyUserService myUserService, ReportService reportService) {
         this.houseService = houseService;
         this.roomService = roomService;
         this.additionalServicesService = additionalServicesService;
@@ -36,6 +37,7 @@ public class HouseController {
         this.imageService = imageService;
         this.addresService = addresService;
         this.myUserService = myUserService;
+        this.reportService = reportService;
     }
 
     @GetMapping("/getHouseById/{id}")
@@ -65,19 +67,7 @@ public class HouseController {
         List<House> houses = this.houseService.findAll();
         List<HouseDTO> houseDTOS = new ArrayList<>();
         for(House house: houses){
-            AddressDTO addressDTO = new AddressDTO(house.getAddress().getId(), house.getAddress().getStreet(), house.getAddress().getCity(), house.getAddress().getState(),
-                    house.getAddress().getLongitude(), house.getAddress().getLatitude(), house.getAddress().getPostalCode());
-
-            HouseDTO dto = new HouseDTO(house.getId(), house.getName(), addressDTO, house.getPromoDescription(), house.getBehaviourRules(),
-                    house.getPricePerDay(), house.isCancalletionFree(), house.getCancalletionFee());
-            dto.setGrade(house.getGrade());
-            Set<ImageDTO> dtoSet = new HashSet<>();
-            for(Image i: house.getImages()){
-                ImageDTO imageDTO = modelMapper.map(i, ImageDTO.class);
-                dtoSet.add(imageDTO);
-            }
-            dto.setImages(dtoSet);
-            houseDTOS.add(dto);
+            makeHouseDTOList(house, houseDTOS);
         }
         return new ResponseEntity<>(houseDTOS, HttpStatus.OK);
     }
@@ -124,6 +114,18 @@ public class HouseController {
     @PutMapping("/edit/{id}")
     public ResponseEntity<HouseDTO> edit(@RequestBody HouseDTO dto) {
         House house = this.houseService.getHouseById(dto.getId());
+
+        // ako postoji rezervacija u vikendici, ona se ne moze izmeniti
+        for (HouseReservation h: house.getCourses()) {
+            Long endDate = h.getEndDate().getTime();
+            Calendar date = Calendar.getInstance();
+            long millisecondsDate = date.getTimeInMillis();
+
+            if (h.isAvailable() == false && h.isAvailabilityPeriod() == false && endDate >= millisecondsDate) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        }
+
         Address address = house.getAddress();
         Set<Room> rooms = house.getRooms();
         List<AdditionalServices> additionalServices = this.additionalServicesService.getAllByHouseId(dto.getId());
@@ -208,9 +210,13 @@ public class HouseController {
     public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
         House house = this.houseService.getHouseById(id);
 
+        // ako postoji rezervacija u vikendici, ona se ne moze obrisati
         for (HouseReservation h: house.getCourses()) {
-            // ako postoji rezervacija u vikendici, ona se ne moze obrisati
-            if (h.isAvailable() == false && h.isAvailabilityPeriod() == false) {
+            Long endDate = h.getEndDate().getTime();
+            Calendar date = Calendar.getInstance();
+            long millisecondsDate = date.getTimeInMillis();
+
+            if (h.isAvailable() == false && h.isAvailabilityPeriod() == false && endDate >= millisecondsDate) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
         }
@@ -224,8 +230,6 @@ public class HouseController {
 
         house.setRooms(null);
         this.houseService.save(house);
-        // proci kroz sobe i staviti house_id = null (+ izbrisati iz tabele)
-
         house.setOwner(null);
         this.houseService.save(house);
 
@@ -237,11 +241,15 @@ public class HouseController {
 
         house.setImages(null);
         this.houseService.save(house);
-        // proci kroz slike i staviti house_id = null (+ izbrisati i sliku)
 
         // rezervacije
         for (HouseReservation h: house.getCourses()) {
             HouseReservation houseReservation = this.houseReservationService.getHouseReservationById(h.getId());
+
+            Report report = this.reportService.getReportByHouseReservationId(h.getId());
+            if(report != null) {
+                this.reportService.delete(report.getId());
+            }
 
             Set<AdditionalServices> additionalServices =  houseReservation.getAdditionalServices();
             for(AdditionalServices a: additionalServices){
@@ -264,15 +272,12 @@ public class HouseController {
             AdditionalServices additionalServices = this.additionalServicesService.getAdditionalServicesById(a.getId());
             additionalServices.setHouses(null);
             additionalServices.setHouseReservationsServices(null);
-
             additionalServices.setBoats(null);
             additionalServices.setBoatReservationsServices(null);
-
             this.additionalServicesService.deleteById(a.getId());
         }
 
         house.setServices(null);
-
         house = this.houseService.save(house);
         this.houseService.delete(house.getId());
 
@@ -299,6 +304,33 @@ public class HouseController {
         house = this.houseService.save(house);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+
+    @PostMapping("/findAllAvailableHouses")
+    public ResponseEntity<List<HouseDTO>> findAllAvailableHouses(@RequestBody ReservationCheckDTO reservationCheckDTO){
+        List<House> houses = this.houseService.getAllAvailableHouses(reservationCheckDTO);
+        List<HouseDTO> houseDTOS = new ArrayList<>();
+        for(House house: houses){
+            makeHouseDTOList(house,houseDTOS);
+        }
+        return new ResponseEntity<>(houseDTOS, HttpStatus.OK);
+    }
+
+    private void makeHouseDTOList(House house, List<HouseDTO> houseDTOS) {
+        AddressDTO addressDTO = new AddressDTO(house.getAddress().getId(), house.getAddress().getStreet(), house.getAddress().getCity(), house.getAddress().getState(),
+                house.getAddress().getLongitude(), house.getAddress().getLatitude(), house.getAddress().getPostalCode());
+
+        HouseDTO dto = new HouseDTO(house.getId(), house.getName(), addressDTO, house.getPromoDescription(), house.getBehaviourRules(),
+                house.getPricePerDay(), house.isCancalletionFree(), house.getCancalletionFee());
+        dto.setGrade(house.getGrade());
+        Set<ImageDTO> dtoSet = new HashSet<>();
+        for(Image i: house.getImages()){
+            ImageDTO imageDTO = modelMapper.map(i, ImageDTO.class);
+            dtoSet.add(imageDTO);
+        }
+        dto.setImages(dtoSet);
+        houseDTOS.add(dto);
     }
 
 }

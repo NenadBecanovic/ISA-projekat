@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'angular-highcharts';
-// import { donutChartOptions } from './helpers/donutChartOptions';
-// import { areaChartOptions } from './helpers/areaChartOptions';
-import { barChart } from './helpers/barChart';
 import {BoatReservationService} from "../../service/boat-reservation.service";
 import {Address} from "../../model/address";
 import {NavigationEquipment} from "../../model/navigation-equipment";
@@ -11,7 +8,6 @@ import {Boat} from "../../model/boat";
 import {BoatReservation} from "../../model/boat-reservation";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BoatService} from "../../service/boat.service";
-// import { oneLineBar } from './helpers/oneLineBar';
 
 @Component({
   selector: 'app-boat-chart',
@@ -86,6 +82,20 @@ export class BoatChartComponent implements OnInit {
     this.dec = new Array();
     this.year2021Array = new Array();
     this.year2022Array = new Array();
+    this.firstDayIncome = 0;
+    this.secondDayIncome = 0;
+    this.thirdDayIncome = 0;
+    this.forthDayIncome = 0;
+    this.fifthDayIncome = 0;
+    this.sixthDayIncome = 0;
+    this.seventhDayIncome = 0;
+    this.firstBoat = new Array();
+    this.secondBoat = new Array();
+    this.thirdBoat = new Array();
+    this.forthBoat = new Array();
+    this.fifthBoat = new Array();
+    this.sixtBoat = new Array();
+    this.seventhBoat = new Array();
   }
 
   determineMonth(b: BoatReservation){
@@ -116,15 +126,6 @@ export class BoatChartComponent implements OnInit {
       }else if(start.getMonth() == 11){
         this.dec.push(b)
       }
-  }
-
-  // @ts-ignore
-  determineDayOfWeek(){
-
-    if (this.date.getDay() == 3){
-      return "pon";
-    }
-
   }
 
   year2021func(){
@@ -173,7 +174,7 @@ export class BoatChartComponent implements OnInit {
           for(let b of boatReservations) {
             if (!b.availabilityPeriod && !b.available && Number(b.startDate) >= 1609455600000 && Number(b.startDate) < 1640991600000) {
               this.determineMonth(b);
-              this.year2021Array.push(b)
+              //this.year2021Array.push(b)
             }
           }
         }
@@ -286,12 +287,8 @@ export class BoatChartComponent implements OnInit {
         );
 
         var danas = new Date().getMilliseconds()
-        console.log(danas)
-
         var weekAgo = Number(this.date) - (86400000 * 6)
         var zero = new Date(weekAgo - 86400000)
-
-        console.log(zero)
 
         var firstDay = new Date(weekAgo)
         var secondDay = new Date(weekAgo + 86400000)
@@ -300,58 +297,33 @@ export class BoatChartComponent implements OnInit {
         var fifthdDay = new Date(weekAgo + 4*86400000)
         var sixtDay = new Date(weekAgo + 5*86400000)
 
-        // for(let r of boatReservations)
-        // {
-        //   if(Number(r.startDate) >= weekAgo && Number(r.startDate) < weekAgo + 86400000){
-        //     console.log('OVDEEEE', r.id)
-        //     this.firstBoat.push(r);
-        //   } else if (Number(r.startDate) >= weekAgo && Number(r.startDate) < weekAgo + 2 * 86400000){
-        //     console.log('OVDEEEE1', r.id)
-        //     this.secondBoat.push(r);
-        //   } else if (Number(r.startDate) >= weekAgo && Number(r.startDate) < weekAgo + 3 * 86400000){
-        //     console.log('OVDEEEE2', r.id)
-        //     this.thirdBoat.push(r);
-        //   }else if (Number(r.startDate) >= weekAgo && Number(r.startDate) < weekAgo + 4 * 86400000){
-        //     console.log('OVDEEEE3', r.id)
-        //     this.forthBoat.push(r);
-        //   }else if (Number(r.startDate) >= weekAgo && Number(r.startDate) < weekAgo + 5 * 86400000){
-        //     console.log('OVDEEEE4', r.id)
-        //     this.fifthBoat.push(r);
-        //   }else if (Number(r.startDate) >= weekAgo && Number(r.startDate) < weekAgo + 6 * 86400000){
-        //     console.log('OVDEEE5', r.id)
-        //     this.sixtBoat.push(r);
-        //   }else if (Number(r.startDate) >= weekAgo && Number(r.startDate) < weekAgo + 7 * 86400000){
-        //     this.seventhBoat.push(r);
-        //   }
-        //
-        //   console.log(Number(weekAgo +  86400000))
-        //   console.log(Number(weekAgo + 7 * 86400000))
-        // }
-
         for(let r of boatReservations) {
-          if (Number(r.startDate) >= Number(zero) && Number(r.startDate) < Number(firstDay)){
-            this.firstBoat.push(r)
-            this.firstDayIncome = r.price;
-          }else if (Number(r.startDate) >= Number(firstDay) && Number(r.startDate) < Number(secondDay)) {
-            this.secondBoat.push(r);
-            this.secondDayIncome = r.price;
-          } else if (Number(r.startDate) >= Number(secondDay) && Number(r.startDate) < Number(thirdDay)) {
-            this.thirdBoat.push(r);
-            this.thirdDayIncome = r.price;
-          } else if (Number(r.startDate) >= Number(thirdDay) && Number(r.startDate) < Number(forthdDay)) {
-            this.forthBoat.push(r);
-            this.forthDayIncome = r.price;
-          } else if (Number(r.startDate) >= Number(forthdDay) && Number(r.startDate) < Number(fifthdDay)) {
-            this.fifthBoat.push(r);
-            this.fifthDayIncome = r.price;
-          } else if (Number(r.startDate) >= Number(fifthdDay) && Number(r.startDate) < Number(sixtDay)) {
-            this.sixtBoat.push(r);
-            this.sixthDayIncome = r.price;
-          } else if (Number(r.startDate) >= Number(sixtDay) && Number(r.startDate) < Number(weekAgo)) {
-            this.seventhBoat.push(r);
-            this.seventhDayIncome = r.price;
+          if (!r.available && !r.availabilityPeriod) {
+            if (Number(r.startDate) >= Number(zero) && Number(r.startDate) < Number(firstDay)) {
+              this.firstBoat.push(r)
+              this.firstDayIncome = this.firstDayIncome + this.calculateTotalPrice(r);
+            } else if (Number(r.startDate) >= Number(firstDay) && Number(r.startDate) < Number(secondDay)) {
+              this.secondBoat.push(r);
+              this.secondDayIncome = this.secondDayIncome + this.calculateTotalPrice(r);
+            } else if (Number(r.startDate) >= Number(secondDay) && Number(r.startDate) < Number(thirdDay)) {
+              this.thirdBoat.push(r);
+              this.thirdDayIncome = this.thirdDayIncome + this.calculateTotalPrice(r);
+            } else if (Number(r.startDate) >= Number(thirdDay) && Number(r.startDate) < Number(forthdDay)) {
+              this.forthBoat.push(r);
+              this.forthDayIncome = this.forthDayIncome + this.calculateTotalPrice(r);
+            } else if (Number(r.startDate) >= Number(forthdDay) && Number(r.startDate) < Number(fifthdDay)) {
+              this.fifthBoat.push(r);
+              this.fifthDayIncome = this.fifthDayIncome + this.calculateTotalPrice(r);
+            } else if (Number(r.startDate) >= Number(fifthdDay) && Number(r.startDate) < Number(sixtDay)) {
+              this.sixtBoat.push(r);
+              this.sixthDayIncome = this.sixthDayIncome + this.calculateTotalPrice(r);
+            } else if (Number(r.startDate) >= Number(sixtDay) && Number(r.startDate) < Number(weekAgo)) {
+              this.seventhBoat.push(r);
+              this.seventhDayIncome = this.seventhDayIncome + this.calculateTotalPrice(r);
+            }
           }
         }
+
 
           this.chartWeekly = new Chart({
             chart: {
@@ -462,6 +434,27 @@ export class BoatChartComponent implements OnInit {
 
       }
     )
+  }
+
+  calculateTotalPrice(r: BoatReservation){
+    var additionalPrice = 0;
+    for(let a of r.additionalServices) {
+      additionalPrice = additionalPrice + a.price;
+    }
+
+    if (r.cancelled && !this.boat.cancalletionFree){
+      var percantage = this.boat.cancalletionFee;
+      var totalPrice = r.price + additionalPrice;
+      totalPrice = percantage * totalPrice * 0.01;
+      return totalPrice;
+    }
+    else if(r.cancelled && this.boat.cancalletionFree)
+    {
+      return 0;
+    }
+    else {
+      return r.price + additionalPrice;
+    }
   }
 
 }

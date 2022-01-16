@@ -43,7 +43,7 @@ export class EditAdventureProfileDialogComponent implements OnInit {
   }
 
   checkboxChanged($event: MatCheckboxChange) {
-    if (this.adventure.isCancellationFree == true)
+    if (this.adventure.cancellationFree == true)
     {
       this.adventure.cancellationFee = 0
     }

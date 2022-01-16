@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {House} from "../model/house";
 import {Boat} from "../model/boat";
 import {BoatHomeSlide} from "../model/boat-home-slide";
+import {ReservationCheck} from "../model/reservation-check";
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +37,9 @@ export class BoatService {
 
   public save(boat: Boat): Observable<Boat> {
     return this._http.post<Boat>(`${this.userPath}/add`, boat)
+  }
+
+  public findAllAvailableBoats(request: ReservationCheck): Observable<Boat[]>{
+    return this._http.post<Boat[]>(`${this.userPath}/findAllAvailableBoats`, request)
   }
 }

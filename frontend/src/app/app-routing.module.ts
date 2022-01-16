@@ -47,7 +47,6 @@ import {
   BoatReservationHistoryComponent
 } from "./clientHome/reservation/boat-reservation-history/boat-reservation-history.component";
 import {FutureReservationComponent} from "./clientHome/reservation/future-reservation/future-reservation.component";
-import {AdventureChartComponent} from "./adventure-profile/adventure-chart/adventure-chart.component";
 import {DeleteImageDialogComponent} from "./adventure-profile/delete-image-dialog/delete-image-dialog.component";
 import {HomeInstructorComponent} from "./home-page/home-instructor/home-instructor.component";
 import {InstructorComponent} from "./home-page/instructor/instructor.component";
@@ -56,6 +55,7 @@ import {
   InstructorReservationHistoryComponent
 } from "./clientHome/reservation/instructor-reservation-history/instructor-reservation-history.component";
 import {AuthGuardGuard} from "./auth-guard.guard";
+import {InstructorChartComponent} from "./adventure-profile/instructor-chart/instructor-chart.component";
 
 
 const routes: Routes = [
@@ -95,7 +95,7 @@ const routes: Routes = [
   { path: 'admin-page', component: AdminPageComponent},
   { path: 'boat-chart/:id', component: BoatChartComponent},
   { path: 'house-chart/:id', component: HouseChartComponent},
-  { path: 'adventure-chart/:id', component: AdventureChartComponent},
+  { path: 'instructor-chart/:id', component: InstructorChartComponent},
   { path: ' delete-image-dialog/:id', component: DeleteImageDialogComponent},
 ];
 

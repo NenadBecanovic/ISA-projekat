@@ -151,7 +151,7 @@ export class AdventureProfileComponent implements OnInit {
   }
 
   showCharts() {
-    this._router.navigate(['/adventure-chart', this.adventureId])
+    this._router.navigate(['/instructor-chart', this.adventureId])
   }
 
   goToInstructor(){

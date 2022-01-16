@@ -83,7 +83,6 @@ import { CalendarDialogBoatComponent } from './boat-owner/boat-profile-for-boat-
 import { AdventureReservationsDialogComponent } from './adventure-profile/adventure-reservations-dialog/adventure-reservations-dialog.component';
 import { PlainHeaderComponent } from './house-owner/plain-header/plain-header.component';
 import {NgbCollapseModule} from "@ng-bootstrap/ng-bootstrap";
-import { AdventureChartComponent } from './adventure-profile/adventure-chart/adventure-chart.component';
 import { AddImageHouseComponent } from './house-owner/add-image-house/add-image-house.component';
 import { AddImageBoatComponent } from './boat-owner/add-image-boat/add-image-boat.component';
 import { AdminPageComponent } from './admin-page/admin-page.component';
@@ -94,7 +93,7 @@ import { DeclineNewUserDialogComponent } from './admin-page/decline-new-user-dia
 import { AdminRegistrationDialogComponent } from './admin-page/admin-registration-dialog/admin-registration-dialog.component';
 import { EditPersonalDescriptionDialogComponent } from './fishing-instructor-profile/edit-personal-description-dialog/edit-personal-description-dialog.component';
 import {MatTableModule} from "@angular/material/table";
-
+import { InstructorChartComponent } from './adventure-profile/instructor-chart/instructor-chart.component';
 
 const MaterialComponents = [
   MatSliderModule,
@@ -169,10 +168,10 @@ const MaterialComponents = [
     EditPersonalDescriptionDialogComponent,
     AdventureReservationsDialogComponent,
     PlainHeaderComponent,
-    AdventureChartComponent,
     AddImageHouseComponent,
     AddImageBoatComponent,
     AdminRegistrationDialogComponent,
+    InstructorChartComponent,
   ],
     imports: [
         RouterModule,

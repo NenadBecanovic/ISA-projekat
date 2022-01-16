@@ -81,7 +81,7 @@ export class ModifyBoatProfileComponent implements OnInit {
         this.loadData();
       },
       (error) => {
-        this._alertService.danger('Doslo je do greske');
+        this._alertService.danger('Rezervisana vikendica se ne može izmeniti');
       },
     )
   }
@@ -102,7 +102,7 @@ export class ModifyBoatProfileComponent implements OnInit {
       },
       (error) => {
         // console.log(error)
-        this._alertService.danger('Doslo je do greske');
+        this._alertService.danger('Rezervisani brod se ne može izmeniti');
       },
     )
   }

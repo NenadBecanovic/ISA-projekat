@@ -61,7 +61,7 @@ export class CreateReservationForClientComponent implements OnInit {
                 this.datepipe.transform(this.date, 'dd/MM/yyyy HH:mm:ss');
 
                 if (Number(reservation.startDate) < Number(Date.parse(this.date.toString()).toString()) &&  // ako rezervacija trenutno traje
-                  Number(reservation.endDate) > Number(Date.parse(this.date.toString()).toString()) )
+                  Number(reservation.endDate) > Number(Date.parse(this.date.toString()).toString()) && !reservation.cancelled)
                 {
                   if (this.userAlreadyInArray(user) == false) {
                     this.finalUsers.push(user)
@@ -93,6 +93,7 @@ export class CreateReservationForClientComponent implements OnInit {
     this.houseReservation.available = false;
     this.houseReservation.availabilityPeriod = false;
     this.houseReservation.guestId = this.selectedUser.id;
+    this.houseReservation.cancelled = false;
 
     var startDate = Date.parse(this.houseReservation.startDate)
     this.date =  new Date(startDate)
