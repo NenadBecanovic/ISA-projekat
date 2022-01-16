@@ -55,6 +55,7 @@ import {ClientInstructorsComponent} from "./clientHome/client-instructors/client
 import {
   InstructorReservationHistoryComponent
 } from "./clientHome/reservation/instructor-reservation-history/instructor-reservation-history.component";
+import {AuthGuardGuard} from "./auth-guard.guard";
 
 
 const routes: Routes = [
@@ -65,7 +66,7 @@ const routes: Routes = [
   {path:'login', component: LoginComponent},
   {path:'register', component: RegistrationComponent},
   {path:'email-activation', component: EmailActivationComponent},
-  {path:'client', component: ClientHomePageComponent, children: [{path: '', component: ClientHousesComponent}, {path: 'boats', component: ClientBoatsComponent},   {path: 'house/:id', component: ClientHouseComponent},
+  {path:'client', component: ClientHomePageComponent, canActivate: [AuthGuardGuard], children: [{path: '', component: ClientHousesComponent}, {path: 'boats', component: ClientBoatsComponent},   {path: 'house/:id', component: ClientHouseComponent},
       {path: 'boat/:id', component: ClientBoatComponent}, {path: 'subscriptions', component: ClientSubscriptionsComponent},{path: 'instructors', component: ClientInstructorsComponent},
       {path: 'houseReservation', component: HouseReservationHistoryComponent}, {path: 'boatReservation', component: BoatReservationHistoryComponent}, {path: 'futureReservations', component: FutureReservationComponent},
       {path: 'instructorReservation', component: InstructorReservationHistoryComponent}]},
