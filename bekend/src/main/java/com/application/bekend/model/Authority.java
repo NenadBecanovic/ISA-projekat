@@ -15,8 +15,8 @@ public class Authority implements GrantedAuthority {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = "authorities")
-    private Set<MyUser> users= new HashSet<MyUser>();
+    @OneToMany(mappedBy = "authority", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<MyUser> users = new HashSet<>();
 
     public Authority(Long id, String name, MyUser user) {
         this.id = id;

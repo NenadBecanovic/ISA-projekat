@@ -74,7 +74,7 @@ public class AuthService {
         addresService.save(address);
         myUser.setAddress(address);
         Authority authority = this.authorityService.findAuthorityByName(myUserDTO.getAuthority());
-        myUser.addAuthority(authority);
+        myUser.setAuthority(authority);
         myUser.setDeleted(false);
         myUser.setPenalties(0);
         myUser.setGrade(0);

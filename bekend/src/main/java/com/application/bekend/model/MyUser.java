@@ -65,9 +65,9 @@ public class MyUser implements UserDetails {
     @OneToMany(mappedBy = "ownerId", fetch = FetchType.EAGER)
     private Set<Appeal> appelsFor = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_authorities", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
-    private List<Authority> authorities = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "authority_id")
+    private Authority authority;
 
     @OneToOne(mappedBy = "user")
     private VerificationRequest verificationRequest;
@@ -115,10 +115,6 @@ public class MyUser implements UserDetails {
     public boolean isEnabled() {
         return isActivated;
     }
-
-    public void addAuthority(Authority authority){
-        this.authorities.add(authority);
-   }
 
     public double getGrade() {
         return grade;
@@ -198,6 +194,8 @@ public class MyUser implements UserDetails {
 	}
 
 	public List<Authority> getAuthorities() {
+        List<Authority> authorities = new ArrayList<>();
+        authorities.add(authority);
 		return authorities;
 	}
 
@@ -290,10 +288,6 @@ public class MyUser implements UserDetails {
         this.feedbacks = feedbacks;
     }
 
-    public void setAuthorities(List<Authority> authorities) {
-        this.authorities = authorities;
-    }
-
     public VerificationRequest getVerificationRequest() {
         return verificationRequest;
     }
@@ -357,4 +351,12 @@ public class MyUser implements UserDetails {
 	public void setPersonalDescription(String personalDescription) {
 		this.personalDescription = personalDescription;
 	}
+
+    public Authority getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(Authority authority) {
+        this.authority = authority;
+    }
 }

@@ -56,6 +56,8 @@ import {
 } from "./clientHome/reservation/instructor-reservation-history/instructor-reservation-history.component";
 import {AuthGuardGuard} from "./auth-guard.guard";
 import {InstructorChartComponent} from "./adventure-profile/instructor-chart/instructor-chart.component";
+import {ClientInstructorComponent} from "./clientHome/client-instructor/client-instructor.component";
+import {ClientAdventureComponent} from "./clientHome/client-adventure/client-adventure.component";
 
 
 const routes: Routes = [
@@ -69,7 +71,7 @@ const routes: Routes = [
   {path:'client', component: ClientHomePageComponent, canActivate: [AuthGuardGuard], children: [{path: '', component: ClientHousesComponent}, {path: 'boats', component: ClientBoatsComponent},   {path: 'house/:id', component: ClientHouseComponent},
       {path: 'boat/:id', component: ClientBoatComponent}, {path: 'subscriptions', component: ClientSubscriptionsComponent},{path: 'instructors', component: ClientInstructorsComponent},
       {path: 'houseReservation', component: HouseReservationHistoryComponent}, {path: 'boatReservation', component: BoatReservationHistoryComponent}, {path: 'futureReservations', component: FutureReservationComponent},
-      {path: 'instructorReservation', component: InstructorReservationHistoryComponent}]},
+      {path: 'instructorReservation', component: InstructorReservationHistoryComponent}, {path: 'instructor/:id', component: ClientInstructorComponent},  {path: 'instructor/adventure/:id', component: ClientAdventureComponent}]},
   { path:'house-profile-for-house-owner/:id', component: HouseProfileForHouseOwnerComponent},
   { path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}]},
   {path: 'adventure-profile/:id', component: AdventureProfileComponent},

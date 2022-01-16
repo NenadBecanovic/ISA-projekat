@@ -49,6 +49,8 @@ import {
   CreateReservationInstructorComponent
 } from "../dialog/create-reservation-instructor/create-reservation-instructor.component";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {ClientInstructorComponent} from "../client-instructor/client-instructor.component";
+import {ClientAdventureComponent} from "../client-adventure/client-adventure.component";
 
 
 @NgModule({
@@ -71,6 +73,8 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     CreateReservationBoatComponent,
     CreateReservationHouseComponent,
     CreateReservationInstructorComponent,
+    ClientInstructorComponent,
+    ClientAdventureComponent,
   ],
   imports: [
     CommonModule,
