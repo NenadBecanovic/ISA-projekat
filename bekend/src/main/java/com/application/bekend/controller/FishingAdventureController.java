@@ -129,8 +129,8 @@ public class FishingAdventureController {
         fishingAdventure.setPromoDescription(fishingAdventureDTO.getPromoDescription());
         fishingAdventure.setBehaviourRules(fishingAdventureDTO.getBehaviourRules());
         fishingAdventure.setPricePerHour(fishingAdventureDTO.getPricePerHour());
-        fishingAdventure.setCancalletionFee(fishingAdventureDTO.getCancalletionFee());
-        fishingAdventure.setCancalletionFree(fishingAdventureDTO.isCancalletionFree());
+        fishingAdventure.setCancalletionFee(fishingAdventureDTO.getCancellationFee());
+        fishingAdventure.setCancalletionFree(fishingAdventureDTO.isCancellationFree());
 
         this.fishingAdventureService.save(fishingAdventure);
 
