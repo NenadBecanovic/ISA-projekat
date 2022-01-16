@@ -2,6 +2,7 @@ package com.application.bekend.service;
 
 import com.application.bekend.DTO.HouseReservationDTO;
 import com.application.bekend.DTO.ReservationCheckDTO;
+import com.application.bekend.model.AdditionalServices;
 import com.application.bekend.model.House;
 import com.application.bekend.model.HouseReservation;
 import com.application.bekend.model.Room;
@@ -9,18 +10,20 @@ import com.application.bekend.repository.HouseReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class HouseReservationService {
 
     private final HouseReservationRepository houseReservationsRepository;
+    private final AdditionalServicesService additionalServicesService;
 
     @Autowired
-    public HouseReservationService(HouseReservationRepository houseReservationsRepository) {
+    public HouseReservationService(HouseReservationRepository houseReservationsRepository, AdditionalServicesService additionalServicesService) {
         this.houseReservationsRepository = houseReservationsRepository;
+        this.additionalServicesService = additionalServicesService;
     }
 
     public List<HouseReservation> getAllByHouse_Id(Long id) {
@@ -46,28 +49,15 @@ public class HouseReservationService {
     public  List<HouseReservation> getHouseReservationsByGuestId(Long id) { return this.houseReservationsRepository.getHouseReservationsByGuestId(id); }
 
     public double findTotalPriceForHouseReservation(HouseReservation houseReservation){
-        int daysDifference = this.getDaysDifference(houseReservation.getStartDate(), houseReservation.getEndDate());
-        double totalPrice = daysDifference*houseReservation.getPrice();
+        Set<AdditionalServices> additionalServices =  this.additionalServicesService.getAllByHouseReservationId(houseReservation.getId());
+        double totalPrice = houseReservation.getPrice();
+        for(AdditionalServices a: additionalServices){
+            totalPrice = totalPrice + a.getPrice();
+        }
+
         return totalPrice;
     }
 
-    private int getDaysDifference(Date startData, Date endDate){
-
-        long date1InMs = startData.getTime();
-        long date2InMs = endDate.getTime();
-
-        long timeDiff = 0;
-        if(date1InMs > date2InMs) {
-            timeDiff = date1InMs - date2InMs;
-        } else {
-            timeDiff = date2InMs - date1InMs;
-        }
-
-        // converting diff into days
-        int daysDiff = (int) (timeDiff / (1000 * 60 * 60* 24));
-
-       return daysDiff;
-    }
 
     public HouseReservationDTO editHouseReservation(HouseReservationDTO houseReservationDTO, Long houseResId){
         HouseReservation houseReservation= this.houseReservationsRepository.getHouseReservationById(houseResId);

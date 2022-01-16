@@ -179,6 +179,7 @@ export class FutureReservationComponent implements OnInit {
     this.cancelReservationClass.reservationId = id
     this.cancelReservationClass.guestId = this.user.id;
     var cancelFee = 0
+    var totalPrice = 0
     if (this.selctedEntity === 'Vikendica') {
       this.cancelReservationClass.isHouse = true;
       this.cancelSource = this.dataSource.filter(s => s.id == id)
@@ -186,6 +187,14 @@ export class FutureReservationComponent implements OnInit {
       this._houseService.getHouseById(house).subscribe(
         (house: House) => {
           cancelFee = house.cancalletionFee;
+          var additionalPrice = 0;
+          for(let a of this.cancelSource[0].additionalServices) {
+            additionalPrice = additionalPrice + a.price;
+          }
+          var percantage = house.cancalletionFee;
+          totalPrice = this.cancelSource[0].price + additionalPrice;
+          totalPrice = percantage * totalPrice * 0.01;
+
         }, (error => {
         })
       )
@@ -197,7 +206,14 @@ export class FutureReservationComponent implements OnInit {
       var boat = this.cancelSource[0].boatId
       this._boatService.getBoatById(boat).subscribe(
         (boat: Boat) => {
-          cancelFee = boat.cancalletionFee;
+          cancelFee = house.cancalletionFee;
+          var additionalPrice = 0;
+          for(let a of this.cancelSource[0].additionalServices) {
+            additionalPrice = additionalPrice + a.price;
+          }
+          var percantage = house.cancalletionFee;
+          totalPrice = this.cancelSource[0].price + additionalPrice;
+          totalPrice = percantage * totalPrice * 0.01;
         }, (error => {
         })
       )
@@ -207,7 +223,7 @@ export class FutureReservationComponent implements OnInit {
     }
 
 
-    setTimeout(()=>{if (confirm("Da li ste sigurni da zelite da otkazete rezervaciju? Bice vam naplaceno " + cancelFee + " dinara .")) {
+    setTimeout(()=>{if (confirm("Da li ste sigurni da zelite da otkazete rezervaciju? Bice vam naplaceno " + totalPrice + " dinara .")) {
       this._myUserService.cancelReservation(this.cancelReservationClass).subscribe(
         (cancelRes: CancelReservation) => {
           if(this.selctedEntity === 'Vikendica'){

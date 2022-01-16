@@ -18,12 +18,12 @@
     <br>
 
     <div class="boat-container boat-view-title-container">
-
       <!-- naziv broda -->
       <div class="d-flex left align-items-center" style="margin-left: 10px">
         <span class="house-name display-5" style="margin-left: 10px">
           {{boat.name}}
           <button mat-raised-button [disabled]="isSubscribed" (click)="subscribe()" class="btn modify-profile-button">Pretplati se</button>
+           <button mat-raised-button [disabled]="isSubscribed" (click)="reservate()" class="btn modify-profile-button1">Reservisi</button>
         </span>
       </div>
       <!-- adresa broda -->
@@ -69,7 +69,7 @@
             <ng-template #elseBlockShow>
               <label class="form-check-label wrap">
                 Besplatno otkazivanje: NE
-                <br> Uslovi otkazivanja: {{boat.cancalletionFee}} din <br>
+                <br> Procenat pri otkazivanju: {{boat.cancalletionFee}} % <br>
               </label>
             </ng-template>
           </div>
@@ -176,7 +176,8 @@
                         <li *ngFor="let a of course.additionalServices">
                           {{a.name}} : {{a.price}} din <br>
                         </li>
-                        <p class="card-text">Cena po 1 nocenju: {{ course.price }} din/dan</p>
+                        <p class="card-text">Cena bez dodatnih usluga: {{ course.price }} din/dan</p>
+                        <button mat-raised-button color="primary" (click)="setActionGuest(course)" >Zakazi brzu rezervaciju</button>
                       </div>
                       <br>
                     </div>
@@ -193,5 +194,6 @@
     <br>
 
   </div>
+  <ngx-alerts></ngx-alerts>
 </div>
 

@@ -51,8 +51,6 @@ export class CreateReservationHouseComponent implements OnInit {
   ngOnInit(): void {
     // @ts-ignore
     this.houseId = this.dataDialog.houseId;
-    this.reservationCheck.email = this.dataDialog.userEmail
-    console.log(this.houseId)
     this.dateString = new Date().toISOString().slice(0, 16);
     this.startDate = new Date().toISOString().slice(0, 16);
     this.loadData();
@@ -111,7 +109,7 @@ export class CreateReservationHouseComponent implements OnInit {
     console.log(this.houseReservation)
     price = price + this.duration*this.house.pricePerDay
 
-
+    this.houseReservation.price = this.duration*this.house.pricePerDay;
     if (confirm("Da li ste sigurni da zelite da reservisete vikendicu. Cena je " + price.toString() + " dinara" )) {
      this._clientResrvationService.saveHouseReservation(this.houseReservation).subscribe((bool: boolean)=>{
        if(bool){
