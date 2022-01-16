@@ -40,6 +40,9 @@ import {
 } from "../reservation/boat-reservation-history/boat-reservation-history.component";
 import {FutureReservationComponent} from "../reservation/future-reservation/future-reservation.component";
 import {ClientInstructorsComponent} from "../client-instructors/client-instructors.component";
+import {
+  InstructorReservationHistoryComponent
+} from "../reservation/instructor-reservation-history/instructor-reservation-history.component";
 import {CreateReservationBoatComponent} from "../dialog/create-reservation-boat/create-reservation-boat.component";
 import {CreateReservationHouseComponent} from "../dialog/create-reservation-house/create-reservation-house.component";
 import {
@@ -64,6 +67,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     BoatReservationHistoryComponent,
     FutureReservationComponent,
     ClientInstructorsComponent,
+    InstructorReservationHistoryComponent,
     CreateReservationBoatComponent,
     CreateReservationHouseComponent,
     CreateReservationInstructorComponent,
