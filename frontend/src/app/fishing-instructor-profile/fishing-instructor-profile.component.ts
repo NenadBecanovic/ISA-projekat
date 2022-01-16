@@ -149,7 +149,7 @@ export class FishingInstructorProfileComponent implements OnInit {
     });
   }
 
-  instructorChart(id: number) {     // TODO: id ulogovanog korisnika
-    this._router.navigate(['/instructor-chart', id])
-  }
+  // instructorChart(id: number) {
+  //   this._router.navigate(['/instructor-chart', id])
+  // }
 }

@@ -99,9 +99,6 @@ public class HouseReservationService {
         }
     }
 
-    public List<HouseReservation> getHouseReservationsByAdditionalServicesId(Long id) { return this.houseReservationsRepository.getHouseReservationsByAdditionalServicesId(id); }
-
-
     public boolean checkMaxGuest(int maxGuest, House h) {
         int maxGuestHouse = 0;
         for(Room r: h.getRooms()){

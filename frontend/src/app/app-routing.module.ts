@@ -54,7 +54,7 @@ import {ClientInstructorsComponent} from "./clientHome/client-instructors/client
 import {
   InstructorReservationHistoryComponent
 } from "./clientHome/reservation/instructor-reservation-history/instructor-reservation-history.component";
-import {InstructorChartComponent} from "./fishing-instructor-profile/instructor-chart/instructor-chart.component";
+import {InstructorChartComponent} from "./adventure-profile/instructor-chart/instructor-chart.component";
 
 
 const routes: Routes = [

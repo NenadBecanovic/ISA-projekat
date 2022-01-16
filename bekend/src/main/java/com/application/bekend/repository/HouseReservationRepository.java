@@ -19,7 +19,4 @@ public interface HouseReservationRepository extends JpaRepository<HouseReservati
     void deleteById(Long id);
 
     List<HouseReservation> getHouseReservationsByGuestId(Long id);
-
-    @Query("select a from HouseReservation a join fetch a.additionalServices h where h.id = ?1")
-    List<HouseReservation> getHouseReservationsByAdditionalServicesId(Long id);
 }
