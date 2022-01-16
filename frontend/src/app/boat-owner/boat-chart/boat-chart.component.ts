@@ -8,6 +8,9 @@ import {Boat} from "../../model/boat";
 import {BoatReservation} from "../../model/boat-reservation";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BoatService} from "../../service/boat.service";
+import { AuthentificationService } from 'src/app/auth/authentification/authentification.service';
+import { CompanyService } from 'src/app/service/company.service';
+import { UserCategory } from 'src/app/model/user-category';
 
 @Component({
   selector: 'app-boat-chart',
@@ -57,9 +60,11 @@ export class BoatChartComponent implements OnInit {
   fifthDayIncome: number = 0;
   sixthDayIncome: number = 0;
   seventhDayIncome: number = 0;
+  companyPercentage: number = 0;
+  userCategory: UserCategory = new UserCategory();
 
   constructor(private _boatReservationService: BoatReservationService, private _router: Router, private _route: ActivatedRoute,
-              private _boatService: BoatService) { }
+              private _boatService: BoatService, private _authenticationService: AuthentificationService, private _companyService: CompanyService) { }
 
   ngOnInit(): void {
     // @ts-ignore
@@ -144,6 +149,18 @@ export class BoatChartComponent implements OnInit {
     this._boatService.getBoatById(this.boat.id).subscribe(
       (boat: Boat) =>{
         this.boat = boat
+      }
+    )
+
+    this._companyService.getCompanyPercentage().subscribe(
+      (percentage: number) =>{
+        this.companyPercentage = percentage;
+      }
+    )
+
+    this._companyService.getUserCategory(this._authenticationService.getUserEmail()).subscribe(
+      (userCategory: UserCategory) =>{
+        this.userCategory = userCategory;
       }
     )
 
@@ -453,7 +470,8 @@ export class BoatChartComponent implements OnInit {
       return 0;
     }
     else {
-      return r.price + additionalPrice;
+      var companyProfit = (r.price + additionalPrice) * this.companyPercentage * 0.01;
+      return r.price + additionalPrice - companyProfit + (companyProfit * this.userCategory.discountPercentage * 0.01);
     }
   }
 

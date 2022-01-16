@@ -65,4 +65,9 @@ public class CompanyService {
 		
 		return true;
 	}
+
+	public UserCategoryDTO getUserCategory(String email) {
+		// TODO Auto-generated method stub
+		return this.userCategoryService.getUserCategory(email);
+	}
 }

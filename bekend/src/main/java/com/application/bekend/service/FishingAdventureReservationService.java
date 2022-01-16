@@ -103,9 +103,7 @@ public class FishingAdventureReservationService {
             this.checkUserCategory(guest);
             this.myUserService.save(guest);
             
-            if(adventureReservationDTO.getIsOwnerReservation()) {
-            	this.myUserService.sendMailToClient(null, null, adventureReservationDTO, "", "", fishingAdventure.getName());
-            }
+            this.myUserService.sendMailToClient(null, null, adventureReservationDTO, "", "", fishingAdventure.getName());
         }
         
         if (adventureReservationDTO.getIsAction() && adventureReservationDTO.getIsAvailable()){

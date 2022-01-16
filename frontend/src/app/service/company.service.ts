@@ -29,6 +29,14 @@ export class CompanyService {
     return this._http.get<Company>(`${this.userPath}/getCompanyInfo/1`)
   }
 
+  public getCompanyPercentage(): Observable<number>{
+    return this._http.get<number>(`${this.userPath}/getCompanyPercentage/1`)
+  }
+
+  public getUserCategory(userEmail: String): Observable<UserCategory>{
+    return this._http.get<UserCategory>(`${this.userPath}/getUserCategory/`+userEmail)
+  }
+
   public delete(id: number): Observable<boolean> {
     return this._http.delete<boolean>(`${this.userPath}/delete/`+id)
   }

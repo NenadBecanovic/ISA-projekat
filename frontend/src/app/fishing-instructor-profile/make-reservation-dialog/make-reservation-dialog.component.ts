@@ -53,7 +53,6 @@ export class MakeReservationDialogComponent implements OnInit {
     this.adventureReservation.isAction = false;
     this.adventureReservation.isAvailable = false;
     this.adventureReservation.availabilityPeriod = false;
-    this.adventureReservation.isOwnerReservation = true;
 
     var startDate = Date.parse(this.adventureReservation.startDate)
     this.date =  new Date(startDate)

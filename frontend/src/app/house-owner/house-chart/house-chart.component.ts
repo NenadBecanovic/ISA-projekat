@@ -8,6 +8,9 @@ import {House} from "../../model/house";
 import {HouseReservation} from "../../model/house-reservation";
 import {HouseReservationService} from "../../service/house-reservation.service";
 import {HouseService} from "../../service/house.service";
+import { AuthentificationService } from 'src/app/auth/authentification/authentification.service';
+import { CompanyService } from 'src/app/service/company.service';
+import { UserCategory } from 'src/app/model/user-category';
 
 @Component({
   selector: 'app-house-chart',
@@ -57,9 +60,11 @@ export class HouseChartComponent implements OnInit {
   fifthDayIncome: number = 0;
   sixthDayIncome: number = 0;
   seventhDayIncome: number = 0;
+  companyPercentage: number = 0;
+  userCategory: UserCategory = new UserCategory();
 
   constructor(private _houseReservationService: HouseReservationService, private _router: Router, private _route: ActivatedRoute,
-              private _houseService: HouseService) { }
+              private _houseService: HouseService, private _authenticationService: AuthentificationService, private _companyService: CompanyService) { }
 
   ngOnInit(): void {
     // @ts-ignore
@@ -144,6 +149,18 @@ export class HouseChartComponent implements OnInit {
     this._houseService.getHouseById(this.house.id).subscribe(
       (house: House) =>{
         this.house = house
+      }
+    )
+
+    this._companyService.getCompanyPercentage().subscribe(
+      (percentage: number) =>{
+        this.companyPercentage = percentage;
+      }
+    )
+
+    this._companyService.getUserCategory(this._authenticationService.getUserEmail()).subscribe(
+      (userCategory: UserCategory) =>{
+        this.userCategory = userCategory;
       }
     )
 
@@ -448,7 +465,8 @@ export class HouseChartComponent implements OnInit {
       return 0;
     }
     else {
-      return r.price + additionalPrice;
+      var companyProfit = (r.price + additionalPrice) * this.companyPercentage * 0.01;
+      return r.price + additionalPrice - companyProfit + (companyProfit * this.userCategory.discountPercentage * 0.01);
     }
   }
 }

@@ -3,9 +3,10 @@ package com.application.bekend.DTO;
 public class UserCategoryDTO {
 
 	private int id;
+	private int points;
 	private String name;
 	private int discountPercentage;
-	private int points;
+	
 	
 	public UserCategoryDTO(int id, String name, int discountPercentage, int points) {
 		super();

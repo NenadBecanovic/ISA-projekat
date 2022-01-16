@@ -75,4 +75,10 @@ public class UserCategoryService {
 	public UserCategory findUserCategoryByName(String name) {
 		return this.userCategoryRepository.findUserCategoryByName(name);
 	}
+
+	public UserCategoryDTO getUserCategory(String email) {
+		MyUser user = this.myUserService.findUserByEmail(email);
+		UserCategory category = user.getCategory();
+		return new UserCategoryDTO(category.getId(), category.getName(), category.getDiscountPercentage(), category.getPoints());
+	}
 }

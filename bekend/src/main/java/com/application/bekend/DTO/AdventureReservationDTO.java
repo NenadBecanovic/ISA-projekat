@@ -26,7 +26,6 @@ public class AdventureReservationDTO {
 	private boolean hasAppealOwner = false;
 	private Double totalPrice;
 	private String entityName;
-	private boolean isOwnerReservation;
 
 	public AdventureReservationDTO(Long id, String startDate, String endDate, int maxGuests, float price, boolean isAvailable) {
 		this.id = id;
@@ -201,13 +200,5 @@ public class AdventureReservationDTO {
 
 	public void setEntityName(String entityName) {
 		this.entityName = entityName;
-	}
-
-	public boolean getIsOwnerReservation() {
-		return isOwnerReservation;
-	}
-
-	public void setIsOwnerReservation(boolean isOwnerReservation) {
-		this.isOwnerReservation = isOwnerReservation;
 	}
 }

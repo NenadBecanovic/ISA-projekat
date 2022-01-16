@@ -41,6 +41,13 @@ public class CompanyController {
         return new ResponseEntity<>(company, HttpStatus.OK);
     }
 	
+	@GetMapping("/getCompanyPercentage/{id}")
+    public ResponseEntity<Integer> getCompanyPercentage(@PathVariable("id") Long id){
+        CompanyDTO company = this.companyService.getCompanyInfo(id);
+        
+        return new ResponseEntity<>(company.getPercentagePerReservation(), HttpStatus.OK);
+    }
+	
 	@GetMapping("/getAllUserCategories")
     public ResponseEntity<List<UserCategoryDTO>> getAllUserCategories(){
         List<UserCategoryDTO> userCategories = this.companyService.getAllUserCategories();
@@ -75,5 +82,12 @@ public class CompanyController {
         boolean isSaved = this.companyService.saveChanges(id, dto);
         
         return new ResponseEntity<>(isSaved, HttpStatus.OK);
+    }
+	
+	@GetMapping("/getUserCategory/{email}")
+    public ResponseEntity<UserCategoryDTO> getCompanyInfo(@PathVariable("email") String email){
+		UserCategoryDTO category = this.companyService.getUserCategory(email);
+        
+        return new ResponseEntity<>(category, HttpStatus.OK);
     }
 }
