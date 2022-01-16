@@ -21,6 +21,8 @@ public class FishingAdventure {
     private String fishingEquipment;
     @Column(name = "grade", nullable = true)
     private double grade;
+    @Column(name = "numberOfReviews", nullable = true)
+    private int numberOfReviews;
     @Column(name = "is_deleted", nullable = true)
     private boolean isDeleted = false;
     
@@ -216,4 +218,13 @@ public class FishingAdventure {
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
+
+	public int getNumberOfReviews() {
+		return numberOfReviews;
+	}
+
+	public void setNumberOfReviews(int numberOfReviews) {
+		this.numberOfReviews = numberOfReviews;
+	}
+	
 }
