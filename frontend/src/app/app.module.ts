@@ -173,7 +173,6 @@ const MaterialComponents = [
     AddImageHouseComponent,
     AddImageBoatComponent,
     AdminRegistrationDialogComponent,
-    InstructorReservationHistoryComponent,
     EditCompanyRulesDialogComponent,
     InstructorChartComponent,
   ],
