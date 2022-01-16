@@ -40,6 +40,9 @@ import {
 } from "../reservation/boat-reservation-history/boat-reservation-history.component";
 import {FutureReservationComponent} from "../reservation/future-reservation/future-reservation.component";
 import {ClientInstructorsComponent} from "../client-instructors/client-instructors.component";
+import {
+  InstructorReservationHistoryComponent
+} from "../reservation/instructor-reservation-history/instructor-reservation-history.component";
 
 
 @NgModule({
@@ -58,6 +61,7 @@ import {ClientInstructorsComponent} from "../client-instructors/client-instructo
     BoatReservationHistoryComponent,
     FutureReservationComponent,
     ClientInstructorsComponent,
+    InstructorReservationHistoryComponent,
   ],
   imports: [
     CommonModule,
