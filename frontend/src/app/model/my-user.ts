@@ -18,6 +18,7 @@ export class MyUser {
   personalDescription: String = '';
   grade: number = 0;
   userCategory: UserCategory = new UserCategory();
+  isFirstLogin: boolean = false;
 
   constructor(id: number, firstName: String, lastName: String, email: String, password: string, username: String, authority: String, addressDTO: Address, phoneNumber: String, reasonForRegistration: String) {
     this.id = id;

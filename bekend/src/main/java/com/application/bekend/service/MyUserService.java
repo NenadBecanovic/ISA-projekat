@@ -84,6 +84,7 @@ public class MyUserService implements UserDetailsService {
         }
         myUser.setAddress(address);
         myUser.setPhoneNumber(myUserDTO.getPhoneNumber());
+        myUser.setFirstLogin(false);
         MyUser user = this.myUserRepository.save(myUser);
         return user;
     }

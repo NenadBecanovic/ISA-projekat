@@ -30,7 +30,8 @@ public class Boat {
     private int capacity;
     @Column(name = "grade", nullable = true)
     private double grade;
-
+    @Column(name = "numberOfReviews", nullable = true)
+    private int numberOfReviews;
     @OneToMany(mappedBy = "boat", fetch = FetchType.EAGER)
     private Set<Image> images;
 
@@ -261,4 +262,13 @@ public class Boat {
     public void setAppeals(Set<Appeal> appeals) {
         this.appeals = appeals;
     }
+
+	public int getNumberOfReviews() {
+		return numberOfReviews;
+	}
+
+	public void setNumberOfReviews(int numberOfReviews) {
+		this.numberOfReviews = numberOfReviews;
+	}
+    
 }

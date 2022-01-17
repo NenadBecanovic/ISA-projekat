@@ -56,7 +56,7 @@ public class FishingAdventureController {
         		fishingAdventure.getAddress().getState(), fishingAdventure.getAddress().getLongitude(), fishingAdventure.getAddress().getLatitude(), fishingAdventure.getAddress().getPostalCode());
 
         FishingAdventureDTO fishingAdventureDTO = new FishingAdventureDTO(fishingAdventure.getId(), fishingAdventure.getName(), addressDTO, fishingAdventure.getPromoDescription(), fishingAdventure.getCapacity(), fishingAdventure.getFishingEquipment(),
-        		fishingAdventure.getBehaviourRules(), fishingAdventure.getPricePerHour(), fishingAdventure.isCancalletionFree(), fishingAdventure.getCancalletionFee());
+        		fishingAdventure.getBehaviourRules(), fishingAdventure.getPricePerHour(), fishingAdventure.isCancalletionFree(), fishingAdventure.getCancalletionFee(), fishingAdventure.getGrade(), fishingAdventure.getNumberOfReviews());
         //fishingAdventureDTO.setInstructorId(fishingAdventure.getInstructor().getId());
 
         return new ResponseEntity<>(fishingAdventureDTO, HttpStatus.OK);
@@ -77,7 +77,7 @@ public class FishingAdventureController {
 	                dtoSet.add(imageDTO);
 	            }
 	            FishingAdventureDTO dto = new FishingAdventureDTO(f.getId(), f.getName(), addressDTO, f.getPromoDescription(), f.getCapacity(), f.getFishingEquipment(),
-	                    f.getBehaviourRules(), f.getPricePerHour(), f.isCancalletionFree(), f.getCancalletionFee());
+	                    f.getBehaviourRules(), f.getPricePerHour(), f.isCancalletionFree(), f.getCancalletionFee(), f.getGrade(), f.getNumberOfReviews());
 	            dto.setImages(dtoSet);
 		        instructorFishingAdventures.add(dto);
         	}

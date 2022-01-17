@@ -97,6 +97,7 @@ import { InstructorReservationHistoryComponent } from './clientHome/reservation/
 import { MatTableModule } from '@angular/material/table';
 import { InstructorChartComponent } from './adventure-profile/instructor-chart/instructor-chart.component';
 import { CompanyProfitDialogComponent } from './admin-page/company-profit-dialog/company-profit-dialog.component';
+import { NewAdminPasswordDialogComponent } from './admin-page/new-admin-password-dialog/new-admin-password-dialog.component';
 
 const MaterialComponents = [
   MatSliderModule,
@@ -176,7 +177,8 @@ const MaterialComponents = [
     AdminRegistrationDialogComponent,
     EditCompanyRulesDialogComponent,
     InstructorChartComponent,
-    CompanyProfitDialogComponent
+    CompanyProfitDialogComponent,
+    NewAdminPasswordDialogComponent
   ],
     imports: [
         RouterModule,

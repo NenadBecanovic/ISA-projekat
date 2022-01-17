@@ -2,6 +2,7 @@ import { UserInfo } from "./user-info";
 
 export class Appeal {
 
+  id: number = 0;
   reservationId: number = 0;
   review: string = '';
   hasHouse: boolean = false;

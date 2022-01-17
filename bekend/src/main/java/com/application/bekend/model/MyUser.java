@@ -35,6 +35,8 @@ public class MyUser implements UserDetails {
     private String reasonForRegistration;
     @Column(name = "personalDescription", nullable = true)
     private String personalDescription;
+    @Column(name = "is_first_login", nullable = false)
+    private boolean isFirstLogin;
     
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Boat> boats = new HashSet<>();
@@ -380,5 +382,13 @@ public class MyUser implements UserDetails {
 
 	public void setPoints(double points) {
 		this.points = points;
+	}
+
+	public boolean isFirstLogin() {
+		return isFirstLogin;
+	}
+
+	public void setFirstLogin(boolean isFirstLogin) {
+		this.isFirstLogin = isFirstLogin;
 	}
 }

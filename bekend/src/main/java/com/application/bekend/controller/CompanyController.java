@@ -24,7 +24,6 @@ import com.application.bekend.service.CompanyService;
 
 @RestController
 @RequestMapping("api/company")
-@EnableTransactionManagement
 public class CompanyController {
 	
 	private final CompanyService companyService;

@@ -13,7 +13,8 @@ public class House {
     private String name;
     @Column(name = "grade", nullable = true)
     private double grade;
-
+    @Column(name = "numberOfReviews", nullable = true)
+    private int numberOfReviews;
     @OneToMany(mappedBy = "house", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Room> rooms = new HashSet<>();
 
@@ -190,4 +191,13 @@ public class House {
     public void setAppeals(Set<Appeal> appeals) {
         this.appeals = appeals;
     }
+
+	public int getNumberOfReviews() {
+		return numberOfReviews;
+	}
+
+	public void setNumberOfReviews(int numberOfReviews) {
+		this.numberOfReviews = numberOfReviews;
+	}
+    
 }

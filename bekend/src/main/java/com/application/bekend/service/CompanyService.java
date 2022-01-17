@@ -3,8 +3,11 @@ package com.application.bekend.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.application.bekend.DTO.CompanyDTO;
 import com.application.bekend.DTO.UserCategoryDTO;
@@ -13,6 +16,7 @@ import com.application.bekend.model.UserCategory;
 import com.application.bekend.repository.CompanyRepository;
 
 @Service
+@Transactional
 public class CompanyService {
 	
 	private final CompanyRepository companyRepository;

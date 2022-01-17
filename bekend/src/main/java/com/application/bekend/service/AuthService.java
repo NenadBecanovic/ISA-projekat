@@ -86,16 +86,21 @@ public class AuthService {
         myUser.setPersonalDescription(myUserDTO.getPersonalDescription());
         UserCategory userCategory = this.userCategoryService.findUserCategoryByName("Basic");
         myUser.setCategory(userCategory);
-
+        if(myUserDTO.getAuthority().equals("ROLE_ADMINISTRATOR")){
+        	myUser.setFirstLogin(true);
+        }else {
+        	myUser.setFirstLogin(false);
+        }
+        
         // poslati mejl za obicnog usera
-        if(myUserDTO.getAuthority().equals("ROLE_USER")){
+        if(myUserDTO.getAuthority().equals("ROLE_USER") || myUserDTO.getAuthority().equals("ROLE_ADMINISTRATOR")){
             this.sendVerificationEmail(myUser);
         }else{
             // poslati zahtev za verifikaciju za ostale korisnike
             VerificationRequest verificationRequest = new VerificationRequest(myUser, false, myUserDTO.getReasonForRegistration());
             this.verificationRequestService.save(verificationRequest);
         }
-
+        
         return myUser;
     }
 
