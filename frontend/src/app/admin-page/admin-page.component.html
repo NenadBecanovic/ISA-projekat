@@ -60,58 +60,53 @@
               </div>
             </div>
             <div class="d-flex flex-row mt-3 adventures-container" *ngFor="let user of allUsers | filter:filterTerm">
-              <div class="card card-design">
+              <div class="card comment-card">
                 <div class="card-body">
                   <div class="d-flex flex-row">
                     <div class="d-flex flex-column me-3">
-                      <img class="profile-picture" src="https://mackenzienz.com/wp-content/uploads/2015/09/Fishing-PAge-BAnner.jpg?fbclid=IwAR1c5dayMLBGnI0cFCy6Z8zFfBjmkX17Z9krEkjT5v2vDbf5xKxvVNgFSmk"/>
-                    </div>
-                    <div class="d-flex flex-column">
-                      <h4 class="card-title" (click)="addAdventure()">{{user.firstName}} {{user.lastName}} </h4>
-                      <p class="card-text"> {{user.email}} </p>
-                      <p class="card-text"> {{user.authority}} </p>
+                      <h4 class="card-title">{{user.firstName}} {{user.lastName}} </h4>
+                      <p class="card-text">Email: {{user.email}}</p>
+                      <p class="card-text">Tip: {{user.authority}}</p>
                     </div>
                   </div>
                 </div>
-                <div class="d-flex right me-3 mb-3 align-items-center justify-content-end">
-                  <button type="button" class="btn add-action-button"
-                    (click)="deleteUser(user.id)">OBRIŠI</button>
+                <div class="d-flex flex-row-reverse">
+                  <div class="d-flex me-3 mb-3 justify-content-end ">
+                    <button type="button" class="btn add-action-button"
+                    (click)="deleteUser(user.id)">Odgovori</button>
+                  </div>
                 </div>
-              </div> 
+              </div>
             </div>
           </div>
           <div class="d-flex ms-5 flex-column adventures" *ngIf="content == 'new users'">
             <div class="d-flex flex-row mt-2">
               <span class="adventure-section me-2">Novi korisnici</span>
-              <a class="red-link no-wrap mt-2" (click)="addAdventure()">Dodaj</a>
               <div class="d-flex search justify-content-end">
                 <input type="text" placeholder="Pretraži..." name="search" [(ngModel)]="filterTerm">
               </div>
             </div>
             <div class="d-flex flex-row mt-3 adventures-container" *ngFor="let newUserRequest of newUserRequests | filter:filterTerm">
-              <div class="card card-design">
+              <div class="card comment-card">
                 <div class="card-body">
                   <div class="d-flex flex-row">
                     <div class="d-flex flex-column me-3">
-                      <img class="profile-picture" src="https://mackenzienz.com/wp-content/uploads/2015/09/Fishing-PAge-BAnner.jpg?fbclid=IwAR1c5dayMLBGnI0cFCy6Z8zFfBjmkX17Z9krEkjT5v2vDbf5xKxvVNgFSmk"/>
-                    </div>
-                    <div class="d-flex flex-column">
-                      <h4 class="card-title" (click)="addAdventure()">ok</h4>
-                      <p class="card-text">ok, ok, ok </p>
-                      <p class="card-text">Broj osoba: 3</p>
-                      <p class="card-text">Cena: 423 din/h</p>
+                      <h4 class="card-title">{{newUserRequest.firstName}} {{newUserRequest.lastName}} </h4>
+                      <p class="card-text">Razlog za registraciju: {{newUserRequest.reasonForRegistration}}</p>
                     </div>
                   </div>
                 </div>
-                <div class="d-flex right me-3 mb-3 align-items-center justify-content-end">
-                  <button type="button" class="btn add-action-button"
-                    (click)="activateNewUser(newUserRequest.id)">ODOBRI</button>
+                <div class="d-flex flex-row-reverse">
+                  <div class="d-flex me-3 mb-3 justify-content-end ">
+                    <button type="button" class="btn add-action-button"
+                    (click)="activateNewUser(newUserRequest.id)">Odobri</button>
+                  </div>
+                  <div class="d-flex me-3 mb-3 justify-content-end" >
+                    <button type="button" class="btn add-action-button"
+                    (click)="declineNewUser(newUserRequest.id)">Odbij</button>
+                  </div>
                 </div>
-                <div class="d-flex right me-3 mb-3 align-items-center justify-content-end">
-                  <button type="button" class="btn add-action-button"
-                    (click)="declineNewUser(newUserRequest.id)">ODBIJ</button>
-                </div>
-              </div> 
+              </div>
             </div>
           </div>
           <div class="d-flex ms-5 flex-column adventures" *ngIf="content == 'delete requests'">
@@ -122,44 +117,32 @@
               </div>
             </div>
             <div class="d-flex flex-row mt-3 adventures-container" *ngFor="let request of unansweredDeleteRequests | filter:filterTerm">
-              <div class="card card-design">
+              <div class="card comment-card">
                 <div class="card-body">
                   <div class="d-flex flex-row">
                     <div class="d-flex flex-column me-3">
-                      <img class="profile-picture" src="https://mackenzienz.com/wp-content/uploads/2015/09/Fishing-PAge-BAnner.jpg?fbclid=IwAR1c5dayMLBGnI0cFCy6Z8zFfBjmkX17Z9krEkjT5v2vDbf5xKxvVNgFSmk"/>
-                    </div>
-                    <div class="d-flex flex-column">
-                      <h4 class="card-title" (click)="addAdventure()">ok</h4>
-                      <p class="card-text">ok, ok, ok </p>
-                      <p class="card-text">Broj osoba: 3</p>
-                      <p class="card-text">Cena: 423 din/h</p>
+                      <h4 class="card-title">Korisnik: {{request.userInfo.firstName}} {{request.userInfo.lastName}} </h4>
+                      <p class="card-text">Razlog: {{request.description}}</p>
                     </div>
                   </div>
                 </div>
-                <div class="d-flex right me-3 mb-3 align-items-center justify-content-end">
-                  <button type="button" class="btn add-action-button"
-                    (click)="answerOnDeleteRequest(request.id)">ODGOVORI</button>
+                <div class="d-flex flex-row-reverse">
+                  <div class="d-flex me-3 mb-3 justify-content-end ">
+                    <button type="button" class="btn add-action-button"
+                    (click)="answerOnDeleteRequest(request.id)">Odgovori</button>
+                  </div>
                 </div>
               </div> 
             </div>
             <div class="d-flex flex-row mt-3 adventures-container" *ngFor="let request of answeredDeleteRequests | filter:filterTerm">
-              <div class="card card-design">
+              <div class="card comment-card">
                 <div class="card-body">
                   <div class="d-flex flex-row">
                     <div class="d-flex flex-column me-3">
-                      <img class="profile-picture" src="https://mackenzienz.com/wp-content/uploads/2015/09/Fishing-PAge-BAnner.jpg?fbclid=IwAR1c5dayMLBGnI0cFCy6Z8zFfBjmkX17Z9krEkjT5v2vDbf5xKxvVNgFSmk"/>
-                    </div>
-                    <div class="d-flex flex-column">
-                      <h4 class="card-title" (click)="addAdventure()">ok</h4>
-                      <p class="card-text">ok, ok, ok </p>
-                      <p class="card-text">Broj osoba: 3</p>
-                      <p class="card-text">Cena: 423 din/h</p>
+                      <h4 class="card-title">Korisnik: {{request.userInfo.firstName}} {{request.userInfo.lastName}} </h4>
+                      <p class="card-text">Razlog: {{request.description}}</p>
                     </div>
                   </div>
-                </div>
-                <div class="d-flex right me-3 mb-3 align-items-center justify-content-end">
-                  <button type="button" class="btn add-action-button"
-                    (click)="answerOnDeleteRequest(request.id)">ODGOVORI</button>
                 </div>
               </div> 
             </div>
@@ -171,45 +154,35 @@
                 <input type="text" placeholder="Pretraži..." name="search" [(ngModel)]="filterTerm">
               </div>
             </div>
-            <div class="d-flex flex-row mt-3 adventures-container" *ngFor="let appeal of unansweredAppeals | filter:filterTerm">
-              <div class="card card-design">
+            <div class="d-flex flex-row mt-3" *ngFor="let appeal of unansweredAppeals | filter:filterTerm">
+              <div class="card comment-card">
                 <div class="card-body">
                   <div class="d-flex flex-row">
                     <div class="d-flex flex-column me-3">
-                      <img class="profile-picture" src="https://mackenzienz.com/wp-content/uploads/2015/09/Fishing-PAge-BAnner.jpg?fbclid=IwAR1c5dayMLBGnI0cFCy6Z8zFfBjmkX17Z9krEkjT5v2vDbf5xKxvVNgFSmk"/>
-                    </div>
-                    <div class="d-flex flex-column">
-                      <h4 class="card-title" (click)="addAdventure()">ok</h4>
-                      <p class="card-text">ok, ok, ok </p>
-                      <p class="card-text">Broj osoba: 3</p>
-                      <p class="card-text">Cena: 423 din/h</p>
+                      <h4 class="card-title">Vlasnik: {{appeal.owner.firstName}} {{appeal.owner.lastName}} </h4>
+                      <h4 class="card-title">Gost: {{appeal.guest.firstName}} {{appeal.guest.lastName}} </h4>
+                      <p class="card-text">Komentar: {{appeal.review}}</p>
                     </div>
                   </div>
                 </div>
-                <div class="d-flex right me-3 mb-3 align-items-center justify-content-end">
-                  <button type="button" class="btn add-action-button"
-                    (click)="answerOnAppeal(1,2,3)">ODGOVORI</button>
+                <div class="d-flex flex-row-reverse">
+                  <div class="d-flex me-3 mb-3 justify-content-end ">
+                    <button type="button" class="btn add-action-button"
+                    (click)="answerOnReport(appeal.ownerId, appeal.guestId, appeal.id)">Odgovori</button>
+                  </div>
                 </div>
               </div> 
             </div>
             <div class="d-flex flex-row mt-3 adventures-container" *ngFor="let appeal of answeredAppeals | filter:filterTerm">
-              <div class="card card-design">
+              <div class="card comment-card">
                 <div class="card-body">
                   <div class="d-flex flex-row">
                     <div class="d-flex flex-column me-3">
-                      <img class="profile-picture" src="https://mackenzienz.com/wp-content/uploads/2015/09/Fishing-PAge-BAnner.jpg?fbclid=IwAR1c5dayMLBGnI0cFCy6Z8zFfBjmkX17Z9krEkjT5v2vDbf5xKxvVNgFSmk"/>
-                    </div>
-                    <div class="d-flex flex-column">
-                      <h4 class="card-title" (click)="addAdventure()">ok</h4>
-                      <p class="card-text">ok, ok, ok </p>
-                      <p class="card-text">Broj osoba: 3</p>
-                      <p class="card-text">Cena: 423 din/h</p>
+                      <h4 class="card-title">Vlasnik: {{appeal.owner.firstName}} {{appeal.owner.lastName}} </h4>
+                      <h4 class="card-title">Gost: {{appeal.guest.firstName}} {{appeal.guest.lastName}} </h4>
+                      <p class="card-text">Komentar: {{appeal.review}}</p>
                     </div>
                   </div>
-                </div>
-                <div class="d-flex right me-3 mb-3 align-items-center justify-content-end">
-                  <button type="button" class="btn add-action-button"
-                    (click)="answerOnAppeal(1,2,3)">ODGOVORI</button>
                 </div>
               </div> 
             </div>
@@ -265,45 +238,37 @@
                 <input type="text" placeholder="Pretraži..." name="search" [(ngModel)]="filterTerm">
               </div>
             </div>
-            <div class="d-flex flex-row mt-3 adventures-container" *ngFor="let report of notReviewedReports | filter:filterTerm">
-              <div class="card card-design">
+            <div class="d-flex flex-row mt-3" *ngFor="let report of notReviewedReports | filter:filterTerm">
+              <div class="card comment-card">
                 <div class="card-body">
                   <div class="d-flex flex-row">
                     <div class="d-flex flex-column me-3">
-                      <img class="profile-picture" src="https://mackenzienz.com/wp-content/uploads/2015/09/Fishing-PAge-BAnner.jpg?fbclid=IwAR1c5dayMLBGnI0cFCy6Z8zFfBjmkX17Z9krEkjT5v2vDbf5xKxvVNgFSmk"/>
-                    </div>
-                    <div class="d-flex flex-column">
-                      <h4 class="card-title" (click)="addAdventure()">ok</h4>
-                      <p class="card-text">ok, ok, ok </p>
-                      <p class="card-text">Broj osoba: 3</p>
-                      <p class="card-text">Cena: 423 din/h</p>
+                      <h4 class="card-title">Vlasnik: {{report.ownerFullName}} </h4>
+                      <h4 class="card-title">Gost: {{report.guestFullName}} </h4>
+                      <p class="card-text">Komentar: {{report.comment}}</p>
+                      <p class="card-text" *ngIf="report.penaltyProposal">Preporučen penal za gosta!</p>
                     </div>
                   </div>
                 </div>
-                <div class="d-flex right me-3 mb-3 align-items-center justify-content-end">
-                  <button type="button" class="btn add-action-button"
-                    (click)="answerOnReport(report.ownerId, report.guestId, report.id)">ODGOVORI</button>
+                <div class="d-flex flex-row-reverse">
+                  <div class="d-flex me-3 mb-3 justify-content-end ">
+                    <button type="button" class="btn add-action-button"
+                    (click)="answerOnReport(report.ownerId, report.guestId, report.id)">Odgovori</button>
+                  </div>
                 </div>
               </div> 
             </div>
-            <div class="d-flex flex-row mt-3 adventures-container" *ngFor="let report of reviewedReports | filter:filterTerm">
-              <div class="card card-design">
+            <div class="d-flex flex-row mt-3" *ngFor="let report of reviewedReports | filter:filterTerm">
+              <div class="card comment-card">
                 <div class="card-body">
                   <div class="d-flex flex-row">
                     <div class="d-flex flex-column me-3">
-                      <img class="profile-picture" src="https://mackenzienz.com/wp-content/uploads/2015/09/Fishing-PAge-BAnner.jpg?fbclid=IwAR1c5dayMLBGnI0cFCy6Z8zFfBjmkX17Z9krEkjT5v2vDbf5xKxvVNgFSmk"/>
-                    </div>
-                    <div class="d-flex flex-column">
-                      <h4 class="card-title" (click)="addAdventure()">ok</h4>
-                      <p class="card-text">ok, ok, ok </p>
-                      <p class="card-text">Broj osoba: 3</p>
-                      <p class="card-text">Cena: 423 din/h</p>
+                      <h4 class="card-title">Vlasnik: {{report.ownerFullName}} </h4>
+                      <h4 class="card-title">Gost: {{report.guestFullName}} </h4>
+                      <p class="card-text">Komentar: {{report.comment}}</p>
+                      <p class="card-text" *ngIf="report.penaltyProposal">Preporučen penal za gosta!</p>
                     </div>
                   </div>
-                </div>
-                <div class="d-flex right me-3 mb-3 align-items-center justify-content-end">
-                  <button type="button" class="btn add-action-button"
-                    (click)="answerOnReport(report.ownerId, report.guestId, report.id)">ODGOVORI</button>
                 </div>
               </div> 
             </div>
