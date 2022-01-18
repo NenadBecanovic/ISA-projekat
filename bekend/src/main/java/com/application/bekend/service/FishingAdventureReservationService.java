@@ -10,7 +10,10 @@ import javax.mail.MessagingException;
 import com.application.bekend.DTO.ReservationCheckDTO;
 import com.application.bekend.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.application.bekend.DTO.AdditionalServicesDTO;
 import com.application.bekend.DTO.AdventureReservationDTO;
@@ -23,17 +26,15 @@ import com.application.bekend.repository.FishingAdventureReservationRepository;
 public class FishingAdventureReservationService {
 	
 	private final FishingAdventureReservationRepository fishingAdventureReservationsRepository;
-	private final FishingAdventureService fishingAdventureService;
 	private final AdditionalServicesService additionalServicesService;
 	private final MyUserService myUserService;
 	private final UserCategoryService userCategoryService;
 	private final CompanyService companyService;
 	
 	@Autowired
-	public FishingAdventureReservationService(FishingAdventureReservationRepository fishingAdventureReservationRepository, FishingAdventureService fishingAdventureService, AdditionalServicesService additionalServicesService,
+	public FishingAdventureReservationService(FishingAdventureReservationRepository fishingAdventureReservationRepository, AdditionalServicesService additionalServicesService,
 			MyUserService myUserService, UserCategoryService userCategoryService, CompanyService companyService) {
 		this.fishingAdventureReservationsRepository = fishingAdventureReservationRepository;
-		this.fishingAdventureService = fishingAdventureService;
 		this.additionalServicesService = additionalServicesService;
 		this.myUserService = myUserService;
 		this.userCategoryService = userCategoryService;
@@ -52,8 +53,7 @@ public class FishingAdventureReservationService {
         return this.fishingAdventureReservationsRepository.save(adventureReservation);
     }
 	
-	public boolean saveReservation(AdventureReservationDTO adventureReservationDTO) throws MessagingException {
-		FishingAdventure fishingAdventure = this.fishingAdventureService.getFishingAdventureById(adventureReservationDTO.getAdventureId());
+	public FishingAdventure saveReservation(FishingAdventure fishingAdventure, AdventureReservationDTO adventureReservationDTO) throws MessagingException {
 		MyUser instructor = this.myUserService.findUserByAdventureId(fishingAdventure.getId());
         List<AdventureReservation> adventureReservations = this.getAllByFishingAdventure_Id(fishingAdventure.getId());
         for (AdventureReservation a: adventureReservations) {
@@ -64,7 +64,7 @@ public class FishingAdventureReservationService {
                     Long.parseLong(adventureReservationDTO.getStartDate()) <= start && Long.parseLong(adventureReservationDTO.getEndDate()) >= start  ||
                     Long.parseLong(adventureReservationDTO.getStartDate()) >= start && Long.parseLong(adventureReservationDTO.getStartDate()) <= end  )
             {
-                return false;
+                return null;
             }
         }
 
@@ -89,13 +89,13 @@ public class FishingAdventureReservationService {
             this.additionalServicesService.save(additionalServices);
         }
         fishingAdventure.addAdventureReservation(adventureReservation);
-        this.fishingAdventureService.save(fishingAdventure);
+//        this.fishingAdventureService.save(fishingAdventure);
         this.myUserService.save(instructor);
 
         if (adventureReservationDTO.getGuestId() != null && adventureReservationDTO.getGuestId() != 0) {
             MyUser guest = this.myUserService.findUserById(adventureReservationDTO.getGuestId());
             adventureReservation.setGuest(guest);
-            this.fishingAdventureService.save(fishingAdventure);
+  //          this.fishingAdventureService.save(fishingAdventure);
 
             Set<AdventureReservation> adventureReservationsGuest = guest.getAdventureReservations();
             adventureReservationsGuest.add(adventureReservation);
@@ -111,19 +111,7 @@ public class FishingAdventureReservationService {
             this.myUserService.sendSubscribedUsersEmail(null, null, adventureReservationDTO, "", "", fishingAdventure.getName());
         }
         
-        return true;
-	}
-
-	public boolean saveUnavailablePeriod(Long instructorId, AdventureReservationDTO adventureReservationDTO) throws MessagingException {
-		// TODO Auto-generated method stub
-		List<FishingAdventure> fishingAdventures = this.fishingAdventureService.getFishingAdventuresByInstructor(instructorId);
-		for(FishingAdventure fishingAdventure : fishingAdventures) {
-	        adventureReservationDTO.setAdventureId(fishingAdventure.getId());
-	        if(!saveReservation(adventureReservationDTO)) {
-	        	return false;
-	        }
-		}
-        return true;
+        return fishingAdventure;
 	}
 	
 	public List<AdventureReservationDTO> getAdventureReservationsByInstructorId(Long id){
@@ -208,18 +196,6 @@ public class FishingAdventureReservationService {
             }
         }
         return adventureReservationDTOS;
-	}
-
-	public List<AdventureReservationDTO> getAllActionsByInstructorId(Long id) {
-		List<FishingAdventure> allAdventures = this.fishingAdventureService.getFishingAdventuresByInstructor(id);
-		List<AdventureReservationDTO> allActions = new ArrayList<AdventureReservationDTO>();
-		for(FishingAdventure a: allAdventures) {
-			List<AdventureReservationDTO> adventureActions = this.getAllActionsByAdventureId(a.getId());
-			for(AdventureReservationDTO action: adventureActions) {
-				allActions.add(action);
-			}
-		}
-		return allActions;
 	}
 
 	public List<AdventureReservationDTO> getAllAvaibilityPeriodsByInstructorId(Long id) {
@@ -335,5 +311,80 @@ public class FishingAdventureReservationService {
         }
         return profit;
 	}
+	
+	public List<AdventureReservationDTO> getAllDTOByAdventureId(Long id) {
+        List<AdventureReservation> adventureReservations = this.getAllByFishingAdventure_Id(id);
+
+        List<AdventureReservationDTO> adventureReservationDTOS = new ArrayList<>();
+
+        for (AdventureReservation a : adventureReservations) {
+        	if(!a.isAvailable() && !a.isAvailabilityPeriod()) {
+	            String startDate = (String.valueOf(a.getStartDate().getTime()));
+	            String endDate = (String.valueOf(a.getEndDate().getTime()));
+	
+	            AdventureReservationDTO adventureReservationDTO = new AdventureReservationDTO(a.getId(), startDate, endDate, a.getMaxGuests(), a.getPrice(), a.isAvailable());
+	            adventureReservationDTO.setAvailabilityPeriod(a.isAvailabilityPeriod());
+	            adventureReservationDTO.setIsAction(a.isAction());
+                adventureReservationDTO.setCancelled(a.getCancelled());
+	            if (a.getGuest() != null) {
+	            	adventureReservationDTO.setGuestId(a.getGuest().getId());
+	            	MyUser user = this.myUserService.findUserById(a.getGuest().getId());
+	            	adventureReservationDTO.setGuest(new UserInfoDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), ""));
+	            }
+	
+	            Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
+	            for(AdditionalServices add : this.additionalServicesService.getAllByHouseReservationId(a.getId())){  // a.getAdditionalServices()
+	                AdditionalServicesDTO newAdditionalService = new AdditionalServicesDTO(add.getId(), add.getName(), add.getPrice());
+	                additionalServicesDTOS.add(newAdditionalService);
+	            }
+	
+	            adventureReservationDTO.setAdditionalServices(additionalServicesDTOS);
+	            adventureReservationDTOS.add(adventureReservationDTO);
+        	}
+        }
+
+        return adventureReservationDTOS;
+    }
+	
+	public List<AdventureReservationDTO> getFishingAdventureReservationsDTOByGuestId(Long id) {
+        List<AdventureReservation> adventureReservations = this.getAdventureReservationsByGuestId(id);
+        List<AdventureReservationDTO> adventureReservationDTOS = new ArrayList<>();
+
+        for (AdventureReservation h: adventureReservations) {
+            String startDate = (String.valueOf(h.getStartDate().getTime()));
+            String endDate = (String.valueOf(h.getEndDate().getTime()));
+
+            Long startDateMilis = h.getStartDate().getTime();
+            Long endDateMilis = h.getEndDate().getTime();
+
+            AdventureReservationDTO dto = new AdventureReservationDTO(h.getFishingAdventure().getId(), h.getId(), startDate, endDate, h.getMaxGuests(),
+                    h.getPrice(), h.isAvailable());
+            dto.setAvailabilityPeriod(h.isAvailabilityPeriod());
+            dto.setIsAction(h.isAction());
+            if (h.getGuest() != null) {
+                dto.setGuestId(h.getGuest().getId());
+            }
+
+            dto.setMilisStartDate(startDateMilis);
+            dto.setMilisEndDate(endDateMilis);
+            dto.setHasAppealOwner(h.getHasAppealOwner());
+            dto.setHasFeedbackOwner(h.getHasFeedbackOwner());
+
+            dto.setTotalPrice(this.findTotalPriceForAdventureReservation(h));
+            dto.setEntityName(h.getFishingAdventure().getName());
+            this.canBeCancelled(dto,h);
+            dto.setCancelled(h.getCancelled());
+
+            Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
+            for(AdditionalServices add : this.additionalServicesService.getAllByBoatReservationId(h.getId())) {
+                AdditionalServicesDTO newAddSer = new AdditionalServicesDTO(add.getId(), add.getName(), add.getPrice());
+                additionalServicesDTOS.add(newAddSer);
+            }
+            dto.setAdditionalServices(additionalServicesDTOS);
+
+            adventureReservationDTOS.add(dto);
+        }
+        return adventureReservationDTOS;
+    }
 
 }

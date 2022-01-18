@@ -6,6 +6,7 @@ import { AdditionalService } from 'src/app/model/additional-service';
 import { AdventureReservation } from 'src/app/model/adventure-reservation';
 import { FishingAdventure } from 'src/app/model/fishing-adventure';
 import { AdditionalServicesService } from 'src/app/service/additional-services.service';
+import { AdventureProfileService } from 'src/app/service/adventure-profile.service';
 import { AdventureReservationService } from 'src/app/service/adventure-reservation.service';
 
 @Component({
@@ -23,7 +24,7 @@ export class AddFishingAdventureActionDialogComponent implements OnInit {
   durationMinutes: number = 0;
   date: Date = new Date();
 
-  constructor(public dialogRef: MatDialogRef<AddFishingAdventureActionDialogComponent>, private _additionalServicesService: AdditionalServicesService, private _adventureReservationService: AdventureReservationService,
+  constructor(public dialogRef: MatDialogRef<AddFishingAdventureActionDialogComponent>, private _adventureService: AdventureProfileService, private _adventureReservationService: AdventureReservationService,
               private _alertService: AlertService) { }
 
   ngOnInit() {
@@ -54,7 +55,7 @@ export class AddFishingAdventureActionDialogComponent implements OnInit {
 
     this.adventureAction.additionalServices = this.actionAdditionalServices
 
-    this._adventureReservationService.save(this.adventureAction).subscribe(   // subscribe - da bismo dobili odgovor beka
+    this._adventureService.saveReservation(this.adventureAction).subscribe(   // subscribe - da bismo dobili odgovor beka
       (adventureAction: AdventureReservation) => {
 
         this.dialogRef.close();

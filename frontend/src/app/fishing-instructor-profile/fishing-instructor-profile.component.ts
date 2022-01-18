@@ -101,7 +101,7 @@ export class FishingInstructorProfileComponent implements OnInit {
       }
     )
 
-    this._adventureReservationService.getAllActionsByInstructorId(1).subscribe(
+    this._adventureService.getAllActionsByInstructorId(1).subscribe(
       (allActions: AdventureReservation[]) => {
         this.allActions = allActions;
       }

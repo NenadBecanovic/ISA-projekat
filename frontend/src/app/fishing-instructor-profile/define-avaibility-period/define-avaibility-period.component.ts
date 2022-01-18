@@ -5,6 +5,7 @@ import { AlertService } from 'ngx-alerts';
 import { AdditionalService } from 'src/app/model/additional-service';
 import { Address } from 'src/app/model/address';
 import { AdventureReservation } from 'src/app/model/adventure-reservation';
+import { AdventureProfileService } from 'src/app/service/adventure-profile.service';
 import { AdventureReservationService } from 'src/app/service/adventure-reservation.service';
 
 @Component({
@@ -21,7 +22,7 @@ export class DefineAvaibilityPeriodComponent implements OnInit {
   endDate: Date = new Date();
   instructorId: number = 0;
 
-  constructor(public dialogRef: MatDialogRef<DefineAvaibilityPeriodComponent>, private _adventureReservationService: AdventureReservationService, private _alertService: AlertService) { }
+  constructor(public dialogRef: MatDialogRef<DefineAvaibilityPeriodComponent>, private _adventureService: AdventureProfileService, private _alertService: AlertService) { }
 
   ngOnInit() {
   }
@@ -44,7 +45,7 @@ export class DefineAvaibilityPeriodComponent implements OnInit {
 
     this.adventureAvaibilityReservation.startDate = Date.parse(this.date.toString()).toString()
     this.adventureAvaibilityReservation.endDate = Date.parse(this.endDate.toString()).toString()
-    this._adventureReservationService.saveUnavailablePeriod(this.adventureAvaibilityReservation,this.instructorId).subscribe(   // subscribe - da bismo dobili odgovor beka
+    this._adventureService.saveUnavailablePeriod(this.adventureAvaibilityReservation,this.instructorId).subscribe(   // subscribe - da bismo dobili odgovor beka
       (adventureReservation: AdventureReservation) => {
         this.dialogRef.close();
       },

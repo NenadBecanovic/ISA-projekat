@@ -20,15 +20,13 @@ public class AdditionalServicesContoller {
     private final AdditionalServicesService additionalServicesService;
     private final HouseService houseService;
     private final BoatService boatService;
-    private final FishingAdventureService fishingAdventureService;
     private final HouseReservationService houseReservationService;
 
     @Autowired
-    public AdditionalServicesContoller(AdditionalServicesService additionalServicesService, HouseService houseService, BoatService boatService, FishingAdventureService fishingAdventureService, HouseReservationService houseReservationService) {
+    public AdditionalServicesContoller(AdditionalServicesService additionalServicesService, HouseService houseService, BoatService boatService, HouseReservationService houseReservationService) {
         this.additionalServicesService = additionalServicesService;
         this.houseService = houseService;
         this.boatService = boatService;
-        this.fishingAdventureService = fishingAdventureService;
         this.houseReservationService = houseReservationService;
     }
 
@@ -131,7 +129,6 @@ public class AdditionalServicesContoller {
         AdditionalServices additionalServices = new AdditionalServices(dto.getId(), dto.getName(), dto.getPrice(), new HashSet<>(), new HashSet<>(), new HashSet<>());
         House house = this.houseService.getHouseById(dto.getHouseId());
         Boat boat = this.boatService.getBoatById(dto.getBoatId());
-        FishingAdventure adventure = this.fishingAdventureService.getFishingAdventureById(dto.getAdventureId());
 
         if (house != null) {
             for (HouseReservation h: house.getCourses()) {
@@ -162,11 +159,6 @@ public class AdditionalServicesContoller {
             Set<Boat> boats = additionalServices.getBoats();
             boats.add(boat);
             additionalServices.setBoats(boats);
-        }
-        else if (adventure != null) {
-            Set<FishingAdventure> adventures = additionalServices.getFishingAdventures();
-            adventures.add(adventure);
-            additionalServices.setFishingAdventures(adventures);
         }
         this.additionalServicesService.save(additionalServices);
 
