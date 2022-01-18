@@ -97,6 +97,7 @@ public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(HttpMethod.PUT,"/api/feedback/**");
         web.ignoring().antMatchers(HttpMethod.POST, "/api/feedback/**");
         web.ignoring().antMatchers(HttpMethod.DELETE, "/api/feedback/**");
+        web.ignoring().antMatchers(HttpMethod.GET, "/");
     }
 
     @Override

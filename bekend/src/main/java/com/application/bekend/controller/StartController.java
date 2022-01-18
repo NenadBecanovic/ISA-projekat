@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class StartController {
 
     @GetMapping("")
-    public ResponseEntity getAddressByHouseId(@PathVariable("id") Long id){
+    public ResponseEntity getAddressByHouseId(){
         return new ResponseEntity(HttpStatus.OK);
     }
 }
