@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { AdditionalService } from '../model/additional-service';
 import { AdventureReservation } from '../model/adventure-reservation';
 import { FishingAdventure } from '../model/fishing-adventure';
+import { FishingAdventureInstructorDTO } from '../model/fishing-adventure-instructorDTO';
 import { NewFishingAdventure } from '../model/new-fishing-adventure';
 
 @Injectable({
@@ -49,5 +50,9 @@ export class AdventureProfileService {
 
   public getAllActionsByInstructorId(id: number): Observable<AdventureReservation[]> {
     return this._http.get<AdventureReservation[]>(`${this.userPath}/getAllActionsByInstructorId/`+id)
+  }
+
+  public getFishingAdventureInstructor(id: number): Observable<FishingAdventureInstructorDTO>{
+    return this._http.get<FishingAdventureInstructorDTO>(`${this.userPath}/getFishingAdventureInstructor/`+id)
   }
 }

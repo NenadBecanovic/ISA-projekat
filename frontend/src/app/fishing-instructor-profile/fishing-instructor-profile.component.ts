@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { triggerAsyncId } from 'async_hooks';
+import { AlertService } from 'ngx-alerts';
 import { EditAdventureProfileDialogComponent } from '../adventure-profile/edit-adventure-profile-dialog/edit-adventure-profile-dialog.component';
 import { AuthentificationService } from '../auth/authentification/authentification.service';
 import { ClientProfileComponent } from '../clientHome/dialog/client-profile/client-profile.component';
@@ -37,7 +39,7 @@ export class FishingInstructorProfileComponent implements OnInit {
   filterTerm!: string;
 
   constructor(public dialog: MatDialog, private _adventureService: AdventureProfileService, private _router: Router, private _adventureReservationService: AdventureReservationService,
-          private _authentificationService: AuthentificationService) {
+          private _authentificationService: AuthentificationService, private _alertService: AlertService) {
 
    }
 
@@ -58,6 +60,10 @@ export class FishingInstructorProfileComponent implements OnInit {
       },
     )
     
+  }
+
+  goToAdventure(id: number){
+    this._router.navigate(['/adventure-profile/'+id]);
   }
 
   addAdventure(){
@@ -102,7 +108,7 @@ export class FishingInstructorProfileComponent implements OnInit {
         return reservation.guestId;
       }
     }
-    return 3;
+    return 0;
   }
 
   loadData() { // ucitavanje iz baze
@@ -167,16 +173,21 @@ export class FishingInstructorProfileComponent implements OnInit {
   }
 
   makeReservation(adventure: FishingAdventure) {
-    const dialogRef = this.dialog.open(MakeReservationDialogComponent,{
-      width: '600px',
-      data: {},
-    });
-    dialogRef.componentInstance.adventureReservation.guestId = this.getCurrentGuest();
-    dialogRef.componentInstance.adventure = adventure;
-    dialogRef.componentInstance.instructorId = this.instructor.id;
-    dialogRef.afterClosed().subscribe(result => {
-      window.location.reload();
-    });
+    var currentGuest = this.getCurrentGuest();
+    if(currentGuest != 0 && currentGuest != null){
+      const dialogRef = this.dialog.open(MakeReservationDialogComponent,{
+        width: '600px',
+        data: {},
+      });
+      dialogRef.componentInstance.adventureReservation.guestId = currentGuest;
+      dialogRef.componentInstance.adventure = adventure;
+      dialogRef.componentInstance.instructorId = this.instructor.id;
+      dialogRef.afterClosed().subscribe(result => {
+        window.location.reload();
+      });
+    }else{
+      this._alertService.danger("Nema trenutnog gosta za novu rezervaciju!");
+    }
   }
 
   // instructorChart(id: number) {

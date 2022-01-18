@@ -2,13 +2,13 @@ package com.application.bekend.DTO;
 
 public class UserCategoryDTO {
 
-	private int id;
+	private Long id;
 	private int points;
 	private String name;
 	private int discountPercentage;
 	
 	
-	public UserCategoryDTO(int id, String name, int discountPercentage, int points) {
+	public UserCategoryDTO(Long id, String name, int discountPercentage, int points) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -20,11 +20,11 @@ public class UserCategoryDTO {
 		
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

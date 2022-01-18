@@ -130,10 +130,6 @@ export class MyUserService {
     return this._http.put<Boolean>(`${this.userPath}/editInstructorPersonalDescription/`+id, personalDescription);
   }
 
-  public getFishingAdventureInstructor(id: number): Observable<FishingAdventureInstructorDTO>{
-    return this._http.get<FishingAdventureInstructorDTO>(`${this.userPath}/getFishingAdventureInstructor/`+id)
-  }
-
   public getAllInstructors(): Observable<MyUser[]>{
     return this._http.get<MyUser[]>(`${this.userPath}/getAllInstructors`)
   }

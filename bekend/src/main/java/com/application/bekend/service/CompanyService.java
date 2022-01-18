@@ -56,7 +56,7 @@ public class CompanyService {
 		return this.userCategoryService.delete(id);
 	}
 
-	public boolean editCategory(int id, UserCategoryDTO dto) {
+	public boolean editCategory(Long id, UserCategoryDTO dto) {
 		return this.userCategoryService.edit(id, dto);
 	}
 

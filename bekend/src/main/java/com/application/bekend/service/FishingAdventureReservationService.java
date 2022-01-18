@@ -81,8 +81,8 @@ public class FishingAdventureReservationService {
         adventureReservation = this.save(adventureReservation);
         
         instructor.setPoints(instructor.getPoints() + this.companyService.getCompanyInfo((long) 1).getPointsPerReservationOwner());
- //       this.myUserService.save(instructor);
- //       this.checkUserCategory(instructor);
+        this.myUserService.save(instructor);
+        this.checkUserCategory(instructor);
         
         Set<AdditionalServices> additionalServicesSet = new HashSet<>();
         for(AdditionalServicesDTO add : adventureReservationDTO.getAdditionalServices()){
@@ -102,8 +102,8 @@ public class FishingAdventureReservationService {
             adventureReservationsGuest.add(adventureReservation);
             guest.setAdventureReservations(adventureReservationsGuest);
             guest.setPoints(guest.getPoints() + this.companyService.getCompanyInfo((long) 1).getPointsPerReservationClient());
-   //         this.myUserService.save(guest);
-   //         this.checkUserCategory(guest);
+            this.myUserService.save(guest);
+            this.checkUserCategory(guest);
             this.myUserService.save(guest);
             
             this.myUserService.sendMailToClient(null, null, adventureReservationDTO, "", "", fishingAdventure.getName());
@@ -267,16 +267,18 @@ public class FishingAdventureReservationService {
     private void checkUserCategory(MyUser user) {
     	List<UserCategory> allCategories = this.userCategoryService.findAll();
     	int min = 0;
-    	String name = "";
+    	Long id = (long) 0;
     	for(UserCategory category: allCategories) {
     		if(category.getPoints() > min && user.getPoints() > category.getPoints()) {
     			min = category.getPoints();
-    			name = category.getName();
+    			id = category.getId();
     		}
     	}
-    	UserCategory cat = this.userCategoryService.getCategoryByName(name);
-    	user.setCategory(null);
+    	UserCategory cat = this.userCategoryService.getCategoryById(id);
+   // 	cat.addUser(user);
+   // 	this.userCategoryService.save(cat);
     	user.setCategory(cat);
+    	this.myUserService.save(user);
     }
 
 	public boolean canAdventureBeChanged(Long id) {

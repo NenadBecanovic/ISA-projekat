@@ -182,7 +182,7 @@ export class AdminPageComponent implements OnInit {
   answerOnAppeal(ownerId: number, guestId: number, appealId: number){
     const dialogRef = this.dialog.open(AppealAnswerDialogComponent, {
       width: '550px',
-      height: '500px',
+      height: '550px',
       data: {},
     });
     dialogRef.componentInstance.answer.ownerId = ownerId;
@@ -196,7 +196,7 @@ export class AdminPageComponent implements OnInit {
   answerOnReport(ownerId: number, guestId: number, id: number){
     const dialogRef = this.dialog.open(ReportAnswerDialogComponent, {
       width: '550px',
-      height: '500px',
+      height: '550px',
       data: {},
     });
     dialogRef.componentInstance.answer.ownerId = ownerId;

@@ -84,6 +84,7 @@
                         <img class="profile-picture" src="https://mackenzienz.com/wp-content/uploads/2015/09/Fishing-PAge-BAnner.jpg?fbclid=IwAR1c5dayMLBGnI0cFCy6Z8zFfBjmkX17Z9krEkjT5v2vDbf5xKxvVNgFSmk"/>
                       </div>
                       <div class="d-flex flex-column">
+                        <a class="card-text" (click)="goToAdventure(a.id)"> {{a.name}} </a>
                         <p class="card-text">{{a.address.street}}, {{a.address.city}}, {{a.address.state}} </p>
                         <p class="card-text">Broj osoba: {{a.persons}}</p>
                         <p class="card-text">Cena: {{a.price}} din/h</p>
@@ -93,7 +94,7 @@
                   <div class="d-flex flex-row-reverse">
                     <div class="d-flex me-3 mb-3 justify-content-end ">
                       <button type="button" class="btn add-action-button"
-                      (click)="makeReservation(a)">Odgovori</button>
+                      (click)="makeReservation(a)">Rezerviši</button>
                     </div>
                   </div>
             </div>

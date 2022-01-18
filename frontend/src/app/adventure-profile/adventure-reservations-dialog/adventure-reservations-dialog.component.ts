@@ -18,7 +18,6 @@ export class AdventureReservationsDialogComponent implements OnInit {
 
   adventureId!: number;
   allReservations: AdventureReservation[] = new Array<AdventureReservation>();
-  showMakeReport: Boolean = true;
   reportAdventureReservationId: number = 0;
   reportAdventureId: number = 0;
   report: Report = new Report(0, '', false, false, 0, 0, 0);
@@ -32,10 +31,6 @@ export class AdventureReservationsDialogComponent implements OnInit {
 
   onNoClick(): void {
     this.dialogRef.close();
-  }
-
-  makeReport(){
-    this.showMakeReport = !this.showMakeReport;
   }
 
   onLoad(){
@@ -65,8 +60,7 @@ export class AdventureReservationsDialogComponent implements OnInit {
     this.report.adventureReservationId = reservation.id;
     this._reportService.save(this.report).subscribe(
       (report: Report) => {
-        this.showMakeReport = !this.showMakeReport;
-        reservation.hasReport = true;
+        this.onLoad();
       },
       (error) => {
         this._alertService.danger('Doslo je do greske');

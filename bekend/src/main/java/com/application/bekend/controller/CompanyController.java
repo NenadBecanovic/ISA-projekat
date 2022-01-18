@@ -70,7 +70,7 @@ public class CompanyController {
     }
 	
 	@PutMapping("/edit/{id}")
-    public ResponseEntity<Boolean> editCategory(@PathVariable("id") int id, @RequestBody UserCategoryDTO dto){
+    public ResponseEntity<Boolean> editCategory(@PathVariable("id") Long id, @RequestBody UserCategoryDTO dto){
         boolean isDeleted = this.companyService.editCategory(id, dto);
         
         return new ResponseEntity<>(isDeleted, HttpStatus.OK);

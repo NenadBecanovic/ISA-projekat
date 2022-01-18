@@ -32,11 +32,8 @@
             </span>
             <span class="me-2">{{reservation.price}}</span>
         </div>
-        <button type="button" class="btn btn-danger ms-5 justify-end align-items-center" >
-            <span>Popuni izveštaj</span>
-        </button>
     </div>
-    <div class="mt-2 suspicious-customers-style">
+    <div [hidden]="reservation.hasReport" class="mt-2 suspicious-customers-style">
         <form #addActionForm = "ngForm" (ngSubmit)="addReport(reservation)">
             <div class = "d-flex flex-row" >
             <div class = "input-box">

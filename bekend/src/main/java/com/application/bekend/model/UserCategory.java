@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class UserCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "points", nullable = false)
     private int points;
@@ -23,7 +23,7 @@ public class UserCategory {
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private Set<MyUser> users= new HashSet<MyUser>();
 
-    public UserCategory(Integer id, int points, String name, int discountPercentage) {
+    public UserCategory(Long id, int points, String name, int discountPercentage) {
         this.id = id;
         this.points = points;
         this.name = name;
@@ -33,11 +33,11 @@ public class UserCategory {
     public UserCategory() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -64,5 +64,16 @@ public class UserCategory {
     public void setDiscountPercentage(int discountPercentage) {
         this.discountPercentage = discountPercentage;
     }
+
+	public Set<MyUser> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<MyUser> users) {
+		this.users = users;
+	}
+     public void addUser(MyUser user) {
+    	 this.users.add(user);
+     }
 
 }
