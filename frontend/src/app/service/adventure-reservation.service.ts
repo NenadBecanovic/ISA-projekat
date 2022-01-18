@@ -22,10 +22,6 @@ export class AdventureReservationService {
     return this._http.get<AdventureReservation[]>(`${this.userPath}/getAllByAdventureId/`+id)
   }
 
-  public getAllActionsByInstructorId(id: number): Observable<AdventureReservation[]> {
-    return this._http.get<AdventureReservation[]>(`${this.userPath}/getAllActionsByInstructorId/`+id)
-  }
-
   public getAllAvaibilityPeriodsByInstructorId(id: number): Observable<AdventureReservation[]> {
     return this._http.get<AdventureReservation[]>(`${this.userPath}/getAllAvaibilityPeriodsByInstructorId/`+id)
   }
@@ -36,14 +32,6 @@ export class AdventureReservationService {
 */
   public getAdventureReservationsByGuestId(id: number): Observable<AdventureReservation[]> {
     return this._http.get<AdventureReservation[]>(`${this.userPath}/getFishingAdventureReservationsByGuestId/`+id)
-  }
-
-  public save(adventureReservation: AdventureReservation): Observable<AdventureReservation> {
-    return this._http.post<AdventureReservation>(`${this.userPath}/add`, adventureReservation)
-  }
-
-  public saveUnavailablePeriod(adventureReservation: AdventureReservation, instructorId: number): Observable<AdventureReservation> {
-    return this._http.post<AdventureReservation>(`${this.userPath}/saveUnavailablePeriod/`+instructorId, adventureReservation)
   }
 
   public getAdventureReservationsByInstructorId(id: number): Observable<AdventureReservation[]> {

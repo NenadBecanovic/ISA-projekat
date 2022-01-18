@@ -23,17 +23,15 @@ import com.application.bekend.repository.FishingAdventureReservationRepository;
 public class FishingAdventureReservationService {
 	
 	private final FishingAdventureReservationRepository fishingAdventureReservationsRepository;
-	private final FishingAdventureService fishingAdventureService;
 	private final AdditionalServicesService additionalServicesService;
 	private final MyUserService myUserService;
 	private final UserCategoryService userCategoryService;
 	private final CompanyService companyService;
 	
 	@Autowired
-	public FishingAdventureReservationService(FishingAdventureReservationRepository fishingAdventureReservationRepository, FishingAdventureService fishingAdventureService, AdditionalServicesService additionalServicesService,
+	public FishingAdventureReservationService(FishingAdventureReservationRepository fishingAdventureReservationRepository, AdditionalServicesService additionalServicesService,
 			MyUserService myUserService, UserCategoryService userCategoryService, CompanyService companyService) {
 		this.fishingAdventureReservationsRepository = fishingAdventureReservationRepository;
-		this.fishingAdventureService = fishingAdventureService;
 		this.additionalServicesService = additionalServicesService;
 		this.myUserService = myUserService;
 		this.userCategoryService = userCategoryService;
@@ -52,8 +50,7 @@ public class FishingAdventureReservationService {
         return this.fishingAdventureReservationsRepository.save(adventureReservation);
     }
 	
-	public boolean saveReservation(AdventureReservationDTO adventureReservationDTO) throws MessagingException {
-		FishingAdventure fishingAdventure = this.fishingAdventureService.getFishingAdventureById(adventureReservationDTO.getAdventureId());
+	public FishingAdventure saveReservation(FishingAdventure fishingAdventure, AdventureReservationDTO adventureReservationDTO) throws MessagingException {
 		MyUser instructor = this.myUserService.findUserByAdventureId(fishingAdventure.getId());
         List<AdventureReservation> adventureReservations = this.getAllByFishingAdventure_Id(fishingAdventure.getId());
         for (AdventureReservation a: adventureReservations) {
@@ -64,7 +61,7 @@ public class FishingAdventureReservationService {
                     Long.parseLong(adventureReservationDTO.getStartDate()) <= start && Long.parseLong(adventureReservationDTO.getEndDate()) >= start  ||
                     Long.parseLong(adventureReservationDTO.getStartDate()) >= start && Long.parseLong(adventureReservationDTO.getStartDate()) <= end  )
             {
-                return false;
+                return null;
             }
         }
 
@@ -89,13 +86,13 @@ public class FishingAdventureReservationService {
             this.additionalServicesService.save(additionalServices);
         }
         fishingAdventure.addAdventureReservation(adventureReservation);
-        this.fishingAdventureService.save(fishingAdventure);
+//        this.fishingAdventureService.save(fishingAdventure);
         this.myUserService.save(instructor);
 
         if (adventureReservationDTO.getGuestId() != null && adventureReservationDTO.getGuestId() != 0) {
             MyUser guest = this.myUserService.findUserById(adventureReservationDTO.getGuestId());
             adventureReservation.setGuest(guest);
-            this.fishingAdventureService.save(fishingAdventure);
+  //          this.fishingAdventureService.save(fishingAdventure);
 
             Set<AdventureReservation> adventureReservationsGuest = guest.getAdventureReservations();
             adventureReservationsGuest.add(adventureReservation);
@@ -111,19 +108,7 @@ public class FishingAdventureReservationService {
             this.myUserService.sendSubscribedUsersEmail(null, null, adventureReservationDTO, "", "", fishingAdventure.getName());
         }
         
-        return true;
-	}
-
-	public boolean saveUnavailablePeriod(Long instructorId, AdventureReservationDTO adventureReservationDTO) throws MessagingException {
-		// TODO Auto-generated method stub
-		List<FishingAdventure> fishingAdventures = this.fishingAdventureService.getFishingAdventuresByInstructor(instructorId);
-		for(FishingAdventure fishingAdventure : fishingAdventures) {
-	        adventureReservationDTO.setAdventureId(fishingAdventure.getId());
-	        if(!saveReservation(adventureReservationDTO)) {
-	        	return false;
-	        }
-		}
-        return true;
+        return fishingAdventure;
 	}
 	
 	public List<AdventureReservationDTO> getAdventureReservationsByInstructorId(Long id){
@@ -208,18 +193,6 @@ public class FishingAdventureReservationService {
             }
         }
         return adventureReservationDTOS;
-	}
-
-	public List<AdventureReservationDTO> getAllActionsByInstructorId(Long id) {
-		List<FishingAdventure> allAdventures = this.fishingAdventureService.getFishingAdventuresByInstructor(id);
-		List<AdventureReservationDTO> allActions = new ArrayList<AdventureReservationDTO>();
-		for(FishingAdventure a: allAdventures) {
-			List<AdventureReservationDTO> adventureActions = this.getAllActionsByAdventureId(a.getId());
-			for(AdventureReservationDTO action: adventureActions) {
-				allActions.add(action);
-			}
-		}
-		return allActions;
 	}
 
 	public List<AdventureReservationDTO> getAllAvaibilityPeriodsByInstructorId(Long id) {

@@ -29,7 +29,7 @@ export class EditAdventureProfileDialogComponent implements OnInit {
       this.additionalService.adventureId = this.adventure.id;
       this.additionalService.checked = false;
 
-      this._additionalServicesService.save(this.additionalService).subscribe(   // subscribe - da bismo dobili odgovor beka
+      this._adventureService.saveAdditionalService(this.additionalService).subscribe(   // subscribe - da bismo dobili odgovor beka
         (additionalService: AdditionalService) => {
           this.reloadServices();
           this.additionalService.name = '';

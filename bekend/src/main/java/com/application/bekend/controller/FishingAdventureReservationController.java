@@ -35,14 +35,12 @@ import com.application.bekend.service.MyUserService;
 public class FishingAdventureReservationController {
 
 	private final FishingAdventureReservationService fishingAdventureReservationService;
-    private final FishingAdventureService fishingAdventureService;
     private final AdditionalServicesService additionalServicesService;
     private final MyUserService myUserService;
     
     @Autowired
-    public FishingAdventureReservationController(FishingAdventureReservationService fishingAdventureReservationService, FishingAdventureService fishingAdventureService, AdditionalServicesService additionalServicesService, MyUserService myUserService) {
+    public FishingAdventureReservationController(FishingAdventureReservationService fishingAdventureReservationService, AdditionalServicesService additionalServicesService, MyUserService myUserService) {
     	this.fishingAdventureReservationService = fishingAdventureReservationService;
-    	this.fishingAdventureService = fishingAdventureService;
     	this.additionalServicesService = additionalServicesService;
     	this.myUserService = myUserService;
     }
@@ -82,40 +80,11 @@ public class FishingAdventureReservationController {
         return new ResponseEntity<>(adventureReservationDTOS, HttpStatus.OK);
     }
     
-    @PostMapping("/add")
-    public ResponseEntity<AdventureReservationDTO> save(@RequestBody AdventureReservationDTO adventureReservationDTO) throws MessagingException {
-        boolean isCreated = this.fishingAdventureReservationService.saveReservation(adventureReservationDTO);
-        
-        if(!isCreated) {
-        	return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-    
-    @PostMapping("/saveUnavailablePeriod/{id}")
-    public ResponseEntity<AdventureReservationDTO> saveUnavailablePeriod(@PathVariable("id") Long instructorId, @RequestBody AdventureReservationDTO adventureReservationDTO) throws MessagingException {
-        boolean isCreated = this.fishingAdventureReservationService.saveUnavailablePeriod(instructorId,adventureReservationDTO);
-        
-        if(!isCreated) {
-        	return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-    
     @GetMapping("/getAllActionsByFishingAdventureId/{id}")
     public ResponseEntity<List<AdventureReservationDTO>> getAllActionsByAdventureId(@PathVariable("id") Long id) {
         List<AdventureReservationDTO> adventureReservationDTOS = this.fishingAdventureReservationService.getAllActionsByAdventureId(id);
 
         return new ResponseEntity<>(adventureReservationDTOS, HttpStatus.OK);
-    }
-    
-    @GetMapping("/getAllActionsByInstructorId/{id}")
-    public ResponseEntity<List<AdventureReservationDTO>> getAllActionsByInstructorId(@PathVariable("id") Long id) {
-        List<AdventureReservationDTO> allActions = this.fishingAdventureReservationService.getAllActionsByInstructorId(id);
-
-        return new ResponseEntity<>(allActions, HttpStatus.OK);
     }
     
     @GetMapping("/getAllAvaibilityPeriodsByInstructorId/{id}")
