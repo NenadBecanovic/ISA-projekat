@@ -35,49 +35,17 @@ import com.application.bekend.service.MyUserService;
 public class FishingAdventureReservationController {
 
 	private final FishingAdventureReservationService fishingAdventureReservationService;
-    private final AdditionalServicesService additionalServicesService;
-    private final MyUserService myUserService;
     
     @Autowired
-    public FishingAdventureReservationController(FishingAdventureReservationService fishingAdventureReservationService, AdditionalServicesService additionalServicesService, MyUserService myUserService) {
+    public FishingAdventureReservationController(FishingAdventureReservationService fishingAdventureReservationService) {
     	this.fishingAdventureReservationService = fishingAdventureReservationService;
-    	this.additionalServicesService = additionalServicesService;
-    	this.myUserService = myUserService;
     }
     
     @GetMapping("/getAllByAdventureId/{id}")
     public ResponseEntity<List<AdventureReservationDTO>> getAllByAdventureId(@PathVariable("id") Long id) {
-        List<AdventureReservation> adventureReservations = this.fishingAdventureReservationService.getAllByFishingAdventure_Id(id);
+        List<AdventureReservationDTO> adventureReservations = this.fishingAdventureReservationService.getAllDTOByAdventureId(id);
 
-        List<AdventureReservationDTO> adventureReservationDTOS = new ArrayList<>();
-
-        for (AdventureReservation a : adventureReservations) {
-        	if(!a.isAvailable() && !a.isAvailabilityPeriod()) {
-	            String startDate = (String.valueOf(a.getStartDate().getTime()));
-	            String endDate = (String.valueOf(a.getEndDate().getTime()));
-	
-	            AdventureReservationDTO adventureReservationDTO = new AdventureReservationDTO(a.getId(), startDate, endDate, a.getMaxGuests(), a.getPrice(), a.isAvailable());
-	            adventureReservationDTO.setAvailabilityPeriod(a.isAvailabilityPeriod());
-	            adventureReservationDTO.setIsAction(a.isAction());
-                adventureReservationDTO.setCancelled(a.getCancelled());
-	            if (a.getGuest() != null) {
-	            	adventureReservationDTO.setGuestId(a.getGuest().getId());
-	            	MyUser user = this.myUserService.findUserById(a.getGuest().getId());
-	            	adventureReservationDTO.setGuest(new UserInfoDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), ""));
-	            }
-	
-	            Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
-	            for(AdditionalServices add : this.additionalServicesService.getAllByHouseReservationId(a.getId())){  // a.getAdditionalServices()
-	                AdditionalServicesDTO newAdditionalService = new AdditionalServicesDTO(add.getId(), add.getName(), add.getPrice());
-	                additionalServicesDTOS.add(newAdditionalService);
-	            }
-	
-	            adventureReservationDTO.setAdditionalServices(additionalServicesDTOS);
-	            adventureReservationDTOS.add(adventureReservationDTO);
-        	}
-        }
-
-        return new ResponseEntity<>(adventureReservationDTOS, HttpStatus.OK);
+        return new ResponseEntity<>(adventureReservations, HttpStatus.OK);
     }
     
     @GetMapping("/getAllActionsByFishingAdventureId/{id}")
@@ -111,44 +79,9 @@ public class FishingAdventureReservationController {
 
     @GetMapping("/getFishingAdventureReservationsByGuestId/{id}")
     public ResponseEntity<List<AdventureReservationDTO>> getFishingAdventureReservationsByGuestId(@PathVariable("id") Long id) {
-        List<AdventureReservation> adventureReservations = this.fishingAdventureReservationService.getAdventureReservationsByGuestId(id);
-        List<AdventureReservationDTO> adventureReservationDTOS = new ArrayList<>();
-
-        for (AdventureReservation h: adventureReservations) {
-            String startDate = (String.valueOf(h.getStartDate().getTime()));
-            String endDate = (String.valueOf(h.getEndDate().getTime()));
-
-            Long startDateMilis = h.getStartDate().getTime();
-            Long endDateMilis = h.getEndDate().getTime();
-
-            AdventureReservationDTO dto = new AdventureReservationDTO(h.getFishingAdventure().getId(), h.getId(), startDate, endDate, h.getMaxGuests(),
-                    h.getPrice(), h.isAvailable());
-            dto.setAvailabilityPeriod(h.isAvailabilityPeriod());
-            dto.setIsAction(h.isAction());
-            if (h.getGuest() != null) {
-                dto.setGuestId(h.getGuest().getId());
-            }
-
-            dto.setMilisStartDate(startDateMilis);
-            dto.setMilisEndDate(endDateMilis);
-            dto.setHasAppealOwner(h.getHasAppealOwner());
-            dto.setHasFeedbackOwner(h.getHasFeedbackOwner());
-
-            dto.setTotalPrice(this.fishingAdventureReservationService.findTotalPriceForAdventureReservation(h));
-            dto.setEntityName(h.getFishingAdventure().getName());
-            this.fishingAdventureReservationService.canBeCancelled(dto,h);
-            dto.setCancelled(h.getCancelled());
-
-            Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
-            for(AdditionalServices add : this.additionalServicesService.getAllByBoatReservationId(h.getId())) {
-                AdditionalServicesDTO newAddSer = new AdditionalServicesDTO(add.getId(), add.getName(), add.getPrice());
-                additionalServicesDTOS.add(newAddSer);
-            }
-            dto.setAdditionalServices(additionalServicesDTOS);
-
-            adventureReservationDTOS.add(dto);
-        }
-        return new ResponseEntity<>(adventureReservationDTOS, HttpStatus.OK);
+        List<AdventureReservationDTO> adventureReservations = this.fishingAdventureReservationService.getFishingAdventureReservationsDTOByGuestId(id);
+        
+        return new ResponseEntity<>(adventureReservations, HttpStatus.OK);
     }
     
     @GetMapping("/getCompanyProfit/{startDate}/{endDate}")

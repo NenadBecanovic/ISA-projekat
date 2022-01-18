@@ -10,7 +10,10 @@ import javax.mail.MessagingException;
 import com.application.bekend.DTO.ReservationCheckDTO;
 import com.application.bekend.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.application.bekend.DTO.AdditionalServicesDTO;
 import com.application.bekend.DTO.AdventureReservationDTO;
@@ -308,5 +311,80 @@ public class FishingAdventureReservationService {
         }
         return profit;
 	}
+	
+	public List<AdventureReservationDTO> getAllDTOByAdventureId(Long id) {
+        List<AdventureReservation> adventureReservations = this.getAllByFishingAdventure_Id(id);
+
+        List<AdventureReservationDTO> adventureReservationDTOS = new ArrayList<>();
+
+        for (AdventureReservation a : adventureReservations) {
+        	if(!a.isAvailable() && !a.isAvailabilityPeriod()) {
+	            String startDate = (String.valueOf(a.getStartDate().getTime()));
+	            String endDate = (String.valueOf(a.getEndDate().getTime()));
+	
+	            AdventureReservationDTO adventureReservationDTO = new AdventureReservationDTO(a.getId(), startDate, endDate, a.getMaxGuests(), a.getPrice(), a.isAvailable());
+	            adventureReservationDTO.setAvailabilityPeriod(a.isAvailabilityPeriod());
+	            adventureReservationDTO.setIsAction(a.isAction());
+                adventureReservationDTO.setCancelled(a.getCancelled());
+	            if (a.getGuest() != null) {
+	            	adventureReservationDTO.setGuestId(a.getGuest().getId());
+	            	MyUser user = this.myUserService.findUserById(a.getGuest().getId());
+	            	adventureReservationDTO.setGuest(new UserInfoDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), ""));
+	            }
+	
+	            Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
+	            for(AdditionalServices add : this.additionalServicesService.getAllByHouseReservationId(a.getId())){  // a.getAdditionalServices()
+	                AdditionalServicesDTO newAdditionalService = new AdditionalServicesDTO(add.getId(), add.getName(), add.getPrice());
+	                additionalServicesDTOS.add(newAdditionalService);
+	            }
+	
+	            adventureReservationDTO.setAdditionalServices(additionalServicesDTOS);
+	            adventureReservationDTOS.add(adventureReservationDTO);
+        	}
+        }
+
+        return adventureReservationDTOS;
+    }
+	
+	public List<AdventureReservationDTO> getFishingAdventureReservationsDTOByGuestId(Long id) {
+        List<AdventureReservation> adventureReservations = this.getAdventureReservationsByGuestId(id);
+        List<AdventureReservationDTO> adventureReservationDTOS = new ArrayList<>();
+
+        for (AdventureReservation h: adventureReservations) {
+            String startDate = (String.valueOf(h.getStartDate().getTime()));
+            String endDate = (String.valueOf(h.getEndDate().getTime()));
+
+            Long startDateMilis = h.getStartDate().getTime();
+            Long endDateMilis = h.getEndDate().getTime();
+
+            AdventureReservationDTO dto = new AdventureReservationDTO(h.getFishingAdventure().getId(), h.getId(), startDate, endDate, h.getMaxGuests(),
+                    h.getPrice(), h.isAvailable());
+            dto.setAvailabilityPeriod(h.isAvailabilityPeriod());
+            dto.setIsAction(h.isAction());
+            if (h.getGuest() != null) {
+                dto.setGuestId(h.getGuest().getId());
+            }
+
+            dto.setMilisStartDate(startDateMilis);
+            dto.setMilisEndDate(endDateMilis);
+            dto.setHasAppealOwner(h.getHasAppealOwner());
+            dto.setHasFeedbackOwner(h.getHasFeedbackOwner());
+
+            dto.setTotalPrice(this.findTotalPriceForAdventureReservation(h));
+            dto.setEntityName(h.getFishingAdventure().getName());
+            this.canBeCancelled(dto,h);
+            dto.setCancelled(h.getCancelled());
+
+            Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
+            for(AdditionalServices add : this.additionalServicesService.getAllByBoatReservationId(h.getId())) {
+                AdditionalServicesDTO newAddSer = new AdditionalServicesDTO(add.getId(), add.getName(), add.getPrice());
+                additionalServicesDTOS.add(newAddSer);
+            }
+            dto.setAdditionalServices(additionalServicesDTOS);
+
+            adventureReservationDTOS.add(dto);
+        }
+        return adventureReservationDTOS;
+    }
 
 }
