@@ -47,11 +47,11 @@ export class CalendarDialogComponent implements OnInit {
   ngOnInit() {
     for(let reservation of this.allReservations){
       this.events.push({
-        title: 'Korisnik: ' + reservation.guest.firstName + ' ' + reservation.guest.lastName ,
+        title: 'Korisnik: ' + reservation.guest.firstName + ' ' + reservation.guest.lastName,
         color: colors.yellow,
         start: new Date(Number(reservation.startDate)),
         end: new Date(Number(reservation.endDate)),
-        id: reservation.guest.id
+        id: reservation.guestId
       });
     }
     for(let action of this.allActions){

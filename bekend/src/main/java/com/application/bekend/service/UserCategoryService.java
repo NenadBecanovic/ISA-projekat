@@ -81,4 +81,9 @@ public class UserCategoryService {
 		UserCategory category = user.getCategory();
 		return new UserCategoryDTO(category.getId(), category.getName(), category.getDiscountPercentage(), category.getPoints());
 	}
+
+	public UserCategory getCategoryByName(String name) {
+		// TODO Auto-generated method stub
+		return this.userCategoryRepository.findUserCategoryByName(name);
+	}
 }

@@ -103,7 +103,7 @@ export class MyUserService {
   }
 
   public getAllDeleteRequests(): Observable<DeleteRequest[]>{
-    return this._http.get<DeleteRequest[]>(`${this.userPath}/getAllDeleteRequests`);
+    return this._http.get<DeleteRequest[]>(`${this.userPath}/getAllDeleteRequests`)
   }
 
   public getAllAppeals(): Observable<Appeal[]>{
@@ -115,7 +115,7 @@ export class MyUserService {
   }
 
   public getAllNewUserRequests(): Observable<NewUserRequest[]>{
-    return this._http.get<NewUserRequest[]>(`${this.userPath}/getAllNewUserRequests`)
+    return this._http.get<NewUserRequest[]>(`${this.userPath}/getAllNewUserRequests`);
   }
 
   public activateNewUser(id: number): Observable<Boolean>{

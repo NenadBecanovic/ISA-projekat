@@ -84,8 +84,8 @@ public class MyUser implements UserDetails {
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
     private Set<Subscription> subscriptions_owners = new HashSet<>();
     
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "category_id")
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "category_id", nullable = false)
 	private UserCategory category;
     
     @Column(name = "points", nullable = false)

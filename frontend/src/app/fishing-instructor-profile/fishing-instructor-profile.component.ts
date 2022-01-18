@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { EditAdventureProfileDialogComponent } from '../adventure-profile/edit-adventure-profile-dialog/edit-adventure-profile-dialog.component';
+import { AuthentificationService } from '../auth/authentification/authentification.service';
 import { ClientProfileComponent } from '../clientHome/dialog/client-profile/client-profile.component';
 import { DeleteAccountComponent } from '../clientHome/dialog/delete-account/delete-account.component';
 import { AdditionalService } from '../model/additional-service';
@@ -35,12 +36,28 @@ export class FishingInstructorProfileComponent implements OnInit {
   instructor: FishingAdventureInstructorDTO = new FishingAdventureInstructorDTO();
   filterTerm!: string;
 
-  constructor(public dialog: MatDialog, private _adventureService: AdventureProfileService, private _router: Router, private _adventureReservationService: AdventureReservationService) {
+  constructor(public dialog: MatDialog, private _adventureService: AdventureProfileService, private _router: Router, private _adventureReservationService: AdventureReservationService,
+          private _authentificationService: AuthentificationService) {
 
    }
 
   ngOnInit() {
-    this.loadData();
+    this._authentificationService.getUserByEmail().subscribe(   // subscribe - da bismo dobili odgovor beka
+      (user: MyUser) => {
+        this.instructor.id = user.id;
+        this.instructor.firstName = user.firstName;
+        this.instructor.lastName = user.lastName;
+        this.instructor.addressDTO = user.addressDTO;
+        this.instructor.username = user.username;
+        this.instructor.phone = user.phoneNumber;
+        this.instructor.email = user.email;
+        this.instructor.personalDescription = user.personalDescription;
+        this.loadData();
+      },
+      (error) => {
+      },
+    )
+    
   }
 
   addAdventure(){
@@ -85,29 +102,29 @@ export class FishingInstructorProfileComponent implements OnInit {
         return reservation.guestId;
       }
     }
-    return 0;
+    return 3;
   }
 
   loadData() { // ucitavanje iz baze
-    this._adventureService.getFishingAdventuresByInstructor(1).subscribe(
+    this._adventureService.getFishingAdventuresByInstructor(this.instructor.id).subscribe(
       (adventures: FishingAdventure[]) => {
         this.adventures = adventures
       }
     )
 
-    this._adventureReservationService.getAdventureReservationsByInstructorId(1).subscribe(
+    this._adventureReservationService.getAdventureReservationsByInstructorId(this.instructor.id).subscribe(
       (allReservations: AdventureReservation[]) => {
         this.allReservations = allReservations;
       }
     )
 
-    this._adventureService.getAllActionsByInstructorId(1).subscribe(
+    this._adventureService.getAllActionsByInstructorId(this.instructor.id).subscribe(
       (allActions: AdventureReservation[]) => {
         this.allActions = allActions;
       }
     )
 
-    this._adventureReservationService.getAllAvaibilityPeriodsByInstructorId(1).subscribe(
+    this._adventureReservationService.getAllAvaibilityPeriodsByInstructorId(this.instructor.id).subscribe(
       (allAvaibilityPeriods: AdventureReservation[]) => {
         this.allAvaibilityPeriods = allAvaibilityPeriods;
       }
@@ -144,6 +161,19 @@ export class FishingInstructorProfileComponent implements OnInit {
       data: {},
     });
 
+    dialogRef.afterClosed().subscribe(result => {
+      window.location.reload();
+    });
+  }
+
+  makeReservation(adventure: FishingAdventure) {
+    const dialogRef = this.dialog.open(MakeReservationDialogComponent,{
+      width: '600px',
+      data: {},
+    });
+    dialogRef.componentInstance.adventureReservation.guestId = this.getCurrentGuest();
+    dialogRef.componentInstance.adventure = adventure;
+    dialogRef.componentInstance.instructorId = this.instructor.id;
     dialogRef.afterClosed().subscribe(result => {
       window.location.reload();
     });
