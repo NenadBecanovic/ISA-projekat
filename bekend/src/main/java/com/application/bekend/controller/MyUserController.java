@@ -46,6 +46,7 @@ public class MyUserController {
     public ResponseEntity<MyUserDTO> findUserByEmail(@PathVariable("email") String email){
         MyUser myUser = this.myUserService.findUserByEmail(email);
         MyUserDTO dto = modelMapper.map(myUser, MyUserDTO.class);
+        dto.setIsFirstLogin(myUser.isFirstLogin());
         AddressDTO addressDTO = modelMapper.map(myUser.getAddress(), AddressDTO.class);
 
         dto.setAuthority(myUser.getAuthorities().get(0).getName());
@@ -208,8 +209,10 @@ public class MyUserController {
         List<MyUser> allUsers = this.myUserService.getAllUsers();
         List<UserInfoDTO> allUsersDTO = new ArrayList<UserInfoDTO>();
         for(MyUser myUser: allUsers) {
-        	UserInfoDTO userDTO = new UserInfoDTO(myUser.getId(), myUser.getFirstName(), myUser.getLastName(), myUser.getEmail(), "");
-        	allUsersDTO.add(userDTO);
+        	if(!myUser.isDeleted()) {
+	        	UserInfoDTO userDTO = new UserInfoDTO(myUser.getId(), myUser.getFirstName(), myUser.getLastName(), myUser.getEmail(), "");
+	        	allUsersDTO.add(userDTO);
+        	}
         }
         return new ResponseEntity<>(allUsersDTO, HttpStatus.OK);
     }

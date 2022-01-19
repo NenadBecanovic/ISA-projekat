@@ -88,16 +88,4 @@ public class UserCategory {
 	public void setVersion(Integer version) {
 		this.version = version;
 	}
-
-	public Set<MyUser> getUsers() {
-		return users;
-	}
-
-	public void setUsers(Set<MyUser> users) {
-		this.users = users;
-	}
-     public void addUser(MyUser user) {
-    	 this.users.add(user);
-     }
-
 }

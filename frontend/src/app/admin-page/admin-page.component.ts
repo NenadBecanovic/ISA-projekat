@@ -81,10 +81,10 @@ export class AdminPageComponent implements OnInit {
     this._authentificationService.getUserByEmail().subscribe(
       (user: MyUser) => {
         this.admin = user;
-        if(this.admin.isFirstLogin){
+        if(user.isFirstLogin){
           const dialogRef = this.dialog.open(NewAdminPasswordDialogComponent, {
             width: '550px',
-            height: '250px',
+            height: '400px',
             data: {},
           });
           dialogRef.componentInstance.admin = this.admin;
