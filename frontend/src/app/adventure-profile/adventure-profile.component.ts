@@ -83,10 +83,11 @@ export class AdventureProfileComponent implements OnInit {
   showReservationsDialog(id: number){
     const dialogRef = this.dialog.open(AdventureReservationsDialogComponent, {
       width: '1000px',
-      height: '570px',
+      height: '590px',
       data: {},
     });
     dialogRef.componentInstance.adventureId = id;
+    dialogRef.componentInstance.onLoad();
     dialogRef.afterClosed().subscribe(result => {
 
     });
@@ -109,7 +110,7 @@ export class AdventureProfileComponent implements OnInit {
         this.fishingAdventure = fishingAdventure
         this.address = this.fishingAdventure.address;
 
-        this._myUserService.getFishingAdventureInstructor(this.fishingAdventure.instructorId).subscribe(
+        this._adventureService.getFishingAdventureInstructor(this.fishingAdventure.instructorId).subscribe(
           (instructor: FishingAdventureInstructorDTO) => {
             this.instructor = instructor
           }

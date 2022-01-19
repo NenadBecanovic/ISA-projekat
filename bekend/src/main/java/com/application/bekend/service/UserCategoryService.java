@@ -63,7 +63,7 @@ public class UserCategoryService {
 		return true;
 	}
 
-	public boolean edit(int id, UserCategoryDTO dto) {
+	public boolean edit(Long id, UserCategoryDTO dto) {
 		UserCategory category = this.userCategoryRepository.getUserCategoryById(id);
 		category.setName(dto.getName());
 		category.setDiscountPercentage(dto.getDiscountPercentage());
@@ -80,5 +80,10 @@ public class UserCategoryService {
 		MyUser user = this.myUserService.findUserByEmail(email);
 		UserCategory category = user.getCategory();
 		return new UserCategoryDTO(category.getId(), category.getName(), category.getDiscountPercentage(), category.getPoints());
+	}
+
+	public UserCategory getCategoryById(Long id) {
+		// TODO Auto-generated method stub
+		return this.userCategoryRepository.getUserCategoryById(id);
 	}
 }

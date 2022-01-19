@@ -62,7 +62,7 @@ export class AdventureComponent implements OnInit {
         this.fishingAdventure = fishingAdventure
         this.address = this.fishingAdventure.address;
 
-        this._myUserService.getFishingAdventureInstructor(this.fishingAdventure.instructorId).subscribe(
+        this._adventureService.getFishingAdventureInstructor(this.fishingAdventure.instructorId).subscribe(
           (instructor: FishingAdventureInstructorDTO) => {
             this.instructor = instructor
           }

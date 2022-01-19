@@ -18,7 +18,7 @@ export class FeedbackService {
     }
 
     public getAll(): Observable<FeedbackInfo[]>{
-        return this._http.get<FeedbackInfo[]>(`${this.userPath}/getAll`)
+        return this._http.get<FeedbackInfo[]>(`${this.userPath}/getAllFeedbacks`);
     }
 
     public delete(id: number): Observable <boolean> {

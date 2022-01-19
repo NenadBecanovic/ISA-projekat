@@ -84,7 +84,7 @@ public class AuthService {
         myUser.setActivated(false);
         myUser.setPhoneNumber(myUserDTO.getPhoneNumber());
         myUser.setPersonalDescription(myUserDTO.getPersonalDescription());
-        UserCategory userCategory = this.userCategoryService.findUserCategoryByName("Basic");
+        UserCategory userCategory = this.userCategoryService.getCategoryById((long) 1);
         myUser.setCategory(userCategory);
         if(myUserDTO.getAuthority().equals("ROLE_ADMINISTRATOR")){
         	myUser.setFirstLogin(true);

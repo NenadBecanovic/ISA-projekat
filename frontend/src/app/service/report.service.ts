@@ -33,6 +33,6 @@ export class ReportService {
   }
 
   public sendReportResponse(id: number, answer: ReportAppealAnswer): Observable<Boolean> {
-    return this._http.put<Boolean>(`${this.userPath}/sendReportResponse`+id, answer);
+    return this._http.put<Boolean>(`${this.userPath}/sendReportResponse/`+id, answer);
   }
 }

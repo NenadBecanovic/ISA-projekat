@@ -49,15 +49,17 @@ public class FishingAdventureService {
     private final AddresService addressService;
     private final AdditionalServicesService additionalServicesService;
     private final ModelMapper modelMapper;
+    private final MyUserService myUserService;
 
     @Autowired
     public FishingAdventureService(FishingAdventureRepository fishingAdventureRepository, AddresService addressService, AdditionalServicesService additionalServicesService,
-    		FishingAdventureReservationService fishingAdventureReservationService, ModelMapper modelMapper) {
+    		FishingAdventureReservationService fishingAdventureReservationService, ModelMapper modelMapper, MyUserService myUserService) {
         this.fishingAdventureRepository = fishingAdventureRepository;
         this.addressService = addressService;
         this.additionalServicesService = additionalServicesService;
         this.fishingAdventureReservationService = fishingAdventureReservationService; 
         this.modelMapper = modelMapper;
+        this.myUserService = myUserService;
     }
 
     public FishingAdventure getFishingAdventureById(Long id){ return fishingAdventureRepository.getFishingAdventureById(id); }
@@ -122,7 +124,7 @@ public class FishingAdventureService {
 
         FishingAdventureDTO fishingAdventureDTO = new FishingAdventureDTO(fishingAdventure.getId(), fishingAdventure.getName(), addressDTO, fishingAdventure.getPromoDescription(), fishingAdventure.getCapacity(), fishingAdventure.getFishingEquipment(),
         		fishingAdventure.getBehaviourRules(), fishingAdventure.getPricePerHour(), fishingAdventure.isCancalletionFree(), fishingAdventure.getCancalletionFee(), fishingAdventure.getGrade(), fishingAdventure.getNumberOfReviews());
-        //fishingAdventureDTO.setInstructorId(fishingAdventure.getInstructor().getId());
+        fishingAdventureDTO.setInstructorId(fishingAdventure.getInstructor().getId());
 
         return fishingAdventureDTO;
     }
@@ -159,6 +161,8 @@ public class FishingAdventureService {
         						new HashSet<>(),newFishingAdventure.getBehaviourRules(), newFishingAdventure.getPricePerHour(),new HashSet<>(),newFishingAdventure.isCancellationFree(),
         						newFishingAdventure.getCancellationFee(), new HashSet<>());
         fishingAdventure.setDeleted(false);
+        MyUser instructor = this.myUserService.findUserById(newFishingAdventure.getInstructorId());
+        fishingAdventure.setInstructor(instructor);
         fishingAdventure = this.save(fishingAdventure);
         additionalServicesService.addMultipleFishingAdventureServices(fishingAdventure, newFishingAdventure.getAdditionalServices());
         return fishingAdventure.getId();

@@ -3,8 +3,8 @@
   <div *ngFor="let reservation of allReservations">
     <div class="suspicious-customers-style mt-3 d-flex flex-row">
         <div class="d-flex flex-column ms-3 justify-content-top">
-            <span class="me-2 nowrap">Pocetak: 15.12.2022. 6:00</span>
-            <span class="me-2 nowrap">Kraj: 15.12.2022. 9:00</span>
+            <span class="me-2 nowrap">Pocetak: {{ reservation.startDate | date:'dd/MM/yyyy HH:mm:ss'}}</span>
+            <span class="me-2 nowrap">Kraj: {{ reservation.endDate | date:'dd/MM/yyyy HH:mm:ss'}}</span>
         </div>
         <div class="d-flex ms-5 flex-column justify-content-top">
             <span class="basic-title mb-1">
@@ -32,11 +32,8 @@
             </span>
             <span class="me-2">{{reservation.price}}</span>
         </div>
-        <button type="button" *ngIf="!reservation.hasReport" class="btn btn-danger ms-5 mt-5 mb-5 justify-end align-items-center" >
-            <span>Popuni izveštaj</span>
-        </button>
     </div>
-    <div [hidden]="showMakeReport" class="mt-2 suspicious-customers-style">
+    <div *gnIf="!reservation.hasReport" class="mt-2 suspicious-customers-style">
         <form #addActionForm = "ngForm" (ngSubmit)="addReport(reservation)">
             <div class = "d-flex flex-row" >
             <div class = "input-box">

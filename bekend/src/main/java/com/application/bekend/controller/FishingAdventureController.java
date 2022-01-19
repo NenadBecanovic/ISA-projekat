@@ -1,23 +1,10 @@
 package com.application.bekend.controller;
 
-import com.application.bekend.DTO.*;
-import com.application.bekend.model.*;
-import com.application.bekend.service.AdditionalServicesService;
-import com.application.bekend.service.AddresService;
-import com.application.bekend.service.FishingAdventureReservationService;
-import com.application.bekend.service.FishingAdventureService;
-import com.application.bekend.service.ImageService;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.mail.MessagingException;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +16,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.application.bekend.DTO.AdditionalServicesDTO;
+import com.application.bekend.DTO.AdventureReservationDTO;
+import com.application.bekend.DTO.FishingAdventureDTO;
+import com.application.bekend.DTO.FishingAdventureInstructorInfoDTO;
+import com.application.bekend.DTO.NewFishingAdventureDTO;
+import com.application.bekend.service.FishingAdventureService;
 
 @RestController
 @RequestMapping("api/fishingAdventure")

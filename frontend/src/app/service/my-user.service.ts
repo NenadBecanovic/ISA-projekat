@@ -74,10 +74,6 @@ export class MyUserService {
     return this._http.delete<Boolean>(`${this.userPath}/deleteSubscriptionById/`+ subscriptionId)
   }
 
-  public saveApeal(appeal: Appeal): Observable<Appeal>{
-    return this._http.post<Appeal>(`${this.userPath}/saveAppeal`,appeal)
-  }
-
   public findUserByFishingAdventureReservationId(id: number): Observable<MyUser>{
     return this._http.get<MyUser>(`${this.userPath}/findUserByFishingAdventureReservationId/`+id)
   }
@@ -103,19 +99,11 @@ export class MyUserService {
   }
 
   public getAllDeleteRequests(): Observable<DeleteRequest[]>{
-    return this._http.get<DeleteRequest[]>(`${this.userPath}/getAllDeleteRequests`);
-  }
-
-  public getAllAppeals(): Observable<Appeal[]>{
-    return this._http.get<Appeal[]>(`${this.userPath}/getAllAppeals`);
-  }
-
-  public sendAppealResponse(id: number, adminAnswer: ReportAppealAnswer): Observable<Boolean>{
-    return this._http.put<Boolean>(`${this.userPath}/sendAppealResponse/`+id, adminAnswer);
+    return this._http.get<DeleteRequest[]>(`${this.userPath}/getAllDeleteRequests`)
   }
 
   public getAllNewUserRequests(): Observable<NewUserRequest[]>{
-    return this._http.get<NewUserRequest[]>(`${this.userPath}/getAllNewUserRequests`)
+    return this._http.get<NewUserRequest[]>(`${this.userPath}/getAllNewUserRequests`);
   }
 
   public activateNewUser(id: number): Observable<Boolean>{
@@ -128,10 +116,6 @@ export class MyUserService {
 
   public editInstructorPersonalDescription(id: number, personalDescription: String): Observable<Boolean>{
     return this._http.put<Boolean>(`${this.userPath}/editInstructorPersonalDescription/`+id, personalDescription);
-  }
-
-  public getFishingAdventureInstructor(id: number): Observable<FishingAdventureInstructorDTO>{
-    return this._http.get<FishingAdventureInstructorDTO>(`${this.userPath}/getFishingAdventureInstructor/`+id)
   }
 
   public getAllInstructors(): Observable<MyUser[]>{

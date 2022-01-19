@@ -1,14 +1,9 @@
 package com.application.bekend.controller;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 
-import com.application.bekend.DTO.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,18 +11,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.application.bekend.model.AdditionalServices;
-import com.application.bekend.model.AdventureReservation;
-import com.application.bekend.model.MyUser;
-import com.application.bekend.service.AdditionalServicesService;
+import com.application.bekend.DTO.AdventureReservationDTO;
 import com.application.bekend.service.FishingAdventureReservationService;
-import com.application.bekend.service.FishingAdventureService;
-import com.application.bekend.service.MyUserService;
 
 @RestController
 @RequestMapping("api/fishingAdventureReservations")
@@ -73,7 +61,7 @@ public class FishingAdventureReservationController {
     @Transactional
     public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
         boolean isDeleted = this.fishingAdventureReservationService.delete(id);
-        return new ResponseEntity<>(true, HttpStatus.OK);
+        return new ResponseEntity<>(isDeleted, HttpStatus.OK);
     }
 
 

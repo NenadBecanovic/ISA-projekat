@@ -12,6 +12,7 @@ import { NewUserRequest } from '../model/new-user-request';
 import { Report } from '../model/report';
 import { ReportInfo } from '../model/report-info';
 import { UserInfo } from '../model/user-info';
+import { AppealService } from '../service/appeal.service';
 import { FeedbackService } from '../service/feedback.service';
 import { MyUserService } from '../service/my-user.service';
 import { ReportService } from '../service/report.service';
@@ -45,7 +46,8 @@ export class AdminPageComponent implements OnInit {
   approvedFeedbacks: FeedbackInfo[] = new Array<FeedbackInfo>();
   notApprovedFeedbacks: FeedbackInfo[] = new Array<FeedbackInfo>();
 
-  constructor(public dialog: MatDialog, private _myUserService: MyUserService, private _reportService: ReportService, private _feedbackService: FeedbackService, private _authentificationService: AuthentificationService) { }
+  constructor(public dialog: MatDialog, private _myUserService: MyUserService, private _reportService: ReportService, private _feedbackService: FeedbackService, 
+    private _authentificationService: AuthentificationService, private _appealService: AppealService) { }
 
   ngOnInit() {
     this.loadData();
@@ -117,7 +119,7 @@ export class AdminPageComponent implements OnInit {
       }
     )
 
-    this._myUserService.getAllAppeals().subscribe(
+    this._appealService.getAllAppeals().subscribe(
       (allAppeals: Appeal[]) => {
         for(let appeal of allAppeals){
           if(appeal.isAnswered){
@@ -182,7 +184,7 @@ export class AdminPageComponent implements OnInit {
   answerOnAppeal(ownerId: number, guestId: number, appealId: number){
     const dialogRef = this.dialog.open(AppealAnswerDialogComponent, {
       width: '550px',
-      height: '500px',
+      height: '550px',
       data: {},
     });
     dialogRef.componentInstance.answer.ownerId = ownerId;
@@ -196,7 +198,7 @@ export class AdminPageComponent implements OnInit {
   answerOnReport(ownerId: number, guestId: number, id: number){
     const dialogRef = this.dialog.open(ReportAnswerDialogComponent, {
       width: '550px',
-      height: '500px',
+      height: '550px',
       data: {},
     });
     dialogRef.componentInstance.answer.ownerId = ownerId;
