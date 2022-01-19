@@ -10,7 +10,11 @@ public class Appeal {
     private Long id;
     private String review;
     private boolean isAnswered;
-
+    
+    @Version
+	@Column(nullable = false)
+	private Integer version;
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
     private MyUser ownerId;
@@ -107,4 +111,12 @@ public class Appeal {
     public void setAnswered(boolean answered) {
         isAnswered = answered;
     }
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
 }

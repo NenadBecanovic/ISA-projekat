@@ -2,6 +2,8 @@ package com.application.bekend.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -63,6 +65,7 @@ public class UserCategoryService {
 		return true;
 	}
 
+	@Transactional
 	public boolean edit(Long id, UserCategoryDTO dto) {
 		UserCategory category = this.userCategoryRepository.getUserCategoryById(id);
 		category.setName(dto.getName());

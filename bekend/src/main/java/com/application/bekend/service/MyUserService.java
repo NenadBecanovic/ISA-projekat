@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.mail.MessagingException;
+import javax.transaction.Transactional;
 
 @Service
 public class MyUserService implements UserDetailsService {
@@ -150,6 +151,7 @@ public class MyUserService implements UserDetailsService {
     	return true;
     }
     
+    @Transactional
     public boolean deleteUserWithRequest(Long id, String clientMessage) throws MessagingException {
     	RequestForAccountDeleting request = this.requestForAccountDeletingService.findById(id);
     	MyUser user = this.findUserById(request.getUser().getId());
@@ -161,6 +163,7 @@ public class MyUserService implements UserDetailsService {
     	return true;
     }
     
+    @Transactional
     public boolean declineDeleteRequest(Long id, String clientMessage) throws MessagingException {
     	RequestForAccountDeleting request = this.requestForAccountDeletingService.findById(id);
     	request.setAnswered(true);
