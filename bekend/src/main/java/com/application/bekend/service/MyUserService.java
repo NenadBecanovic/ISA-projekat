@@ -4,6 +4,8 @@ import com.application.bekend.DTO.*;
 import com.application.bekend.model.*;
 import com.application.bekend.repository.MyUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -153,22 +155,32 @@ public class MyUserService implements UserDetailsService {
     	MyUser user = this.findUserById(request.getUser().getId());
     	user.setDeleted(true);
     	this.save(user);
-    	this.emailService.sendAnswerEmail(new EmailDTO("Odgovor na zahtev za brisanje naloga", clientMessage, user.getEmail()));
     	request.setAnswered(true);
     	this.requestForAccountDeletingService.save(request);
+    	this.emailService.sendAnswerEmail(new EmailDTO("Odgovor na zahtev za brisanje naloga", clientMessage, user.getEmail()));
     	return true;
     }
     
     public boolean declineDeleteRequest(Long id, String clientMessage) throws MessagingException {
     	RequestForAccountDeleting request = this.requestForAccountDeletingService.findById(id);
-    	this.emailService.sendAnswerEmail(new EmailDTO("Odgovor na zahtev za brisanje naloga", clientMessage, request.getUser().getEmail()));
     	request.setAnswered(true);
     	this.requestForAccountDeletingService.save(request);
+    	this.emailService.sendAnswerEmail(new EmailDTO("Odgovor na zahtev za brisanje naloga", clientMessage, request.getUser().getEmail()));
     	return true;
     }
     
     public List<RequestForAccountDeleting> getAllDeleteRequests(){
     	return this.requestForAccountDeletingService.getAllRequests();
+    }
+    
+    public List<RequestForAccountDeletingDTO> getAllDeleteRequestsDTO() {
+        List<RequestForAccountDeleting> allRequests = this.getAllDeleteRequests();
+        List<RequestForAccountDeletingDTO> allRequestsDTO = new ArrayList<RequestForAccountDeletingDTO>();
+        for(RequestForAccountDeleting request: allRequests) {
+        	UserInfoDTO userDTO = new UserInfoDTO(request.getUser().getId(), request.getUser().getFirstName(), request.getUser().getLastName(), request.getUser().getEmail(), "");
+        	allRequestsDTO.add(new RequestForAccountDeletingDTO(request.getId(),request.getDescription(),userDTO));
+        }
+        return allRequestsDTO;
     }
     
     public List<MyUser> getAllNotActivated(){

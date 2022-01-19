@@ -74,10 +74,6 @@ export class MyUserService {
     return this._http.delete<Boolean>(`${this.userPath}/deleteSubscriptionById/`+ subscriptionId)
   }
 
-  public saveApeal(appeal: Appeal): Observable<Appeal>{
-    return this._http.post<Appeal>(`${this.userPath}/saveAppeal`,appeal)
-  }
-
   public findUserByFishingAdventureReservationId(id: number): Observable<MyUser>{
     return this._http.get<MyUser>(`${this.userPath}/findUserByFishingAdventureReservationId/`+id)
   }
@@ -104,14 +100,6 @@ export class MyUserService {
 
   public getAllDeleteRequests(): Observable<DeleteRequest[]>{
     return this._http.get<DeleteRequest[]>(`${this.userPath}/getAllDeleteRequests`)
-  }
-
-  public getAllAppeals(): Observable<Appeal[]>{
-    return this._http.get<Appeal[]>(`${this.userPath}/getAllAppeals`);
-  }
-
-  public sendAppealResponse(id: number, adminAnswer: ReportAppealAnswer): Observable<Boolean>{
-    return this._http.put<Boolean>(`${this.userPath}/sendAppealResponse/`+id, adminAnswer);
   }
 
   public getAllNewUserRequests(): Observable<NewUserRequest[]>{
