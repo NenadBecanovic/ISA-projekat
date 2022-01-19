@@ -77,4 +77,10 @@ public class FeedbackController {
 		 List<FeedbackInfoDTO> allFeedbacks = this.feedbackService.getAllByAdventure(id);
 		 return new ResponseEntity<>(allFeedbacks, HttpStatus.OK);
 	 }
+	 
+	 @GetMapping("/getAllFeedbacksByInstructor/{id}")
+	 public ResponseEntity<List<FeedbackInfoDTO>> getAllFeedbacksByInstructor(@PathVariable("id") Long id){
+		 List<FeedbackInfoDTO> allFeedbacks = this.feedbackService.getAllByInstructor(id);
+		 return new ResponseEntity<>(allFeedbacks, HttpStatus.OK);
+	 }
 }

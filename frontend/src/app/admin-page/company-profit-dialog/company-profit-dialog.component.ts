@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { AlertService } from 'ngx-alerts';
 import { TimePeriod } from 'src/app/model/time-period';
 import { AdventureReservationService } from 'src/app/service/adventure-reservation.service';
 import { BoatReservationService } from 'src/app/service/boat-reservation.service';
@@ -18,7 +19,7 @@ export class CompanyProfitDialogComponent implements OnInit {
   showProfit: boolean = false;
 
   constructor(public dialogRef: MatDialogRef<CompanyProfitDialogComponent>, private _adventureReservationService: AdventureReservationService, private _boatReservationService: BoatReservationService,
-        private _houseReservationService: HouseReservationService) { }
+        private _houseReservationService: HouseReservationService, private _alertService: AlertService) { }
 
   ngOnInit() {
   }
@@ -42,7 +43,7 @@ export class CompanyProfitDialogComponent implements OnInit {
         this.profit = this.profit + profit;
       },
       (error) => {
-        alert("Došlo je do greške!")
+        this._alertService.warning("Došlo je do greške!")
       },
     )
 
@@ -51,7 +52,7 @@ export class CompanyProfitDialogComponent implements OnInit {
         this.profit = this.profit + profit;
       },
       (error) => {
-        alert("Došlo je do greške!")
+        this._alertService.warning("Došlo je do greške!")
       },
     )
 
@@ -60,7 +61,7 @@ export class CompanyProfitDialogComponent implements OnInit {
         this.profit = this.profit + profit;
       },
       (error) => {
-        alert("Došlo je do greške!")
+        this._alertService.warning("Došlo je do greške!")
       },
     )
     this.showProfit = true;

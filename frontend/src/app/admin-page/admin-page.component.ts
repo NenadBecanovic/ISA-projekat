@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { AlertService } from 'ngx-alerts';
 import { AuthentificationService } from '../auth/authentification/authentification.service';
 import { ClientProfileComponent } from '../clientHome/dialog/client-profile/client-profile.component';
 import { Address } from '../model/address';
@@ -47,7 +48,7 @@ export class AdminPageComponent implements OnInit {
   notApprovedFeedbacks: FeedbackInfo[] = new Array<FeedbackInfo>();
 
   constructor(public dialog: MatDialog, private _myUserService: MyUserService, private _reportService: ReportService, private _feedbackService: FeedbackService, 
-    private _authentificationService: AuthentificationService, private _appealService: AppealService) { }
+    private _authentificationService: AuthentificationService, private _appealService: AppealService, private _alertService: AlertService) { }
 
   ngOnInit() {
     this.loadData();
@@ -226,7 +227,7 @@ export class AdminPageComponent implements OnInit {
         this.loadData();
       },
       (error) => {
-        // console.log(error)
+        this._alertService.danger("Došlo je do greške pri odobravanju!")
       }
     )
   }
@@ -237,7 +238,7 @@ export class AdminPageComponent implements OnInit {
         this.loadData();
       },
       (error) => {
-        // console.log(error)
+        this._alertService.danger("Došlo je do greške pri aktiviranju korisnika!")
       }
     )
   }
@@ -264,8 +265,6 @@ export class AdminPageComponent implements OnInit {
       this.loadData();
     });
   }
-
-  addAdventure(){}
 
   openProfileDialog() {
     const dialogRef = this.dialog.open(ClientProfileComponent, {
