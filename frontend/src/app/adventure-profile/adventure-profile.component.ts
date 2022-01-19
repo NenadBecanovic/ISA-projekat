@@ -165,7 +165,7 @@ export class AdventureProfileComponent implements OnInit {
   }
 
   goToInstructor(){
-    this._router.navigate(['/fishing-instructor/'+this.instructor.id]);
+    this._router.navigate(['/fishing-instructor']);
   }
 
   deleteImage(id :number){

@@ -32,6 +32,22 @@ export class MakeReservationDialogComponent implements OnInit {
   }
 
   ngOnInit() {
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0 so need to add 1 to make it 1!
+    var yyyy = today.getFullYear();
+    var d = '';
+    var m = '';
+    if(dd<10){
+      d='0'+dd
+    } 
+    if(mm<10){
+      m='0'+mm
+    } 
+
+    var day = yyyy+'-'+m+'-'+d;
+    //@ts-ignore
+    document.getElementById("datefield").setAttribute("min", day);
     if(this.adventureReservation.guestId == 0){
       alert("Trenutno nema korisnika za kog se moze napraviti rezervacija!")
       this.isDisabled = true;
@@ -51,41 +67,45 @@ export class MakeReservationDialogComponent implements OnInit {
   }
 
   makeReservation() {
-    this.adventureReservation.adventureId = this.adventure.id;
-    this.adventureReservation.isAction = false;
-    this.adventureReservation.isAvailable = false;
-    this.adventureReservation.availabilityPeriod = false;
+    if(this.adventureReservation.startDate === '' || this.durationHours == 0 || this.durationMinutes == 0){
+      alert('Odaberite datum!')
+    }else{
+      this.adventureReservation.adventureId = this.adventure.id;
+      this.adventureReservation.isAction = false;
+      this.adventureReservation.isAvailable = false;
+      this.adventureReservation.availabilityPeriod = false;
 
-    var startDate = Date.parse(this.adventureReservation.startDate)
-    this.date =  new Date(startDate)
-    var actionStart  = Number(this.date) 
-    this.date.setHours(this.date.getHours() + this.durationHours);
-    this.date.setMinutes(this.date.getMinutes() + this.durationMinutes);
-    var actionEnd = Number(this.date)
-    this.adventureReservation.startDate = actionStart.toString()
-    this.adventureReservation.endDate = actionEnd.toString()
-    
-    var price = this.adventure.pricePerHour * this.durationHours + (this.adventure.pricePerHour / 60) * this.durationMinutes;
-    this.adventureReservation.price = price;
-    for (let a of this.additionalServices)
-    {
-        if (a.checked == true)
-        {
-          this.reservationAdditionalServices.push(a)
-        }
-    }
-
-    this.adventureReservation.additionalServices = this.reservationAdditionalServices
-
-    this._adventureService.saveReservation(this.adventureReservation).subscribe(   // subscribe - da bismo dobili odgovor beka
-      (adventureAction: AdventureReservation) => {
-
-        this.dialogRef.close();
-      },
-      (error) => {
-        this._alertService.danger('Doslo je do greske');
+      var startDate = Date.parse(this.adventureReservation.startDate)
+      this.date =  new Date(startDate)
+      var actionStart  = Number(this.date) 
+      this.date.setHours(this.date.getHours() + this.durationHours);
+      this.date.setMinutes(this.date.getMinutes() + this.durationMinutes);
+      var actionEnd = Number(this.date)
+      this.adventureReservation.startDate = actionStart.toString()
+      this.adventureReservation.endDate = actionEnd.toString()
+      
+      var price = this.adventure.pricePerHour * this.durationHours + (this.adventure.pricePerHour / 60) * this.durationMinutes;
+      this.adventureReservation.price = price;
+      for (let a of this.additionalServices)
+      {
+          if (a.checked == true)
+          {
+            this.reservationAdditionalServices.push(a)
+          }
       }
-      // (HttpStatusCode.Conflict) = { this._alertService.danger('Vec postoji rezervacija u izabranom terminu')}
-    )
+
+      this.adventureReservation.additionalServices = this.reservationAdditionalServices
+
+      this._adventureService.saveReservation(this.adventureReservation).subscribe(   // subscribe - da bismo dobili odgovor beka
+        (adventureAction: AdventureReservation) => {
+
+          this.dialogRef.close();
+        },
+        (error) => {
+          this._alertService.danger('Doslo je do greske');
+        }
+        // (HttpStatusCode.Conflict) = { this._alertService.danger('Vec postoji rezervacija u izabranom terminu')}
+      )
+    }
   }
 }
