@@ -143,7 +143,7 @@ public class FeedbackService {
     	List<Feedback> allFeedbacks = this.feedbackRepository.findAll();
     	List<FeedbackInfoDTO> allFeedbacksDTO = new ArrayList<FeedbackInfoDTO>();
     	for(Feedback f: allFeedbacks) {
-    		if(f.getFishingAdventure().getId() == id) {
+    		if(f.getFishingAdventure().getId().equals(id)) {
     			FeedbackInfoDTO feedbackDTO = new FeedbackInfoDTO(f.getId(), f.getGrade(), f.getReview(), f.getApproved());
     			feedbackDTO.setName(f.getFishingAdventure().getName());
     			feedbackDTO.setType("Avantura");

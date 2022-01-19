@@ -213,19 +213,19 @@ public class MyUserService implements UserDetailsService {
             MyUser owner = findUserByHouseId(dto.getHouseId());
             myUsers = this.myUserRepository.findSubscribedUsersByOwnerId(owner.getId());
             if (myUsers != null) {
-                this.emailService.sendActionMail(myUsers, houseName, "");
+                this.emailService.sendActionMail(myUsers, houseName, "", "");
             }
         } else if (boatDTO != null){
             MyUser owner = findUserByBoatId(boatDTO.getBoatId());
             myUsers = this.myUserRepository.findSubscribedUsersByOwnerId(owner.getId());
             if (myUsers != null) {
-                this.emailService.sendActionMail(myUsers, "", boatName);
+                this.emailService.sendActionMail(myUsers, "", "", boatName);
             }
         } else if (adventureDTO != null){
             MyUser instructor = findUserByAdventureId(adventureDTO.getAdventureId());
             myUsers = this.myUserRepository.findSubscribedUsersByOwnerId(instructor.getId());
             if (myUsers != null) {
-                this.emailService.sendActionMail(myUsers, "", adventureName);
+                this.emailService.sendActionMail(myUsers, "", "", adventureName);
             }
         }
     }
@@ -233,13 +233,13 @@ public class MyUserService implements UserDetailsService {
     public void sendMailToClient(HouseReservationDTO dto, BoatReservationDTO boatDTO, AdventureReservationDTO adventureDTO, String houseName, String boatName, String adventureName) throws MessagingException {
         if (dto != null) {
             MyUser guest = findUserById(dto.getGuestId());
-            this.emailService.sendMailForClient(guest, houseName, "");
+            this.emailService.sendMailForClient(guest, houseName, "", "");
         } else if(boatDTO != null){
             MyUser guest = findUserById(boatDTO.getGuestId());
-            this.emailService.sendMailForClient(guest, "", boatName);
+            this.emailService.sendMailForClient(guest, "", boatName, "");
         } else if(adventureDTO != null){
             MyUser guest = findUserById(adventureDTO.getGuestId());
-            this.emailService.sendMailForClient(guest, "", adventureName);
+            this.emailService.sendMailForClient(guest, "", "", adventureName);
         }
     }
   
