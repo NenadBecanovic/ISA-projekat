@@ -8,6 +8,11 @@ public class RequestForAccountDeleting {
     @Id
     @GeneratedValue
     private Long id;
+    
+    @Version
+	@Column(nullable = false)
+	private Integer version;
+    
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private MyUser user;
@@ -53,5 +58,13 @@ public class RequestForAccountDeleting {
 
 	public void setAnswered(boolean isAnswered) {
 		this.isAnswered = isAnswered;
+	}
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
 	}
 }

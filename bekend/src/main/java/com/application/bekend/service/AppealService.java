@@ -9,6 +9,7 @@ import com.application.bekend.repository.AppealRepository;
 import java.util.List;
 
 import javax.mail.MessagingException;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -98,6 +99,7 @@ public class AppealService {
     	return this.appealRepository.findAll();
     }
     
+    @Transactional
     public boolean sendAppealResponse(Long id, ReportAppealAnswerDTO answerDTO) throws MessagingException {
     	Appeal appeal = this.getAppealById(id);
     	appeal.setAnswered(true);
