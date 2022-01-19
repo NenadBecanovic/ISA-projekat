@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { triggerAsyncId } from 'async_hooks';
 import { AlertService } from 'ngx-alerts';
 import { EditAdventureProfileDialogComponent } from '../adventure-profile/edit-adventure-profile-dialog/edit-adventure-profile-dialog.component';
 import { AuthentificationService } from '../auth/authentification/authentification.service';
@@ -39,7 +38,7 @@ export class FishingInstructorProfileComponent implements OnInit {
   filterTerm!: string;
 
   constructor(public dialog: MatDialog, private _adventureService: AdventureProfileService, private _router: Router, private _adventureReservationService: AdventureReservationService,
-          private _authentificationService: AuthentificationService, private _alertService: AlertService) {
+          private _authentificationService: AuthentificationService, private alertService: AlertService) {
 
    }
 
@@ -108,7 +107,7 @@ export class FishingInstructorProfileComponent implements OnInit {
         return reservation.guestId;
       }
     }
-    return 0;
+    return 3;
   }
 
   loadData() { // ucitavanje iz baze
@@ -185,9 +184,9 @@ export class FishingInstructorProfileComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         window.location.reload();
       });
-    }else{
-      this._alertService.danger("Nema trenutnog gosta za novu rezervaciju!");
     }
+      this.alertService.danger('Nema trenutnog gosta za novu rezervaciju!');
+    
   }
 
   // instructorChart(id: number) {

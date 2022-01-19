@@ -33,7 +33,7 @@
             <span class="me-2">{{reservation.price}}</span>
         </div>
     </div>
-    <div [hidden]="reservation.hasReport" class="mt-2 suspicious-customers-style">
+    <div *gnIf="!reservation.hasReport" class="mt-2 suspicious-customers-style">
         <form #addActionForm = "ngForm" (ngSubmit)="addReport(reservation)">
             <div class = "d-flex flex-row" >
             <div class = "input-box">

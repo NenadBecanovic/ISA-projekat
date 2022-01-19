@@ -47,11 +47,9 @@ public class MyUserController {
         MyUser myUser = this.myUserService.findUserByEmail(email);
         MyUserDTO dto = modelMapper.map(myUser, MyUserDTO.class);
         AddressDTO addressDTO = modelMapper.map(myUser.getAddress(), AddressDTO.class);
-        UserCategoryDTO userCategoryDTO = modelMapper.map(myUser.getCategory(), UserCategoryDTO.class);
 
         dto.setAuthority(myUser.getAuthorities().get(0).getName());
         dto.setAddressDTO(addressDTO);
-        dto.setUserCategory(userCategoryDTO);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 

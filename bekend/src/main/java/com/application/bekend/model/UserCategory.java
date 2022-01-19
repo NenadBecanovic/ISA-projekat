@@ -20,7 +20,7 @@ public class UserCategory {
     @Column(name = "discount_percentage", nullable = false)
     private int discountPercentage;
     
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
     private Set<MyUser> users= new HashSet<MyUser>();
 
     public UserCategory(Long id, int points, String name, int discountPercentage) {
