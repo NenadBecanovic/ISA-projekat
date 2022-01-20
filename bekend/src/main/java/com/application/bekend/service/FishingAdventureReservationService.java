@@ -80,10 +80,11 @@ public class FishingAdventureReservationService {
         }
         adventureReservation = this.save(adventureReservation);
         
-        instructor.setPoints(instructor.getPoints() + this.companyService.getCompanyInfo((long) 1).getPointsPerReservationOwner());
-        this.myUserService.save(instructor);
-        this.checkUserCategory(instructor);
-        
+        if(!adventureReservationDTO.getIsAction() && !adventureReservationDTO.getAvailabilityPeriod()) {
+	        instructor.setPoints(instructor.getPoints() + this.companyService.getCompanyInfo((long) 1).getPointsPerReservationOwner());
+	        this.myUserService.save(instructor);
+	        this.checkUserCategory(instructor);
+        }
         Set<AdditionalServices> additionalServicesSet = new HashSet<>();
         for(AdditionalServicesDTO add : adventureReservationDTO.getAdditionalServices()){
             AdditionalServices additionalServices = this.additionalServicesService.getAdditionalServicesById(add.getId());
