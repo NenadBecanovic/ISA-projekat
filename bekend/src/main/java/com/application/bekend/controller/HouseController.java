@@ -62,7 +62,7 @@ public class HouseController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @GetMapping("/findAll")
+    @GetMapping(value = "/findAll")
     public ResponseEntity<List<HouseDTO>> findAll(){
         List<House> houses = this.houseService.findAll();
         List<HouseDTO> houseDTOS = new ArrayList<>();
