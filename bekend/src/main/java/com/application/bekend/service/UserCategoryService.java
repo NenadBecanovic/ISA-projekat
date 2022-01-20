@@ -42,22 +42,23 @@ public class UserCategoryService {
 		this.userCategoryRepository.save(userCategory);
 	}
 
-	public boolean delete(int id) {
+	public boolean delete(Long id) {
 		List<MyUser> allUsers = this.myUserService.getAllUsers();
-		UserCategory deletedCategory = this.userCategoryRepository.getById(id);	
+		UserCategory deletedCategory = this.userCategoryRepository.getUserCategoryById(id);	
 		List<UserCategory> allCategories = this.userCategoryRepository.findAll();
 		for(MyUser user: allUsers) {
 			int min = 0;
-			UserCategory cat = new UserCategory();
+			Long idNewCat = 0L;
 			for(UserCategory category: allCategories) {
 				if(category.getId() == id) {
 					continue;
 				}
 				if(category.getPoints() > min && user.getPoints() > category.getPoints()) {
 					min = category.getPoints();
-					cat = category;
+					idNewCat = category.getId();
 				}
 			}
+			UserCategory cat = this.getCategoryById(idNewCat);
 			user.setCategory(cat);
 			this.myUserService.save(user);
 		}

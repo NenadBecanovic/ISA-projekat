@@ -190,6 +190,7 @@ export class FishingInstructorProfileComponent implements OnInit {
       dialogRef.componentInstance.adventureReservation.guestId = currentGuest;
       dialogRef.componentInstance.adventure = adventure;
       dialogRef.componentInstance.instructorId = this.instructor.id;
+      dialogRef.componentInstance.loadData();
       dialogRef.afterClosed().subscribe(result => {
         window.location.reload();
       });

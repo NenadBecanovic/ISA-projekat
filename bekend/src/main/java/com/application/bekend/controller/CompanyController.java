@@ -61,7 +61,7 @@ public class CompanyController {
 
 	@DeleteMapping("/delete/{id}")
 	@Transactional
-	public ResponseEntity<Boolean> deleteCategory(@PathVariable("id") int id) {
+	public ResponseEntity<Boolean> deleteCategory(@PathVariable("id") Long id) {
 		boolean isDeleted = this.companyService.deleteCategory(id);
 
 		return new ResponseEntity<>(isDeleted, HttpStatus.OK);
