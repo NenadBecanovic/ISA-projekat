@@ -28,6 +28,7 @@ export class CreateReservationForClientComponent implements OnInit {
   finalUsers: MyUser[] = new Array();
   address: Address = new Address(0, '', '', '', 0, 0, 0);
   selectedUser: MyUser = new MyUser(0,'','','','','','', this.address,'','');
+  startDate: string = '';
 
   constructor(private _route: ActivatedRoute, private _houseReservationService: HouseReservationService,
               private _alertService: AlertService, private _router: Router, private _additionalServicesService: AdditionalServicesService,
@@ -36,6 +37,7 @@ export class CreateReservationForClientComponent implements OnInit {
   ngOnInit(): void {
     // @ts-ignore
     this.houseId = +this._route.snapshot.paramMap.get('id');
+    this.startDate = new Date().toISOString().slice(0, 16);
     this.loadData();
   }
 

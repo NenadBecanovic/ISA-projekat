@@ -21,6 +21,7 @@ export class AddActionHouseProfileComponent implements OnInit {
   duration: number = 0;
   date: Date = new Date();
   endDate: Date = new Date();
+  startDate: string = '';
 
   // _route: ActivatedRoute - da iz mog url-a preuzmem id
   constructor(private _route: ActivatedRoute, private _houseReservationService: HouseReservationService,
@@ -30,6 +31,7 @@ export class AddActionHouseProfileComponent implements OnInit {
   ngOnInit(): void {
     // @ts-ignore
     this.houseId = +this._route.snapshot.paramMap.get('id');
+    this.startDate = new Date().toISOString().slice(0, 16);
     this.loadData();
   }
 

@@ -18,7 +18,7 @@
 
       <div class = "input-box">
         <span class="details">Datum i vreme pocetka:</span>
-        <input type="datetime-local" name="startDate" [(ngModel)]="boatReservation.startDate" (change)="dateChanged()" placeholder="Unesite datum i vreme pocetka" required>
+        <input type="datetime-local" name="startDate" [(ngModel)]="boatReservation.startDate"  [min]="startDate" (change)="dateChanged()" placeholder="Unesite datum i vreme pocetka" required>
         <!--min="2022-01-06T00:00"-->
       </div>
       <br>
