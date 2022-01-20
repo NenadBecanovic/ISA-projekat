@@ -56,4 +56,8 @@ public class HouseService {
         return availableHouses;
 
     }
+
+    public House getHouseByName(String name){
+        return this.houseRepository.getHouseByName(name);
+    }
 }

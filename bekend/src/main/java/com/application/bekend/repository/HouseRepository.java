@@ -14,4 +14,5 @@ public interface HouseRepository extends JpaRepository<House, Long> {
   
     void deleteById(Long id);
 
+    House getHouseByName(String name);
 }

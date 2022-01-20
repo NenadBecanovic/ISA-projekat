@@ -79,6 +79,25 @@ public class Boat {
         this.images = images;
     }
 
+    public Boat(Long id, String name, String type, float length, int engineNumber, float enginePower, float maxSpeed, String promoDescription, int capacity, double grade, int numberOfReviews, String behaviourRules, String fishingEquipment, float pricePerDay, boolean isCancalletionFree, int cancalletionFee) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.length = length;
+        this.engineNumber = engineNumber;
+        this.enginePower = enginePower;
+        this.maxSpeed = maxSpeed;
+        this.promoDescription = promoDescription;
+        this.capacity = capacity;
+        this.grade = grade;
+        this.numberOfReviews = numberOfReviews;
+        this.behaviourRules = behaviourRules;
+        this.fishingEquipment = fishingEquipment;
+        this.pricePerDay = pricePerDay;
+        this.isCancalletionFree = isCancalletionFree;
+        this.cancalletionFee = cancalletionFee;
+    }
+
     public Boat() {
     }
 

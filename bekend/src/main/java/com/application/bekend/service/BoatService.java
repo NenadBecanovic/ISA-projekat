@@ -50,4 +50,8 @@ public class BoatService {
         }
         return availableBoats;
     }
+
+    public Boat getBoatByName(String name){
+        return this.boatRepository.getBoatByName(name);
+    }
 }
