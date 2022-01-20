@@ -36,4 +36,7 @@ public class BoatConstants {
     public static final float new_pricePerDay = 3400;
     public static final boolean new_isCancalletionFree = false;
     public static final int new_cancalletionFee = 2;
+
+    public static final Long integration_id = 13L;
+
 }
