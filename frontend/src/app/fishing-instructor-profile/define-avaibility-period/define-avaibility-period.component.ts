@@ -73,7 +73,7 @@ export class DefineAvaibilityPeriodComponent implements OnInit {
           this.dialogRef.close();
         },
         (error) => {
-          this._alertService.danger('Doslo je do greske');
+          this._alertService.danger('Postoji rezervacija u odabranom periodu!');
         },
       )
     }

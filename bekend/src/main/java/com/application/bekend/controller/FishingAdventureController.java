@@ -66,7 +66,7 @@ public class FishingAdventureController {
     }
     
     @GetMapping("/getFishingAdventureInstructor/{id}")
-    public ResponseEntity<FishingAdventureInstructorInfoDTO> findUserByHouseReservationId(@PathVariable("id") Long id) {
+    public ResponseEntity<FishingAdventureInstructorInfoDTO> getFishingInstructor(@PathVariable("id") Long id) {
         FishingAdventureInstructorInfoDTO instructor = this.fishingAdventureService.getFishingAdventureInstructor(id);
         return new ResponseEntity<>(instructor, HttpStatus.OK);
     }
