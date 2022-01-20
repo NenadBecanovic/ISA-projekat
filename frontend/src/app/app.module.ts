@@ -98,6 +98,7 @@ import { MatTableModule } from '@angular/material/table';
 import { InstructorChartComponent } from './adventure-profile/instructor-chart/instructor-chart.component';
 import { CompanyProfitDialogComponent } from './admin-page/company-profit-dialog/company-profit-dialog.component';
 import { NewAdminPasswordDialogComponent } from './admin-page/new-admin-password-dialog/new-admin-password-dialog.component';
+import { AdventureGuestProfileComponent } from './adventure-profile/adventure-guest-profile/adventure-guest-profile.component';
 
 const MaterialComponents = [
   MatSliderModule,
@@ -178,7 +179,8 @@ const MaterialComponents = [
     EditCompanyRulesDialogComponent,
     InstructorChartComponent,
     CompanyProfitDialogComponent,
-    NewAdminPasswordDialogComponent
+    NewAdminPasswordDialogComponent,
+    AdventureGuestProfileComponent
   ],
     imports: [
         RouterModule,

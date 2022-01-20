@@ -79,8 +79,8 @@ export class CalendarDialogComponent implements OnInit {
   }
 
   eventClicked({ event }: { event: CalendarEvent }): void {
-    if(event.id != 0){
-      this._router.navigate(['/guest-profile', event.id])
+    if(event.id != 0 && event.id != null){
+      this._router.navigate(['/adventure-guest-profile', event.id])
     }
   }
 

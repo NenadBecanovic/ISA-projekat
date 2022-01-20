@@ -19,17 +19,17 @@
           </tr>
           <tr *ngFor="let category of company.userCategories;let index = index;">
             <td>
-              <input type="text" name=b{{index}} ng-disabled="category.name == 'Basic'" [(ngModel)]="category.name" placeholder="Unesite naziv usluge">
+              <input type="text" name=b{{index}} [disabled]="category.name == 'Basic'" [(ngModel)]="category.name" placeholder="Unesite naziv usluge">
             </td>
             <td>
-              <input type="number" name=c{{index}} ng-disabled="category.name == 'Basic'" [(ngModel)]="category.points" placeholder="Unesite cenu usluge">
+              <input type="number" name=c{{index}} [disabled]="category.name == 'Basic'" [(ngModel)]="category.points" placeholder="Unesite cenu usluge">
             </td>
             <td>
-              <input type="number" name=d{{index}} [(ngModel)]="category.discountPercentage" placeholder="Unesite cenu usluge">
+              <input type="number" name=d{{index}} [disabled]="category.name == 'Basic'" [(ngModel)]="category.discountPercentage" placeholder="Unesite cenu usluge">
             </td>
             <td>
-              <button mat-icon-button (click)="deleteCategory(category.id)"> <mat-icon>delete</mat-icon> </button>
-              <button mat-icon-button (click)="editCategory(category)"> <mat-icon>edit</mat-icon> </button>
+              <button mat-icon-button *ngIf="category.name !== 'Basic'" (click)="deleteCategory(category.id)"> <mat-icon>delete</mat-icon> </button>
+              <button mat-icon-button *ngIf="category.name !== 'Basic'" (click)="editCategory(category)"> <mat-icon>edit</mat-icon> </button>
             </td>
           </tr>
         </table>

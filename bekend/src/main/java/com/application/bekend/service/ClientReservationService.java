@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class ClientReservationService {
@@ -20,10 +21,13 @@ public class ClientReservationService {
     private final FishingAdventureService fishingAdventureService;
     private final MyUserService myUserService;
     private final EmailService emailService;
+    private final UserCategoryService userCategoryService;
+	private final CompanyService companyService;
 
     @Autowired
     public ClientReservationService(BoatReservationService boatReservationService, HouseReservationService houseReservationService, FishingAdventureReservationService fishingAdventureReservationService, FishingInstructorService fishingInstructorService,
-                                    AdditionalServicesService additionalServicesService, HouseService houseService, BoatService boatservice, FishingAdventureService fishingAdventureService, MyUserService myUserService, EmailService emailService) {
+                                    AdditionalServicesService additionalServicesService, HouseService houseService, BoatService boatservice, FishingAdventureService fishingAdventureService,
+                                    	MyUserService myUserService, EmailService emailService, UserCategoryService userCategoryService, CompanyService companyService) {
         this.boatReservationService = boatReservationService;
         this.houseReservationService = houseReservationService;
         this.fishingAdventureReservationService = fishingAdventureReservationService;
@@ -34,6 +38,8 @@ public class ClientReservationService {
         this.fishingAdventureService = fishingAdventureService;
         this.myUserService = myUserService;
         this.emailService = emailService;
+        this.userCategoryService = userCategoryService;
+        this.companyService = companyService;
     }
 
 
@@ -50,6 +56,8 @@ public class ClientReservationService {
             houseReservation.setAction(dto.isAction());
             houseReservation.setHouse(house);
             houseReservation.setGuest(guest);
+            guest.setPoints(guest.getPoints() + this.companyService.getCompanyInfo((long) 1).getPointsPerReservationClient());
+            this.checkUserCategory(guest);
             houseReservation = this.houseReservationService.save(houseReservation);
             addAdditionalServices(dto, houseReservation);
             sendEmailClient(guest, house.getName(), "", "");
@@ -70,6 +78,8 @@ public class ClientReservationService {
             boatReservation.setAvailabilityPeriod(dto.isAvailabilityPeriod());
             boatReservation.setAction(dto.isAction());
             boatReservation.setGuest(guest);
+            guest.setPoints(guest.getPoints() + this.companyService.getCompanyInfo((long) 1).getPointsPerReservationClient());
+            this.checkUserCategory(guest);
             boatReservation = this.boatReservationService.save(boatReservation);
             addAdditionalServices(dto, boatReservation);
             sendEmailClient(guest, "", boat.getName(), "");
@@ -89,6 +99,8 @@ public class ClientReservationService {
             adventureReservation.setAvailabilityPeriod(dto.getAvailabilityPeriod());
             adventureReservation.setAction(dto.getIsAction());
             adventureReservation.setGuest(guest);
+            guest.setPoints(guest.getPoints() + this.companyService.getCompanyInfo((long) 1).getPointsPerReservationClient());
+            this.checkUserCategory(guest);
             adventureReservation = this.fishingAdventureReservationService.save(adventureReservation);
             addAdditionalServices(dto, adventureReservation);
             sendEmailClient(guest,fishingAdventure.getName());
@@ -184,6 +196,8 @@ public class ClientReservationService {
         }
         houseReservation.setGuest(guest);
         houseReservation.setAvailable(false);
+        guest.setPoints(guest.getPoints() + this.companyService.getCompanyInfo((long) 1).getPointsPerReservationClient());
+        this.checkUserCategory(guest);
         this.houseReservationService.save(houseReservation);
         this.sendEmailClientAction(guest,houseReservation.getHouse().getName(),"" );
         return true;
@@ -197,6 +211,8 @@ public class ClientReservationService {
         }
         boatReservation.setGuest(guest);
         boatReservation.setAvailable(false);
+        guest.setPoints(guest.getPoints() + this.companyService.getCompanyInfo((long) 1).getPointsPerReservationClient());
+        this.checkUserCategory(guest);
         this.boatReservationService.save(boatReservation);
         this.sendEmailClientAction(guest,"", boatReservation.getBoat().getName());
         return true;
@@ -210,9 +226,26 @@ public class ClientReservationService {
         }
         adventureReservation.setGuest(guest);
         adventureReservation.setAvailable(false);
+        guest.setPoints(guest.getPoints() + this.companyService.getCompanyInfo((long) 1).getPointsPerReservationClient());
+        this.checkUserCategory(guest);
         this.fishingAdventureReservationService.save(adventureReservation);
         this.sendEmailClientActionAdventure(guest, adventureReservation.getFishingAdventure().getName());
         return true;
+    }
+    
+    private void checkUserCategory(MyUser user) {
+        List<UserCategory> allCategories = this.userCategoryService.findAll();
+        int min = 0;
+        Long id = (long) 0;
+        for(UserCategory category: allCategories) {
+            if(category.getPoints() > min && user.getPoints() > category.getPoints()) {
+                min = category.getPoints();
+                id = category.getId();
+            }
+        }
+        UserCategory cat = this.userCategoryService.getCategoryById(id);
+        user.setCategory(cat);
+        this.myUserService.save(user);
     }
 }
 

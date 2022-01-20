@@ -56,6 +56,7 @@ import {
 } from "./clientHome/reservation/instructor-reservation-history/instructor-reservation-history.component";
 import {AuthGuardGuard} from "./auth-guard.guard";
 import {InstructorChartComponent} from "./adventure-profile/instructor-chart/instructor-chart.component";
+import { AdventureGuestProfileComponent } from './adventure-profile/adventure-guest-profile/adventure-guest-profile.component';
 
 
 const routes: Routes = [
@@ -72,8 +73,8 @@ const routes: Routes = [
       {path: 'instructorReservation', component: InstructorReservationHistoryComponent}]},
   { path:'house-profile-for-house-owner/:id', component: HouseProfileForHouseOwnerComponent},
   { path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}]},
-  {path: 'adventure-profile/:id', component: AdventureProfileComponent},
-  {path: 'fishing-instructor', component: FishingInstructorProfileComponent},
+  {path: 'adventure-profile/:id', component: AdventureProfileComponent, canActivate: [AuthGuardGuard],data: {role: 'ROLE_INSTRUCTOR'}},
+  {path: 'fishing-instructor', component: FishingInstructorProfileComponent, canActivate: [AuthGuardGuard],data: {role: 'ROLE_INSTRUCTOR'}},
   { path:'boat-profile-for-boat-owner/:id', component: BoatProfileForBoatOwnerComponent},
   { path:'add-action-house-profile/:id', component: AddActionHouseProfileComponent},
   { path:'modify-house-profile/:id', component: ModifyHouseProfileComponent},
@@ -93,6 +94,7 @@ const routes: Routes = [
   { path:'add-boat', component: AddBoatComponent},
   { path: 'boat-report/:id/:boatId', component: BoatReportComponent},
   { path: 'admin-page', component: AdminPageComponent, canActivate: [AuthGuardGuard],data: {role: 'ROLE_ADMINISTRATOR'}},
+  { path: 'adventure-guest-profile/:id', component: AdventureGuestProfileComponent, canActivate: [AuthGuardGuard],data: {role: 'ROLE_INSTRUCTOR'}},
   { path: 'boat-chart/:id', component: BoatChartComponent},
   { path: 'house-chart/:id', component: HouseChartComponent},
   { path: 'instructor-chart/:id', component: InstructorChartComponent},

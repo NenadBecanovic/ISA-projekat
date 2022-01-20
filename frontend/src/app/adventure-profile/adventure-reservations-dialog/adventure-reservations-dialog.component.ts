@@ -69,6 +69,6 @@ export class AdventureReservationsDialogComponent implements OnInit {
   }
 
   visitUserProfile(guestId: number){
-    this._router.navigate(['/guest-profile', guestId])
+    this._router.navigate(['/adventure-guest-profile', guestId])
   }
 }

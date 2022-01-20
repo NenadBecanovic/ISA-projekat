@@ -52,7 +52,7 @@ public class CompanyService {
 		return this.userCategoryService.addCategory(dto);
 	}
 
-	public boolean deleteCategory(int id) {
+	public boolean deleteCategory(Long id) {
 		return this.userCategoryService.delete(id);
 	}
 
