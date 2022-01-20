@@ -180,7 +180,7 @@ public class FishingAdventureService {
         {
             for (AdditionalServicesDTO additionalServicesDTO: fishingAdventureDTO.getAdditionalServices())
             {
-                if(a.getId() == additionalServicesDTO.getId())
+                if(a.getId().equals(additionalServicesDTO.getId()))
                 {
                     a.setName(additionalServicesDTO.getName());
                     a.setPrice(additionalServicesDTO.getPrice());

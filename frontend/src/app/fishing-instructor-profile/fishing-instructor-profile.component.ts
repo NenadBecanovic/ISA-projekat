@@ -9,11 +9,13 @@ import { DeleteAccountComponent } from '../clientHome/dialog/delete-account/dele
 import { AdditionalService } from '../model/additional-service';
 import { Address } from '../model/address';
 import { AdventureReservation } from '../model/adventure-reservation';
+import { FeedbackInfo } from '../model/feedback-info';
 import { FishingAdventure } from '../model/fishing-adventure';
 import { FishingAdventureInstructorDTO } from '../model/fishing-adventure-instructorDTO';
 import { MyUser } from '../model/my-user';
 import { AdventureProfileService } from '../service/adventure-profile.service';
 import { AdventureReservationService } from '../service/adventure-reservation.service';
+import { FeedbackService } from '../service/feedback.service';
 import { AddAdventureDialogComponent } from './add-adventure-dialog/add-adventure-dialog.component';
 import { CalendarDialogComponent } from './calendar-dialog/calendar-dialog.component';
 import { DefineAvaibilityPeriodComponent } from './define-avaibility-period/define-avaibility-period.component';
@@ -30,6 +32,7 @@ export class FishingInstructorProfileComponent implements OnInit {
   address: Address = new Address(0,"Kotor","Kotor","Crna Gora",0,0,31100);
   additionalServices: AdditionalService[] = new Array<AdditionalService>();
   adventures: FishingAdventure[] = new Array<FishingAdventure>();
+  allFeedbacks: FeedbackInfo[] = new Array<FeedbackInfo>();
   a: FishingAdventure = new FishingAdventure(0,"F",this.address,"",0,",","",0,true,0);
   allReservations: AdventureReservation[] = new Array<AdventureReservation>();
   allActions: AdventureReservation[] = new Array<AdventureReservation>();
@@ -38,7 +41,7 @@ export class FishingInstructorProfileComponent implements OnInit {
   filterTerm!: string;
 
   constructor(public dialog: MatDialog, private _adventureService: AdventureProfileService, private _router: Router, private _adventureReservationService: AdventureReservationService,
-          private _authentificationService: AuthentificationService, private alertService: AlertService) {
+          private _authentificationService: AuthentificationService, private alertService: AlertService, private _feedbackService: FeedbackService) {
 
    }
 
@@ -132,6 +135,12 @@ export class FishingInstructorProfileComponent implements OnInit {
     this._adventureReservationService.getAllAvaibilityPeriodsByInstructorId(this.instructor.id).subscribe(
       (allAvaibilityPeriods: AdventureReservation[]) => {
         this.allAvaibilityPeriods = allAvaibilityPeriods;
+      }
+    )
+
+    this._feedbackService.getAllFeedbacksByAdventureId(this.instructor.id).subscribe(
+      (feedbacks: FeedbackInfo[]) => {
+        this.allFeedbacks = feedbacks;
       }
     )
   }

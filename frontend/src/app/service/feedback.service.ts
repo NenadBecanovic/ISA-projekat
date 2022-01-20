@@ -32,4 +32,8 @@ export class FeedbackService {
     public getAllFeedbacksByAdventureId(id: number): Observable<FeedbackInfo[]>{
         return this._http.get<FeedbackInfo[]>(`${this.userPath}/getAllFeedbacksByAdventure/`+id);
     }
+
+    public getAllFeedbacksByInstructorId(id: number): Observable<FeedbackInfo[]>{
+        return this._http.get<FeedbackInfo[]>(`${this.userPath}/getAllFeedbacksByInstructor/`+id);
+    }
 }

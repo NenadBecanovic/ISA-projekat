@@ -70,16 +70,19 @@ public class EmailService {
             javaMailSender.send(message);
     }
 
-    public void sendActionMail(List<MyUser> myUsers, String houseName, String boatName) throws MessagingException{
+    public void sendActionMail(List<MyUser> myUsers, String houseName, String boatName,String adventureName) throws MessagingException{
         Context context = new Context();
         context.setVariable("title", "Obaveštenje o novoj akciji");
 
-        if (houseName != "") {
+        if (!houseName.equals("")) {
             context.setVariable("content", "Obaveštavamo Vas da je kreirana nova akcija u vikendici " + houseName + ". " +
                     "Ukoliko ste zainteresovani za detalje akcije, posetite profil naše vikendice.");
-        } else if(boatName != ""){
+        } else if(!boatName.equals("")){
             context.setVariable("content", "Obaveštavamo Vas da je kreirana nova akcija na brodu " + boatName + ". " +
                     "Ukoliko ste zainteresovani za detalje akcije, posetite profil našeg broda.");
+        } else if(!boatName.equals("")){
+            context.setVariable("content", "Obaveštavamo Vas da je kreirana nova akcija za avanturu " + boatName + ". " +
+                    "Ukoliko ste zainteresovani za detalje akcije, posetite profil naše avanture.");
         }
 
         String body = templateEngine.process("newAction", context);
@@ -94,13 +97,15 @@ public class EmailService {
         }
     }
 
-    public void sendMailForClient(MyUser user, String houseName, String boatName) throws MessagingException{
+    public void sendMailForClient(MyUser user, String houseName, String boatName, String adventureName) throws MessagingException{
         Context context = new Context();
         context.setVariable("title", "Obaveštenje o novoj rezervaciji");
-        if (houseName != "") {
+        if (!houseName.equals("")) {
             context.setVariable("content", "Obaveštavamo Vas da je kreirana nova rezervacija u vikendici " + houseName + ". ");
-        } else if (boatName != ""){
+        } else if (!boatName.equals("")){
             context.setVariable("content", "Obaveštavamo Vas da je kreirana nova rezervacija na brodu " + boatName + ". ");
+        } else if (!adventureName.equals("")){
+            context.setVariable("content", "Obaveštavamo Vas da je kreirana nova rezervacija na avanturi " + adventureName + ". ");
         }
         sendEmail(templateEngine, context, javaMailSender, user);
     }
@@ -125,9 +130,9 @@ public class EmailService {
     public void sendMailForClientAction(MyUser guest, String houseName, String boatName) throws MessagingException {
         Context context = new Context();
         context.setVariable("title", "Obaveštenje o prihvacenoj akciji");
-        if (houseName != "") {
+        if (!houseName.equals("")) {
             context.setVariable("content", "Obaveštavamo Vas da je prihvacena akcija u vikendici " + houseName + ". ");
-        } else if (boatName != ""){
+        } else if (!boatName.equals("")){
             context.setVariable("content", "Obaveštavamo Vas da je  prihvacena akcija na brodu " + boatName + ". ");
         }
         sendEmail(templateEngine, context, javaMailSender, guest);

@@ -52,7 +52,7 @@ public class ClientReservationService {
             houseReservation.setGuest(guest);
             houseReservation = this.houseReservationService.save(houseReservation);
             addAdditionalServices(dto, houseReservation);
-            sendEmailClient(guest, house.getName(), "");
+            sendEmailClient(guest, house.getName(), "", "");
         }
 
         return isAvailable;
@@ -72,7 +72,7 @@ public class ClientReservationService {
             boatReservation.setGuest(guest);
             boatReservation = this.boatReservationService.save(boatReservation);
             addAdditionalServices(dto, boatReservation);
-            sendEmailClient(guest, "", boat.getName());
+            sendEmailClient(guest, "", boat.getName(), "");
         }
         return isAvailable;
     }
@@ -143,9 +143,9 @@ public class ClientReservationService {
         return reservationCheckDTO;
     }
 
-    private void sendEmailClient(MyUser guest,String houseName, String boatName){
+    private void sendEmailClient(MyUser guest,String houseName, String boatName, String adventureName){
         try {
-            this.emailService.sendMailForClient(guest,houseName, boatName);
+            this.emailService.sendMailForClient(guest,houseName, boatName, adventureName);
         } catch (MessagingException e) {
             e.printStackTrace();
         }

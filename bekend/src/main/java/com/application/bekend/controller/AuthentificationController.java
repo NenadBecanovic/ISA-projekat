@@ -48,10 +48,10 @@ public class AuthentificationController {
     @RequestMapping(value="/login", method = RequestMethod.POST)
     public ResponseEntity<UserTokenStateDTO> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest){
 
-        String username = this.myUserService.findUserByEmailorUsername(authenticationRequest.getEmail(), "").getUsername();
+        MyUser loggedInUser = this.myUserService.findUserByEmailorUsername(authenticationRequest.getEmail(), "");
         try {
             Authentication authentication = authenticationManager
-                    .authenticate(new UsernamePasswordAuthenticationToken(username,
+                    .authenticate(new UsernamePasswordAuthenticationToken(loggedInUser.getUsername(),
                             authenticationRequest.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
             MyUser user  = (MyUser) authentication.getPrincipal();

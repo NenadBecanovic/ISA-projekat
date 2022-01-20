@@ -29,7 +29,6 @@ export class NewAdminPasswordDialogComponent implements OnInit {
   }
 
   ok() {
-    if(this.passwordCheck){
       if(this.newPassword === this.newPasswordCheck){
         const salt = bcrypt.genSaltSync(10);
         var isValid = bcrypt.compareSync(this.oldPassword, this.admin.password)
@@ -50,17 +49,6 @@ export class NewAdminPasswordDialogComponent implements OnInit {
       }else{
         this.alertService.danger('Provjerite novu lozinku');
       }
-    }else {
-      this.admin.passwordChange = false;
-      this._myUserService.updateUser(this.admin).subscribe(   // subscribe - da bismo dobili odgovor beka
-        (user: MyUser) => {
-          this.alertService.success('Uspjesno izmijenjen nalog');
-        },
-        (error) => {
-          this.alertService.danger('Greska prilikom promijene');
-        },
-      )
-    }
 
   }
 

@@ -16,7 +16,7 @@ public class MyUserDTO {
     private int penalties;
     private String personalDescription;
     private UserCategoryDTO userCategory;
-    private String isFirstLogin;
+    private boolean isFirstLogin;
 
     public MyUserDTO(String firstName, String lastName, String email, String password, String username, String authority, AddressDTO addressDTO, String phoneNumber, String reasonForRegistration) {
         this.firstName = firstName;
@@ -158,11 +158,11 @@ public class MyUserDTO {
 		this.userCategory = userCategory;
 	}
 
-	public String getIsFirstLogin() {
+	public boolean getIsFirstLogin() {
 		return isFirstLogin;
 	}
 
-	public void setIsFirstLogin(String isFirstLogin) {
+	public void setIsFirstLogin(boolean isFirstLogin) {
 		this.isFirstLogin = isFirstLogin;
 	}
 }

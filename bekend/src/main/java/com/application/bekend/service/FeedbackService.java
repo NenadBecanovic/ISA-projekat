@@ -143,10 +143,23 @@ public class FeedbackService {
     	List<Feedback> allFeedbacks = this.feedbackRepository.findAll();
     	List<FeedbackInfoDTO> allFeedbacksDTO = new ArrayList<FeedbackInfoDTO>();
     	for(Feedback f: allFeedbacks) {
-    		if(f.getFishingAdventure().getId() == id) {
+    		if(f.getFishingAdventure().getId().equals(id) && f.getApproved()) {
     			FeedbackInfoDTO feedbackDTO = new FeedbackInfoDTO(f.getId(), f.getGrade(), f.getReview(), f.getApproved());
     			feedbackDTO.setName(f.getFishingAdventure().getName());
     			feedbackDTO.setType("Avantura");
+    		}
+    	}
+		return allFeedbacksDTO;
+	}
+	
+	public List<FeedbackInfoDTO> getAllByInstructor(Long id) {
+    	List<Feedback> allFeedbacks = this.feedbackRepository.findAll();
+    	List<FeedbackInfoDTO> allFeedbacksDTO = new ArrayList<FeedbackInfoDTO>();
+    	for(Feedback f: allFeedbacks) {
+    		if(f.getMyUser().getId().equals(id) && f.getApproved()) {
+    			FeedbackInfoDTO feedbackDTO = new FeedbackInfoDTO(f.getId(), f.getGrade(), f.getReview(), f.getApproved());
+    			feedbackDTO.setName(f.getFishingAdventure().getName());
+    			feedbackDTO.setType("Instruktor");
     		}
     	}
 		return allFeedbacksDTO;
