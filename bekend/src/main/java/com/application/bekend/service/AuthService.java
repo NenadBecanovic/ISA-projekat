@@ -97,6 +97,7 @@ public class AuthService {
             this.sendVerificationEmail(myUser);
         }else{
             // poslati zahtev za verifikaciju za ostale korisnike
+            //myUser = this.myUserRepository.save(myUser);
             VerificationRequest verificationRequest = new VerificationRequest(myUser, false, myUserDTO.getReasonForRegistration());
             this.verificationRequestService.save(verificationRequest);
         }

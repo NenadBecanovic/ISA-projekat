@@ -142,7 +142,7 @@ public class BoatReservationController {
         // ovaj korak je obavezan jer se rezervacija koju dodajemo ovde (***) mora nalaziti u bazi
 
         owner.setPoints(owner.getPoints() + this.companyService.getCompanyInfo((long) 1).getPointsPerReservationOwner());
-        this.checkUserCategory(owner);
+        owner = this.checkUserCategory(owner);
         
         Set<AdditionalServices> additionalServicesSet = new HashSet<>();
         for(AdditionalServicesDTO add : dto.getAdditionalServices()){
@@ -174,7 +174,7 @@ public class BoatReservationController {
             guest.setBoatReservations(boatReservations1);
             guest.setPoints(guest.getPoints() + this.companyService.getCompanyInfo((long) 1).getPointsPerReservationClient());
             this.checkUserCategory(guest);
-            this.myUserService.save(guest);
+            guest = this.myUserService.save(guest);
 
             // TODO: ako je vlasnik zakazao za klijenta, poslati mejl klijentu
             this.myUserService.sendMailToClient(null, dto, null, "", boat.getName(), "");
@@ -371,17 +371,19 @@ public class BoatReservationController {
         return new ResponseEntity<>(boatReservationDTOS, HttpStatus.OK);
     }
     
-    private void checkUserCategory(MyUser user) {
-    	List<UserCategory> allCategories = this.userCategoryService.findAll();
-    	int min = 0;
-    	UserCategory cat = new UserCategory();
-    	for(UserCategory category: allCategories) {
-    		if(category.getPoints() > min && user.getPoints() > category.getPoints()) {
-    			min = category.getPoints();
-    			cat = category;
-    		}
-    	}
-    	user.setCategory(cat);
+    private MyUser checkUserCategory(MyUser user) {
+        List<UserCategory> allCategories = this.userCategoryService.findAll();
+        int min = 0;
+        Long id = (long) 0;
+        for(UserCategory category: allCategories) {
+            if(category.getPoints() > min && user.getPoints() > category.getPoints()) {
+                min = category.getPoints();
+                id = category.getId();
+            }
+        }
+        UserCategory cat = this.userCategoryService.getCategoryById(id);
+        user.setCategory(cat);
+        return this.myUserService.save(user);
     }
 
     @GetMapping("/getCompanyProfit/{startDate}/{endDate}")
