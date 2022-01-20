@@ -42,17 +42,39 @@ export class AddBoatComponent implements OnInit {
   }
 
   createProfile() {
-    this.boat.grade = 0;
-    this.boat.ownerId = this.user.id;
+    if (this.boat.name != '' && this.boat.promoDescription != '' && this.boat.address.street != '' && this.boat.address.city != '' &&
+      this.boat.address.state != '' && this.boat.address.postalCode != 0 && this.boat.pricePerDay != 0 && this.boat.behaviourRules != '' &&
+      this.boat.capacity != 0 && this.boat.type != '' && this.boat.length != 0 && this.boat.enginePower != 0 && this.boat.enginePower != 0 &&
+      this.boat.maxSpeed != 0 && this.boat.fishingEquipment != '') {
 
-    this._boatService.save(this.boat).subscribe(
-      (boat: Boat) => {
-        this._router.navigate(['home-page-boat-owner'])
-      },
-      (error) => {
-        this._alertService.danger('Doslo je do greske');
-      },
-    )
+      if (!this.boat.cancalletionFree && this.boat.cancalletionFee == 0)
+      {
+        this._alertService.warning('Unesite % nadoknade u slucaju otkazivanja');
+      }
+      else
+      {
+        if(this.boat.cancalletionFee > 100)
+        {
+          this._alertService.warning('Uslovi otkazivanja su u vrednostima 0-100');
+        }
+        else {
+          this.boat.grade = 0;
+          this.boat.ownerId = this.user.id;
+
+          this._boatService.save(this.boat).subscribe(
+            (boat: Boat) => {
+              this._router.navigate(['home-page-boat-owner'])
+            },
+            (error) => {
+              this._alertService.danger('Doslo je do greske');
+            },
+          )
+        }
+      }
+    }
+    else {
+      this._alertService.warning('Niste popunili sva polja!');
+    }
   }
 
   checkboxChanged($event: MatCheckboxChange) {

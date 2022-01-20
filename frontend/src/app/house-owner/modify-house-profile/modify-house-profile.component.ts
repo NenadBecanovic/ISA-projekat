@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {HouseService} from "../../service/house.service";
-import {HouseReservation} from "../../model/house-reservation";
 import {House} from "../../model/house";
 import {Address} from "../../model/address";
 import {MatCheckboxChange} from "@angular/material/checkbox";
 import {Alert, AlertService} from "ngx-alerts";
-import {AlertServiceService} from "../../service/alert-service.service";
 import {RoomService} from "../../service/room.service";
 import {Room} from "../../model/room";
 import {AdditionalServicesService} from "../../service/additional-services.service";
@@ -27,6 +25,7 @@ export class ModifyHouseProfileComponent implements OnInit {
   newAdditionalService: AdditionalService = new AdditionalService(0, '', 0, false);
   showNewService: boolean = false;
   showNewRoom: boolean = false;
+  canNotBeEdited: boolean = false;
   newRoom: Room = new Room(0, 0, this.house);
 
   constructor(private _route: ActivatedRoute, private _router: Router, private _houseService: HouseService, private _alertService: AlertService,
@@ -38,6 +37,19 @@ export class ModifyHouseProfileComponent implements OnInit {
     this.loadData();
   }
 
+  checkEdit(){
+    this._houseService.edit(this.house).subscribe(
+      (house: House) => {
+       this.canNotBeEdited = false
+        console.log(this.canNotBeEdited)
+      },
+      (error) => {
+        this.canNotBeEdited = true
+        console.log(this.canNotBeEdited)
+      }
+    )
+  }
+
   private loadData() {
     this._houseService.getHouseById(this.id).subscribe(
       (house: House) => {
@@ -47,13 +59,14 @@ export class ModifyHouseProfileComponent implements OnInit {
           (rooms: Room[]) => {
             this.rooms = rooms
             this.house.rooms = rooms
-          }
-        )
 
-        this._additionalServices.getAllByHouseId(this.id).subscribe(
-          (additionalServices: AdditionalService[]) => {
-            this.additionalServices = additionalServices
-            this.house.services = additionalServices
+            this._additionalServices.getAllByHouseId(this.id).subscribe(
+              (additionalServices: AdditionalService[]) => {
+                this.additionalServices = additionalServices
+                this.house.services = additionalServices
+                this.checkEdit()
+              }
+            )
           }
         )
       }
@@ -72,14 +85,33 @@ export class ModifyHouseProfileComponent implements OnInit {
   }
 
   editProfile() {
-    this._houseService.edit(this.house).subscribe(
-      (house: House) => {
-        this._router.navigate(['house-profile-for-house-owner/', this.house.id])
-      },
-      (error) => {
-        this._alertService.danger('Rezervisana vikendica se ne može izmeniti');
+    if (this.house.name != '' && this.house.promoDescription != '' && this.house.address.street != '' && this.house.address.city != '' &&
+      this.house.address.state != '' && this.house.address.postalCode != 0 && this.house.pricePerDay != 0 && this.house.behaviourRules != '') {
+
+      if (!this.house.cancalletionFree && this.house.cancalletionFee == 0) {
+        this._alertService.warning('Unesite % nadoknade u slucaju otkazivanja');
       }
-    )
+      else
+      {
+        if (this.house.cancalletionFee > 100) {
+          this._alertService.warning('Uslovi otkazivanja su u vrednostima 0-100');
+        }
+        else
+        {
+          this._houseService.edit(this.house).subscribe(
+            (house: House) => {
+              this._router.navigate(['house-profile-for-house-owner/', this.house.id])
+            },
+            (error) => {
+              this._alertService.danger('Rezervisana vikendica se ne može izmeniti');
+            }
+          )
+        }
+      }
+    }
+    else {
+      this._alertService.warning('Niste popunili sva polja!');
+    }
   }
 
   checkboxChanged($event: MatCheckboxChange) {
