@@ -162,10 +162,11 @@ export class AdminPageComponent implements OnInit {
   deleteUser(id: number){
     this._myUserService.deleteUser(id).subscribe(
       (ok: Boolean) => {
+        this._alertService.success('Korisnik uspešno obrisan!')
         this.loadData();
       },
       (error) => {
-        // console.log(error)
+        this._alertService.danger('Neuspešno brisanje korisnika!')
       }
     )
   }
@@ -216,7 +217,7 @@ export class AdminPageComponent implements OnInit {
         this.loadData();
       },
       (error) => {
-        // console.log(error)
+        this._alertService.danger('Neuspešno brisanje komentara!')
       }
     )
   }
@@ -273,7 +274,7 @@ export class AdminPageComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      window.location.reload();
+      this.loadData();
     });
   }
 

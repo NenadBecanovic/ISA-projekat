@@ -66,16 +66,37 @@ export class EditAdventureProfileDialogComponent implements OnInit {
   }
 
   editProfile() {
-    this._adventureService.edit(this.adventure).subscribe(   // subscribe - da bismo dobili odgovor beka
-      (adventure: FishingAdventure) => {
-        this.dialogRef.close();
-      },
-      (error) => {
-        // console.log(error)
-        this._alertService.danger('Doslo je do greske');
-      },
-    )
+    if (this.adventure.name != '' && this.adventure.promoDescription != '' && this.adventure.address.street != '' && this.adventure.address.city != '' &&
+      this.adventure.address.state != '' && this.adventure.address.postalCode >= 0 && this.adventure.pricePerHour > 0 && this.adventure.behaviourRules != '' &&
+      this.adventure.address.longitude >= 0 && this.adventure.address.latitude >= 0 &&
+      this.adventure.capacity > 0 &&  this.adventure.fishingEquipment != '') {
 
+      if (!this.adventure.cancellationFree && this.adventure.cancellationFee == 0)
+      {
+        this._alertService.warning('Unesite % nadoknade u slucaju otkazivanja');
+      }
+      else
+      {
+        if(this.adventure.cancellationFee > 100)
+        {
+          this._alertService.warning('Uslovi otkazivanja su u vrednostima 0-100');
+        }
+        else {
+          this._adventureService.edit(this.adventure).subscribe(   // subscribe - da bismo dobili odgovor beka
+            (adventure: FishingAdventure) => {
+              this.dialogRef.close();
+            },
+            (error) => {
+              // console.log(error)
+              this._alertService.danger('Doslo je do greske');
+            },
+          )
+        }
+      }
+    }
+    else {
+      this._alertService.warning('Niste ispravno popunili sva polja!');
+    }
   }
   onNoClick(): void {
     this.dialogRef.close();

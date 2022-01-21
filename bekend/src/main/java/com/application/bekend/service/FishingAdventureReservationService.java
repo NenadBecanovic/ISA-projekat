@@ -150,18 +150,20 @@ public class FishingAdventureReservationService {
 	
 	public boolean delete(Long id) {
 		AdventureReservation adventureReservation = this.getFishingAdventureReservationById(id);   // dobavimo rezervaciju iz baze
-
-        Set<AdditionalServices> additionalServices =  adventureReservation.getAdditionalServices();     // ne moramo direktno iz baze dobavljati jer ova lista u sebi ima objekte sa svojim pravim id-jevima
-        for(AdditionalServices a: additionalServices){
-            a.getAdventureReservationsServices().remove(adventureReservation);  // iz niza rezervacija dodatnih usluga izbacimo ovu rezervaciju koju brisemo - raskinuta u tabeli additional_services_house_reservation (sa vodece strane, jer je kod AdditionalService JoinTable)
-            this.additionalServicesService.save(a);
-        }
-
-        adventureReservation.setGuest(null); // TODO: proveriit
-        adventureReservation.setFishingAdventure(null);  // raskinuta veza u tabeli house_reservation_table (sa strane vodece veze u ManyToMany vezi)
-        adventureReservation = this.save(adventureReservation);
-        //this.delete(adventureReservation.getId());  // brisanje rezervacije iz house_reservation tabele
-        return true;
+		if(adventureReservation.isAction() && adventureReservation.isAvailable() || adventureReservation.isAvailabilityPeriod()) {
+	        Set<AdditionalServices> additionalServices =  adventureReservation.getAdditionalServices();     // ne moramo direktno iz baze dobavljati jer ova lista u sebi ima objekte sa svojim pravim id-jevima
+	        for(AdditionalServices a: additionalServices){
+	            a.getAdventureReservationsServices().remove(adventureReservation);  // iz niza rezervacija dodatnih usluga izbacimo ovu rezervaciju koju brisemo - raskinuta u tabeli additional_services_house_reservation (sa vodece strane, jer je kod AdditionalService JoinTable)
+	            this.additionalServicesService.save(a);
+	        }
+	
+	        adventureReservation.setGuest(null); // TODO: proveriit
+	        adventureReservation.setFishingAdventure(null);  // raskinuta veza u tabeli house_reservation_table (sa strane vodece veze u ManyToMany vezi)
+	        adventureReservation = this.save(adventureReservation);
+	        this.fishingAdventureReservationsRepository.delete(adventureReservation);  // brisanje rezervacije iz house_reservation tabele
+	        return true;
+		}
+		return false;
 	}
 
 	public List<AdventureReservationDTO> getAllActionsByAdventureId(Long id) {

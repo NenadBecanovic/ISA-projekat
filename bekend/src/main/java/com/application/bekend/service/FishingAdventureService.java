@@ -161,6 +161,8 @@ public class FishingAdventureService {
         						new HashSet<>(),newFishingAdventure.getBehaviourRules(), newFishingAdventure.getPricePerHour(),new HashSet<>(),newFishingAdventure.isCancellationFree(),
         						newFishingAdventure.getCancellationFee(), new HashSet<>());
         fishingAdventure.setDeleted(false);
+        fishingAdventure.setGrade(0);
+        fishingAdventure.setNumberOfReviews(0);
         MyUser instructor = this.myUserService.findUserById(newFishingAdventure.getInstructorId());
         fishingAdventure.setInstructor(instructor);
         fishingAdventure = this.save(fishingAdventure);

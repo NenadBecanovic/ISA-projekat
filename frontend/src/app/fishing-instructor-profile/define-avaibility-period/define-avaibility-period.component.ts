@@ -51,9 +51,9 @@ export class DefineAvaibilityPeriodComponent implements OnInit {
 
   addPeriod() {
     if(this.adventureAvaibilityReservation.startDate === '' || this.adventureAvaibilityReservation.endDate === ''){
-      alert('Odaberite datume')
+      this._alertService.warning('Odaberite datume!')
     }else if(Date.parse(this.adventureAvaibilityReservation.startDate) >= Date.parse(this.adventureAvaibilityReservation.endDate)){
-      alert('Zavrsetak mora biti nakon pocetka!')
+      this._alertService.warning('Krajnji datum mora biti nakon početnog!')
     }else{
       this.adventureAvaibilityReservation.availabilityPeriod = true;
       this.adventureAvaibilityReservation.isAvailable = false;

@@ -110,7 +110,7 @@ export class FishingInstructorProfileComponent implements OnInit {
         return reservation.guestId;
       }
     }
-    return 3;
+    return 0;
   }
 
   loadData() { // ucitavanje iz baze

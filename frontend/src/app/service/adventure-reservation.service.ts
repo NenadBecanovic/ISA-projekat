@@ -25,11 +25,7 @@ export class AdventureReservationService {
   public getAllAvaibilityPeriodsByInstructorId(id: number): Observable<AdventureReservation[]> {
     return this._http.get<AdventureReservation[]>(`${this.userPath}/getAllAvaibilityPeriodsByInstructorId/`+id)
   }
-/*
-  public getHouseReservationById(id: number): Observable<HouseReservation> {
-    return this._http.get<HouseReservation>(`${this.userPath}/getHouseReservationById/`+id)
-  }
-*/
+  
   public getAdventureReservationsByGuestId(id: number): Observable<AdventureReservation[]> {
     return this._http.get<AdventureReservation[]>(`${this.userPath}/getFishingAdventureReservationsByGuestId/`+id)
   }
