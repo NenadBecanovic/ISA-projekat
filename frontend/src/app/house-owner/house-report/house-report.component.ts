@@ -29,16 +29,20 @@ export class HouseReportComponent implements OnInit {
   }
 
   addReport() {
-    this.report.houseReservationId = this.houseReservationId;
+    if(this.report.comment != '') {
+      this.report.houseReservationId = this.houseReservationId;
 
-    this._reportService.save(this.report).subscribe(
-      (report: Report) => {
-        this._router.navigate(['house-profile-for-house-owner/', this.houseId])
-      },
-      (error) => {
-        this._alertService.danger('Doslo je do greske');
-      }
-    )
+      this._reportService.save(this.report).subscribe(
+        (report: Report) => {
+          this._router.navigate(['house-profile-for-house-owner/', this.houseId])
+        },
+        (error) => {
+          this._alertService.danger('Doslo je do greske');
+        }
+      )
+    } else {
+      this._alertService.warning('Unesite tekst izvestaja');
+    }
   }
 
   private loadData() {
