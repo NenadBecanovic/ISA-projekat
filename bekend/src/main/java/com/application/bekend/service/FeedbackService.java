@@ -25,15 +25,22 @@ public class FeedbackService {
     private final FishingAdventureReservationService fishingAdventureReservationService;
     private final EmailService emailService;
     private final MyUserService myUserService;
+    private final FishingAdventureService fishingAdventureService;
+    private final HouseService houseService;
+    private final BoatService boatService;
 
     @Autowired
-    public FeedbackService(FeedbackRepository feedbackRepository, HouseReservationService houseReservationService, BoatReservationService boatReservationService, FishingAdventureReservationService fishingAdventureReservationService, EmailService emailService, MyUserService myUserService) {
+    public FeedbackService(FeedbackRepository feedbackRepository, HouseReservationService houseReservationService, BoatReservationService boatReservationService, FishingAdventureService fishingAdventureService,
+    		FishingAdventureReservationService fishingAdventureReservationService, EmailService emailService, MyUserService myUserService, HouseService houseService, BoatService boatService) {
         this.feedbackRepository = feedbackRepository;
         this.houseReservationService = houseReservationService;
         this.boatReservationService = boatReservationService;
         this.fishingAdventureReservationService = fishingAdventureReservationService;
         this.emailService = emailService;
         this.myUserService = myUserService;
+        this.fishingAdventureService = fishingAdventureService;
+        this.boatService = boatService;
+        this.houseService = houseService;
     }
 
     public Feedback save(Feedback feedback){
@@ -133,6 +140,27 @@ public class FeedbackService {
 	public boolean approve(FeedbackInfoDTO feedbackDTO) throws MessagingException {
 		Feedback feedback = this.feedbackRepository.getById(feedbackDTO.getId());
 		MyUser owner = this.myUserService.findUserById(feedbackDTO.getOwnerId());
+		if(feedback.getMyUser() != null) {
+			MyUser user = this.myUserService.findUserById(feedback.getMyUser().getId());
+			user.setGrade(user.getGrade() + feedback.getGrade());
+			user.setNumberOfReviews(user.getNumberOfReviews() + 1);
+			this.myUserService.save(user);
+		} else if(feedback.getFishingAdventure() != null){
+			FishingAdventure adventure = this.fishingAdventureService.getFishingAdventureById(feedback.getFishingAdventure().getId());
+			adventure.setGrade(adventure.getGrade() + feedback.getGrade());
+			adventure.setNumberOfReviews(adventure.getNumberOfReviews() + 1);
+			this.fishingAdventureService.save(adventure);
+		} else if(feedback.getBoat() != null) {
+			Boat boat = this.boatService.getBoatById(feedback.getBoat().getId());
+			boat.setGrade(boat.getGrade() + feedback.getGrade());
+			boat.setNumberOfReviews(boat.getNumberOfReviews() + 1);
+			this.boatService.save(boat);
+		} else if(feedback.getHouse() != null) {
+			House house = this.houseService.getHouseById(feedback.getHouse().getId());
+			house.setGrade(house.getGrade() + feedback.getGrade());
+			house.setNumberOfReviews(house.getNumberOfReviews() + 1);
+			this.houseService.save(house);
+		}
 		feedback.setApproved(true);
 		this.save(feedback);
 		this.emailService.sendAnswerEmail(new EmailDTO("Nova ocena", "Ostavljen je novi komentar: " + feedbackDTO.getReview() + " sa ocenom: " + feedbackDTO.getGrade(), owner.getEmail()));

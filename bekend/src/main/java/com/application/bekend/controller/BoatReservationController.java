@@ -140,10 +140,11 @@ public class BoatReservationController {
 
         boatReservation = this.boatReservationService.save(boatReservation); // sacuvali smo rezervaciju i povratna vrednost metode je tacno ta rezervacija iz baze (sa ispravno generisanim id-em ...)
         // ovaj korak je obavezan jer se rezervacija koju dodajemo ovde (***) mora nalaziti u bazi
-
-        owner.setPoints(owner.getPoints() + this.companyService.getCompanyInfo((long) 1).getPointsPerReservationOwner());
-        owner = this.checkUserCategory(owner);
         
+        if(!dto.isAction() && !dto.isAvailabilityPeriod()) {
+	        owner.setPoints(owner.getPoints() + this.companyService.getCompanyInfo((long) 1).getPointsPerReservationOwner());
+	        owner = this.checkUserCategory(owner);
+        }
         Set<AdditionalServices> additionalServicesSet = new HashSet<>();
         for(AdditionalServicesDTO add : dto.getAdditionalServices()){
 
