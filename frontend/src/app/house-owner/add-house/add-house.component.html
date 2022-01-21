@@ -29,15 +29,15 @@
       </div>
       <div class = "input-box">
         <span class="details">Geografska duzina:</span>
-        <input type="number" name="longitude" [(ngModel)]="house.address.longitude" placeholder="Unesite geografsku duzinu" required>
+        <input type="number" name="longitude" [(ngModel)]="house.address.longitude" [min]="this.min" placeholder="Unesite geografsku duzinu" required>
       </div>
       <div class = "input-box">
         <span class="details">Geografska sirina:</span>
-        <input type="number" name="latitude" [(ngModel)]="house.address.latitude" placeholder="Unesite geografsku sirinu" required>
+        <input type="number" name="latitude" [(ngModel)]="house.address.latitude" [min]="this.min"  placeholder="Unesite geografsku sirinu" required>
       </div>
       <div class = "input-box">
         <span class="details">Postanski broj:</span>
-        <input type="number" name="postalCode" [(ngModel)]="house.address.postalCode" placeholder="Unesite postanski broj" required>
+        <input type="number" name="postalCode" [(ngModel)]="house.address.postalCode" [min]="this.min" placeholder="Unesite postanski broj" required>
       </div>
       <br><br>
       <div class = "input-box">
@@ -46,15 +46,15 @@
       </div>
       <div class = "input-box">
         <span class="details">Cena za 1 nocenje:</span>
-        <input type="number" name="pricePerDay" [(ngModel)]="house.pricePerDay" placeholder="Unesite cenu" required>
+        <input type="number" name="pricePerDay" [(ngModel)]="house.pricePerDay" [min]="this.min" placeholder="Unesite cenu" required>
       </div>
       <div class = "input-box">
         <span class="details">Besplatno otkazivanje:</span>
         <mat-checkbox name="checkbox" [(ngModel)]="house.cancalletionFree" (change)="checkboxChanged($event)"> </mat-checkbox>
       </div>
       <div class = "input-box">
-        <span class="details">Uslovi otkazivanje:</span>
-        <input type="number" name="cancalletionFee" [(ngModel)]="house.cancalletionFee" placeholder="Unesite novcanu nadoknadu" required>
+        <span class="details">Uslovi otkazivanja (u %):</span>
+        <input type="number" name="cancalletionFee" [(ngModel)]="house.cancalletionFee" [min]="this.min" placeholder="Unesite novcanu nadoknadu" required>
       </div>
       <br><br>
     </div>

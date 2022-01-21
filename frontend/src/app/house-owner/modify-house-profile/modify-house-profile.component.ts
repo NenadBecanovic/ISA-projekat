@@ -27,6 +27,7 @@ export class ModifyHouseProfileComponent implements OnInit {
   showNewRoom: boolean = false;
   canNotBeEdited: boolean = false;
   newRoom: Room = new Room(0, 0, this.house);
+  min: number = 0;
 
   constructor(private _route: ActivatedRoute, private _router: Router, private _houseService: HouseService, private _alertService: AlertService,
               private _roomService: RoomService, private _additionalServices: AdditionalServicesService) { }
@@ -86,7 +87,8 @@ export class ModifyHouseProfileComponent implements OnInit {
 
   editProfile() {
     if (this.house.name != '' && this.house.promoDescription != '' && this.house.address.street != '' && this.house.address.city != '' &&
-      this.house.address.state != '' && this.house.address.postalCode != 0 && this.house.pricePerDay != 0 && this.house.behaviourRules != '') {
+      this.house.address.state != '' && this.house.address.postalCode >= 0 && this.house.pricePerDay > 0 && this.house.behaviourRules != '' &&
+      this.house.cancalletionFee >= 0 && this.house.address.latitude >=0 && this.house.address.longitude >=0) {
 
       if (!this.house.cancalletionFree && this.house.cancalletionFee == 0) {
         this._alertService.warning('Unesite % nadoknade u slucaju otkazivanja');
@@ -122,17 +124,21 @@ export class ModifyHouseProfileComponent implements OnInit {
   }
 
   addAdditionalService() {
-    this.newAdditionalService.houseId = this.id;
-    this.newAdditionalService.checked = false;
+    if (this.newAdditionalService.price > 0 && this.newAdditionalService.name != '') {
+      this.newAdditionalService.houseId = this.id;
+      this.newAdditionalService.checked = false;
 
-    this._additionalServices.save(this.newAdditionalService).subscribe(   // subscribe - da bismo dobili odgovor beka
-      (additionalService: AdditionalService) => {
-        this.loadData();
-      },
-      (error) => {
-        this._alertService.danger('Rezervisana vikendica se ne može izmeniti');
-      },
-    )
+      this._additionalServices.save(this.newAdditionalService).subscribe(   // subscribe - da bismo dobili odgovor beka
+        (additionalService: AdditionalService) => {
+          this.loadData();
+        },
+        (error) => {
+          this._alertService.danger('Rezervisana vikendica se ne može izmeniti');
+        },
+      )
+    } else {
+      this._alertService.warning('Neispravno uneti podaci za novu dodatnu uslugu');
+    }
   }
 
   showAddingNewService() {
@@ -158,16 +164,20 @@ export class ModifyHouseProfileComponent implements OnInit {
   }
 
   addNewRoom() {
-    this.newRoom.houseId = this.id;
+    if (this.newRoom.numberOfBeds > 0) {
+      this.newRoom.houseId = this.id;
 
-    this._roomService.save(this.newRoom).subscribe(
-      (room: Room) => {
-        this.loadData();
-      },
-      (error) => {
-        this._alertService.danger('Rezervisana vikendica se ne može izmeniti');
-      },
-    )
+      this._roomService.save(this.newRoom).subscribe(
+        (room: Room) => {
+          this.loadData();
+        },
+        (error) => {
+          this._alertService.danger('Rezervisana vikendica se ne može izmeniti');
+        },
+      )
+    } else {
+      this._alertService.warning('Broj kreveta mora biti veci od 0');
+    }
   }
 
   deleteRoom(id: number) {

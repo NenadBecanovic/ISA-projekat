@@ -23,6 +23,7 @@ export class AddHouseComponent implements OnInit {
   address: Address = new Address(0, '', '', '', 0, 0, 0);
   house: House = new House(0, '', this.address, '', '',0,false, 0, this.rooms, this.additionalServices, 0, 0);
   user: MyUser = new MyUser(0, '','','','','','', this.address, '','');
+  min: number = 0;
 
   constructor(private _houseService: HouseService, private _alertService: AlertService, private _router: Router,
               private _authentification: AuthentificationService, public dialog: MatDialog,
@@ -44,7 +45,8 @@ export class AddHouseComponent implements OnInit {
 
   createProfile() {
     if (this.house.name != '' && this.house.promoDescription != '' && this.house.address.street != '' && this.house.address.city != '' &&
-      this.house.address.state != '' && this.house.address.postalCode != 0 && this.house.pricePerDay != 0 && this.house.behaviourRules != '') {
+      this.house.address.state != '' && this.house.address.postalCode >= 0 && this.house.pricePerDay > 0 && this.house.behaviourRules != '' &&
+      this.house.cancalletionFee >= 0 && this.house.address.latitude >=0 && this.house.address.longitude >=0) {
 
       if (!this.house.cancalletionFree && this.house.cancalletionFee == 0) {
         this._alertService.warning('Unesite % nadoknade u slucaju otkazivanja');
