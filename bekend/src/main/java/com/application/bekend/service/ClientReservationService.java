@@ -4,11 +4,15 @@ import com.application.bekend.DTO.*;
 import com.application.bekend.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
 import javax.mail.MessagingException;
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 
 @Service
+@EnableTransactionManagement
 public class ClientReservationService {
 
     private final BoatReservationService boatReservationService;
@@ -42,7 +46,7 @@ public class ClientReservationService {
         this.companyService = companyService;
     }
 
-
+    @Transactional
     public boolean addHouseReservationClient(HouseReservationDTO dto)  {
         ReservationCheckDTO reservationCheckDTO = getReservationCheckDTO(dto);
         House house = this.houseService.getHouseById(dto.getHouseId());
@@ -238,7 +242,7 @@ public class ClientReservationService {
         int min = 0;
         Long id = (long) 0;
         for(UserCategory category: allCategories) {
-            if(category.getPoints() > min && user.getPoints() > category.getPoints()) {
+            if(category.getPoints() >= min && user.getPoints() >= category.getPoints()) {
                 min = category.getPoints();
                 id = category.getId();
             }

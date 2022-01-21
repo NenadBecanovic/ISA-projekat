@@ -4,6 +4,7 @@ import com.application.bekend.DTO.*;
 import com.application.bekend.model.*;
 import com.application.bekend.repository.MyUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -257,5 +258,14 @@ public class MyUserService implements UserDetailsService {
         return myUserRepository.findMyUserByAdventureId(id);
     }
 
+    @Scheduled(cron = "0 0 0 1 * *")
+    public void lowerPenaltyScoreForUsers(){
 
+        for(MyUser myUser: this.getAllUsers()){
+            if(myUser.getPenalties() > 0){
+                myUser.setPenalties(myUser.getPenalties() -1);
+                this.save(myUser);
+            }
+        }
+    }
 }
