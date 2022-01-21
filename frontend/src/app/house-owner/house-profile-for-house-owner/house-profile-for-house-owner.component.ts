@@ -235,4 +235,8 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
     }
     return false;
   }
+
+  back() {
+    this._router.navigate(['home-page-house-owner']);
+  }
 }
