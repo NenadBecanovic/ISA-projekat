@@ -1,16 +1,13 @@
 package com.application.bekend.controller;
 
-import static com.application.bekend.constants.HouseConstants.new_behaviourRules;
-import static com.application.bekend.constants.HouseConstants.new_cancalletionFee;
-import static com.application.bekend.constants.HouseConstants.new_grade;
-import static com.application.bekend.constants.HouseConstants.new_isCancalletionFree;
-import static com.application.bekend.constants.HouseConstants.new_name;
-import static com.application.bekend.constants.HouseConstants.new_numberOfReviews;
-import static com.application.bekend.constants.HouseConstants.new_promoDescription;
+import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.HashSet;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,17 +22,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.application.bekend.DTO.AddressDTO;
 import com.application.bekend.DTO.CompanyDTO;
-import com.application.bekend.DTO.FishingAdventureDTO;
 import com.application.bekend.DTO.UserCategoryDTO;
-import com.application.bekend.constants.FishingAdventureConstants;
 import com.application.bekend.util.TestUtil;
-
-import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -77,13 +66,11 @@ public class CompanyControllerTest {
     @Transactional
     @Rollback(true)
     public void testSaveCategory() throws Exception {
-        // na frontu smo kreirali novu vikendicu
         UserCategoryDTO category = new UserCategoryDTO();
         category.setDiscountPercentage(5);
         category.setName("Bronze");
         category.setPoints(25);
 
-        // kreiranu vikendicu saljemo u kontroler
         String json = TestUtil.json(category);
         String newURL = URL_PREFIX + "/addCategory";
         this.mockMvc.perform(post(newURL).contentType(contentType).content(json)).andExpect(status().isOk());
@@ -93,13 +80,11 @@ public class CompanyControllerTest {
     @Transactional
     @Rollback(true)
     public void testEditCategory() throws Exception {
-        // na frontu smo kreirali novu vikendicu
         UserCategoryDTO category = new UserCategoryDTO();
         category.setDiscountPercentage(5);
         category.setName("Bronze");
         category.setPoints(30);
 
-        // kreiranu vikendicu saljemo u kontroler
         String json = TestUtil.json(category);
         String newURL = URL_PREFIX + "/edit/" + 1L;
         this.mockMvc.perform(put(newURL).contentType(contentType).content(json)).andExpect(status().isOk());
@@ -116,12 +101,10 @@ public class CompanyControllerTest {
     @Transactional
     @Rollback(true)
     public void testEditCompany() throws Exception {
-        // na frontu smo kreirali novu vikendicu
         CompanyDTO company = new CompanyDTO();
         company.setPercentagePerReservation(7);
         company.setPointsPerReservationOwner(6);
 
-        // kreiranu vikendicu saljemo u kontroler
         String json = TestUtil.json(company);
         String newURL = URL_PREFIX + "/saveChanges/" + 1L;
         this.mockMvc.perform(put(newURL).contentType(contentType).content(json)).andExpect(status().isOk());
