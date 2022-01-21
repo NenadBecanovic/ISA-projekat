@@ -24,6 +24,7 @@ export class AddBoatComponent implements OnInit {
   additionalServices: AdditionalService[] = new Array<AdditionalService>();
   boat: Boat = new Boat(0, '', '', '', 0, 0, '', 0, 0, 0, 0, false, 0, '', this.address, this.navigationEquipment, this.additionalServices, 0, 0);
   user: MyUser = new MyUser(0, '','','','','','', this.address, '','');
+  min: number = 0;
 
   constructor(private _boatService: BoatService, private _alertService: AlertService, private _router: Router, private _authentification: AuthentificationService) { }
 
@@ -43,9 +44,10 @@ export class AddBoatComponent implements OnInit {
 
   createProfile() {
     if (this.boat.name != '' && this.boat.promoDescription != '' && this.boat.address.street != '' && this.boat.address.city != '' &&
-      this.boat.address.state != '' && this.boat.address.postalCode != 0 && this.boat.pricePerDay != 0 && this.boat.behaviourRules != '' &&
-      this.boat.capacity != 0 && this.boat.type != '' && this.boat.length != 0 && this.boat.enginePower != 0 && this.boat.enginePower != 0 &&
-      this.boat.maxSpeed != 0 && this.boat.fishingEquipment != '') {
+      this.boat.address.state != '' && this.boat.address.postalCode >= 0 && this.boat.pricePerDay > 0 && this.boat.behaviourRules != '' &&
+      this.boat.address.longitude >= 0 && this.boat.address.latitude >= 0 &&
+      this.boat.capacity > 0 && this.boat.type != '' && this.boat.length > 0 && this.boat.enginePower > 0 && this.boat.enginePower > 0 &&
+      this.boat.maxSpeed > 0 && this.boat.fishingEquipment != '') {
 
       if (!this.boat.cancalletionFree && this.boat.cancalletionFee == 0)
       {
@@ -73,7 +75,7 @@ export class AddBoatComponent implements OnInit {
       }
     }
     else {
-      this._alertService.warning('Niste popunili sva polja!');
+      this._alertService.warning('Niste ispravno popunili sva polja!');
     }
   }
 

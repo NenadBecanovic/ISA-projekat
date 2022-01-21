@@ -24,12 +24,12 @@
       <br>
       <div class = "input-box">
         <span class="details">Trajanje (u danima):</span>
-        <input type="number" name="duration" [(ngModel)]="this.duration" (change)="dateChanged()" required>
+        <input type="number" name="duration" [(ngModel)]="this.duration" [min]="this.min" (change)="dateChanged()" required>
       </div>
       <br>
       <div class = "input-box">
         <span class="details">Maksimalan broj gostiju:</span>
-        <input type="number" name="maxGuests" [(ngModel)]="boatReservation.maxGuests" placeholder="Unesite maksimalan broj gostiju" required>
+        <input type="number" name="maxGuests" [(ngModel)]="boatReservation.maxGuests" [min]="this.min" placeholder="Unesite maksimalan broj gostiju" required>
       </div>
       <br>
       <div class = "input-box" *ngIf="allDataSelected">
@@ -41,7 +41,7 @@
       <br>
       <div class = "input-box">
         <span class="details">Cena:</span>
-        <input type="text" name="price"  [(ngModel)]="boatReservation.price" placeholder="Unesite cenu" required>
+        <input type="number" name="price"  [(ngModel)]="boatReservation.price" [min]="this.min" placeholder="Unesite cenu" required>
       </div>
     </div>
     <br> <br>

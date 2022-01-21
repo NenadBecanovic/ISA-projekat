@@ -229,4 +229,7 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
     return false;
   }
 
+  back() {
+    this._router.navigate(['home-page-boat-owner']);
+  }
 }

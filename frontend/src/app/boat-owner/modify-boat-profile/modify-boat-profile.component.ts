@@ -24,6 +24,7 @@ export class ModifyBoatProfileComponent implements OnInit {
   newAdditionalService: AdditionalService = new AdditionalService(0, '', 0, false);
   showNewService: boolean = false;
   canNotBeEdited: boolean = false;
+  min: number = 0;
 
   constructor(private _route: ActivatedRoute, private _router: Router, private _boatService: BoatService, private _alertService: AlertService,
               private _additionalServices: AdditionalServicesService) { }
@@ -83,17 +84,21 @@ export class ModifyBoatProfileComponent implements OnInit {
   }
 
   addAdditionalService() {
-    this.newAdditionalService.boatId = this.id;
-    this.newAdditionalService.checked = false;
+    if (this.newAdditionalService.price > 0 && this.newAdditionalService.name != '') {
+      this.newAdditionalService.boatId = this.id;
+      this.newAdditionalService.checked = false;
 
-    this._additionalServices.save(this.newAdditionalService).subscribe(
-      (additionalService: AdditionalService) => {
-        this.loadData();
-      },
-      (error) => {
-        this._alertService.danger('Rezervisana vikendica se ne može izmeniti');
-      },
-    )
+      this._additionalServices.save(this.newAdditionalService).subscribe(
+        (additionalService: AdditionalService) => {
+          this.loadData();
+        },
+        (error) => {
+          this._alertService.danger('Rezervisana vikendica se ne može izmeniti');
+        },
+      )
+    } else {
+      this._alertService.warning('Neispravno uneti podaci za novu dodatnu uslugu');
+    }
   }
 
   checkboxChanged($event: MatCheckboxChange) {
@@ -105,9 +110,9 @@ export class ModifyBoatProfileComponent implements OnInit {
 
   editProfile() {
     if (this.boat.name != '' && this.boat.promoDescription != '' && this.boat.address.street != '' && this.boat.address.city != '' &&
-      this.boat.address.state != '' && this.boat.address.postalCode != 0 && this.boat.pricePerDay != 0 && this.boat.behaviourRules != '' &&
-      this.boat.capacity != 0 && this.boat.type != '' && this.boat.length != 0 && this.boat.enginePower != 0 && this.boat.enginePower != 0 &&
-      this.boat.maxSpeed != 0 && this.boat.fishingEquipment != '') {
+      this.boat.address.state != '' && this.boat.address.postalCode >= 0 && this.boat.pricePerDay > 0 && this.boat.behaviourRules != '' &&
+      this.boat.capacity > 0 && this.boat.type != '' && this.boat.length > 0 && this.boat.enginePower > 0 && this.boat.enginePower > 0 &&
+      this.boat.maxSpeed > 0 && this.boat.fishingEquipment != '' && this.boat.address.longitude >=0 && this.boat.address.latitude >= 0) {
 
       if (!this.boat.cancalletionFree && this.boat.cancalletionFee == 0) {
         this._alertService.warning('Unesite % nadoknade u slucaju otkazivanja');

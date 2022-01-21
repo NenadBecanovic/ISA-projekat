@@ -18,7 +18,7 @@ import {AdditionalService} from "../../model/additional-service";
 export class ModifyHouseProfileComponent implements OnInit {
 
   id: number = 0;
-  address: Address = new Address(0, '', '','', 0, 0, 0);
+  address: Address = new Address(0, '', '', '', 0, 0, 0);
   rooms: Room[] = new Array();
   additionalServices: AdditionalService[] = new Array();
   house: House = new House(0, '', this.address, '', '', 0, false, 0, this.rooms, this.additionalServices, 0, 0);
@@ -30,7 +30,8 @@ export class ModifyHouseProfileComponent implements OnInit {
   min: number = 0;
 
   constructor(private _route: ActivatedRoute, private _router: Router, private _houseService: HouseService, private _alertService: AlertService,
-              private _roomService: RoomService, private _additionalServices: AdditionalServicesService) { }
+              private _roomService: RoomService, private _additionalServices: AdditionalServicesService) {
+  }
 
   ngOnInit(): void {
     // @ts-ignore
@@ -38,10 +39,10 @@ export class ModifyHouseProfileComponent implements OnInit {
     this.loadData();
   }
 
-  checkEdit(){
+  checkEdit() {
     this._houseService.edit(this.house).subscribe(
       (house: House) => {
-       this.canNotBeEdited = false
+        this.canNotBeEdited = false
         console.log(this.canNotBeEdited)
       },
       (error) => {
@@ -76,7 +77,7 @@ export class ModifyHouseProfileComponent implements OnInit {
 
   deleteAdditionalService(id: number) {
     this._additionalServices.delete(id).subscribe(   // OBAVEZNO SE MORA SUBSCRIBE-OVATI !!!
-      (boolean:boolean) =>{
+      (boolean: boolean) => {
         this.loadData()
       },
       (error) => {
@@ -88,18 +89,14 @@ export class ModifyHouseProfileComponent implements OnInit {
   editProfile() {
     if (this.house.name != '' && this.house.promoDescription != '' && this.house.address.street != '' && this.house.address.city != '' &&
       this.house.address.state != '' && this.house.address.postalCode >= 0 && this.house.pricePerDay > 0 && this.house.behaviourRules != '' &&
-      this.house.cancalletionFee >= 0 && this.house.address.latitude >=0 && this.house.address.longitude >=0) {
+      this.house.cancalletionFee >= 0 && this.house.address.latitude >= 0 && this.house.address.longitude >= 0) {
 
       if (!this.house.cancalletionFree && this.house.cancalletionFee == 0) {
         this._alertService.warning('Unesite % nadoknade u slucaju otkazivanja');
-      }
-      else
-      {
+      } else {
         if (this.house.cancalletionFee > 100) {
           this._alertService.warning('Uslovi otkazivanja su u vrednostima 0-100');
-        }
-        else
-        {
+        } else {
           this._houseService.edit(this.house).subscribe(
             (house: House) => {
               this._router.navigate(['house-profile-for-house-owner/', this.house.id])
@@ -110,17 +107,15 @@ export class ModifyHouseProfileComponent implements OnInit {
           )
         }
       }
-    }
-    else {
+    } else {
       this._alertService.warning('Niste popunili sva polja!');
     }
   }
 
   checkboxChanged($event: MatCheckboxChange) {
-      if (this.house.cancalletionFree == true)
-      {
-        this.house.cancalletionFee = 0
-      }
+    if (this.house.cancalletionFree == true) {
+      this.house.cancalletionFee = 0
+    }
   }
 
   addAdditionalService() {
@@ -142,23 +137,17 @@ export class ModifyHouseProfileComponent implements OnInit {
   }
 
   showAddingNewService() {
-      if (this.showNewService == true)
-      {
-        this.showNewService = false;
-      }
-      else
-      {
-        this.showNewService = true;
-      }
+    if (this.showNewService == true) {
+      this.showNewService = false;
+    } else {
+      this.showNewService = true;
+    }
   }
 
   showAddingNewRoom() {
-    if (this.showNewRoom == true)
-    {
+    if (this.showNewRoom == true) {
       this.showNewRoom = false;
-    }
-    else
-    {
+    } else {
       this.showNewRoom = true;
     }
   }
@@ -181,10 +170,10 @@ export class ModifyHouseProfileComponent implements OnInit {
   }
 
   deleteRoom(id: number) {
-      this._roomService.delete(id).subscribe(
-        (boolean:boolean) =>{
-          this.loadData()
-        }
-      )
+    this._roomService.delete(id).subscribe(
+      (boolean: boolean) => {
+        this.loadData()
+      }
+    )
   }
 }

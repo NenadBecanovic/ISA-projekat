@@ -46,7 +46,7 @@ export class AddHouseComponent implements OnInit {
   createProfile() {
     if (this.house.name != '' && this.house.promoDescription != '' && this.house.address.street != '' && this.house.address.city != '' &&
       this.house.address.state != '' && this.house.address.postalCode >= 0 && this.house.pricePerDay > 0 && this.house.behaviourRules != '' &&
-      this.house.cancalletionFee >= 0 && this.house.address.latitude >=0 && this.house.address.longitude >=0) {
+      this.house.cancalletionFee >= 0 && this.house.address.latitude >=0 && this.house.address.longitude >= 0) {
 
       if (!this.house.cancalletionFree && this.house.cancalletionFee == 0) {
         this._alertService.warning('Unesite % nadoknade u slucaju otkazivanja');
