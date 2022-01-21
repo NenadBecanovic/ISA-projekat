@@ -61,12 +61,13 @@ public class FishingAdventureReservationService {
         for (AdventureReservation a: adventureReservations) {
             Long start =  a.getStartDate().getTime();
             Long end = a.getEndDate().getTime();
-
-            if (Long.parseLong(adventureReservationDTO.getStartDate()) >= start && Long.parseLong(adventureReservationDTO.getEndDate()) <=  end ||
-                    Long.parseLong(adventureReservationDTO.getStartDate()) <= start && Long.parseLong(adventureReservationDTO.getEndDate()) >= start  ||
-                    Long.parseLong(adventureReservationDTO.getStartDate()) >= start && Long.parseLong(adventureReservationDTO.getStartDate()) <= end  )
-            {
-                return null;
+            if(!a.getCancelled()) {
+	            if (Long.parseLong(adventureReservationDTO.getStartDate()) >= start && Long.parseLong(adventureReservationDTO.getEndDate()) <=  end ||
+	                    Long.parseLong(adventureReservationDTO.getStartDate()) <= start && Long.parseLong(adventureReservationDTO.getEndDate()) >= start  ||
+	                    Long.parseLong(adventureReservationDTO.getStartDate()) >= start && Long.parseLong(adventureReservationDTO.getStartDate()) <= end  )
+	            {
+	                return null;
+	            }
             }
         }
 
@@ -122,7 +123,7 @@ public class FishingAdventureReservationService {
 		List<AdventureReservationDTO> adventureReservationDTOS = new ArrayList<>();
 
         for (AdventureReservation a : allreservations) {
-        	if(!a.isAvailable() && !a.isAvailabilityPeriod()) {
+        	if(!a.isAvailable() && !a.isAvailabilityPeriod() && !a.getCancelled()) {
 	            String startDate = (String.valueOf(a.getStartDate().getTime()));
 	            String endDate = (String.valueOf(a.getEndDate().getTime()));
 	
@@ -304,19 +305,21 @@ public class FishingAdventureReservationService {
         	Long reservationStartDate = a.getStartDate().getTime();
             Long today = new Date().getTime();
             double adventurePrice = 0;
-
-            if (reservationStartDate < today && Long.parseLong(startDate) <= reservationStartDate && Long.parseLong(endDate) >= reservationStartDate) {
-            	adventurePrice += a.getPrice();
-
-	            Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
-	            // dobavljamo set dodatnih usluga za onu konkretnu rezervaciju iz baze i pretvaramo u DTO (a mozemo samo i pristupiti setu dodatnih usluga direktno preko rezervacije (a.getAdditionalServices()))
-	            for (AdditionalServices add : a.getAdditionalServices()) {  // a.getAdditionalServices()
-	            	adventurePrice += add.getPrice();
+            
+            if(!a.getCancelled() && !a.isAction() && !a.isAvailabilityPeriod() && !a.isAvailable()) {
+	            if ( Long.parseLong(startDate) <= reservationStartDate && Long.parseLong(endDate) >= reservationStartDate) {
+	            	adventurePrice += a.getPrice();
+	
+		            Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
+		            // dobavljamo set dodatnih usluga za onu konkretnu rezervaciju iz baze i pretvaramo u DTO (a mozemo samo i pristupiti setu dodatnih usluga direktno preko rezervacije (a.getAdditionalServices()))
+		            for (AdditionalServices add : a.getAdditionalServices()) {  // a.getAdditionalServices()
+		            	adventurePrice += add.getPrice();
+		            }
+		            double companyProfit = adventurePrice * company.getPercentagePerReservation() * 0.01;
+		            double clientBenefit = a.getGuest().getCategory().getDiscountPercentage() * companyProfit * 0.01;
+		            double ownerBenefit = a.getFishingAdventure().getInstructor().getCategory().getDiscountPercentage() * companyProfit * 0.01;
+		            profit += companyProfit - clientBenefit - ownerBenefit;
 	            }
-	            double companyProfit = adventurePrice * company.getPercentagePerReservation() * 0.01;
-	            double clientBenefit = a.getGuest().getCategory().getDiscountPercentage() * companyProfit * 0.01;
-	            double ownerBenefit = a.getFishingAdventure().getInstructor().getCategory().getDiscountPercentage() * companyProfit * 0.01;
-	            profit += companyProfit - clientBenefit - ownerBenefit;
             }
         }
         return profit;

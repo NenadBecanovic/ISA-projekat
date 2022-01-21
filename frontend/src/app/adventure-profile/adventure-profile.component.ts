@@ -70,8 +70,8 @@ export class AdventureProfileComponent implements OnInit {
 
   editAdventureDialog(){
     const dialogRef = this.dialog.open(EditAdventureProfileDialogComponent, {
-      width: '800px',
-      height: '570px',
+      width: '1000px',
+      height: '590px',
       data: {},
     });
     dialogRef.componentInstance.adventure = this.fishingAdventure;

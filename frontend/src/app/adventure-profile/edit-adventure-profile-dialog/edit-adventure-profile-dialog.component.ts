@@ -50,9 +50,12 @@ export class EditAdventureProfileDialogComponent implements OnInit {
   }
 
   deleteAdditionalService(id: number) {
-    this._additionalServicesService.delete(id).subscribe(   // OBAVEZNO SE MORA SUBSCRIBE-OVATI !!!
+    this._adventureService.deleteAdditionalService(id,this.adventure.id).subscribe(   // OBAVEZNO SE MORA SUBSCRIBE-OVATI !!!
       (boolean:boolean) =>{
         this.reloadServices()
+      },
+      (error) => {
+        this._alertService.danger('Postoji rezervacija sa odabranom dodatnom uslugom!');
       }
     )
   }
