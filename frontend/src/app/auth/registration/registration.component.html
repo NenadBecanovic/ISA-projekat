@@ -1,14 +1,14 @@
 <body>
 <div class = "container">
-  <div class = "title"> Registration</div>
+  <div class = "title"> Registracija</div>
   <form  #registrationForm = "ngForm" (ngSubmit)="registerUser()">
     <div class = "user-details">
       <div class = "input-box">
-        <span class="details">First name</span>
+        <span class="details">Ime</span>
         <input type="text" name="firstName" [(ngModel)]="user.firstName" placeholder="Enter your name"   required>
       </div>
       <div class = "input-box">
-        <span class="details">Surname</span>
+        <span class="details">Prezime</span>
         <input type="text"  name="lastName"  [(ngModel)]="user.lastName" placeholder="Enter your surname"    required>
       </div>
       <div class = "input-box">
@@ -16,52 +16,52 @@
         <input type="text"  name="Email"  [(ngModel)]="user.email" placeholder="Enter your email"  required>
       </div>
       <div class = "input-box">
-        <span class="details">Username</span>
+        <span class="details">Korisnicko ime</span>
         <input type="text"  name="username" [(ngModel)]="user.username" placeholder="Enter your username" required>
       </div>
       <div class = "input-box">
-        <span class="details">Password</span>
+        <span class="details">Lozinka</span>
         <input type="password"  name="password" [(ngModel)]="user.password" placeholder="Enter your password" required>
       </div>
       <div class = "input-box">
-        <span class="details">Confirm password</span>
+        <span class="details">Potvrdi lozinku</span>
         <input type="password"  name="conPassword" [(ngModel)]="passwordCheck" placeholder="Confirm your password" required>
       </div>
       <div class = "input-box">
-        <span class="details">Street</span>
+        <span class="details">Ulica</span>
         <input type="text"  name="street"  [(ngModel)]="user.addressDTO.street" placeholder="Enter your street" required>
       </div>
       <div class = "input-box">
-        <span class="details">City</span>
+        <span class="details">Grad</span>
         <input type="text"  name="city" [(ngModel)]="user.addressDTO.city" placeholder="Enter your city" required>
       </div>
       <div class = "input-box">
-        <span class="details">State</span>
+        <span class="details">Drzava</span>
         <input type="text"  name="state"  [(ngModel)]="user.addressDTO.state" placeholder="Enter your state" required>
       </div>
       <div class = "input-box">
-        <span class="details">Postal code</span>
+        <span class="details">Postanski broj</span>
         <input type="number"  name="postalCode"  [(ngModel)]="user.addressDTO.postalCode" placeholder="Enter your postal code" required>
       </div>
       <div class = "input-box">
-        <span class="details">Phone number</span>
+        <span class="details">Broj telefona</span>
         <input type="text"  name="phoneNumber"  [(ngModel)]="user.phoneNumber" placeholder="Enter your phone number" required>
       </div>
       <div class = "input-box" style="alignment: left">
-        <span class="details">Type</span>
+        <span class="details">Tip korisnika</span>
         <select  name="type" [(ngModel)]="user.authority" (change)="onChange($event)" >
-          <option value="ROLE_USER">USER</option>
-          <option value="ROLE_HOUSE_OWNER">HOUSE OWNER</option>
-          <option value="ROLE_BOAT_OWNER">BOAT OWNER</option>
-          <option value="ROLE_INSTRUCTOR">INSTRUCTOR</option>
+          <option value="ROLE_USER">Korisnik</option>
+          <option value="ROLE_HOUSE_OWNER">Vlasnik kuce</option>
+          <option value="ROLE_BOAT_OWNER">Vlasnik broda</option>
+          <option value="ROLE_INSTRUCTOR">Instruktor</option>
         </select>
       </div>
       <div class = "input-box" *ngIf="!isUser">
-        <span class="details">Why do you want to registrate?</span>
+        <span class="details">Razlog za registraciju?</span>
         <input type="text"  name="reason" [(ngModel)]="user.reasonForRegistration" placeholder="Give a few reasons" required>
       </div>
       <div class = "input-box me-3" *ngIf="user.authority == 'ROLE_INSTRUCTOR'">
-        <span class="details">Your personal description</span>
+        <span class="details">Vas licni opis</span>
         <textarea class="wrap" name="personalDescription" [(ngModel)]="user.personalDescription" placeholder="Personal description"></textarea>
       </div>
     </div>
