@@ -31,6 +31,7 @@ export class AddActionBoatProfileComponent implements OnInit {
   user: MyUser = new MyUser(0, '','','','','','',this.address, '','');
   allDataSelected: boolean = false;
   // doneChecking: boolean = false;
+  startDate: string = '';
 
   constructor(private _route: ActivatedRoute, private _boatReservationService: BoatReservationService,
               private _alertService: AlertService, private _router: Router, private _additionalServicesService: AdditionalServicesService,
@@ -39,6 +40,7 @@ export class AddActionBoatProfileComponent implements OnInit {
   ngOnInit(): void {
     // @ts-ignore
     this.boatId = +this._route.snapshot.paramMap.get('id');
+    this.startDate = new Date().toISOString().slice(0, 16);
     this.loadData();
   }
 

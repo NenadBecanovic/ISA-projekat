@@ -5,12 +5,12 @@
     <div class = "user-details" >
       <div class = "input-box">
         <span class="details">Datum i vreme pocetka nedostupnog perioda:</span>
-        <input type="datetime-local" name="startDate" [(ngModel)]="houseReservation.startDate" placeholder="Unesite datum i vreme pocetka" required>
+        <input type="datetime-local" name="startDate" [(ngModel)]="houseReservation.startDate" [min]="startDate" placeholder="Unesite datum i vreme pocetka" required>
       </div>
       <br>
       <div class = "input-box">
         <span class="details">Datum i vreme kraja nedostupnog perioda:</span>
-        <input type="datetime-local" name="endDate" [(ngModel)]="houseReservation.endDate" required>
+        <input type="datetime-local" name="endDate" [(ngModel)]="houseReservation.endDate" [min]="startDate" required>
       </div>
       <br>
 

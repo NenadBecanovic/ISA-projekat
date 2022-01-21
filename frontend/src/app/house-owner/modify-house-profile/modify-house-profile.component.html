@@ -29,32 +29,32 @@
       </div>
       <div class = "input-box">
         <span class="details">Geografska duzina:</span>
-        <input type="text" name="longitude" [(ngModel)]="house.address.longitude" placeholder="Unesite maksimalan broj gostiju" required>
+        <input type="number" name="longitude" [(ngModel)]="house.address.longitude" [min]="this.min" placeholder="Unesite maksimalan broj gostiju" required>
       </div>
       <div class = "input-box">
         <span class="details">Geografska sirina:</span>
-        <input type="text" name="latitude" [(ngModel)]="house.address.latitude" placeholder="Unesite maksimalan broj gostiju" required>
+        <input type="number" name="latitude" [(ngModel)]="house.address.latitude" [min]="this.min" placeholder="Unesite maksimalan broj gostiju" required>
       </div>
       <div class = "input-box">
         <span class="details">Postanski broj:</span>
-        <input type="text" name="postalCode" [(ngModel)]="house.address.postalCode" placeholder="Unesite maksimalan broj gostiju" required>
+        <input type="number" name="postalCode" [(ngModel)]="house.address.postalCode" [min]="this.min" placeholder="Unesite maksimalan broj gostiju" required>
       </div>
       <br><br>
       <div class = "input-box">
         <span class="details">Pravila ponasanja:</span>
-        <input type="text" name="behaviourRules" [(ngModel)]="house.behaviourRules" placeholder="Unesite cenu" required>
+        <input type="text" name="behaviourRules" [(ngModel)]="house.behaviourRules" placeholder="Unesite pravila" required>
       </div>
       <div class = "input-box">
         <span class="details">Cena za 1 nocenje:</span>
-        <input type="number" name="pricePerDay" [(ngModel)]="house.pricePerDay" placeholder="Unesite cenu" required>
+        <input type="number" name="pricePerDay" [(ngModel)]="house.pricePerDay" [min]="this.min" placeholder="Unesite cenu" required>
       </div>
       <div class = "input-box">
         <span class="details">Besplatno otkazivanje:</span>
         <mat-checkbox name="checkbox" [(ngModel)]="house.cancalletionFree" (change)="checkboxChanged($event)"> </mat-checkbox>
       </div>
       <div class = "input-box">
-        <span class="details">Uslovi otkazivanje:</span>
-        <input type="number" name="cancalletionFee" [(ngModel)]="house.cancalletionFee" placeholder="Unesite cenu" required>
+        <span class="details">Uslovi otkazivanja (u %):</span>
+        <input type="number" name="cancalletionFee" [(ngModel)]="house.cancalletionFee" [min]="this.min" placeholder="Unesite cenu" required>
       </div>
 
       <br><br>
@@ -63,7 +63,7 @@
         <div *ngFor="let item of rooms;let index = index;">
           <span class="details">Soba {{item.id}}:</span>
           <input type="number" style="width: 85%" name=a{{index}} [(ngModel)]="rooms[index].numberOfBeds" placeholder="Unesite broj kreveta">
-          <button mat-icon-button (click)="deleteRoom(rooms[index].id)"> <mat-icon>delete</mat-icon> </button>
+          <button mat-icon-button [disabled]="canNotBeEdited" (click)="deleteRoom(rooms[index].id)"> <mat-icon>delete</mat-icon> </button>
         </div>
       </div>
       <div class = "input-box">
@@ -74,7 +74,7 @@
       <div *ngIf="showNewRoom">
         <div class = "input-box">
           <span class="details">Broj kreveta u sobi:</span>
-          <input type="number" name="newAddRoomNumOfBeds" [(ngModel)]="newRoom.numberOfBeds" placeholder="Unesite broj kreveta" required>
+          <input type="number" name="newAddRoomNumOfBeds" [(ngModel)]="newRoom.numberOfBeds" [min]="this.min" placeholder="Unesite broj kreveta" required>
         </div>
         <br>
         <div class = "button">
@@ -84,19 +84,6 @@
       </div>
 
       <br><br>
-
-<!--      <div class = "input-box" style="width: 50%;">-->
-<!--        <div class="details">DODATNE USLUGE</div>-->
-<!--        <div *ngFor="let serv of additionalServices;let index = index;">-->
-<!--          <span class="details">Usluga {{serv.id}}:</span>-->
-<!--          <input type="text" name=b{{index}} [(ngModel)]="additionalServices[index].name" placeholder="Unesite naziv usluge">-->
-<!--        </div>-->
-
-<!--        <div *ngFor="let serv of additionalServices;let index = index;">-->
-<!--          <span class="details">Cena:</span>-->
-<!--          <input type="text" name=c{{index}} [(ngModel)]="additionalServices[index].price" placeholder="Unesite cenu usluge">-->
-<!--        </div>-->
-<!--      </div>-->
 
       <table class = "input-box">
         <tr>
@@ -108,10 +95,10 @@
             <input type="text" name=b{{index}} [(ngModel)]="additionalServices[index].name" placeholder="Unesite naziv usluge">
           </td>
           <td>
-            <input type="number" name=c{{index}} [(ngModel)]="additionalServices[index].price" placeholder="Unesite cenu usluge">
+            <input type="number" name=c{{index}} [(ngModel)]="additionalServices[index].price" [min]="this.min" placeholder="Unesite cenu usluge">
           </td>
           <td>
-            <button mat-icon-button (click)="deleteAdditionalService(additionalServices[index].id)"> <mat-icon>delete</mat-icon> </button>
+            <button mat-icon-button [disabled]="canNotBeEdited" (click)="deleteAdditionalService(additionalServices[index].id)"> <mat-icon>delete</mat-icon> </button>
           </td>
         </tr>
       </table>
@@ -128,7 +115,7 @@
         </div>
         <div class = "input-box">
           <span class="details">Cena usluge:</span>
-          <input type="number" name="newAddSerPrice" [(ngModel)]="newAdditionalService.price" placeholder="Unesite cenu" required>
+          <input type="number" name="newAddSerPrice" [(ngModel)]="newAdditionalService.price" [min]="this.min" placeholder="Unesite cenu" required>
         </div>
         <br>
         <div class = "button">

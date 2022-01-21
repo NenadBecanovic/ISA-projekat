@@ -29,15 +29,15 @@
       </div>
       <div class = "input-box">
         <span class="details">Geografska duzina:</span>
-        <input type="text" name="longitude" [(ngModel)]="boat.address.longitude" placeholder="Unesite maksimalan broj gostiju" required>
+        <input type="number" name="longitude" [(ngModel)]="boat.address.longitude" placeholder="Unesite maksimalan broj gostiju" required>
       </div>
       <div class = "input-box">
         <span class="details">Geografska sirina:</span>
-        <input type="text" name="latitude" [(ngModel)]="boat.address.latitude" placeholder="Unesite maksimalan broj gostiju" required>
+        <input type="number" name="latitude" [(ngModel)]="boat.address.latitude" placeholder="Unesite maksimalan broj gostiju" required>
       </div>
       <div class = "input-box">
         <span class="details">Postanski broj:</span>
-        <input type="text" name="postalCode" [(ngModel)]="boat.address.postalCode" placeholder="Unesite maksimalan broj gostiju" required>
+        <input type="number" name="postalCode" [(ngModel)]="boat.address.postalCode" placeholder="Unesite maksimalan broj gostiju" required>
       </div>
       <br><br>
       <div class = "input-box">
@@ -57,7 +57,7 @@
         <mat-checkbox name="checkbox" [(ngModel)]="boat.cancalletionFree" (change)="checkboxChanged($event)"> </mat-checkbox>
       </div>
       <div class = "input-box">
-        <span class="details">Uslovi otkazivanje:</span>
+        <span class="details">Uslovi otkazivanja (u %):</span>
         <input type="number" name="cancalletionFee" [(ngModel)]="boat.cancalletionFee" placeholder="Unesite cenu" required>
       </div>
 
@@ -124,7 +124,7 @@
           </td>
           <td>
             <ng-template #elseBlockShow1>
-              <button mat-icon-button (click)="deleteAdditionalService(additionalServices[index].id)"> <mat-icon>delete</mat-icon> </button>
+              <button mat-icon-button [disabled]="canNotBeEdited" (click)="deleteAdditionalService(additionalServices[index].id)"> <mat-icon>delete</mat-icon> </button>
             </ng-template>
           </td>
         </tr>

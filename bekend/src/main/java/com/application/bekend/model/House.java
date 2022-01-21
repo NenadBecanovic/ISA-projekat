@@ -64,6 +64,18 @@ public class House {
         this.images = images;
     }
 
+    public House(Long id, String name, double grade, int numberOfReviews, String promoDescription, String behaviourRules, float pricePerDay, boolean isCancalletionFree, int cancalletionFee) {
+        this.id = id;
+        this.name = name;
+        this.grade = grade;
+        this.numberOfReviews = numberOfReviews;
+        this.promoDescription = promoDescription;
+        this.behaviourRules = behaviourRules;
+        this.pricePerDay = pricePerDay;
+        this.isCancalletionFree = isCancalletionFree;
+        this.cancalletionFee = cancalletionFee;
+    }
+
     public House() {
     }
 

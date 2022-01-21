@@ -5,18 +5,18 @@
     <div class = "user-details" >
       <div class = "input-box">
         <span class="details">Datum i vreme pocetka:</span>
-        <input type="datetime-local" name="startDate" [(ngModel)]="houseReservation.startDate" placeholder="Unesite datum i vreme pocetka" required>
+        <input type="datetime-local" name="startDate" [(ngModel)]="houseReservation.startDate" [min]="startDate" placeholder="Unesite datum i vreme pocetka" required>
         <!--min="2022-01-06T00:00"-->
       </div>
       <br>
       <div class = "input-box">
         <span class="details">Trajanje (u danima):</span>
-        <input type="number" name="duration" [(ngModel)]="this.duration"  required>
+        <input type="number" name="duration" [min]="this.min" [(ngModel)]="this.duration"  required>
       </div>
       <br>
       <div class = "input-box">
         <span class="details">Maksimalan broj gostiju:</span>
-        <input type="number" name="maxGuests" [(ngModel)]="houseReservation.maxGuests" placeholder="Unesite maksimalan broj gostiju" required>
+        <input type="number" name="maxGuests" [min]="this.min" [(ngModel)]="houseReservation.maxGuests" placeholder="Unesite maksimalan broj gostiju" required>
       </div>
       <br>
       <div class = "input-box">
@@ -28,7 +28,7 @@
       <br>
       <div class = "input-box">
         <span class="details">Cena:</span>
-        <input type="text" name="price"  [(ngModel)]="houseReservation.price" placeholder="Unesite cenu" required>
+        <input type="number" name="price" [min]="this.min" [(ngModel)]="houseReservation.price" placeholder="Unesite cenu" required>
       </div>
     </div>
     <br> <br>
