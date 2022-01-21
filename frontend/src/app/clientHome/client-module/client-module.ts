@@ -51,6 +51,7 @@ import {
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {ClientInstructorComponent} from "../client-instructor/client-instructor.component";
 import {ClientAdventureComponent} from "../client-adventure/client-adventure.component";
+import {Ng2SearchPipeModule} from "ng2-search-filter";
 
 
 @NgModule({
@@ -76,30 +77,31 @@ import {ClientAdventureComponent} from "../client-adventure/client-adventure.com
     ClientInstructorComponent,
     ClientAdventureComponent,
   ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    SharedModule,
-    MatSidenavModule,
-    MatDividerModule,
-    FlexModule,
-    MatCardModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatProgressBarModule,
-    MatProgressSpinnerModule,
-    MatGridListModule,
-    MatIconModule,
-    MatRadioModule,
-    FormsModule,
-    AlertModule,
-    MatButtonModule,
-    AgmCoreModule,
-    MatCarouselModule,
-    MatSelectModule,
-    MatCheckboxModule
+    imports: [
+        CommonModule,
+        RouterModule,
+        SharedModule,
+        MatSidenavModule,
+        MatDividerModule,
+        FlexModule,
+        MatCardModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatProgressBarModule,
+        MatProgressSpinnerModule,
+        MatGridListModule,
+        MatIconModule,
+        MatRadioModule,
+        FormsModule,
+        AlertModule,
+        MatButtonModule,
+        AgmCoreModule,
+        MatCarouselModule,
+        MatSelectModule,
+        MatCheckboxModule,
+        Ng2SearchPipeModule
 
-  ],
+    ],
   providers:[
     DashboardService,
     {
