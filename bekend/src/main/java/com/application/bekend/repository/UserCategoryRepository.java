@@ -8,7 +8,7 @@ import com.application.bekend.model.UserCategory;
 @Repository
 public interface UserCategoryRepository extends JpaRepository<UserCategory, Integer> {
 
-	UserCategory findUserCategoryByName(String name);
+	UserCategory getUserCategoryByName(String name);
 
 	UserCategory getUserCategoryById(Long id);
 	

@@ -29,17 +29,8 @@ public class UserCategoryService {
 		return this.userCategoryRepository.findAll();
 	}
 	
-	public boolean addCategory(UserCategoryDTO dto) {
-		UserCategory newCategory = new UserCategory();
-		newCategory.setName(dto.getName());
-		newCategory.setDiscountPercentage(dto.getDiscountPercentage());
-		newCategory.setPoints(dto.getPoints());
-		this.save(newCategory);
-		return true;
-	}
-	
-	public void save(UserCategory userCategory) {
-		this.userCategoryRepository.save(userCategory);
+	public UserCategory save(UserCategory userCategory) {
+		return this.userCategoryRepository.save(userCategory);
 	}
 
 	public boolean delete(Long id) {
@@ -77,7 +68,7 @@ public class UserCategoryService {
 	}
 	
 	public UserCategory findUserCategoryByName(String name) {
-		return this.userCategoryRepository.findUserCategoryByName(name);
+		return this.userCategoryRepository.getUserCategoryByName(name);
 	}
 
 	public UserCategoryDTO getUserCategory(String email) {

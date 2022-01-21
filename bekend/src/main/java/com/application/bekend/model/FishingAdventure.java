@@ -66,6 +66,18 @@ public class FishingAdventure {
         this.cancalletionFee = cancalletionFee;
         this.images = images;
     }
+    
+    public FishingAdventure(Long id, String name, double grade, int numberOfReviews, String promoDescription, String behaviourRules, float pricePerHour, boolean isCancalletionFree, int cancalletionFee) {
+        this.id = id;
+        this.name = name;
+        this.grade = grade;
+        this.numberOfReviews = numberOfReviews;
+        this.promoDescription = promoDescription;
+        this.behaviourRules = behaviourRules;
+        this.pricePerHour = pricePerHour;
+        this.isCancalletionFree = isCancalletionFree;
+        this.cancalletionFee = cancalletionFee;
+    }
 
     public FishingAdventure() {
     }

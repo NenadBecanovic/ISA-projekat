@@ -54,9 +54,9 @@ public class CompanyController {
 
 	@PostMapping("/addCategory")
 	public ResponseEntity<Boolean> addCategory(@RequestBody UserCategoryDTO dto) {
-		boolean isAdded = this.companyService.addCategory(dto);
+		boolean isSaved = this.companyService.addCategory(dto);
 
-		return new ResponseEntity<>(isAdded, HttpStatus.OK);
+		return new ResponseEntity<>(isSaved, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/delete/{id}")

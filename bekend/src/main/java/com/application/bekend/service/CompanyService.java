@@ -49,7 +49,12 @@ public class CompanyService {
 	}
 
 	public boolean addCategory(UserCategoryDTO dto) {
-		return this.userCategoryService.addCategory(dto);
+		UserCategory newCategory = new UserCategory();
+		newCategory.setName(dto.getName());
+		newCategory.setDiscountPercentage(dto.getDiscountPercentage());
+		newCategory.setPoints(dto.getPoints());
+		newCategory = this.userCategoryService.save(newCategory);
+		return true;
 	}
 
 	public boolean deleteCategory(Long id) {
