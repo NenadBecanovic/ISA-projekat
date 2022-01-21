@@ -30,7 +30,8 @@ public class Boat {
     private int capacity;
     @Column(name = "grade", nullable = true)
     private double grade;
-
+    @Column(name = "numberOfReviews", nullable = true)
+    private int numberOfReviews;
     @OneToMany(mappedBy = "boat", fetch = FetchType.EAGER)
     private Set<Image> images;
 
@@ -76,6 +77,25 @@ public class Boat {
         this.isCancalletionFree = isCancalletionFree;
         this.cancalletionFee = cancalletionFee;
         this.images = images;
+    }
+
+    public Boat(Long id, String name, String type, float length, int engineNumber, float enginePower, float maxSpeed, String promoDescription, int capacity, double grade, int numberOfReviews, String behaviourRules, String fishingEquipment, float pricePerDay, boolean isCancalletionFree, int cancalletionFee) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.length = length;
+        this.engineNumber = engineNumber;
+        this.enginePower = enginePower;
+        this.maxSpeed = maxSpeed;
+        this.promoDescription = promoDescription;
+        this.capacity = capacity;
+        this.grade = grade;
+        this.numberOfReviews = numberOfReviews;
+        this.behaviourRules = behaviourRules;
+        this.fishingEquipment = fishingEquipment;
+        this.pricePerDay = pricePerDay;
+        this.isCancalletionFree = isCancalletionFree;
+        this.cancalletionFee = cancalletionFee;
     }
 
     public Boat() {
@@ -261,4 +281,13 @@ public class Boat {
     public void setAppeals(Set<Appeal> appeals) {
         this.appeals = appeals;
     }
+
+	public int getNumberOfReviews() {
+		return numberOfReviews;
+	}
+
+	public void setNumberOfReviews(int numberOfReviews) {
+		this.numberOfReviews = numberOfReviews;
+	}
+    
 }

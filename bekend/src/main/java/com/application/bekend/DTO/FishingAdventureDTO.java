@@ -17,10 +17,12 @@ public class FishingAdventureDTO {
     private Set<ImageDTO> images;
     private Set<AdditionalServicesDTO> additionalServices;
     private Long instructorId;
+    private double grade;
+    private int numberOfReviews;
     
 	public FishingAdventureDTO(Long id, String name, AddressDTO address, String promoDescription, int capacity,
 			String fishingEquipment, String behaviourRules, float pricePerHour, boolean isCancalletionFree,
-			int cancalletionFee) {
+			int cancalletionFee, double grade, int numberOfReviews) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -32,6 +34,8 @@ public class FishingAdventureDTO {
 		this.pricePerHour = pricePerHour;
 		this.cancellationFree = isCancalletionFree;
 		this.cancellationFee = cancalletionFee;
+		this.grade = grade;
+		this.numberOfReviews = numberOfReviews;
 	}
 	
 	public FishingAdventureDTO() {
@@ -119,5 +123,21 @@ public class FishingAdventureDTO {
 
 	public void setInstructorId(Long instructorId) {
 		this.instructorId = instructorId;
+	}
+
+	public double getGrade() {
+		return grade;
+	}
+
+	public void setGrade(double grade) {
+		this.grade = grade;
+	}
+
+	public int getNumberOfReviews() {
+		return numberOfReviews;
+	}
+
+	public void setNumberOfReviews(int numberOfReviews) {
+		this.numberOfReviews = numberOfReviews;
 	}
 }

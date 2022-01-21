@@ -28,16 +28,20 @@ export class BoatReportComponent implements OnInit {
   }
 
   addReport() {
-    this.report.boatReservationId = this.boatReservationId;
+    if(this.report.comment != '') {
+      this.report.boatReservationId = this.boatReservationId;
 
-    this._reportService.save(this.report).subscribe(
-      (report: Report) => {
-        this._router.navigate(['boat-profile-for-boat-owner/', this.boatId])
-      },
-      (error) => {
-        this._alertService.danger('Doslo je do greske');
-      }
-    )
+      this._reportService.save(this.report).subscribe(
+        (report: Report) => {
+          this._router.navigate(['boat-profile-for-boat-owner/', this.boatId])
+        },
+        (error) => {
+          this._alertService.danger('Doslo je do greske');
+        }
+      )
+    } else {
+      this._alertService.warning('Unesite tekst izvestaja');
+    }
   }
 
   private loadData() {

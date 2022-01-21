@@ -5,6 +5,7 @@ import { AlertService } from 'ngx-alerts';
 import { AdditionalService } from 'src/app/model/additional-service';
 import { Address } from 'src/app/model/address';
 import { AdventureReservation } from 'src/app/model/adventure-reservation';
+import { AdventureProfileService } from 'src/app/service/adventure-profile.service';
 import { AdventureReservationService } from 'src/app/service/adventure-reservation.service';
 
 @Component({
@@ -21,9 +22,27 @@ export class DefineAvaibilityPeriodComponent implements OnInit {
   endDate: Date = new Date();
   instructorId: number = 0;
 
-  constructor(public dialogRef: MatDialogRef<DefineAvaibilityPeriodComponent>, private _adventureReservationService: AdventureReservationService, private _alertService: AlertService) { }
+  constructor(public dialogRef: MatDialogRef<DefineAvaibilityPeriodComponent>, private _adventureService: AdventureProfileService, private _alertService: AlertService) { }
 
   ngOnInit() {
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0 so need to add 1 to make it 1!
+    var yyyy = today.getFullYear();
+    var d = '';
+    var m = '';
+    if(dd<10){
+      d='0'+dd
+    } 
+    if(mm<10){
+      m='0'+mm
+    } 
+
+    var day = yyyy+'-'+m+'-'+d;
+    //@ts-ignore
+    document.getElementsByName("startDate").setAttribute("min", day);
+    //@ts-ignore
+    document.getElementByName("endDate").setAttribute("min", day);
   }
 
   onNoClick(): void {
@@ -31,26 +50,32 @@ export class DefineAvaibilityPeriodComponent implements OnInit {
   }
 
   addPeriod() {
-    this.adventureAvaibilityReservation.availabilityPeriod = true;
-    this.adventureAvaibilityReservation.isAvailable = false;
-    this.adventureAvaibilityReservation.adventureId = 0;
-    this.adventureAvaibilityReservation.isAction = false;
+    if(this.adventureAvaibilityReservation.startDate === '' || this.adventureAvaibilityReservation.endDate === ''){
+      alert('Odaberite datume')
+    }else if(Date.parse(this.adventureAvaibilityReservation.startDate) >= Date.parse(this.adventureAvaibilityReservation.endDate)){
+      alert('Zavrsetak mora biti nakon pocetka!')
+    }else{
+      this.adventureAvaibilityReservation.availabilityPeriod = true;
+      this.adventureAvaibilityReservation.isAvailable = false;
+      this.adventureAvaibilityReservation.adventureId = 0;
+      this.adventureAvaibilityReservation.isAction = false;
 
-    var startDate = Date.parse(this.adventureAvaibilityReservation.startDate)   // parsiranje datuma pocetka u milisekunde
-    this.date =  new Date(startDate)
+      var startDate = Date.parse(this.adventureAvaibilityReservation.startDate)   // parsiranje datuma pocetka u milisekunde
+      this.date =  new Date(startDate)
 
-    var endingDate = Date.parse(this.adventureAvaibilityReservation.endDate)   // parsiranje datuma pocetka u milisekunde
-    this.endDate =  new Date(endingDate)
+      var endingDate = Date.parse(this.adventureAvaibilityReservation.endDate)   // parsiranje datuma pocetka u milisekunde
+      this.endDate =  new Date(endingDate)
 
-    this.adventureAvaibilityReservation.startDate = Date.parse(this.date.toString()).toString()
-    this.adventureAvaibilityReservation.endDate = Date.parse(this.endDate.toString()).toString()
-    this._adventureReservationService.saveUnavailablePeriod(this.adventureAvaibilityReservation,this.instructorId).subscribe(   // subscribe - da bismo dobili odgovor beka
-      (adventureReservation: AdventureReservation) => {
-        this.dialogRef.close();
-      },
-      (error) => {
-        this._alertService.danger('Doslo je do greske');
-      },
-    )
+      this.adventureAvaibilityReservation.startDate = Date.parse(this.date.toString()).toString()
+      this.adventureAvaibilityReservation.endDate = Date.parse(this.endDate.toString()).toString()
+      this._adventureService.saveUnavailablePeriod(this.adventureAvaibilityReservation,this.instructorId).subscribe(   // subscribe - da bismo dobili odgovor beka
+        (adventureReservation: AdventureReservation) => {
+          this.dialogRef.close();
+        },
+        (error) => {
+          this._alertService.danger('Postoji rezervacija u odabranom periodu!');
+        },
+      )
+    }
   }
 }

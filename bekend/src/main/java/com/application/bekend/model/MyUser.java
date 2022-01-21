@@ -25,6 +25,8 @@ public class MyUser implements UserDetails {
     private String phoneNumber;
     @Column(name = "grade", nullable = true)
     private double grade;
+    @Column(name = "numberOfReviews", nullable = true)
+    private int numberOfReviews;
     @Column(name = "penalties")
     private int penalties;
     @Column(name = "isDeleted")
@@ -33,6 +35,8 @@ public class MyUser implements UserDetails {
     private String reasonForRegistration;
     @Column(name = "personalDescription", nullable = true)
     private String personalDescription;
+    @Column(name = "is_first_login", nullable = false)
+    private boolean isFirstLogin;
     
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Boat> boats = new HashSet<>();
@@ -79,6 +83,13 @@ public class MyUser implements UserDetails {
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
     private Set<Subscription> subscriptions_owners = new HashSet<>();
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
+	private UserCategory category;
+    
+    @Column(name = "points", nullable = false)
+    private double points;
 
     public MyUser(Long id, String firstName, String lastName, String email, String password, String username) {
         this.id = id;
@@ -198,15 +209,6 @@ public class MyUser implements UserDetails {
         authorities.add(authority);
 		return authorities;
 	}
-
-	public Boolean getIsActivated() {
-		return isActivated;
-	}
-
-
-	public void setIsActivated(Boolean isActivated) {
-		this.isActivated = isActivated;
-	}
   
     public int getPenalties() {
         return penalties;
@@ -297,11 +299,11 @@ public class MyUser implements UserDetails {
     }
 
     public Boolean getActivated() {
-        return isActivated;
+        return this.isActivated;
     }
 
     public void setActivated(Boolean activated) {
-        isActivated = activated;
+        this.isActivated = activated;
     }
 
     public Set<Subscription> getSubscriptions_guests() {
@@ -352,11 +354,44 @@ public class MyUser implements UserDetails {
 		this.personalDescription = personalDescription;
 	}
 
-    public Authority getAuthority() {
-        return authority;
-    }
+  public Authority getAuthority() {
+      return authority;
+  }
 
-    public void setAuthority(Authority authority) {
-        this.authority = authority;
-    }
+  public void setAuthority(Authority authority) {
+      this.authority = authority;
+  }
+
+	public UserCategory getCategory() {
+		return category;
+	}
+
+	public void setCategory(UserCategory category) {
+		this.category = category;
+	}
+
+	public int getNumberOfReviews() {
+		return numberOfReviews;
+	}
+
+	public void setNumberOfReviews(int numberOfReviews) {
+		this.numberOfReviews = numberOfReviews;
+	}
+
+	public double getPoints() {
+		return points;
+	}
+
+	public void setPoints(double points) {
+		this.points = points;
+	}
+
+	public boolean isFirstLogin() {
+		return isFirstLogin;
+	}
+
+	public void setFirstLogin(boolean isFirstLogin) {
+		this.isFirstLogin = isFirstLogin;
+	}
+
 }

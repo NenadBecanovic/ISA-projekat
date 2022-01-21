@@ -4,6 +4,7 @@ import {MyUserService} from "../../../service/my-user.service";
 import {AlertService} from "ngx-alerts";
 import {Appeal} from "../../../model/appeal";
 import {Feedback} from "../../../model/feedback";
+import { AppealService } from 'src/app/service/appeal.service';
 
 @Component({
   selector: 'app-create-appeal-entity',
@@ -14,7 +15,7 @@ export class CreateAppealEntityComponent implements OnInit {
 
   appeal: Appeal = new Appeal();
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,  private _myUserService: MyUserService, private alertService:AlertService,
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,  private _appealService: AppealService, private alertService:AlertService,
               public dialogRef: MatDialogRef<CreateAppealEntityComponent>) { }
 
   ngOnInit(): void {
@@ -40,7 +41,7 @@ export class CreateAppealEntityComponent implements OnInit {
 
   ok(){
     console.log(this.appeal)
-    this._myUserService.saveApeal(this.appeal).subscribe(   // subscribe - da bismo dobili odgovor beka
+    this._appealService.saveApeal(this.appeal).subscribe(   // subscribe - da bismo dobili odgovor beka
       (appeal: Appeal) => {
         this.dialogRef.close();
         this.alertService.success('Uspjesno poslata revizija');

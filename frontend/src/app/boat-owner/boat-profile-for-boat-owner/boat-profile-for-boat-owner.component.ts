@@ -158,7 +158,7 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
       width: '1500px',
       data: {},
     });
-
+    dialogRef.componentInstance.allReservations = this.allCourses;
     dialogRef.afterClosed().subscribe(result => {
 
     });
@@ -229,4 +229,7 @@ export class BoatProfileForBoatOwnerComponent implements OnInit {
     return false;
   }
 
+  back() {
+    this._router.navigate(['home-page-boat-owner']);
+  }
 }

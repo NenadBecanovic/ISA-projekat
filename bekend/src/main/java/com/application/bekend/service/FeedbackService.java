@@ -10,11 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.mail.MessagingException;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 public class FeedbackService {
 
     private final FeedbackRepository feedbackRepository;
@@ -23,15 +25,22 @@ public class FeedbackService {
     private final FishingAdventureReservationService fishingAdventureReservationService;
     private final EmailService emailService;
     private final MyUserService myUserService;
+    private final FishingAdventureService fishingAdventureService;
+    private final HouseService houseService;
+    private final BoatService boatService;
 
     @Autowired
-    public FeedbackService(FeedbackRepository feedbackRepository, HouseReservationService houseReservationService, BoatReservationService boatReservationService, FishingAdventureReservationService fishingAdventureReservationService, EmailService emailService, MyUserService myUserService) {
+    public FeedbackService(FeedbackRepository feedbackRepository, HouseReservationService houseReservationService, BoatReservationService boatReservationService, FishingAdventureService fishingAdventureService,
+    		FishingAdventureReservationService fishingAdventureReservationService, EmailService emailService, MyUserService myUserService, HouseService houseService, BoatService boatService) {
         this.feedbackRepository = feedbackRepository;
         this.houseReservationService = houseReservationService;
         this.boatReservationService = boatReservationService;
         this.fishingAdventureReservationService = fishingAdventureReservationService;
         this.emailService = emailService;
         this.myUserService = myUserService;
+        this.fishingAdventureService = fishingAdventureService;
+        this.boatService = boatService;
+        this.houseService = houseService;
     }
 
     public Feedback save(Feedback feedback){
@@ -131,9 +140,56 @@ public class FeedbackService {
 	public boolean approve(FeedbackInfoDTO feedbackDTO) throws MessagingException {
 		Feedback feedback = this.feedbackRepository.getById(feedbackDTO.getId());
 		MyUser owner = this.myUserService.findUserById(feedbackDTO.getOwnerId());
+		if(feedback.getMyUser() != null) {
+			MyUser user = this.myUserService.findUserById(feedback.getMyUser().getId());
+			user.setGrade(user.getGrade() + feedback.getGrade());
+			user.setNumberOfReviews(user.getNumberOfReviews() + 1);
+			this.myUserService.save(user);
+		} else if(feedback.getFishingAdventure() != null){
+			FishingAdventure adventure = this.fishingAdventureService.getFishingAdventureById(feedback.getFishingAdventure().getId());
+			adventure.setGrade(adventure.getGrade() + feedback.getGrade());
+			adventure.setNumberOfReviews(adventure.getNumberOfReviews() + 1);
+			this.fishingAdventureService.save(adventure);
+		} else if(feedback.getBoat() != null) {
+			Boat boat = this.boatService.getBoatById(feedback.getBoat().getId());
+			boat.setGrade(boat.getGrade() + feedback.getGrade());
+			boat.setNumberOfReviews(boat.getNumberOfReviews() + 1);
+			this.boatService.save(boat);
+		} else if(feedback.getHouse() != null) {
+			House house = this.houseService.getHouseById(feedback.getHouse().getId());
+			house.setGrade(house.getGrade() + feedback.getGrade());
+			house.setNumberOfReviews(house.getNumberOfReviews() + 1);
+			this.houseService.save(house);
+		}
 		feedback.setApproved(true);
 		this.save(feedback);
 		this.emailService.sendAnswerEmail(new EmailDTO("Nova ocena", "Ostavljen je novi komentar: " + feedbackDTO.getReview() + " sa ocenom: " + feedbackDTO.getGrade(), owner.getEmail()));
 		return true;
+	}
+
+	public List<FeedbackInfoDTO> getAllByAdventure(Long id) {
+    	List<Feedback> allFeedbacks = this.feedbackRepository.findAll();
+    	List<FeedbackInfoDTO> allFeedbacksDTO = new ArrayList<FeedbackInfoDTO>();
+    	for(Feedback f: allFeedbacks) {
+    		if(f.getFishingAdventure().getId().equals(id) && f.getApproved()) {
+    			FeedbackInfoDTO feedbackDTO = new FeedbackInfoDTO(f.getId(), f.getGrade(), f.getReview(), f.getApproved());
+    			feedbackDTO.setName(f.getFishingAdventure().getName());
+    			feedbackDTO.setType("Avantura");
+    		}
+    	}
+		return allFeedbacksDTO;
+	}
+	
+	public List<FeedbackInfoDTO> getAllByInstructor(Long id) {
+    	List<Feedback> allFeedbacks = this.feedbackRepository.findAll();
+    	List<FeedbackInfoDTO> allFeedbacksDTO = new ArrayList<FeedbackInfoDTO>();
+    	for(Feedback f: allFeedbacks) {
+    		if(f.getMyUser().getId().equals(id) && f.getApproved()) {
+    			FeedbackInfoDTO feedbackDTO = new FeedbackInfoDTO(f.getId(), f.getGrade(), f.getReview(), f.getApproved());
+    			feedbackDTO.setName(f.getFishingAdventure().getName());
+    			feedbackDTO.setType("Instruktor");
+    		}
+    	}
+		return allFeedbacksDTO;
 	}
 }

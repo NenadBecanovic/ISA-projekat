@@ -29,15 +29,15 @@
       </div>
       <div class = "input-box">
         <span class="details">Geografska duzina:</span>
-        <input type="text" name="longitude" [(ngModel)]="boat.address.longitude" placeholder="Unesite maksimalan broj gostiju" required>
+        <input type="number" name="longitude" [(ngModel)]="boat.address.longitude" [min]="this.min" placeholder="Unesite maksimalan broj gostiju" required>
       </div>
       <div class = "input-box">
         <span class="details">Geografska sirina:</span>
-        <input type="text" name="latitude" [(ngModel)]="boat.address.latitude" placeholder="Unesite maksimalan broj gostiju" required>
+        <input type="number" name="latitude" [(ngModel)]="boat.address.latitude" [min]="this.min" placeholder="Unesite maksimalan broj gostiju" required>
       </div>
       <div class = "input-box">
         <span class="details">Postanski broj:</span>
-        <input type="text" name="postalCode" [(ngModel)]="boat.address.postalCode" placeholder="Unesite maksimalan broj gostiju" required>
+        <input type="number" name="postalCode" [(ngModel)]="boat.address.postalCode" [min]="this.min" placeholder="Unesite maksimalan broj gostiju" required>
       </div>
       <br><br>
       <div class = "input-box">
@@ -46,19 +46,19 @@
       </div>
       <div class = "input-box">
         <span class="details">Kapacitet:</span>
-        <input type="number" name="capacity" [(ngModel)]="boat.capacity" placeholder="Unesite cenu" required>
+        <input type="number" name="capacity" [(ngModel)]="boat.capacity" [min]="this.min" placeholder="Unesite cenu" required>
       </div>
       <div class = "input-box">
         <span class="details">Cena za 1 nocenje:</span>
-        <input type="number" name="pricePerDay" [(ngModel)]="boat.pricePerDay" placeholder="Unesite cenu" required>
+        <input type="number" name="pricePerDay" [(ngModel)]="boat.pricePerDay" [min]="this.min" placeholder="Unesite cenu" required>
       </div>
       <div class = "input-box">
         <span class="details">Besplatno otkazivanje:</span>
         <mat-checkbox name="checkbox" [(ngModel)]="boat.cancalletionFree" (change)="checkboxChanged($event)"> </mat-checkbox>
       </div>
       <div class = "input-box">
-        <span class="details">Uslovi otkazivanje:</span>
-        <input type="number" name="cancalletionFee" [(ngModel)]="boat.cancalletionFee" placeholder="Unesite cenu" required>
+        <span class="details">Uslovi otkazivanja (u %):</span>
+        <input type="number" name="cancalletionFee" [(ngModel)]="boat.cancalletionFee" [min]="this.min" placeholder="Unesite cenu" required>
       </div>
 
       <br><br>
@@ -71,19 +71,19 @@
       </div>
       <div class = "input-box">
         <span class="details">Duzina broda:</span>
-        <input type="number" name="boatLength" [(ngModel)]="boat.length" placeholder="Unesite duzinu broda" required>
+        <input type="number" name="boatLength" [(ngModel)]="boat.length" [min]="this.min" placeholder="Unesite duzinu broda" required>
       </div>
       <div class = "input-box">
         <span class="details">Broj motora:</span>
-        <input type="number" name="engineNumber" [(ngModel)]="boat.engineNumber" placeholder="Unesite broj motora" required>
+        <input type="number" name="engineNumber" [(ngModel)]="boat.engineNumber" [min]="this.min" placeholder="Unesite broj motora" required>
       </div>
       <div class = "input-box">
         <span class="details">Snaga motora:</span>
-        <input type="number" name="enginePower" [(ngModel)]="boat.enginePower" placeholder="Unesite snagu motora " required>
+        <input type="number" name="enginePower" [(ngModel)]="boat.enginePower" [min]="this.min" placeholder="Unesite snagu motora " required>
       </div>
       <div class = "input-box">
         <span class="details">Makismalna brzina broda:</span>
-        <input type="number" name="maxSpeed" [(ngModel)]="boat.maxSpeed" placeholder="Unesite makismalnu brzinu broda " required>
+        <input type="number" name="maxSpeed" [(ngModel)]="boat.maxSpeed" [min]="this.min" placeholder="Unesite makismalnu brzinu broda " required>
       </div>
       <div class = "input-box">
         <span class="details">Pecaroska oprema:</span>
@@ -116,7 +116,7 @@
           </td>
 
           <td>
-            <input type="number" name=c{{index}} [(ngModel)]="additionalServices[index].price" placeholder="Unesite cenu usluge">
+            <input type="number" name=c{{index}} [(ngModel)]="additionalServices[index].price"  placeholder="Unesite cenu usluge">
           </td>
 
           <td *ngIf="additionalServices[index].name == 'prisustvo kapetana'; else elseBlockShow1">
@@ -124,7 +124,7 @@
           </td>
           <td>
             <ng-template #elseBlockShow1>
-              <button mat-icon-button (click)="deleteAdditionalService(additionalServices[index].id)"> <mat-icon>delete</mat-icon> </button>
+              <button mat-icon-button [disabled]="canNotBeEdited" (click)="deleteAdditionalService(additionalServices[index].id)"> <mat-icon>delete</mat-icon> </button>
             </ng-template>
           </td>
         </tr>
@@ -142,7 +142,7 @@
         </div>
         <div class = "input-box">
           <span class="details">Cena usluge:</span>
-          <input type="number" name="newAddSerPrice" [(ngModel)]="newAdditionalService.price" placeholder="Unesite cenu" required>
+          <input type="number" name="newAddSerPrice" [min]="this.min" [(ngModel)]="newAdditionalService.price" placeholder="Unesite cenu" required>
         </div>
         <br>
         <div class = "button">

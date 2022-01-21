@@ -79,11 +79,16 @@ public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(HttpMethod.GET, "/api/fishingAdventure/**");
         web.ignoring().antMatchers(HttpMethod.POST, "/api/report/**");
         web.ignoring().antMatchers(HttpMethod.GET, "/api/report/**");
+        web.ignoring().antMatchers(HttpMethod.PUT, "/api/report/**");
         web.ignoring().antMatchers(HttpMethod.POST, "/api/fishingAdventure/**");
         web.ignoring().antMatchers(HttpMethod.GET, "/api/fishingAdventureReservations/**");
         web.ignoring().antMatchers(HttpMethod.POST, "/api/fishingAdventureReservations/**");
         web.ignoring().antMatchers(HttpMethod.DELETE, "/api/fishingAdventureReservations/**");
         web.ignoring().antMatchers(HttpMethod.PUT, "/api/fishingAdventure/**");
+        web.ignoring().antMatchers(HttpMethod.GET, "/api/company/**");
+        web.ignoring().antMatchers(HttpMethod.POST, "/api/company/**");
+        web.ignoring().antMatchers(HttpMethod.DELETE, "/api/company/**");
+        web.ignoring().antMatchers(HttpMethod.PUT, "/api/company/**");
 
         web.ignoring().antMatchers(HttpMethod.GET, "/api/user/**");
         web.ignoring().antMatchers(HttpMethod.PUT,"/api/user/**");
@@ -93,6 +98,9 @@ public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(HttpMethod.PUT,"/api/feedback/**");
         web.ignoring().antMatchers(HttpMethod.POST, "/api/feedback/**");
         web.ignoring().antMatchers(HttpMethod.DELETE, "/api/feedback/**");
+        web.ignoring().antMatchers(HttpMethod.GET, "/api/appeal/**");
+        web.ignoring().antMatchers(HttpMethod.PUT,"/api/appeal/**");
+        web.ignoring().antMatchers(HttpMethod.POST, "/api/appeal/**");
     }
 
     @Override

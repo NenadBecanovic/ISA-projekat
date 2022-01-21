@@ -11,4 +11,5 @@ public interface BoatRepository extends JpaRepository<Boat, Long> {
 
     void deleteById(Long id);
 
+    Boat getBoatByName(String name);
 }

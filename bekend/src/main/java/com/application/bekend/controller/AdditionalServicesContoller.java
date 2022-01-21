@@ -1,16 +1,35 @@
 package com.application.bekend.controller;
 
-import com.application.bekend.DTO.AdditionalServicesDTO;
-import com.application.bekend.model.*;
-import com.application.bekend.service.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.transaction.Transactional;
-import java.util.*;
+import com.application.bekend.DTO.AdditionalServicesDTO;
+import com.application.bekend.model.AdditionalServices;
+import com.application.bekend.model.Boat;
+import com.application.bekend.model.BoatReservation;
+import com.application.bekend.model.House;
+import com.application.bekend.model.HouseReservation;
+import com.application.bekend.service.AdditionalServicesService;
+import com.application.bekend.service.BoatService;
+import com.application.bekend.service.HouseReservationService;
+import com.application.bekend.service.HouseService;
 
 @RestController
 @RequestMapping("api/additionalServices")
@@ -20,15 +39,13 @@ public class AdditionalServicesContoller {
     private final AdditionalServicesService additionalServicesService;
     private final HouseService houseService;
     private final BoatService boatService;
-    private final FishingAdventureService fishingAdventureService;
     private final HouseReservationService houseReservationService;
 
     @Autowired
-    public AdditionalServicesContoller(AdditionalServicesService additionalServicesService, HouseService houseService, BoatService boatService, FishingAdventureService fishingAdventureService, HouseReservationService houseReservationService) {
+    public AdditionalServicesContoller(AdditionalServicesService additionalServicesService, HouseService houseService, BoatService boatService, HouseReservationService houseReservationService) {
         this.additionalServicesService = additionalServicesService;
         this.houseService = houseService;
         this.boatService = boatService;
-        this.fishingAdventureService = fishingAdventureService;
         this.houseReservationService = houseReservationService;
     }
 
@@ -131,7 +148,6 @@ public class AdditionalServicesContoller {
         AdditionalServices additionalServices = new AdditionalServices(dto.getId(), dto.getName(), dto.getPrice(), new HashSet<>(), new HashSet<>(), new HashSet<>());
         House house = this.houseService.getHouseById(dto.getHouseId());
         Boat boat = this.boatService.getBoatById(dto.getBoatId());
-        FishingAdventure adventure = this.fishingAdventureService.getFishingAdventureById(dto.getAdventureId());
 
         if (house != null) {
             for (HouseReservation h: house.getCourses()) {
@@ -162,11 +178,6 @@ public class AdditionalServicesContoller {
             Set<Boat> boats = additionalServices.getBoats();
             boats.add(boat);
             additionalServices.setBoats(boats);
-        }
-        else if (adventure != null) {
-            Set<FishingAdventure> adventures = additionalServices.getFishingAdventures();
-            adventures.add(adventure);
-            additionalServices.setFishingAdventures(adventures);
         }
         this.additionalServicesService.save(additionalServices);
 

@@ -23,36 +23,44 @@ export class DefineUnavailablePeriodHouseComponent implements OnInit {
   houseReservation: HouseReservation = new HouseReservation(0, '', '', 0, this.additionalServices, 0, true);
   date: Date = new Date();
   endDate: Date = new Date();
+  startDate: string = '';
 
   constructor(private _route: ActivatedRoute, private _houseReservationService: HouseReservationService, private _router: Router, private _alertService: AlertService) { }
 
   ngOnInit(): void {
     // @ts-ignore
     this.house.id = +this._route.snapshot.paramMap.get('id');
+    this.startDate = new Date().toISOString().slice(0, 16);
   }
 
   addPeriod() {
-    this.houseReservation.availabilityPeriod = true;
-    this.houseReservation.available = false;
-    this.houseReservation.houseId = this.house.id;
-    this.houseReservation.action = false;
+    if (this.houseReservation.startDate >= this.houseReservation.endDate)
+    {
+      this._alertService.warning('Datum i vreme pocetka moraju biti manji od datuma i vremena kraja');
+    }
+    else {
+      this.houseReservation.availabilityPeriod = true;
+      this.houseReservation.available = false;
+      this.houseReservation.houseId = this.house.id;
+      this.houseReservation.action = false;
 
-    var startDate = Date.parse(this.houseReservation.startDate)   // parsiranje datuma pocetka u milisekunde
-    this.date =  new Date(startDate)
+      var startDate = Date.parse(this.houseReservation.startDate)   // parsiranje datuma pocetka u milisekunde
+      this.date = new Date(startDate)
 
-    var endingDate = Date.parse(this.houseReservation.endDate)   // parsiranje datuma pocetka u milisekunde
-    this.endDate =  new Date(endingDate)
+      var endingDate = Date.parse(this.houseReservation.endDate)   // parsiranje datuma pocetka u milisekunde
+      this.endDate = new Date(endingDate)
 
-    this.houseReservation.startDate = Date.parse(this.date.toString()).toString()
-    this.houseReservation.endDate = Date.parse(this.endDate.toString()).toString()
+      this.houseReservation.startDate = Date.parse(this.date.toString()).toString()
+      this.houseReservation.endDate = Date.parse(this.endDate.toString()).toString()
 
-    this._houseReservationService.save(this.houseReservation).subscribe(   // subscribe - da bismo dobili odgovor beka
-      (houseReservation: HouseReservation) => {
-        this._router.navigate(['house-profile-for-house-owner/', this.house.id])
-      },
-      (error) => {
-        this._alertService.danger('Doslo je do greske');
-      },
-    )
+      this._houseReservationService.save(this.houseReservation).subscribe(   // subscribe - da bismo dobili odgovor beka
+        (houseReservation: HouseReservation) => {
+          this._router.navigate(['house-profile-for-house-owner/', this.house.id])
+        },
+        (error) => {
+          this._alertService.danger('Doslo je do greske');
+        },
+      )
+    }
   }
 }

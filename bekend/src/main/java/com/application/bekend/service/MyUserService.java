@@ -5,6 +5,8 @@ import com.application.bekend.model.*;
 import com.application.bekend.repository.MyUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.mail.MessagingException;
+import javax.transaction.Transactional;
 
 @Service
 public class MyUserService implements UserDetailsService {
@@ -85,6 +88,7 @@ public class MyUserService implements UserDetailsService {
         }
         myUser.setAddress(address);
         myUser.setPhoneNumber(myUserDTO.getPhoneNumber());
+        myUser.setFirstLogin(false);
         MyUser user = this.myUserRepository.save(myUser);
         return user;
     }
@@ -148,27 +152,39 @@ public class MyUserService implements UserDetailsService {
     	return true;
     }
     
+    @Transactional
     public boolean deleteUserWithRequest(Long id, String clientMessage) throws MessagingException {
     	RequestForAccountDeleting request = this.requestForAccountDeletingService.findById(id);
     	MyUser user = this.findUserById(request.getUser().getId());
     	user.setDeleted(true);
     	this.save(user);
-    	this.emailService.sendAnswerEmail(new EmailDTO("Odgovor na zahtev za brisanje naloga", clientMessage, user.getEmail()));
     	request.setAnswered(true);
     	this.requestForAccountDeletingService.save(request);
+    	this.emailService.sendAnswerEmail(new EmailDTO("Odgovor na zahtev za brisanje naloga", clientMessage, user.getEmail()));
     	return true;
     }
     
+    @Transactional
     public boolean declineDeleteRequest(Long id, String clientMessage) throws MessagingException {
     	RequestForAccountDeleting request = this.requestForAccountDeletingService.findById(id);
-    	this.emailService.sendAnswerEmail(new EmailDTO("Odgovor na zahtev za brisanje naloga", clientMessage, request.getUser().getEmail()));
     	request.setAnswered(true);
     	this.requestForAccountDeletingService.save(request);
+    	this.emailService.sendAnswerEmail(new EmailDTO("Odgovor na zahtev za brisanje naloga", clientMessage, request.getUser().getEmail()));
     	return true;
     }
     
     public List<RequestForAccountDeleting> getAllDeleteRequests(){
     	return this.requestForAccountDeletingService.getAllRequests();
+    }
+    
+    public List<RequestForAccountDeletingDTO> getAllDeleteRequestsDTO() {
+        List<RequestForAccountDeleting> allRequests = this.getAllDeleteRequests();
+        List<RequestForAccountDeletingDTO> allRequestsDTO = new ArrayList<RequestForAccountDeletingDTO>();
+        for(RequestForAccountDeleting request: allRequests) {
+        	UserInfoDTO userDTO = new UserInfoDTO(request.getUser().getId(), request.getUser().getFirstName(), request.getUser().getLastName(), request.getUser().getEmail(), "");
+        	allRequestsDTO.add(new RequestForAccountDeletingDTO(request.getId(),request.getDescription(),userDTO));
+        }
+        return allRequestsDTO;
     }
     
     public List<MyUser> getAllNotActivated(){
@@ -191,31 +207,40 @@ public class MyUserService implements UserDetailsService {
     	return true;
     }
 
-    public void sendSubscribedUsersEmail(HouseReservationDTO dto, BoatReservationDTO boatDTO, String houseName, String boatName) throws MessagingException {
+    public void sendSubscribedUsersEmail(HouseReservationDTO dto, BoatReservationDTO boatDTO, AdventureReservationDTO adventureDTO, String houseName, String boatName, String adventureName) throws MessagingException {
         List<MyUser> myUsers = new ArrayList<>();
 
         if (dto != null) {
             MyUser owner = findUserByHouseId(dto.getHouseId());
             myUsers = this.myUserRepository.findSubscribedUsersByOwnerId(owner.getId());
             if (myUsers != null) {
-                this.emailService.sendActionMail(myUsers, houseName, "");
+                this.emailService.sendActionMail(myUsers, houseName, "", "");
             }
         } else if (boatDTO != null){
             MyUser owner = findUserByBoatId(boatDTO.getBoatId());
             myUsers = this.myUserRepository.findSubscribedUsersByOwnerId(owner.getId());
             if (myUsers != null) {
-                this.emailService.sendActionMail(myUsers, "", boatName);
+                this.emailService.sendActionMail(myUsers, "", "", boatName);
+            }
+        } else if (adventureDTO != null){
+            MyUser instructor = findUserByAdventureId(adventureDTO.getAdventureId());
+            myUsers = this.myUserRepository.findSubscribedUsersByOwnerId(instructor.getId());
+            if (myUsers != null) {
+                this.emailService.sendActionMail(myUsers, "", "", adventureName);
             }
         }
     }
 
-    public void sendMailToClient(HouseReservationDTO dto, BoatReservationDTO boatDTO, String houseName, String boatName) throws MessagingException {
+    public void sendMailToClient(HouseReservationDTO dto, BoatReservationDTO boatDTO, AdventureReservationDTO adventureDTO, String houseName, String boatName, String adventureName) throws MessagingException {
         if (dto != null) {
             MyUser guest = findUserById(dto.getGuestId());
-            this.emailService.sendMailForClient(guest, houseName, "");
+            this.emailService.sendMailForClient(guest, houseName, "", "");
         } else if(boatDTO != null){
             MyUser guest = findUserById(boatDTO.getGuestId());
-            this.emailService.sendMailForClient(guest, "", boatName);
+            this.emailService.sendMailForClient(guest, "", boatName, "");
+        } else if(adventureDTO != null){
+            MyUser guest = findUserById(adventureDTO.getGuestId());
+            this.emailService.sendMailForClient(guest, "", "", adventureName);
         }
     }
   

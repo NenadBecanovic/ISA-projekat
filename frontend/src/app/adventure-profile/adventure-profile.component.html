@@ -26,6 +26,7 @@
             <span class="adventure-view-adventure-name ms-3 display-6">
               {{fishingAdventure.name}}
             </span>
+            <button mat-icon-button (click)="deleteAdventure()"> <mat-icon>delete</mat-icon> </button>
           </div>
           <div class="d-flex right align-items-center justify-content-end">
             <button mat-raised-button (click)="editAdventureDialog()" class="btn add-action-button">Izmeni avanturu</button>
@@ -158,6 +159,36 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div class="d-flex flex-column">
+          <div class="d-flex left mt-2 align-items-center">
+            <span style="font-size: 30px; font-weight: 500;" class=" ms-3">
+              Komentari
+            </span>
+          </div>
+          <div class="d-flex flex-row mt-3" *ngFor="let feedback of allFeedbacks">
+            <div class="card comment-card">
+              <div class="card-body">
+                <div class="d-flex flex-row">
+                  <div class="d-flex flex-column me-3">
+                    <h4 class="card-title">{{feedback.type}} {{feedback.name}}</h4>
+                    <p class="card-text">Ocena: {{feedback.grade}}</p>
+                    <p class="card-text">Komentar: {{feedback.review}}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex flex-row-reverse">
+                <div class="d-flex me-3 mb-3 justify-content-end ">
+                  <button type="button" class="btn add-action-button"
+                    >Odobri</button>
+                </div>
+                <div class="d-flex me-3 mb-3 justify-content-end" >
+                  <button type="button" class="btn add-action-button"
+                    >Izbriši</button>
+                </div>
+              </div>
+            </div> 
           </div>
         </div>
       </div>

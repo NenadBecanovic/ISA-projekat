@@ -5,12 +5,12 @@
     <div class = "user-details" >
       <div class = "input-box">
         <span class="details">Datum i vreme pocetka nedostupnog perioda:</span>
-        <input type="datetime-local" name="startDate" [(ngModel)]="boatReservation.startDate" placeholder="Unesite datum i vreme pocetka" required>
+        <input type="datetime-local" name="startDate" [(ngModel)]="boatReservation.startDate"  [min]="startDate"  placeholder="Unesite datum i vreme pocetka" required>
       </div>
       <br>
       <div class = "input-box">
         <span class="details">Datum i vreme kraja nedostupnog perioda:</span>
-        <input type="datetime-local" name="endDate" [(ngModel)]="boatReservation.endDate" required>
+        <input type="datetime-local" name="endDate" [(ngModel)]="boatReservation.endDate"  [min]="startDate"  required>
       </div>
       <br>
 

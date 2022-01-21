@@ -14,21 +14,16 @@ export class AdminRegistrationDialogComponent implements OnInit {
   address: Address = new Address(0,"","","",0,0, 0)
   user: MyUser = new MyUser(0,"","","","","","",this.address, "", "");
   passwordCheck: String = "";
-  isUser = true;
 
   constructor(private authService: AuthService, private alertService: AlertService) {
   }
 
   ngOnInit(): void {  // tu pozivam metode iz servisa
-    this.user.authority = "ROLE_ADMIN";
+    this.user.authority = "ROLE_ADMINISTRATOR";
+    this.user.password = "admin";
   }
 
   registerUser() {
-
-      if (this.user.password !== this.passwordCheck) {
-        this.alertService.success('Incorrect password');
-        return;
-      }
       this.authService.register(this.user).subscribe(   // subscribe - da bismo dobili odgovor beka
         (isCreated: Boolean) => {
           this.alertService.success('User created');

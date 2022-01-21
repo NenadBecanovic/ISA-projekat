@@ -21,6 +21,10 @@ public class FishingAdventure {
     private String fishingEquipment;
     @Column(name = "grade", nullable = true)
     private double grade;
+    @Column(name = "numberOfReviews", nullable = true)
+    private int numberOfReviews;
+    @Column(name = "is_deleted", nullable = true)
+    private boolean isDeleted = false;
     
     @OneToMany(mappedBy = "fishingAdventure", fetch = FetchType.EAGER)
     private Set<Feedback> feedbacks= new HashSet<>();
@@ -61,6 +65,18 @@ public class FishingAdventure {
         this.isCancalletionFree = isCancalletionFree;
         this.cancalletionFee = cancalletionFee;
         this.images = images;
+    }
+    
+    public FishingAdventure(Long id, String name, double grade, int numberOfReviews, String promoDescription, String behaviourRules, float pricePerHour, boolean isCancalletionFree, int cancalletionFee) {
+        this.id = id;
+        this.name = name;
+        this.grade = grade;
+        this.numberOfReviews = numberOfReviews;
+        this.promoDescription = promoDescription;
+        this.behaviourRules = behaviourRules;
+        this.pricePerHour = pricePerHour;
+        this.isCancalletionFree = isCancalletionFree;
+        this.cancalletionFee = cancalletionFee;
     }
 
     public FishingAdventure() {
@@ -206,4 +222,21 @@ public class FishingAdventure {
     {
         this.adventureReservations.add(adventureReservation);
     }
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	public int getNumberOfReviews() {
+		return numberOfReviews;
+	}
+
+	public void setNumberOfReviews(int numberOfReviews) {
+		this.numberOfReviews = numberOfReviews;
+	}
+	
 }

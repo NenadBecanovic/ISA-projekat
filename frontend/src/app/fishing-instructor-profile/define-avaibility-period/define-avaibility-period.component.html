@@ -4,12 +4,12 @@
     <div class = "user-details" >
       <div class = "input-box">
         <span class="details">Datum i vreme pocetka nedostupnog perioda:</span>
-        <input type="datetime-local" name="startDate" [(ngModel)]="adventureAvaibilityReservation.startDate" placeholder="Unesite datum i vreme pocetka" required>
+        <input type="datetime-local" (keydown)="false" name="startDate" id="startDate" min="2022-01-19T08:30" [(ngModel)]="adventureAvaibilityReservation.startDate" placeholder="Unesite datum i vreme pocetka" required>
       </div>
       <br>
       <div class = "input-box">
         <span class="details">Datum i vreme kraja nedostupnog perioda:</span>
-        <input type="datetime-local" name="endDate" [(ngModel)]="adventureAvaibilityReservation.endDate" required>
+        <input type="datetime-local" (keydown)="false" min="2022-01-19T08:30" name="endDate" id="endDate" [(ngModel)]="adventureAvaibilityReservation.endDate" required>
       </div>
       <br>
 
@@ -19,4 +19,5 @@
       <input type ="submit" value="Dodaj">
     </div>
   </form>
+  <ngx-alerts></ngx-alerts>
 </div>

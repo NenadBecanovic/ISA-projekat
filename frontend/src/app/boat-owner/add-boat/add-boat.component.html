@@ -29,28 +29,28 @@
       </div>
       <div class = "input-box">
         <span class="details">Geografska duzina:</span>
-        <input type="text" name="longitude" [(ngModel)]="boat.address.longitude" placeholder="Unesite geografsku duzinu" required>
+        <input type="number" name="longitude" [(ngModel)]="boat.address.longitude" [min]="this.min" placeholder="Unesite geografsku duzinu" required>
       </div>
       <div class = "input-box">
         <span class="details">Geografska sirina:</span>
-        <input type="text" name="latitude" [(ngModel)]="boat.address.latitude" placeholder="Unesite geografsku sirinu" required>
+        <input type="number" name="latitude" [(ngModel)]="boat.address.latitude" [min]="this.min" placeholder="Unesite geografsku sirinu" required>
       </div>
       <div class = "input-box">
         <span class="details">Postanski broj:</span>
-        <input type="number" name="postalCode" [(ngModel)]="boat.address.postalCode" placeholder="Unesite postanski broj" required>
+        <input type="number" name="postalCode" [(ngModel)]="boat.address.postalCode" [min]="this.min" placeholder="Unesite postanski broj" required>
       </div>
       <br><br>
       <div class = "input-box">
         <span class="details">Cena za 1 nocenje:</span>
-        <input type="number" name="pricePerDay" [(ngModel)]="boat.pricePerDay" placeholder="Unesite cenu" required>
+        <input type="number" name="pricePerDay" [(ngModel)]="boat.pricePerDay" [min]="this.min" placeholder="Unesite cenu" required>
       </div>
       <div class = "input-box">
         <span class="details">Besplatno otkazivanje:</span>
         <mat-checkbox name="checkbox" [(ngModel)]="boat.cancalletionFree" (change)="checkboxChanged($event)"> </mat-checkbox>
       </div>
       <div class = "input-box">
-        <span class="details">Uslovi otkazivanje:</span>
-        <input type="number" name="cancalletionFee" [(ngModel)]="boat.cancalletionFee" placeholder="Unesite novcanu nadoknadu" required>
+        <span class="details">Uslovi otkazivanja (u %):</span>
+        <input type="number" name="cancalletionFee"  min="0" max="100" [(ngModel)]="boat.cancalletionFee" [min]="this.min" placeholder="Unesite novcanu nadoknadu" required>
       </div>
       <br><br>
       <div class = "input-box">
@@ -59,27 +59,27 @@
       </div>
       <div class = "input-box">
         <span class="details">Kapacitet broda:</span>
-        <input type="number" name="capacity" [(ngModel)]="boat.capacity" placeholder="Unesite kapacitet" required>
+        <input type="number" name="capacity" [(ngModel)]="boat.capacity" [min]="this.min" placeholder="Unesite kapacitet" required>
       </div>
       <div class = "input-box">
         <span class="details">Tip broda:</span>
-        <input type="test" name="type" [(ngModel)]="boat.type" placeholder="Unesite tip broda" required>
+        <input type="text" name="type" [(ngModel)]="boat.type" placeholder="Unesite tip broda" required>
       </div>
       <div class = "input-box">
         <span class="details">Duzina broda:</span>
-        <input type="number" name="length" [(ngModel)]="boat.length" placeholder="Unesite duzinu broda" required>
+        <input type="number" name="length" [(ngModel)]="boat.length" [min]="this.min" placeholder="Unesite duzinu broda" required>
       </div>
       <div class = "input-box">
         <span class="details">Broj motora:</span>
-        <input type="number" name="engNumber" [(ngModel)]="boat.engineNumber" placeholder="Unesite broj motora" required>
+        <input type="number" name="engNumber" [(ngModel)]="boat.engineNumber" [min]="this.min" placeholder="Unesite broj motora" required>
       </div>
       <div class = "input-box">
         <span class="details">Snaga motora:</span>
-        <input type="number" name="engPower" [(ngModel)]="boat.enginePower" placeholder="Unesite snagu motora" required>
+        <input type="number" name="engPower" [(ngModel)]="boat.enginePower" [min]="this.min" placeholder="Unesite snagu motora" required>
       </div>
       <div class = "input-box">
         <span class="details">Maksimalna brzina:</span>
-        <input type="number" name="maxSpeed" [(ngModel)]="boat.maxSpeed" placeholder="Unesite makismalnu brzinu" required>
+        <input type="number" name="maxSpeed" [(ngModel)]="boat.maxSpeed" [min]="this.min" placeholder="Unesite makismalnu brzinu" required>
       </div>
       <div class = "input-box">
         <span class="details">Oprema za pecanje:</span>
@@ -95,74 +95,6 @@
         <br>
         <mat-checkbox name="checkbox4" [(ngModel)]="boat.navigationEquipmentDTO.gps"> gps </mat-checkbox>
       </div>
-
-
-      <!--      <br><br>-->
-      <!--      <div class = "input-box">-->
-      <!--        <span class="details">BROJ KREVETA U SOBAMA</span>-->
-      <!--        <div *ngFor="let item of rooms;let index = index;">-->
-      <!--          <span class="details">Soba {{item.id}}:</span>-->
-      <!--          <input type="number" style="width: 85%" name=a{{index}} [(ngModel)]="rooms[index].numberOfBeds" placeholder="Unesite broj kreveta">-->
-      <!--          <button mat-icon-button (click)="deleteRoom(rooms[index].id)"> <mat-icon>delete</mat-icon> </button>-->
-      <!--        </div>-->
-      <!--      </div>-->
-      <!--      <div class = "input-box">-->
-      <!--        <button mat-icon-button (click)="showAddingNewRoom()"> <mat-icon>add</mat-icon> </button>-->
-      <!--      </div>-->
-      <!--      <br>-->
-
-      <!--      <div *ngIf="showNewRoom">-->
-      <!--        <div class = "input-box">-->
-      <!--          <span class="details">Broj kreveta u sobi:</span>-->
-      <!--          <input type="number" name="newAddRoomNumOfBeds" [(ngModel)]="newRoom.numberOfBeds" placeholder="Unesite broj kreveta" required>-->
-      <!--        </div>-->
-      <!--        <br>-->
-      <!--        <div class = "button">-->
-      <!--          <input type ="button" value="DODAJ NOVU SOBU" (click)="addNewRoom()">-->
-      <!--        </div>-->
-      <!--        <br>-->
-      <!--      </div>-->
-      <!--      <br><br>-->
-
-      <!--      <table class = "input-box">-->
-      <!--        <tr>-->
-      <!--          <th>Dodatna usluga</th>-->
-      <!--          <th>Cena</th>-->
-      <!--        </tr>-->
-      <!--        <tr *ngFor="let serv of additionalServices;let index = index;">-->
-      <!--          <td>-->
-      <!--            <input type="text" name=b{{index}} [(ngModel)]="additionalServices[index].name" placeholder="Unesite naziv usluge">-->
-      <!--          </td>-->
-      <!--          <td>-->
-      <!--            <input type="number" name=c{{index}} [(ngModel)]="additionalServices[index].price" placeholder="Unesite cenu usluge">-->
-      <!--          </td>-->
-      <!--          <td>-->
-      <!--            <button mat-icon-button (click)="deleteAdditionalService(additionalServices[index].id)"> <mat-icon>delete</mat-icon> </button>-->
-      <!--          </td>-->
-      <!--        </tr>-->
-      <!--      </table>-->
-
-      <!--      <div class = "input-box">-->
-      <!--        <button mat-icon-button (click)="showAddingNewService()"> <mat-icon>add</mat-icon> </button>-->
-      <!--      </div>-->
-
-      <!--      <br>-->
-      <!--      <div *ngIf="showNewService">-->
-      <!--        <div class = "input-box">-->
-      <!--          <span class="details">Naziv usluge:</span>-->
-      <!--          <input type="text" name="newAddSerName" [(ngModel)]="newAdditionalService.name" placeholder="Unesite naziv" required>-->
-      <!--        </div>-->
-      <!--        <div class = "input-box">-->
-      <!--          <span class="details">Cena usluge:</span>-->
-      <!--          <input type="number" name="newAddSerPrice" [(ngModel)]="newAdditionalService.price" placeholder="Unesite cenu" required>-->
-      <!--        </div>-->
-      <!--        <br>-->
-      <!--        <div class = "button">-->
-      <!--          <input type ="button" value="DODAJ NOVU USLUGU" (click)="addAdditionalService()">-->
-      <!--        </div>-->
-      <!--        <br>-->
-      <!--      </div>-->
-
       <br>
     </div>
     <br> <br>

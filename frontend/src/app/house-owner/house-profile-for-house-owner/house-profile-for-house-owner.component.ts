@@ -163,7 +163,7 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
       width: '1500px',
       data: {},
     });
-
+    dialogRef.componentInstance.allReservations = this.allCourses;
     dialogRef.afterClosed().subscribe(result => {
 
     });
@@ -234,5 +234,9 @@ export class HouseProfileForHouseOwnerComponent implements OnInit {
       }
     }
     return false;
+  }
+
+  back() {
+    this._router.navigate(['home-page-house-owner']);
   }
 }

@@ -13,7 +13,8 @@ public class House {
     private String name;
     @Column(name = "grade", nullable = true)
     private double grade;
-
+    @Column(name = "numberOfReviews", nullable = true)
+    private int numberOfReviews;
     @OneToMany(mappedBy = "house", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Room> rooms = new HashSet<>();
 
@@ -61,6 +62,18 @@ public class House {
         this.isCancalletionFree = isCancalletionFree;
         this.cancalletionFee = cancalletionFee;
         this.images = images;
+    }
+
+    public House(Long id, String name, double grade, int numberOfReviews, String promoDescription, String behaviourRules, float pricePerDay, boolean isCancalletionFree, int cancalletionFee) {
+        this.id = id;
+        this.name = name;
+        this.grade = grade;
+        this.numberOfReviews = numberOfReviews;
+        this.promoDescription = promoDescription;
+        this.behaviourRules = behaviourRules;
+        this.pricePerDay = pricePerDay;
+        this.isCancalletionFree = isCancalletionFree;
+        this.cancalletionFee = cancalletionFee;
     }
 
     public House() {
@@ -190,4 +203,13 @@ public class House {
     public void setAppeals(Set<Appeal> appeals) {
         this.appeals = appeals;
     }
+
+	public int getNumberOfReviews() {
+		return numberOfReviews;
+	}
+
+	public void setNumberOfReviews(int numberOfReviews) {
+		this.numberOfReviews = numberOfReviews;
+	}
+    
 }

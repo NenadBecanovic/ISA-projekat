@@ -4,6 +4,7 @@ import com.application.bekend.DTO.MyUserDTO;
 import com.application.bekend.model.Address;
 import com.application.bekend.model.Authority;
 import com.application.bekend.model.MyUser;
+import com.application.bekend.model.UserCategory;
 import com.application.bekend.model.VerificationRequest;
 import com.application.bekend.repository.MyUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class AuthService {
     private VerificationTokenService verificationTokenService;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private UserCategoryService userCategoryService;
 
     @Autowired
     public AuthService(VerificationRequestService verificationRequestService) {
@@ -81,16 +84,24 @@ public class AuthService {
         myUser.setActivated(false);
         myUser.setPhoneNumber(myUserDTO.getPhoneNumber());
         myUser.setPersonalDescription(myUserDTO.getPersonalDescription());
-
+        UserCategory userCategory = this.userCategoryService.getCategoryById((long) 1);
+        myUser.setCategory(userCategory);
+        if(myUserDTO.getAuthority().equals("ROLE_ADMINISTRATOR")){
+        	myUser.setFirstLogin(true);
+        }else {
+        	myUser.setFirstLogin(false);
+        }
+        
         // poslati mejl za obicnog usera
-        if(myUserDTO.getAuthority().equals("ROLE_USER")){
+        if(myUserDTO.getAuthority().equals("ROLE_USER") || myUserDTO.getAuthority().equals("ROLE_ADMINISTRATOR")){
             this.sendVerificationEmail(myUser);
         }else{
             // poslati zahtev za verifikaciju za ostale korisnike
+            //myUser = this.myUserRepository.save(myUser);
             VerificationRequest verificationRequest = new VerificationRequest(myUser, false, myUserDTO.getReasonForRegistration());
             this.verificationRequestService.save(verificationRequest);
         }
-
+        
         return myUser;
     }
 

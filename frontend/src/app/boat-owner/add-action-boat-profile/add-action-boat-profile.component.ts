@@ -31,6 +31,8 @@ export class AddActionBoatProfileComponent implements OnInit {
   user: MyUser = new MyUser(0, '','','','','','',this.address, '','');
   allDataSelected: boolean = false;
   // doneChecking: boolean = false;
+  startDate: string = '';
+  min: number = 0;
 
   constructor(private _route: ActivatedRoute, private _boatReservationService: BoatReservationService,
               private _alertService: AlertService, private _router: Router, private _additionalServicesService: AdditionalServicesService,
@@ -39,6 +41,7 @@ export class AddActionBoatProfileComponent implements OnInit {
   ngOnInit(): void {
     // @ts-ignore
     this.boatId = +this._route.snapshot.paramMap.get('id');
+    this.startDate = new Date().toISOString().slice(0, 16);
     this.loadData();
   }
 
@@ -60,39 +63,49 @@ export class AddActionBoatProfileComponent implements OnInit {
   }
 
   addAction() {
-    this.boatReservation.boatId = this.boatId;
-    this.boatReservation.action = true;
-    this.boatReservation.available = true;
-    this.boatReservation.availabilityPeriod = false;
-    this.boatReservation.cancelled = false;
+    if (this.duration > 0 && this.boatReservation.maxGuests > 0 && this.boatReservation.price > 0 && this.boatReservation.startDate != '') {
+      this.boatReservation.boatId = this.boatId;
+      this.boatReservation.action = true;
+      this.boatReservation.available = true;
+      this.boatReservation.availabilityPeriod = false;
+      this.boatReservation.cancelled = false;
 
-    var startDate = Date.parse(this.boatReservation.startDate)
-    this.date =  new Date(startDate)
+      var startDate = Date.parse(this.boatReservation.startDate)
+      this.date =  new Date(startDate)
 
-    var actionStart  = Number(this.date)  // parsiranje datuma pocetka u milisekunde
-    var actionEnd = actionStart + this.duration * 86400000
+      var actionStart  = Number(this.date)  // parsiranje datuma pocetka u milisekunde
+      var actionEnd = actionStart + this.duration * 86400000
 
-    this.boatReservation.startDate = actionStart.toString()
-    this.boatReservation.endDate = actionEnd.toString()
+      this.boatReservation.startDate = actionStart.toString()
+      this.boatReservation.endDate = actionEnd.toString()
 
-    for (let a of this.additionalServices)
-    {
-      if (a.checked == true)
+      for (let a of this.additionalServices)
       {
-        this.additionalServicesFinal.push(a)
+        if (a.checked == true)
+        {
+          this.additionalServicesFinal.push(a)
+        }
+      }
+
+      this.boatReservation.additionalServices = this.additionalServicesFinal
+
+      this._boatReservationService.save(this.boatReservation).subscribe(
+        (boatReservation: BoatReservation) => {
+          this._router.navigate(['boat-profile-for-boat-owner/', this.boatId])
+        },
+        (error) => {
+          this._alertService.danger('Vec postoji termin u izabranom vremenskom periodu');
+        },
+      )
+    } else {
+
+      if(this.boatReservation.startDate == '')
+      {
+        this._alertService.warning('Unesite datum i vreme');
+      }else {
+        this._alertService.warning('Neispravno uneti podaci');
       }
     }
-
-    this.boatReservation.additionalServices = this.additionalServicesFinal
-
-    this._boatReservationService.save(this.boatReservation).subscribe(
-      (boatReservation: BoatReservation) => {
-        this._router.navigate(['boat-profile-for-boat-owner/', this.boatId])
-      },
-      (error) => {
-        this._alertService.danger('Doslo je do greske');
-      },
-    )
   }
 
   dateChanged() {

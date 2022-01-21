@@ -6,6 +6,7 @@ import { AdditionalService } from 'src/app/model/additional-service';
 import { AdventureReservation } from 'src/app/model/adventure-reservation';
 import { FishingAdventure } from 'src/app/model/fishing-adventure';
 import { AdditionalServicesService } from 'src/app/service/additional-services.service';
+import { AdventureProfileService } from 'src/app/service/adventure-profile.service';
 import { AdventureReservationService } from 'src/app/service/adventure-reservation.service';
 
 @Component({
@@ -23,46 +24,66 @@ export class AddFishingAdventureActionDialogComponent implements OnInit {
   durationMinutes: number = 0;
   date: Date = new Date();
 
-  constructor(public dialogRef: MatDialogRef<AddFishingAdventureActionDialogComponent>, private _additionalServicesService: AdditionalServicesService, private _adventureReservationService: AdventureReservationService,
+  constructor(public dialogRef: MatDialogRef<AddFishingAdventureActionDialogComponent>, private _adventureService: AdventureProfileService, private _adventureReservationService: AdventureReservationService,
               private _alertService: AlertService) { }
 
   ngOnInit() {
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0 so need to add 1 to make it 1!
+    var yyyy = today.getFullYear();
+    var d = '';
+    var m = '';
+    if(dd<10){
+      d='0'+dd
+    } 
+    if(mm<10){
+      m='0'+mm
+    } 
+
+    var day = yyyy+'-'+m+'-'+d;
+    //@ts-ignore
+    document.getElementById("datefield").setAttribute("min", day);
   }
 
   addAction() {
-    this.adventureAction.adventureId = this.adventure.id;
-    this.adventureAction.isAction = true;
-    this.adventureAction.isAvailable = true;
-    this.adventureAction.availabilityPeriod = false;
+    if(this.adventureAction.startDate === '' || this.durationHours == 0 || this.durationMinutes == 0){
+      alert('Odaberite datum!')
+    }else{
+      this.adventureAction.adventureId = this.adventure.id;
+      this.adventureAction.isAction = true;
+      this.adventureAction.isAvailable = true;
+      this.adventureAction.availabilityPeriod = false;
 
-    var startDate = Date.parse(this.adventureAction.startDate)
-    this.date =  new Date(startDate)
-    var actionStart  = Number(this.date) 
-    this.date.setHours(this.date.getHours() + this.durationHours);
-    this.date.setMinutes(this.date.getMinutes() + this.durationMinutes);
-    var actionEnd = Number(this.date)
-    this.adventureAction.startDate = actionStart.toString()
-    this.adventureAction.endDate = actionEnd.toString()
+      var startDate = Date.parse(this.adventureAction.startDate)
+      this.date =  new Date(startDate)
+      var actionStart  = Number(this.date) 
+      this.date.setHours(this.date.getHours() + this.durationHours);
+      this.date.setMinutes(this.date.getMinutes() + this.durationMinutes);
+      var actionEnd = Number(this.date)
+      this.adventureAction.startDate = actionStart.toString()
+      this.adventureAction.endDate = actionEnd.toString()
 
-    for (let a of this.additionalServices)
-    {
-        if (a.checked == true)
-        {
-          this.actionAdditionalServices.push(a)
-        }
-    }
-
-    this.adventureAction.additionalServices = this.actionAdditionalServices
-
-    this._adventureReservationService.save(this.adventureAction).subscribe(   // subscribe - da bismo dobili odgovor beka
-      (adventureAction: AdventureReservation) => {
-
-        this.dialogRef.close();
-      },
-      (error) => {
-        this._alertService.danger('Doslo je do greske');
+      for (let a of this.additionalServices)
+      {
+          if (a.checked == true)
+          {
+            this.actionAdditionalServices.push(a)
+          }
       }
-      // (HttpStatusCode.Conflict) = { this._alertService.danger('Vec postoji rezervacija u izabranom terminu')}
-    )
+
+      this.adventureAction.additionalServices = this.actionAdditionalServices
+
+      this._adventureService.saveReservation(this.adventureAction).subscribe(   // subscribe - da bismo dobili odgovor beka
+        (adventureAction: AdventureReservation) => {
+
+          this.dialogRef.close();
+        },
+        (error) => {
+          this._alertService.danger('Doslo je do greske');
+        }
+        // (HttpStatusCode.Conflict) = { this._alertService.danger('Vec postoji rezervacija u izabranom terminu')}
+      )
+    }
   }
 }

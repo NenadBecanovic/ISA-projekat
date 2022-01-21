@@ -15,6 +15,7 @@ import {BoatService} from "../../../service/boat.service";
 import {ClientReservationService} from "../../../service/client-reservation-service";
 import {NavigationEquipment} from "../../../model/navigation-equipment";
 import {Boat} from "../../../model/boat";
+import { CompanyService } from 'src/app/service/company.service';
 
 @Component({
   selector: 'app-create-reservation-boat',
@@ -42,11 +43,12 @@ export class CreateReservationBoatComponent implements OnInit {
   startDate: string = '';
   navigationEquipment: NavigationEquipment = new NavigationEquipment(0,true, true, true, true);
   boat: Boat = new Boat(0, '', '', '', 0, 0, '', 0, 0, 0, 0, false, 0, '', this.address, this.navigationEquipment, this.additionalServices, 0, 0);
+  companyPercentage: number = 0;
 
   constructor(@Inject(MAT_DIALOG_DATA) public dataDialog: any,private _route: ActivatedRoute, private _boatReservationService: BoatReservationService,
               private _alertService: AlertService, private _router: Router, private _additionalServicesService: AdditionalServicesService,
               private _myUserService: MyUserService, public datepipe: DatePipe, private _authentification: AuthentificationService, private _boatService: BoatService,
-              private _clientReservationService: ClientReservationService) { }
+              private _clientReservationService: ClientReservationService, private _companyService: CompanyService) { }
 
   ngOnInit(): void {
     // @ts-ignore
@@ -74,6 +76,12 @@ export class CreateReservationBoatComponent implements OnInit {
     this._boatService.getBoatById(this.boatId).subscribe((boat:Boat)=>{
       this.boat = boat
     },(error => {}))
+
+    this._companyService.getCompanyPercentage().subscribe(
+      (percentage: number) =>{
+        this.companyPercentage = percentage;
+      }
+    )
   }
 
 
@@ -106,8 +114,10 @@ export class CreateReservationBoatComponent implements OnInit {
 
     this.boatReservation.additionalServices = this.additionalServicesFinal
 
-    price = price + this.duration*this.boat.pricePerDay
-    this.boatReservation.price = this.duration*this.boat.pricePerDay
+    price = price = this.duration*this.boat.pricePerDay
+    var companyProfit = price * this.companyPercentage * 0.01;
+    price = price - (companyProfit * this.selectedUser.userCategory.discountPercentage * 0.01);
+
     if (confirm("Da li ste sigurni da zelite da reservisete vikendicu. Cena je " + price.toString() + " dinara" )) {
       this._clientReservationService.saveBoatReservation(this.boatReservation).subscribe((bool: boolean)=>{
         if(bool){

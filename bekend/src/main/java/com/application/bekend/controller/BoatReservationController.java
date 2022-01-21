@@ -23,14 +23,18 @@ public class BoatReservationController {
     private final BoatService boatService;
     private final MyUserService myUserService;
     private final HouseReservationService houseReservationService;
+    private final UserCategoryService userCategoryService;
+	private final CompanyService companyService;
 
     @Autowired
-    public BoatReservationController(BoatReservationService boatReservationService, AdditionalServicesService additionalServicesService, BoatService boatService, MyUserService myUserService, HouseReservationService houseReservationService) {
+    public BoatReservationController(BoatReservationService boatReservationService, AdditionalServicesService additionalServicesService, BoatService boatService, MyUserService myUserService, HouseReservationService houseReservationService, UserCategoryService userCategoryService, CompanyService companyService) {
         this.boatReservationService = boatReservationService;
         this.additionalServicesService = additionalServicesService;
         this.boatService = boatService;
         this.myUserService = myUserService;
         this.houseReservationService = houseReservationService;
+        this.userCategoryService = userCategoryService;
+        this.companyService = companyService;
     }
 
     @GetMapping("/getAllByBoatId/{id}")
@@ -81,7 +85,7 @@ public class BoatReservationController {
     @Transactional
     public ResponseEntity<BoatReservation> save(@RequestBody BoatReservationDTO dto) throws MessagingException {
         Boat boat = this.boatService.getBoatById(dto.getBoatId());
-
+        MyUser owner = this.myUserService.findUserByBoatId(dto.getBoatId());
         List<BoatReservation> boatReservations = this.boatReservationService.getAllByBoat_Id(boat.getId());
         for (BoatReservation h: boatReservations) {
             Long start =  h.getStartDate().getTime();
@@ -136,7 +140,11 @@ public class BoatReservationController {
 
         boatReservation = this.boatReservationService.save(boatReservation); // sacuvali smo rezervaciju i povratna vrednost metode je tacno ta rezervacija iz baze (sa ispravno generisanim id-em ...)
         // ovaj korak je obavezan jer se rezervacija koju dodajemo ovde (***) mora nalaziti u bazi
-
+        
+        if(!dto.isAction() && !dto.isAvailabilityPeriod()) {
+	        owner.setPoints(owner.getPoints() + this.companyService.getCompanyInfo((long) 1).getPointsPerReservationOwner());
+	        owner = this.checkUserCategory(owner);
+        }
         Set<AdditionalServices> additionalServicesSet = new HashSet<>();
         for(AdditionalServicesDTO add : dto.getAdditionalServices()){
 
@@ -165,15 +173,17 @@ public class BoatReservationController {
             Set<BoatReservation> boatReservations1 = guest.getBoatReservations();
             boatReservations1.add(boatReservation);
             guest.setBoatReservations(boatReservations1);
-            this.myUserService.save(guest);
+            guest.setPoints(guest.getPoints() + this.companyService.getCompanyInfo((long) 1).getPointsPerReservationClient());
+            this.checkUserCategory(guest);
+            guest = this.myUserService.save(guest);
 
             // TODO: ako je vlasnik zakazao za klijenta, poslati mejl klijentu
-            this.myUserService.sendMailToClient(null, dto, "", boat.getName());
+            this.myUserService.sendMailToClient(null, dto, null, "", boat.getName(), "");
         }
 
         // TODO: ako je akcije, poslati mejl svim pretplacenim klijentima
         if (dto.isAction() == true && dto.isAvailable() == true){
-            this.myUserService.sendSubscribedUsersEmail(null, dto, "", boat.getName());
+            this.myUserService.sendSubscribedUsersEmail(null, dto, null, "", boat.getName(), "");
         }
 
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -361,5 +371,47 @@ public class BoatReservationController {
         }
         return new ResponseEntity<>(boatReservationDTOS, HttpStatus.OK);
     }
+    
+    private MyUser checkUserCategory(MyUser user) {
+        List<UserCategory> allCategories = this.userCategoryService.findAll();
+        int min = 0;
+        Long id = (long) 0;
+        for(UserCategory category: allCategories) {
+            if(category.getPoints() > min && user.getPoints() > category.getPoints()) {
+                min = category.getPoints();
+                id = category.getId();
+            }
+        }
+        UserCategory cat = this.userCategoryService.getCategoryById(id);
+        user.setCategory(cat);
+        return this.myUserService.save(user);
+    }
 
+    @GetMapping("/getCompanyProfit/{startDate}/{endDate}")
+    public ResponseEntity<Double> getCompanyInfo(@PathVariable("startDate") String startDate, @PathVariable("endDate") String endDate){
+    	List<BoatReservation> boatReservations = this.boatReservationService.findAll();
+		CompanyDTO company = this.companyService.getCompanyInfo((long) 1);
+		double profit = 0;
+        for (BoatReservation a : boatReservations) { 
+        	Long reservationStartDate = a.getStartDate().getTime();
+            Long today = new Date().getTime();
+            double adventurePrice = 0;
+
+            if (reservationStartDate < today && Long.parseLong(startDate) <= reservationStartDate && Long.parseLong(endDate) >= reservationStartDate) {
+            	adventurePrice += a.getPrice();
+
+	            Set<AdditionalServicesDTO> additionalServicesDTOS = new HashSet<>();
+	            // dobavljamo set dodatnih usluga za onu konkretnu rezervaciju iz baze i pretvaramo u DTO (a mozemo samo i pristupiti setu dodatnih usluga direktno preko rezervacije (a.getAdditionalServices()))
+	            for (AdditionalServices add : a.getAdditionalServices()) {  // a.getAdditionalServices()
+	            	adventurePrice += add.getPrice();
+	            }
+	            double companyProfit = adventurePrice * company.getPercentagePerReservation() * 0.01;
+	            double clientBenefit = a.getGuest().getCategory().getDiscountPercentage() * companyProfit * 0.01;
+	            double ownerBenefit = a.getBoat().getOwner().getCategory().getDiscountPercentage() * companyProfit * 0.01;
+	            profit += companyProfit - clientBenefit - ownerBenefit;
+            }
+        }
+        
+        return new ResponseEntity<>(profit, HttpStatus.OK);
+    }
 }

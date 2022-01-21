@@ -23,6 +23,7 @@ export class DefineUnavailablePeriodBoatComponent implements OnInit {
   boatReservation: BoatReservation = new BoatReservation(0, '', '', 0, this.additionalServices, 0, true);
   date: Date = new Date();
   endDate: Date = new Date();
+  startDate: string = '';
 
   constructor(private _route: ActivatedRoute, private _boatReservationService: BoatReservationService, private _router: Router, private _alertService: AlertService) {
   }
@@ -30,30 +31,38 @@ export class DefineUnavailablePeriodBoatComponent implements OnInit {
   ngOnInit(): void {
     // @ts-ignore
     this.boat.id = +this._route.snapshot.paramMap.get('id');
+    this.startDate = new Date().toISOString().slice(0, 16);
   }
 
   addPeriod() {
-    this.boatReservation.availabilityPeriod = true;
-    this.boatReservation.available = false;
-    this.boatReservation.boatId = this.boat.id;
-    this.boatReservation.action = false;
+    if (this.boatReservation.startDate >= this.boatReservation.endDate)
+    {
+      this._alertService.warning('Datum i vreme pocetka moraju biti manji od datuma i vremena kraja');
+    }
+    else
+    {
+      this.boatReservation.availabilityPeriod = true;
+      this.boatReservation.available = false;
+      this.boatReservation.boatId = this.boat.id;
+      this.boatReservation.action = false;
 
-    var startDate = Date.parse(this.boatReservation.startDate)   // parsiranje datuma pocetka u milisekunde
-    this.date =  new Date(startDate)
+      var startDate = Date.parse(this.boatReservation.startDate)   // parsiranje datuma pocetka u milisekunde
+      this.date = new Date(startDate)
 
-    var endingDate = Date.parse(this.boatReservation.endDate)   // parsiranje datuma pocetka u milisekunde
-    this.endDate =  new Date(endingDate)
+      var endingDate = Date.parse(this.boatReservation.endDate)   // parsiranje datuma pocetka u milisekunde
+      this.endDate = new Date(endingDate)
 
-    this.boatReservation.startDate = Date.parse(this.date.toString()).toString()
-    this.boatReservation.endDate = Date.parse(this.endDate.toString()).toString()
+      this.boatReservation.startDate = Date.parse(this.date.toString()).toString()
+      this.boatReservation.endDate = Date.parse(this.endDate.toString()).toString()
 
-    this._boatReservationService.save(this.boatReservation).subscribe(
-      (boatReservation: BoatReservation) => {
-        this._router.navigate(['boat-profile-for-boat-owner/', this.boat.id])
-      },
-      (error) => {
-        this._alertService.danger('Doslo je do greske');
-      },
-    )
+      this._boatReservationService.save(this.boatReservation).subscribe(
+        (boatReservation: BoatReservation) => {
+          this._router.navigate(['boat-profile-for-boat-owner/', this.boat.id])
+        },
+        (error) => {
+          this._alertService.danger('Doslo je do greske');
+        },
+      )
+    }
   }
 }

@@ -9,9 +9,7 @@ import {AlertService} from "ngx-alerts";
 import {Router} from "@angular/router";
 import {MyUser} from "../../model/my-user";
 import {AuthentificationService} from "../../auth/authentification/authentification.service";
-import {AddImageHouseComponent} from "../add-image-house/add-image-house.component";
 import {MatDialog} from "@angular/material/dialog";
-import {FishingAdventure} from "../../model/fishing-adventure";
 
 @Component({
   selector: 'app-add-house',
@@ -25,6 +23,7 @@ export class AddHouseComponent implements OnInit {
   address: Address = new Address(0, '', '', '', 0, 0, 0);
   house: House = new House(0, '', this.address, '', '',0,false, 0, this.rooms, this.additionalServices, 0, 0);
   user: MyUser = new MyUser(0, '','','','','','', this.address, '','');
+  min: number = 0;
 
   constructor(private _houseService: HouseService, private _alertService: AlertService, private _router: Router,
               private _authentification: AuthentificationService, public dialog: MatDialog,
@@ -45,17 +44,35 @@ export class AddHouseComponent implements OnInit {
   }
 
   createProfile() {
-    this.house.grade = 0;
-    this.house.ownerId = this.user.id;
+    if (this.house.name != '' && this.house.promoDescription != '' && this.house.address.street != '' && this.house.address.city != '' &&
+      this.house.address.state != '' && this.house.address.postalCode >= 0 && this.house.pricePerDay > 0 && this.house.behaviourRules != '' &&
+      this.house.cancalletionFee >= 0 && this.house.address.latitude >=0 && this.house.address.longitude >= 0) {
 
-    this._houseService.save(this.house).subscribe(   // subscribe - da bismo dobili odgovor beka
-      (house: House) => {
-        this._router.navigate(['home-page-house-owner'])
-      },
-      (error) => {
-        this._alertService.danger('Doslo je do greske');
-      },
-    )
+      if (!this.house.cancalletionFree && this.house.cancalletionFee == 0) {
+        this._alertService.warning('Unesite % nadoknade u slucaju otkazivanja');
+      }
+      else
+      {
+        if (this.house.cancalletionFee > 100) {
+          this._alertService.warning('Uslovi otkazivanja su u vrednostima 0-100');
+        } else {
+          this.house.grade = 0;
+          this.house.ownerId = this.user.id;
+
+          this._houseService.save(this.house).subscribe(   // subscribe - da bismo dobili odgovor beka
+            (house: House) => {
+              this._router.navigate(['home-page-house-owner'])
+            },
+            (error) => {
+              this._alertService.danger('Doslo je do greske');
+            },
+          )
+        }
+      }
+    }
+    else {
+      this._alertService.warning('Niste popunili sva polja!');
+    }
   }
 
   checkboxChanged($event: MatCheckboxChange) {

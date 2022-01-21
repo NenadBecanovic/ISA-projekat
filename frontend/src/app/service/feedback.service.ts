@@ -18,7 +18,7 @@ export class FeedbackService {
     }
 
     public getAll(): Observable<FeedbackInfo[]>{
-        return this._http.get<FeedbackInfo[]>(`${this.userPath}/getAll`)
+        return this._http.get<FeedbackInfo[]>(`${this.userPath}/getAllFeedbacks`);
     }
 
     public delete(id: number): Observable <boolean> {
@@ -27,5 +27,13 @@ export class FeedbackService {
 
     public approveFeedback(feedback: FeedbackInfo): Observable <boolean> {
         return this._http.put<boolean>(`${this.userPath}/approve/`+feedback.id, feedback);
+    }
+
+    public getAllFeedbacksByAdventureId(id: number): Observable<FeedbackInfo[]>{
+        return this._http.get<FeedbackInfo[]>(`${this.userPath}/getAllFeedbacksByAdventure/`+id);
+    }
+
+    public getAllFeedbacksByInstructorId(id: number): Observable<FeedbackInfo[]>{
+        return this._http.get<FeedbackInfo[]>(`${this.userPath}/getAllFeedbacksByInstructor/`+id);
     }
 }

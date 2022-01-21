@@ -130,4 +130,9 @@ public class BoatReservationService {
     private boolean IsTimeBetween(Long reservationMilis, Long startDateMilis, Long endDataMilis) {
         return reservationMilis >= startDateMilis && reservationMilis <= endDataMilis;
     }
+
+	public List<BoatReservation> findAll() {
+		// TODO Auto-generated method stub
+		return this.boatReservationRepository.findAll();
+	}
 }

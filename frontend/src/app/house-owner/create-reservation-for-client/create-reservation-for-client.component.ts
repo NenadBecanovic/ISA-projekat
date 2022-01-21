@@ -28,6 +28,8 @@ export class CreateReservationForClientComponent implements OnInit {
   finalUsers: MyUser[] = new Array();
   address: Address = new Address(0, '', '', '', 0, 0, 0);
   selectedUser: MyUser = new MyUser(0,'','','','','','', this.address,'','');
+  startDate: string = '';
+  min: number = 0;
 
   constructor(private _route: ActivatedRoute, private _houseReservationService: HouseReservationService,
               private _alertService: AlertService, private _router: Router, private _additionalServicesService: AdditionalServicesService,
@@ -36,6 +38,7 @@ export class CreateReservationForClientComponent implements OnInit {
   ngOnInit(): void {
     // @ts-ignore
     this.houseId = +this._route.snapshot.paramMap.get('id');
+    this.startDate = new Date().toISOString().slice(0, 16);
     this.loadData();
   }
 
@@ -87,42 +90,54 @@ export class CreateReservationForClientComponent implements OnInit {
   }
 
   addAction() {
-    this.houseReservation.houseId = this.houseId;
-    this.houseReservation.action = false;
-    this.houseReservation.availabilityPeriod = false;
-    this.houseReservation.available = false;
-    this.houseReservation.availabilityPeriod = false;
-    this.houseReservation.guestId = this.selectedUser.id;
-    this.houseReservation.cancelled = false;
+    if (this.duration > 0 && this.houseReservation.maxGuests > 0 && this.houseReservation.price > 0 && this.houseReservation.startDate != '' && this.selectedUser.id != 0) {
+      this.houseReservation.houseId = this.houseId;
+      this.houseReservation.action = false;
+      this.houseReservation.availabilityPeriod = false;
+      this.houseReservation.available = false;
+      this.houseReservation.availabilityPeriod = false;
+      this.houseReservation.guestId = this.selectedUser.id;
+      this.houseReservation.cancelled = false;
 
-    var startDate = Date.parse(this.houseReservation.startDate)
-    this.date =  new Date(startDate)
+      var startDate = Date.parse(this.houseReservation.startDate)
+      this.date = new Date(startDate)
 
-    var actionStart  = Number(this.date)  // parsiranje datuma pocetka u milisekunde
-    var actionEnd = actionStart + this.duration * 86400000
+      var actionStart = Number(this.date)  // parsiranje datuma pocetka u milisekunde
+      var actionEnd = actionStart + this.duration * 86400000
 
-    this.houseReservation.startDate = actionStart.toString()
-    this.houseReservation.endDate = actionEnd.toString()
+      this.houseReservation.startDate = actionStart.toString()
+      this.houseReservation.endDate = actionEnd.toString()
 
-    for (let a of this.additionalServices)
-    {
-      if (a.checked == true)
+      for (let a of this.additionalServices) {
+        if (a.checked == true) {
+          this.additionalServicesFinal.push(a)
+        }
+      }
+
+      this.houseReservation.additionalServices = this.additionalServicesFinal
+
+      this._houseReservationService.save(this.houseReservation).subscribe(
+        (houseReservation: HouseReservation) => {
+          this._router.navigate(['house-profile-for-house-owner/', this.houseId])
+        },
+        (error) => {
+          this._alertService.danger('Doslo je do greske');
+        }
+      )
+    } else {
+
+      if(this.selectedUser.id == 0)
       {
-        this.additionalServicesFinal.push(a)
+        this._alertService.warning('Unesite klijenta');
+      }
+      if(this.houseReservation.startDate == '')
+      {
+        this._alertService.warning('Unesite datum i vreme');
+      }
+      else {
+        this._alertService.warning('Neispravno uneti podaci');
       }
     }
-
-    this.houseReservation.additionalServices = this.additionalServicesFinal
-    console.log(this.houseReservation)
-
-    this._houseReservationService.save(this.houseReservation).subscribe(
-      (houseReservation: HouseReservation) => {
-        this._router.navigate(['house-profile-for-house-owner/', this.houseId])
-      },
-      (error) => {
-        this._alertService.danger('Doslo je do greske');
-      }
-    )
   }
 
   changeUser(id: number) {

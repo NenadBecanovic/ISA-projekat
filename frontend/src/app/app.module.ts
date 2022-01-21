@@ -92,8 +92,13 @@ import { ReportAnswerDialogComponent } from './admin-page/report-answer-dialog/r
 import { DeclineNewUserDialogComponent } from './admin-page/decline-new-user-dialog/decline-new-user-dialog.component';
 import { AdminRegistrationDialogComponent } from './admin-page/admin-registration-dialog/admin-registration-dialog.component';
 import { EditPersonalDescriptionDialogComponent } from './fishing-instructor-profile/edit-personal-description-dialog/edit-personal-description-dialog.component';
-import {MatTableModule} from "@angular/material/table";
+import { EditCompanyRulesDialogComponent } from './admin-page/edit-company-rules-dialog/edit-company-rules-dialog.component';
+import { InstructorReservationHistoryComponent } from './clientHome/reservation/instructor-reservation-history/instructor-reservation-history.component';
+import { MatTableModule } from '@angular/material/table';
 import { InstructorChartComponent } from './adventure-profile/instructor-chart/instructor-chart.component';
+import { CompanyProfitDialogComponent } from './admin-page/company-profit-dialog/company-profit-dialog.component';
+import { NewAdminPasswordDialogComponent } from './admin-page/new-admin-password-dialog/new-admin-password-dialog.component';
+import { AdventureGuestProfileComponent } from './adventure-profile/adventure-guest-profile/adventure-guest-profile.component';
 
 const MaterialComponents = [
   MatSliderModule,
@@ -171,7 +176,11 @@ const MaterialComponents = [
     AddImageHouseComponent,
     AddImageBoatComponent,
     AdminRegistrationDialogComponent,
+    EditCompanyRulesDialogComponent,
     InstructorChartComponent,
+    CompanyProfitDialogComponent,
+    NewAdminPasswordDialogComponent,
+    AdventureGuestProfileComponent
   ],
     imports: [
         RouterModule,

@@ -1,0 +1,25 @@
+<h1 mat-dialog-title class="ms-3">Profit kompanije u vremenskom periodu</h1>
+<div mat-dialog-content>
+  <form  style="margin: auto !important" #addActionForm = "ngForm" (ngSubmit)="calculateProfit()">
+    <div class = "user-details" >
+      <div class = "input-box">
+        <span class="details">Datum i vreme pocetka nedostupnog perioda:</span>
+        <input type="date" name="startDate" [(ngModel)]="timePeriod.startDate" placeholder="Unesite datum i vreme pocetka" required>
+      </div>
+      <br>
+      <div class = "input-box">
+        <span class="details">Datum i vreme kraja nedostupnog perioda:</span>
+        <input type="date" name="endDate" [(ngModel)]="timePeriod.endDate" required>
+      </div>
+      <br>
+      <div class = "input-box">
+        <span class="details" *ngIf="showProfit">Profit kompanije: {{profit}} din.</span>
+      </div>
+    </div>
+    <br> <br>
+    <div class = "button">
+      <input type ="submit" value="Izračunaj">
+    </div>
+  </form>
+  <ngx-alerts></ngx-alerts>
+</div>

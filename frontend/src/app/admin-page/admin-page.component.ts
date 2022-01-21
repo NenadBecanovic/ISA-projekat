@@ -1,20 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { AlertService } from 'ngx-alerts';
+import { AuthentificationService } from '../auth/authentification/authentification.service';
 import { ClientProfileComponent } from '../clientHome/dialog/client-profile/client-profile.component';
+import { Address } from '../model/address';
 import { AdminAnswer } from '../model/admin-answer';
 import { Appeal } from '../model/appeal';
 import { DeleteRequest } from '../model/delete-request';
 import { FeedbackInfo } from '../model/feedback-info';
+import { MyUser } from '../model/my-user';
 import { NewUserRequest } from '../model/new-user-request';
 import { Report } from '../model/report';
 import { ReportInfo } from '../model/report-info';
 import { UserInfo } from '../model/user-info';
+import { AppealService } from '../service/appeal.service';
 import { FeedbackService } from '../service/feedback.service';
 import { MyUserService } from '../service/my-user.service';
 import { ReportService } from '../service/report.service';
 import { AdminRegistrationDialogComponent } from './admin-registration-dialog/admin-registration-dialog.component';
 import { AppealAnswerDialogComponent } from './appeal-answer-dialog/appeal-answer-dialog.component';
+import { CompanyProfitDialogComponent } from './company-profit-dialog/company-profit-dialog.component';
 import { DeleteRequestAnswerDialogComponent } from './delete-request-answer-dialog/delete-request-answer-dialog.component';
+import { EditCompanyRulesDialogComponent } from './edit-company-rules-dialog/edit-company-rules-dialog.component';
+import { NewAdminPasswordDialogComponent } from './new-admin-password-dialog/new-admin-password-dialog.component';
 import { ReportAnswerDialogComponent } from './report-answer-dialog/report-answer-dialog.component';
 
 @Component({
@@ -26,6 +34,8 @@ export class AdminPageComponent implements OnInit {
 
   filterTerm!: string;
   content: string = "users";
+  address: Address = new Address(0, '', '', '', 0, 0, 0);
+  admin: MyUser = new MyUser(0,'','','','','','', this.address,'','');
   reviewedReports: ReportInfo[] = new Array<ReportInfo>();
   notReviewedReports: ReportInfo[] = new Array<ReportInfo>();
   answeredAppeals: Appeal[] = new Array<Appeal>();
@@ -37,7 +47,8 @@ export class AdminPageComponent implements OnInit {
   approvedFeedbacks: FeedbackInfo[] = new Array<FeedbackInfo>();
   notApprovedFeedbacks: FeedbackInfo[] = new Array<FeedbackInfo>();
 
-  constructor(public dialog: MatDialog, private _myUserService: MyUserService, private _reportService: ReportService, private _feedbackService: FeedbackService) { }
+  constructor(public dialog: MatDialog, private _myUserService: MyUserService, private _reportService: ReportService, private _feedbackService: FeedbackService, 
+    private _authentificationService: AuthentificationService, private _appealService: AppealService, private _alertService: AlertService) { }
 
   ngOnInit() {
     this.loadData();
@@ -68,6 +79,23 @@ export class AdminPageComponent implements OnInit {
   }
 
   loadData() { // ucitavanje iz baze
+    this._authentificationService.getUserByEmail().subscribe(
+      (user: MyUser) => {
+        this.admin = user;
+        if(user.isFirstLogin){
+          const dialogRef = this.dialog.open(NewAdminPasswordDialogComponent, {
+            width: '550px',
+            height: '400px',
+            data: {},
+          });
+          dialogRef.componentInstance.admin = this.admin;
+          dialogRef.afterClosed().subscribe(result => {
+            this.loadData();
+          });
+        }
+      }
+    )
+
     this._myUserService.getAllUsers().subscribe(
       (users: UserInfo[]) => {
         this.allUsers = users;
@@ -92,7 +120,7 @@ export class AdminPageComponent implements OnInit {
       }
     )
 
-    this._myUserService.getAllAppeals().subscribe(
+    this._appealService.getAllAppeals().subscribe(
       (allAppeals: Appeal[]) => {
         for(let appeal of allAppeals){
           if(appeal.isAnswered){
@@ -157,7 +185,7 @@ export class AdminPageComponent implements OnInit {
   answerOnAppeal(ownerId: number, guestId: number, appealId: number){
     const dialogRef = this.dialog.open(AppealAnswerDialogComponent, {
       width: '550px',
-      height: '500px',
+      height: '550px',
       data: {},
     });
     dialogRef.componentInstance.answer.ownerId = ownerId;
@@ -171,7 +199,7 @@ export class AdminPageComponent implements OnInit {
   answerOnReport(ownerId: number, guestId: number, id: number){
     const dialogRef = this.dialog.open(ReportAnswerDialogComponent, {
       width: '550px',
-      height: '500px',
+      height: '550px',
       data: {},
     });
     dialogRef.componentInstance.answer.ownerId = ownerId;
@@ -199,7 +227,7 @@ export class AdminPageComponent implements OnInit {
         this.loadData();
       },
       (error) => {
-        // console.log(error)
+        this._alertService.danger("Došlo je do greške pri odobravanju!")
       }
     )
   }
@@ -210,7 +238,7 @@ export class AdminPageComponent implements OnInit {
         this.loadData();
       },
       (error) => {
-        // console.log(error)
+        this._alertService.danger("Došlo je do greške pri aktiviranju korisnika!")
       }
     )
   }
@@ -238,8 +266,6 @@ export class AdminPageComponent implements OnInit {
     });
   }
 
-  addAdventure(){}
-
   openProfileDialog() {
     const dialogRef = this.dialog.open(ClientProfileComponent, {
       width: '600px',
@@ -248,6 +274,26 @@ export class AdminPageComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       window.location.reload();
+    });
+  }
+
+  companyRules(){
+    const dialogRef = this.dialog.open(EditCompanyRulesDialogComponent, {
+      width: '1000px',
+      data: {},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      window.location.reload();
+    });
+  }
+
+  calculateCompanyProfits(){
+    const dialogRef = this.dialog.open(CompanyProfitDialogComponent, {
+      width: '650px',
+      data: {},
+    });
+    dialogRef.afterClosed().subscribe(result => {
     });
   }
 }

@@ -31,11 +31,13 @@ export class LoginComponent implements OnInit {
           this._router.navigate(['client']);
           // this.getLoggedUser();
         } else if (this._authenticationService.isLoggedInAdmin()) {
-
+          this._router.navigate(['admin-page']);
         } else if (this._authenticationService.isLoggedInHouseOwner()) {
           this._router.navigate(['home-page-house-owner']);
         } else if (this._authenticationService.isLoggedInBoatOwner()) {
           this._router.navigate(['home-page-boat-owner']);
+        } else if (this._authenticationService.isLoggedInInstructor()) {
+          this._router.navigate(['fishing-instructor']);
         }
 
       }

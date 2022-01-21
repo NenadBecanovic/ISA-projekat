@@ -1,4 +1,5 @@
 import {Address} from "./address";
+import { UserCategory } from "./user-category";
 
 export class MyUser {
 
@@ -16,6 +17,8 @@ export class MyUser {
   penalties: number = 0;
   personalDescription: String = '';
   grade: number = 0;
+  userCategory: UserCategory = new UserCategory();
+  isFirstLogin: boolean = false;
 
   constructor(id: number, firstName: String, lastName: String, email: String, password: string, username: String, authority: String, addressDTO: Address, phoneNumber: String, reasonForRegistration: String) {
     this.id = id;

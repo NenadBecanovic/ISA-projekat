@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AdventureReservation } from '../model/adventure-reservation';
+import { TimePeriod } from '../model/time-period';
 
 @Injectable({
   providedIn: 'root'
@@ -21,10 +22,6 @@ export class AdventureReservationService {
     return this._http.get<AdventureReservation[]>(`${this.userPath}/getAllByAdventureId/`+id)
   }
 
-  public getAllActionsByInstructorId(id: number): Observable<AdventureReservation[]> {
-    return this._http.get<AdventureReservation[]>(`${this.userPath}/getAllActionsByInstructorId/`+id)
-  }
-
   public getAllAvaibilityPeriodsByInstructorId(id: number): Observable<AdventureReservation[]> {
     return this._http.get<AdventureReservation[]>(`${this.userPath}/getAllAvaibilityPeriodsByInstructorId/`+id)
   }
@@ -37,19 +34,15 @@ export class AdventureReservationService {
     return this._http.get<AdventureReservation[]>(`${this.userPath}/getFishingAdventureReservationsByGuestId/`+id)
   }
 
-  public save(adventureReservation: AdventureReservation): Observable<AdventureReservation> {
-    return this._http.post<AdventureReservation>(`${this.userPath}/add`, adventureReservation)
-  }
-
-  public saveUnavailablePeriod(adventureReservation: AdventureReservation, instructorId: number): Observable<AdventureReservation> {
-    return this._http.post<AdventureReservation>(`${this.userPath}/saveUnavailablePeriod/`+instructorId, adventureReservation)
-  }
-
   public getAdventureReservationsByInstructorId(id: number): Observable<AdventureReservation[]> {
     return this._http.get<AdventureReservation[]>(`${this.userPath}/getAdventureReservationsByInstructorId/`+id)
   }
 
   public delete(id: number): Observable<boolean> {
     return this._http.delete<boolean>(`${this.userPath}/delete/`+id)
+  }
+
+  public calculatePeriodProfit(timePeriod: TimePeriod): Observable<number>{
+    return this._http.get<number>(`${this.userPath}/getCompanyProfit/`+timePeriod.startDate+`/`+timePeriod.endDate)
   }
 }
