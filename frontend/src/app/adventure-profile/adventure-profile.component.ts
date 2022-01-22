@@ -193,7 +193,7 @@ export class AdventureProfileComponent implements OnInit {
   deleteAdventure(){
     this._adventureService.delete(this.adventureId).subscribe(
       (deleted: Boolean) => {
-        this._router.navigate(['/fishing-instructor/'+this.instructor.id]);
+        this._router.navigate(['fishing-instructor']);
       },
       (error) => {
         this._alertService.warning('Ne može se obrisati avantura jer postoje rezervacije za nju!');

@@ -334,6 +334,98 @@ public class HouseController {
         dto.setImages(dtoSet);
         houseDTOS.add(dto);
     }
+    
+    @DeleteMapping("/deleteAllHousesByOwner/{id}")
+    public ResponseEntity<Boolean> deleteAllHousesByOwner(@PathVariable("id") Long id){
+        boolean deletedAll = true;
+    	List<House> allHouses = this.houseService.findAll();
+        for(House h: allHouses) {
+        	if(h.getOwner().equals(id)) {
+        		deletedAll = this.deleteAllOwnerHouses(h.getId());
+        		if(!deletedAll) {
+        			return new ResponseEntity<>(deletedAll, HttpStatus.CONFLICT);
+        		}
+        	}
+        }
+        return new ResponseEntity<>(deletedAll, HttpStatus.OK);
+    }
+
+	private boolean deleteAllOwnerHouses(Long id) {
+		House house = this.houseService.getHouseById(id);
+
+        // ako postoji rezervacija u vikendici, ona se ne moze obrisati
+        for (HouseReservation h: house.getCourses()) {
+            Long endDate = h.getEndDate().getTime();
+            Calendar date = Calendar.getInstance();
+            long millisecondsDate = date.getTimeInMillis();
+
+            if (h.isAvailable() == false && h.isAvailabilityPeriod() == false && endDate >= millisecondsDate) {
+                return false;
+            }
+        }
+
+        house.setAddress(null);
+        for (Room r: house.getRooms()) {
+            Room room = this.roomService.getRoomById(r.getId());
+            room.setHouse(null);
+            this.roomService.deleteById(room.getId());
+        }
+
+        house.setRooms(null);
+        this.houseService.save(house);
+        house.setOwner(null);
+        this.houseService.save(house);
+
+        for (Image i: house.getImages()) {
+            Image image = this.imageService.getImageById(i.getId());
+            image.setHouse(null);
+            this.imageService.delete(image.getId());
+        }
+
+        house.setImages(null);
+        this.houseService.save(house);
+
+        // rezervacije
+        for (HouseReservation h: house.getCourses()) {
+            HouseReservation houseReservation = this.houseReservationService.getHouseReservationById(h.getId());
+
+            Report report = this.reportService.getReportByHouseReservationId(h.getId());
+            if(report != null) {
+                this.reportService.delete(report.getId());
+            }
+
+            Set<AdditionalServices> additionalServices =  houseReservation.getAdditionalServices();
+            for(AdditionalServices a: additionalServices){
+                a.getHouseReservationsServices().remove(houseReservation);
+                this.additionalServicesService.save(a);
+            }
+
+            houseReservation.setGuest(null);
+            houseReservation.setHouse(null);
+            houseReservation = this.houseReservationService.save(houseReservation);
+
+            this.houseReservationService.delete(houseReservation.getId());
+        }
+
+        house.setCourses(null);
+        this.houseService.save(house);
+
+        // dodatne usluge
+        for (AdditionalServices a: house.getServices()) {
+            AdditionalServices additionalServices = this.additionalServicesService.getAdditionalServicesById(a.getId());
+            additionalServices.setHouses(null);
+            additionalServices.setHouseReservationsServices(null);
+            additionalServices.setBoats(null);
+            additionalServices.setBoatReservationsServices(null);
+            this.additionalServicesService.deleteById(a.getId());
+        }
+
+        house.setServices(null);
+        house = this.houseService.save(house);
+        this.houseService.delete(house.getId());
+
+        return true;
+	}
 
 }
 

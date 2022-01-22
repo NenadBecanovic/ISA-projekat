@@ -41,7 +41,10 @@ public class FishingAdventureController {
     @GetMapping("/getFishingAdventureById/{id}")
     public ResponseEntity<FishingAdventureDTO> getFishingAdventureDTOById(@PathVariable("id") Long id){
         FishingAdventureDTO fishingAdventure = this.fishingAdventureService.getFishingAdventureDTOById(id);
-
+        
+        if(fishingAdventure == null) {
+        	return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
         return new ResponseEntity<>(fishingAdventure, HttpStatus.OK);
     }
     
@@ -132,7 +135,7 @@ public class FishingAdventureController {
         }
         return new ResponseEntity<>(isDeleted, HttpStatus.OK);
     }
- /*   
+    
     @DeleteMapping("/deleteAllAdventuresByInstructor/{id}")
     @Transactional
     public ResponseEntity<Boolean> deleteAllAdventuresByInstructor(@PathVariable("id") Long id) {
@@ -142,5 +145,5 @@ public class FishingAdventureController {
         	return new ResponseEntity<>(isDeleted, HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>(isDeleted, HttpStatus.OK);
-    }*/
+    }
 }

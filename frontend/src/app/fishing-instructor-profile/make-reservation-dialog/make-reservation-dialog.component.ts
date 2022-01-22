@@ -54,8 +54,10 @@ export class MakeReservationDialogComponent implements OnInit {
 
   makeReservation() {
     if(this.adventureReservation.startDate === '' || this.durationHours == 0 && this.durationMinutes == 0){
-      alert('Odaberite datum!')
-    }else{
+      this._alertService.warning('Odaberite datum!');
+    } else if(this.adventureReservation.maxGuests > this.adventure.capacity){
+      this._alertService.warning('Broj gostiju je veći od dozvoljenog! Maksimum gostiju: ' + this.adventure.capacity);
+    } else{
       this.adventureReservation.adventureId = this.adventure.id;
       this.adventureReservation.isAction = false;
       this.adventureReservation.isAvailable = false;

@@ -164,38 +164,50 @@ export class AdminPageComponent implements OnInit {
   makeReservation(){}
 
   deleteUser(id: number){
-    this._myUserService.deleteUser(id).subscribe(
-      (ok: Boolean) => {
-        this._alertService.success('Korisnik uspešno obrisan!')
-        this._myUserService.getUserById(id).subscribe(
-          (user: MyUser) => {
-            if(user.authority == 'ROLE_INSTRUCTOR'){
-              this._adventureService.deleteAllAdventuresByInstructor(user.id).subscribe(
-                (error) => {
-                  this._alertService.danger('Neuspešno brisanje avantura!')
-                }
-              )
-            } else if(user.authority == 'ROLE_BOAT_OWNER'){
-              this._houseService.deleteAllHousesByOwner(user.id).subscribe(
-                (error) => {
-                  this._alertService.danger('Neuspešno brisanje kuća!')
-                }
-              )
-            } else if(user.authority == 'ROLE_HOUSE_OWNER'){
-              this._boatService.deleteAllBoatsByOwner(user.id).subscribe(
-                (error) => {
-                  this._alertService.danger('Neuspešno brisanje brodova!')
-                }
-              )
+    var canDeleteUser = false;
+    this._myUserService.getUserById(id).subscribe(
+      (user: MyUser) => {
+        if(user.authority == 'ROLE_INSTRUCTOR'){
+          this._adventureService.deleteAllAdventuresByInstructor(user.id).subscribe(
+            (ok: boolean) => {
+              if(canDeleteUser){
+                this._myUserService.deleteUser(id).subscribe(
+                  (ok: Boolean) => {
+                    this._alertService.success('Korisnik uspešno obrisan!');
+                    this.loadData();
+                  },
+                  (error) => {
+                    this._alertService.danger('Neuspešno brisanje korisnika!')
+                  }
+                )
+              }
+            },
+            (error) => {
+              this._alertService.danger('Postoje rezervacije za avanture instruktora!')
             }
-          }
-        )
-        this.loadData();
-      },
-      (error) => {
-        this._alertService.danger('Neuspešno brisanje korisnika!')
+          )
+        } else if(user.authority == 'ROLE_BOAT_OWNER'){
+          this._houseService.deleteAllHousesByOwner(user.id).subscribe(
+            (success) => {
+              canDeleteUser = true;
+            },
+            (error) => {
+              this._alertService.danger('Postoje rezervacije za brodove vlasnika!')
+            }
+          )
+        } else if(user.authority == 'ROLE_HOUSE_OWNER'){
+          this._boatService.deleteAllBoatsByOwner(user.id).subscribe(
+            (success) => {
+              canDeleteUser = true;
+            },
+            (error) => {
+              this._alertService.danger('Postoje rezervacije za kuće vlasnika!')
+            }
+          )
+        }
       }
     )
+    
   }
 
   answerOnDeleteRequest(id: number){
