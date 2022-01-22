@@ -45,7 +45,7 @@ public interface MyUserRepository extends JpaRepository<MyUser, Long> {
     
     List<MyUser> findMyUserByIsActivated(boolean isActivated);
 
-    @Query("select user from MyUser user join fetch user.authorities auth where auth.name = 'ROLE_INSTRUCTOR'")
+    @Query("select user from MyUser user join fetch user.authority auth where auth.name = 'ROLE_INSTRUCTOR'")
     List<MyUser> findAllInstructors();
 
     @Query("select user from MyUser user join fetch user.fishingAdventures adventure where adventure.id = ?1")
@@ -55,6 +55,9 @@ public interface MyUserRepository extends JpaRepository<MyUser, Long> {
 
    @Query("select user from MyUser user join fetch user.subscriptions_guests s where s.owner.id = ?1")
    List<MyUser> findSubscribedUsersByOwnerId(Long id);
+
+    @Query("select user from MyUser user join fetch user.authority auth where auth.name = 'ROLE_USER'")
+    List<MyUser> findAllUsers();
 
 
 }

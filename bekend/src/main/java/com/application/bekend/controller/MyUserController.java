@@ -49,7 +49,7 @@ public class MyUserController {
         dto.setIsFirstLogin(myUser.isFirstLogin());
         AddressDTO addressDTO = modelMapper.map(myUser.getAddress(), AddressDTO.class);
 
-        dto.setAuthority(myUser.getAuthorities().get(0).getName());
+        dto.setAuthority(myUser.getAuthority().getName());
         dto.setAddressDTO(addressDTO);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
@@ -191,7 +191,7 @@ public class MyUserController {
     public ResponseEntity<UserInfoDTO> findUserByFishingAdventureReservationId(@PathVariable("id") Long id) {
         MyUser myUser = this.myUserService.findUserById(id);
 
-        UserInfoDTO adventureUserDTO = new UserInfoDTO(myUser.getId(), myUser.getFirstName(), myUser.getLastName(), myUser.getEmail(), myUser.getAuthorities().get(0).getName());
+        UserInfoDTO adventureUserDTO = new UserInfoDTO(myUser.getId(), myUser.getFirstName(), myUser.getLastName(), myUser.getEmail(), myUser.getAuthority().getName());
 
         return new ResponseEntity<>(adventureUserDTO, HttpStatus.OK);
     }
