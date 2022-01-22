@@ -6,6 +6,7 @@ import com.application.bekend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.*;
 
@@ -84,6 +85,7 @@ public class BoatReservationController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ROLE_BOAT_OWNER')")
     @Transactional
     public ResponseEntity<BoatReservation> save(@RequestBody BoatReservationDTO dto) throws MessagingException {
         boolean response = this.boatReservationLogicService.save(dto);
@@ -98,6 +100,7 @@ public class BoatReservationController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_BOAT_OWNER')")
     @Transactional
     public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
         boolean result = this.boatReservationLogicService.delete(id);
