@@ -6,6 +6,7 @@ import {MyUser} from "../model/my-user";
 import {UserTokenState} from "../model/user-token-state";
 import {Address} from "../model/address";
 import {JwtUtilsService} from "./jwt-utils-service";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class AuthService {
 
   constructor(private _http:HttpClient, private jwtUtilsService: JwtUtilsService) { }
 
-  private readonly userPath = 'http://localhost:8080/api/identity';
+  private readonly userPath = environment.backend_api + 'api/identity';
   private access_token: any;
 
   public login(user:AuthUserDTO):Observable<void>{

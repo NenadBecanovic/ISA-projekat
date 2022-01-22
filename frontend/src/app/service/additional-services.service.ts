@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {Room} from "../model/room";
 import {AdditionalService} from "../model/additional-service";
 import {HouseReservation} from "../model/house-reservation";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class AdditionalServicesService {
 
   constructor(private _http:HttpClient) { }
 
-  private readonly userPath = 'http://localhost:8080/api/additionalServices';
+  private readonly userPath = environment.backend_api + 'api/additionalServices';
 
   public getAllByHouseId(id: number): Observable<AdditionalService[]>{
     return this._http.get<AdditionalService[]>(`${this.userPath}/getAllByHouseId/`+id)
@@ -29,7 +30,7 @@ export class AdditionalServicesService {
   public getAllByFishingAdventureId(id: number): Observable<AdditionalService[]>{
     return this._http.get<AdditionalService[]>(`${this.userPath}/getAllByFishingAdventureId/`+id)
   }
-  
+
   public getAllByBoatReservationId(id: number): Observable<AdditionalService[]>{
     return this._http.get<AdditionalService[]>(`${this.userPath}/getAllByBoatReservationId/`+id)
   }

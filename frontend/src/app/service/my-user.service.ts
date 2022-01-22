@@ -16,6 +16,7 @@ import { NewUserRequest } from '../model/new-user-request';
 import { FishingAdventureInstructorDTO } from '../model/fishing-adventure-instructorDTO';
 import {ReservationCheck} from "../model/reservation-check";
 import {Boat} from "../model/boat";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class MyUserService {
 
   constructor(private _http:HttpClient) { }
 
-  private readonly userPath = 'http://localhost:8080/api/user';
+  private readonly userPath = environment.backend_api + 'api/user';
 
   public updateUser(myUser: MyUser): Observable<MyUser>{
     return this._http.put<MyUser>(`${this.userPath}/updateUser/`, myUser)

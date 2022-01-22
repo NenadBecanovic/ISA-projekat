@@ -6,12 +6,13 @@ import { AdventureReservation } from '../model/adventure-reservation';
 import { FishingAdventure } from '../model/fishing-adventure';
 import { FishingAdventureInstructorDTO } from '../model/fishing-adventure-instructorDTO';
 import { NewFishingAdventure } from '../model/new-fishing-adventure';
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdventureProfileService {
-  private readonly userPath = 'http://localhost:8080/api/fishingAdventure';
+  private readonly userPath = environment.backend_api + 'api/fishingAdventure';
 
   constructor(private _http: HttpClient) {}
 

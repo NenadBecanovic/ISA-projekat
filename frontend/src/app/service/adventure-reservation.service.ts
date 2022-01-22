@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AdventureReservation } from '../model/adventure-reservation';
 import { TimePeriod } from '../model/time-period';
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class AdventureReservationService {
 
   constructor(private _http:HttpClient) { }
 
-  private readonly userPath = 'http://localhost:8080/api/fishingAdventureReservations';
+  private readonly userPath = environment.backend_api + 'api/fishingAdventureReservations';
 
   public getAllActionsByFishingAdventureId(id: number): Observable<AdventureReservation[]> {
     return this._http.get<AdventureReservation[]>(`${this.userPath}/getAllActionsByFishingAdventureId/`+id)
@@ -25,7 +26,7 @@ export class AdventureReservationService {
   public getAllAvaibilityPeriodsByInstructorId(id: number): Observable<AdventureReservation[]> {
     return this._http.get<AdventureReservation[]>(`${this.userPath}/getAllAvaibilityPeriodsByInstructorId/`+id)
   }
-  
+
   public getAdventureReservationsByGuestId(id: number): Observable<AdventureReservation[]> {
     return this._http.get<AdventureReservation[]>(`${this.userPath}/getFishingAdventureReservationsByGuestId/`+id)
   }

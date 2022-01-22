@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Company } from '../model/company';
 import { TimePeriod } from '../model/time-period';
 import { UserCategory } from '../model/user-category';
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class CompanyService {
 
   constructor(private _http:HttpClient) { }
 
-  private readonly userPath = 'http://localhost:8080/api/company';
+  private readonly userPath = environment.backend_api + 'api/company';
 
   public saveCategory(userCategory: UserCategory): Observable<Boolean> {
     return this._http.post<Boolean>(`${this.userPath}/addCategory`, userCategory)

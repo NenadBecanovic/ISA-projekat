@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {HouseReservationSlide} from "../model/house-reservation-slide";
 import {HouseReservation} from "../model/house-reservation";
 import { TimePeriod } from '../model/time-period';
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class HouseReservationService {
 
   constructor(private _http:HttpClient) { }
 
-  private readonly userPath = 'http://localhost:8080/api/houseReservations';
+  private readonly userPath = environment.backend_api + 'api/houseReservations';
 
   public getAllByHouseId(id: number): Observable<HouseReservationSlide[]> {
     return this._http.get<HouseReservationSlide[]>(`${this.userPath}/getAllByHouseId/`+id)

@@ -6,6 +6,7 @@ import {BoatHomeSlide} from "../model/boat-home-slide";
 import {HouseHomeSlide} from "../model/house-home-slide";
 import {HouseReservation} from "../model/house-reservation";
 import {ReservationCheck} from "../model/reservation-check";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class HouseService {
   constructor(private _http: HttpClient) {
   }
 
-  private readonly userPath = 'http://localhost:8080/api/house';
+  private readonly userPath = environment.backend_api + 'api/house';
 
   public getHouseById(id: number): Observable<House> {
     return this._http.get<House>(`${this.userPath}/getHouseById/` + id)

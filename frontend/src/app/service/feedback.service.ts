@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Feedback } from '../model/feedback';
 import { FeedbackInfo } from '../model/feedback-info';
+import {environment} from "../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +12,7 @@ export class FeedbackService {
 
     constructor(private _http:HttpClient) { }
 
-    private readonly userPath = 'http://localhost:8080/api/feedback';
+    private readonly userPath = environment.backend_api + 'api/feedback';
 
     public saveFeedback(feedback: Feedback): Observable<Feedback>{
         return this._http.post<Feedback>(`${this.userPath}/saveFeedback`,feedback)

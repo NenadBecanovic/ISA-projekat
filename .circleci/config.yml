@@ -1,0 +1,69 @@
+version: 2.1
+
+jobs:
+  build-and-test:
+    docker:
+      - image: cimg/openjdk:11.0
+      - image: circleci/postgres:9.6.5-alpine-ram
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: isaProjectDb
+    working_directory: ~/ISA-projekat/bekend
+    steps:
+      - checkout:
+          path: ~/ISA-projekat
+      - run:
+          name: install dockerize
+          command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+          environment:
+            DOCKERIZE_VERSION: v0.3.0
+      - run:
+          name: Wait for db
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run: sudo apt-get update
+      - run: sudo apt-get upgrade
+      - run: sudo apt-get install postgresql-client
+      - run:
+          name: Build
+          command: mvn -B -DskipTests clean package
+      - run:
+          name: Test
+          command: mvn test
+      - run:
+          name: Analyze on SonarCloud
+          command: mvn verify sonar:sonar -Dsonar.projectKey=TeodoraMaruna_ISA-projekat
+  prepare-for-deploy:
+    docker:
+        - image: cimg/openjdk:11.0
+    working_directory: ~/ISA-projekat
+    steps:
+      - checkout:
+          path: ~/ISA-projekat
+          
+orbs:
+  heroku: circleci/heroku@1.2.6
+  sonarcloud: sonarsource/sonarcloud@1.0.3
+workflows:
+  heroku_deploy:
+    jobs:
+      - build-and-test:
+          filters:
+                branches:
+                  only:
+                    - develop
+      - prepare-for-deploy:
+          filters:
+                branches:
+                  only:
+                    - develop
+      - heroku/deploy-via-git:
+          filters:
+                branches:
+                  only:
+                    - develop
+          requires:
+            - build-and-test
+            - prepare-for-deploy
