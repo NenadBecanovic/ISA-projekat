@@ -69,7 +69,7 @@ public class CancelReservationService {
         int min = 0;
         Long id = (long) 0;
         for(UserCategory category: allCategories) {
-            if(category.getPoints() > min && user.getPoints() > category.getPoints()) {
+            if(category.getPoints() >= min && user.getPoints() >= category.getPoints()) {
                 min = category.getPoints();
                 id = category.getId();
             }

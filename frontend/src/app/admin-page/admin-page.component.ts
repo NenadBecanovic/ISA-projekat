@@ -13,8 +13,11 @@ import { NewUserRequest } from '../model/new-user-request';
 import { Report } from '../model/report';
 import { ReportInfo } from '../model/report-info';
 import { UserInfo } from '../model/user-info';
+import { AdventureProfileService } from '../service/adventure-profile.service';
 import { AppealService } from '../service/appeal.service';
+import { BoatService } from '../service/boat.service';
 import { FeedbackService } from '../service/feedback.service';
+import { HouseService } from '../service/house.service';
 import { MyUserService } from '../service/my-user.service';
 import { ReportService } from '../service/report.service';
 import { AdminRegistrationDialogComponent } from './admin-registration-dialog/admin-registration-dialog.component';
@@ -48,7 +51,8 @@ export class AdminPageComponent implements OnInit {
   notApprovedFeedbacks: FeedbackInfo[] = new Array<FeedbackInfo>();
 
   constructor(public dialog: MatDialog, private _myUserService: MyUserService, private _reportService: ReportService, private _feedbackService: FeedbackService, 
-    private _authentificationService: AuthentificationService, private _appealService: AppealService, private _alertService: AlertService) { }
+    private _authentificationService: AuthentificationService, private _appealService: AppealService, private _alertService: AlertService, private _adventureService: AdventureProfileService,
+          private _houseService: HouseService, private _boatService: BoatService) { }
 
   ngOnInit() {
     this.loadData();
@@ -163,6 +167,29 @@ export class AdminPageComponent implements OnInit {
     this._myUserService.deleteUser(id).subscribe(
       (ok: Boolean) => {
         this._alertService.success('Korisnik uspešno obrisan!')
+        this._myUserService.getUserById(id).subscribe(
+          (user: MyUser) => {
+            if(user.authority == 'ROLE_INSTRUCTOR'){
+              this._adventureService.deleteAllAdventuresByInstructor(user.id).subscribe(
+                (error) => {
+                  this._alertService.danger('Neuspešno brisanje avantura!')
+                }
+              )
+            } else if(user.authority == 'ROLE_BOAT_OWNER'){
+              this._houseService.deleteAllHousesByOwner(user.id).subscribe(
+                (error) => {
+                  this._alertService.danger('Neuspešno brisanje kuća!')
+                }
+              )
+            } else if(user.authority == 'ROLE_HOUSE_OWNER'){
+              this._boatService.deleteAllBoatsByOwner(user.id).subscribe(
+                (error) => {
+                  this._alertService.danger('Neuspešno brisanje brodova!')
+                }
+              )
+            }
+          }
+        )
         this.loadData();
       },
       (error) => {

@@ -42,4 +42,8 @@ export class BoatService {
   public findAllAvailableBoats(request: ReservationCheck): Observable<Boat[]>{
     return this._http.post<Boat[]>(`${this.userPath}/findAllAvailableBoats`, request)
   }
+
+  public deleteAllBoatsByOwner(id: number): Observable <boolean> {
+    return this._http.delete<boolean>(`${this.userPath}/deleteAllBoatsByOwner/` + id)
+  }
 }

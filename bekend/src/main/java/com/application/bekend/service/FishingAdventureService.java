@@ -262,4 +262,9 @@ public class FishingAdventureService {
         this.additionalServicesService.deleteById(id);
         return true;
     }
+
+	public boolean deleteAllAdventuresByInstructor(Long id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
