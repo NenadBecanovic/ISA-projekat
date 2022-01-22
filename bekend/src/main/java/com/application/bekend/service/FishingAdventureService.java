@@ -71,7 +71,7 @@ public class FishingAdventureService {
     public FishingAdventure save(FishingAdventure fishingAdventure) {return this.fishingAdventureRepository.save(fishingAdventure);}
 
     public FishingAdventureInstructorInfoDTO getFishingAdventureInstructor(Long adventureId) {
-    	FishingAdventure adventure = this.fishingAdventureRepository.getById(adventureId);
+    	FishingAdventure adventure = this.fishingAdventureRepository.getFishingAdventureById(adventureId);
     	MyUser instructor = adventure.getInstructor();
     	return new FishingAdventureInstructorInfoDTO(instructor.getId(), instructor.getFirstName(), instructor.getLastName(),instructor.getPhoneNumber(),instructor.getEmail(),instructor.getPersonalDescription());
     }

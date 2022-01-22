@@ -48,29 +48,13 @@
               </label>
             </div>
             <div class="form-check last-form-check">
-              <a class="reservations-link" (click)="showCalendarDialog()"><u>Kalendar zauzetosti</u></a>
-            </div>
-            <div class="form-check last-form-check">
-              <a class="reservations-link" (click)="defineAvaibilityDialog()"><u>Definisi period odmora</u></a>
-            </div>
-            <div class="form-check last-form-check">
-              <!--              <a class="reservations-link" (click)="instructorChart()"><u>Izveštaj o poslovanju</u></a>-->
-            </div>
-            <div class="form-check last-form-check">
-              <a class="reservations-link" (click)="openProfileDialog()"><u>Izmeni profil</u></a>
-            </div>
-            <div class="form-check last-form-check">
-              <a class="reservations-link" (click)="editPersonalDescription()"><u>Izmeni lični opis</u></a>
-            </div>
-            <div class="form-check last-form-check">
-              <a class="reservations-link" (click)="deleteProfileDialog()"><u>Obriši profil</u></a>
+              <a class="reservations-link"  (click)="subsrcibe()"><u>Preplati se</u></a>
             </div>
           </div>
           <div class="d-flex ms-5 flex-column adventures">
 
             <div class="d-flex flex-row mt-2">
               <span class="adventure-section me-2">Avanture</span>
-              <a class="red-link no-wrap mt-2" (click)="addAdventure()">Dodaj</a>
               <div class="d-flex search justify-content-end">
                 <input type="text" placeholder="Pretraži..." name="search" [(ngModel)]="filterTerm">
               </div>
@@ -80,11 +64,12 @@
                 <div class="card-body">
                   <div class="d-flex flex-row">
                     <div class="d-flex flex-column me-3">
-                      <img class="profile-picture" src="https://mackenzienz.com/wp-content/uploads/2015/09/Fishing-PAge-BAnner.jpg?fbclid=IwAR1c5dayMLBGnI0cFCy6Z8zFfBjmkX17Z9krEkjT5v2vDbf5xKxvVNgFSmk"/>
+                      <img class="profile-picture" style="width: 250px; height: 150px" *ngIf="a.images.length > 0"  src="{{a.images[0].imageUrl}}">
+                      <img class="profile-picture" *ngIf="a.images.length == 0" style="width: 100%; height: 100%;border-radius: initial" src="assets/no_image.jpg" >
                     </div>
                     <div class="d-flex flex-column">
-                      <a class="card-text" *ngIf="a.numberOfReviews != 0" (click)="goToAdventure(a.id)"> {{a.name}} {{a.grade / a.numberOfReviews}} </a>
-                      <a class="card-text" *ngIf="a.numberOfReviews == 0" (click)="goToAdventure(a.id)"> {{a.name}} {{a.grade}} </a>
+                      <a class="card-text" *ngIf="a.numberOfReviews != 0" > {{a.name}} {{a.grade / a.numberOfReviews}} </a>
+                      <a class="card-text" *ngIf="a.numberOfReviews == 0"> {{a.name}} {{a.grade}} </a>
                       <p class="card-text">{{a.address.street}}, {{a.address.city}}, {{a.address.state}} </p>
                       <p class="card-text">Broj osoba: {{a.capacity}}</p>
                       <p class="card-text">Cena: {{a.pricePerHour}} din/h</p>
@@ -93,9 +78,12 @@
                 </div>
                 <div class="d-flex flex-row-reverse">
                   <div class="d-flex me-3 mb-3 justify-content-end ">
+                    <button type="button" style="margin-right: 5px" class="btn add-action-button"
+                            (click)="goToAdventure(a.id)">Pogledaj</button>
                     <button type="button" class="btn add-action-button"
                             (click)="makeReservation(a)">Rezerviši</button>
                   </div>
+
                 </div>
               </div>
             </div>
@@ -104,4 +92,5 @@
       </div>
     </div>
   </div>
+  <ngx-alerts></ngx-alerts>
 </div>

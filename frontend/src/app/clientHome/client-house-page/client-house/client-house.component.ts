@@ -177,6 +177,7 @@ export class ClientHouseComponent implements OnInit {
         console.log(bool)
         if(bool){
           this._alertService.success("Rezervacija je uspjesna, pogledajte mejl");
+          this.loadData(this.id)
         }else{
           this._alertService.warning("Rezervacija je vec zauzeta");
         }

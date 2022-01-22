@@ -50,6 +50,17 @@ public class AdventureReservation {
     public AdventureReservation() {
     }
 
+    public AdventureReservation(Date startDate, Date endDate, int maxGuests, float price, boolean isAvailable, FishingAdventure fishingAdventure) {
+
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.maxGuests = maxGuests;
+        this.price = price;
+        this.isAvailable = isAvailable;
+        this.fishingAdventure = fishingAdventure;
+    }
+
+
     public Long getId() {
         return id;
     }

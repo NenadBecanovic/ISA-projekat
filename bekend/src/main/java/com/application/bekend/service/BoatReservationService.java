@@ -4,6 +4,7 @@ import com.application.bekend.DTO.BoatReservationDTO;
 import com.application.bekend.DTO.ReservationCheckDTO;
 import com.application.bekend.model.AdditionalServices;
 import com.application.bekend.model.BoatReservation;
+import com.application.bekend.model.HouseReservation;
 import com.application.bekend.model.MyUser;
 import com.application.bekend.repository.BoatReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,6 +85,9 @@ public class BoatReservationService {
         for(BoatReservation b: boatReservations){
             Long startDateMilis = b.getStartDate().getTime();
             Long endDateMilis = b.getEndDate().getTime();
+            if(b.getCancelled()){
+                continue;
+            }
             isAvailable = isAvailable(reservationCheckDTO, isAvailable, b, startDateMilis, endDateMilis);
             if(!isAvailable){
                 break;
@@ -94,7 +98,7 @@ public class BoatReservationService {
 
     private boolean isAvailable(ReservationCheckDTO reservationCheckDTO, boolean isAvailable, BoatReservation b, Long startDateMilis, Long endDateMilis) {
         isAvailable = false;
-        if(!(b.isAction()&& b.isAvailable() ==true) || b.getCancelled() == true){
+        if(!(b.isAction()&& b.isAvailable() ==true)){
             if(!(reservationCheckDTO.getStartMilis() <= startDateMilis && reservationCheckDTO.getEndMilis() >= endDateMilis)){
                 if(!checkIsBetween(reservationCheckDTO, startDateMilis, endDateMilis)){
                     isAvailable = true;
@@ -135,4 +139,29 @@ public class BoatReservationService {
 		// TODO Auto-generated method stub
 		return this.boatReservationRepository.findAll();
 	}
+
+    public void checkIfActionInside(ReservationCheckDTO reservationCheckDTO, Long boatId){
+        List<BoatReservation> boatReservations = this.getAllByBoat_Id(boatId);
+
+        for(BoatReservation h: boatReservations){
+            Long startDateMilis = h.getStartDate().getTime();
+            Long endDateMilis = h.getEndDate().getTime();
+            if(h.isAction() && reservationCheckDTO.getStartMilis() <= startDateMilis && endDateMilis <= reservationCheckDTO.getEndMilis()){
+                deleteBoatReservation(h.getId());
+            }
+        }
+    }
+
+    public void deleteBoatReservation(Long id){
+        BoatReservation b = this.getBoatReservationById(id);
+        Set<AdditionalServices> additionalServices =  b.getAdditionalServices();     // ne moramo direktno iz baze dobavljati jer ova lista u sebi ima objekte sa svojim pravim id-jevima
+        for(AdditionalServices a: additionalServices){
+            a.getHouseReservationsServices().remove(b);  // iz niza rezervacija dodatnih usluga izbacimo ovu rezervaciju koju brisemo - raskinuta u tabeli additional_services_house_reservation (sa vodece strane, jer je kod AdditionalService JoinTable)
+            this.additionalServicesService.save(a);
+        }
+        b.setGuest(null);
+        b.setBoat(null);  // raskinuta veza u tabeli house_reservation_table (sa strane vodece veze u ManyToMany vezi)
+        b = this.boatReservationRepository.save(b);
+        this.delete(b.getId());
+    }
 }
