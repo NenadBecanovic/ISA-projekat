@@ -49,6 +49,8 @@ public class HouseController {
         HouseDTO dto = new HouseDTO(house.getId(), house.getName(), addressDTO, house.getPromoDescription(), house.getBehaviourRules(),
                 house.getPricePerDay(), house.isCancalletionFree(), house.getCancalletionFee());
         dto.setOwnerId(house.getOwner().getId());
+        dto.setNumberOfReviews(house.getNumberOfReviews());
+        dto.setGrade(house.getGrade());
 
         // TODO: ispraviti
 //        Set<ImageDTO> dtoSet = new HashSet<>();

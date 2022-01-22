@@ -25,9 +25,10 @@ public class BoatReservationController {
     private final HouseReservationService houseReservationService;
     private final UserCategoryService userCategoryService;
 	private final CompanyService companyService;
+    private final BoatReservationLogicService boatReservationLogicService;
 
     @Autowired
-    public BoatReservationController(BoatReservationService boatReservationService, AdditionalServicesService additionalServicesService, BoatService boatService, MyUserService myUserService, HouseReservationService houseReservationService, UserCategoryService userCategoryService, CompanyService companyService) {
+    public BoatReservationController(BoatReservationService boatReservationService, AdditionalServicesService additionalServicesService, BoatService boatService, MyUserService myUserService, HouseReservationService houseReservationService, UserCategoryService userCategoryService, CompanyService companyService, BoatReservationLogicService boatReservationLogicService) {
         this.boatReservationService = boatReservationService;
         this.additionalServicesService = additionalServicesService;
         this.boatService = boatService;
@@ -35,6 +36,7 @@ public class BoatReservationController {
         this.houseReservationService = houseReservationService;
         this.userCategoryService = userCategoryService;
         this.companyService = companyService;
+        this.boatReservationLogicService = boatReservationLogicService;
     }
 
     @GetMapping("/getAllByBoatId/{id}")
@@ -84,128 +86,21 @@ public class BoatReservationController {
     @PostMapping("/add")
     @Transactional
     public ResponseEntity<BoatReservation> save(@RequestBody BoatReservationDTO dto) throws MessagingException {
-        Boat boat = this.boatService.getBoatById(dto.getBoatId());
-        MyUser owner = this.myUserService.findUserByBoatId(dto.getBoatId());
-        List<BoatReservation> boatReservations = this.boatReservationService.getAllByBoat_Id(boat.getId());
-        for (BoatReservation h: boatReservations) {
-            Long start =  h.getStartDate().getTime();
-            Long end = h.getEndDate().getTime();
-
-            if (!h.getCancelled()) {
-                if (Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getEndDate()) <= end ||
-                        Long.parseLong(dto.getStartDate()) <= start && Long.parseLong(dto.getEndDate()) >= start ||
-                        Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getStartDate()) <= end) {
-                    return new ResponseEntity<>(HttpStatus.CONFLICT);
-                }
-            }
+        boolean response = this.boatReservationLogicService.save(dto);
+        if (response)
+        {
+            return new ResponseEntity<>(HttpStatus.CREATED);
         }
-
-        // provera da li vec postoji termin za klijenta u izabranom periodu
-        List<HouseReservation> houseReservationsClient = this.houseReservationService.getHouseReservationsByGuestId(dto.getGuestId());
-        List<BoatReservation> boatReservationsClient = this.boatReservationService.getBoatReservationsByGuestId(dto.getGuestId());
-
-        for (HouseReservation h: houseReservationsClient) {
-            Long start =  h.getStartDate().getTime();
-            Long end = h.getEndDate().getTime();
-
-            if (!h.getCancelled()) {
-                if (Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getEndDate()) <= end ||
-                        Long.parseLong(dto.getStartDate()) <= start && Long.parseLong(dto.getEndDate()) >= start ||
-                        Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getStartDate()) <= end) {
-                    return new ResponseEntity<>(HttpStatus.CONFLICT);
-                }
-            }
+        else
+        {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-
-        for (BoatReservation h: boatReservationsClient) {
-            Long start =  h.getStartDate().getTime();
-            Long end = h.getEndDate().getTime();
-
-            if (!h.getCancelled()) {
-                if (Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getEndDate()) <= end ||
-                        Long.parseLong(dto.getStartDate()) <= start && Long.parseLong(dto.getEndDate()) >= start ||
-                        Long.parseLong(dto.getStartDate()) >= start && Long.parseLong(dto.getStartDate()) <= end) {
-                    return new ResponseEntity<>(HttpStatus.CONFLICT);
-                }
-            }
-        }
-        // kraj provere za klijenta
-
-        Date startDate = new Date(Long.parseLong(dto.getStartDate()));
-        Date endDate = new Date(Long.parseLong(dto.getEndDate()));
-        BoatReservation boatReservation = new BoatReservation(dto.getId(), startDate, endDate, dto.getMaxGuests(), dto.getPrice(), dto.isAvailable(), boat);
-        boatReservation.setAvailabilityPeriod(dto.isAvailabilityPeriod());
-        boatReservation.setAction(dto.isAction());
-        boatReservation.setCancelled(dto.getCancelled());
-
-        boatReservation = this.boatReservationService.save(boatReservation); // sacuvali smo rezervaciju i povratna vrednost metode je tacno ta rezervacija iz baze (sa ispravno generisanim id-em ...)
-        // ovaj korak je obavezan jer se rezervacija koju dodajemo ovde (***) mora nalaziti u bazi
-        
-        if(!dto.isAction() && !dto.isAvailabilityPeriod()) {
-	        owner.setPoints(owner.getPoints() + this.companyService.getCompanyInfo((long) 1).getPointsPerReservationOwner());
-	        owner = this.checkUserCategory(owner);
-        }
-        Set<AdditionalServices> additionalServicesSet = new HashSet<>();
-        for(AdditionalServicesDTO add : dto.getAdditionalServices()){
-
-            // iz baze dobavljamo (original) dodatnu uslugu i u njen set rezervacija, dodajemo ovu konkretnu rezervaciju (houseReservation)
-            AdditionalServices additionalServices = this.additionalServicesService.getAdditionalServicesById(add.getId());
-
-            additionalServices.addBoatReservation(boatReservation); // (***)
-            // da je bio slucaj da smo dodali samo inicijalno kreiran houseReservation (nastao iz podataka od DTO), bio bi error: javax.persistence.EntityNotFoundException
-            // jer u tabeli koja spaja AdditionalServices (id_a) i HouseReservation (id_h), id_h bi bio null i to vraca gresku, jer se u tabeli mora nalaziti neki vec postojeci id_h (radimo spajanje podataka dve postojece table, nema novih podataka)
-
-            additionalServicesSet.add(additionalServices);   // u set koji cemo kasnije dodeliti rezervaciji dodajemo dodatnu uslugu
-
-            // azuriramo (sacuvamo) izmenjenu dodatnu uslugu u bazi (additional service)
-            this.additionalServicesService.save(additionalServices);
-        }
-
-        // dodajem rezervaciju vikendice u samu vikendicu
-        boat.addBoatReservation(boatReservation);
-        this.boatService.save(boat);
-
-        if (dto.getGuestId() != null && dto.getGuestId() != 0 && dto.isAvailable() == false) {
-            MyUser guest = this.myUserService.findUserById(dto.getGuestId());
-            boatReservation.setGuest(guest);
-            this.boatService.save(boat);
-
-            Set<BoatReservation> boatReservations1 = guest.getBoatReservations();
-            boatReservations1.add(boatReservation);
-            guest.setBoatReservations(boatReservations1);
-            guest.setPoints(guest.getPoints() + this.companyService.getCompanyInfo((long) 1).getPointsPerReservationClient());
-            this.checkUserCategory(guest);
-            guest = this.myUserService.save(guest);
-
-            // TODO: ako je vlasnik zakazao za klijenta, poslati mejl klijentu
-            this.myUserService.sendMailToClient(null, dto, null, "", boat.getName(), "");
-        }
-
-        // TODO: ako je akcije, poslati mejl svim pretplacenim klijentima
-        if (dto.isAction() == true && dto.isAvailable() == true){
-            this.myUserService.sendSubscribedUsersEmail(null, dto, null, "", boat.getName(), "");
-        }
-
-        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete/{id}")
     @Transactional
     public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
-        BoatReservation boatReservation = this.boatReservationService.getBoatReservationById(id);   // dobavimo rezervaciju iz baze
-
-        Set<AdditionalServices> additionalServices =  boatReservation.getAdditionalServices();     // ne moramo direktno iz baze dobavljati jer ova lista u sebi ima objekte sa svojim pravim id-jevima
-        for(AdditionalServices a: additionalServices){
-            a.getBoatReservationsServices().remove(boatReservation);  // iz niza rezervacija dodatnih usluga izbacimo ovu rezervaciju koju brisemo - raskinuta u tabeli additional_services_house_reservation (sa vodece strane, jer je kod AdditionalService JoinTable)
-            this.additionalServicesService.save(a);
-        }
-
-        boatReservation.setGuest(null); // TODO: proveriit
-        boatReservation.setBoat(null);  // raskinuta veza u tabeli house_reservation_table (sa strane vodece veze u ManyToMany vezi)
-        boatReservation = this.boatReservationService.save(boatReservation);
-
-        this.boatReservationService.delete(boatReservation.getId());  // brisanje rezervacije iz house_reservation tabele
-
+        boolean result = this.boatReservationLogicService.delete(id);
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
@@ -370,21 +265,6 @@ public class BoatReservationController {
             boatReservationDTOS.add(dto);
         }
         return new ResponseEntity<>(boatReservationDTOS, HttpStatus.OK);
-    }
-    
-    private MyUser checkUserCategory(MyUser user) {
-        List<UserCategory> allCategories = this.userCategoryService.findAll();
-        int min = 0;
-        Long id = (long) 0;
-        for(UserCategory category: allCategories) {
-            if(category.getPoints() > min && user.getPoints() > category.getPoints()) {
-                min = category.getPoints();
-                id = category.getId();
-            }
-        }
-        UserCategory cat = this.userCategoryService.getCategoryById(id);
-        user.setCategory(cat);
-        return this.myUserService.save(user);
     }
 
     @GetMapping("/getCompanyProfit/{startDate}/{endDate}")

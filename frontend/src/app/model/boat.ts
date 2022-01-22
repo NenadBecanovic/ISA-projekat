@@ -26,6 +26,7 @@ export class Boat {
   images: Image[] = new Array();
   // courses: Array<BoatReservation>;
   ownerId: number;
+  numberOfReviews: number = 0;
 
   constructor(id: number, name: String, promoDescription: String, behaviourRules: String, pricePerDay: number, capacity: number,  type: String,
               length: number, engineNumber: number, enginePower: number, maxSpeed: number, cancalletionFree: boolean, cancalletionFee: number,
