@@ -43,7 +43,7 @@ public class ClientReservationController {
     }
 
 
-    @PostMapping("/action/adventure")
+    @PostMapping("/adventure")
     public ResponseEntity<Boolean> addAdventureReservationClient(@RequestBody AdventureReservationDTO dto){
 
         Boolean success = this.clientReservationService.addAdventureReservationClient(dto);
@@ -67,7 +67,7 @@ public class ClientReservationController {
     }
 
 
-    @PostMapping("/adventure")
+    @PostMapping("action/adventure")
     public ResponseEntity<Boolean> addAdventureActionClient(@RequestBody ActionDTO dto){
 
         Boolean success = this.clientReservationService.addAdventureActionClient(dto);

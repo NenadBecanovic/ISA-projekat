@@ -1,5 +1,4 @@
-<h1 mat-dialog-title>Nova akcija</h1>
-<small>Gost je automatski podešen na trenutnog gosta</small>
+<h1 mat-dialog-title>Rezervacija</h1>
 <div mat-dialog-content>
   <form  style="margin: auto !important" #addActionForm = "ngForm" (ngSubmit)="makeReservation()">
     <div class = "user-details" >
@@ -13,18 +12,18 @@
         <div class="d-flex flex-row">
           <div class="me-2">
             <small>Sati</small>
-            <input type="number" name="durationHours" [(ngModel)]="this.durationHours"  required>
+            <input type="number" name="durationHours" [min] = "min" [(ngModel)]="this.durationHours"  required>
           </div>
           <div>
             <small>Minuti</small>
-            <input type="number" name="durationMinutes" [(ngModel)]="this.durationMinutes"  required>
+            <input type="number" name="durationMinutes" [min] = "min" [(ngModel)]="this.durationMinutes"  required>
           </div>
         </div>
       </div>
       <br>
       <div class = "input-box">
         <span class="details">Maksimalan broj gostiju:</span>
-        <input type="number" name="maxGuests" [(ngModel)]="adventureReservation.maxGuests" placeholder="Unesite maksimalan broj gostiju" required>
+        <input type="number" name="maxGuests" [min] = "min" [(ngModel)]="maxGuest" placeholder="Unesite maksimalan broj gostiju" required>
       </div>
       <br>
       <div class = "input-box">
@@ -40,4 +39,5 @@
       <input mat-button [disabled]="isDisabled" type="submit" value="Dodaj">
     </div>
   </form>
+  <ngx-alerts></ngx-alerts>
 </div>

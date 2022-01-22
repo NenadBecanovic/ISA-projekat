@@ -92,8 +92,7 @@ export class ClientInstructorsComponent implements OnInit {
   }
 
   viewProfile(id: number) {
-    console.log(id)
-    this._router.navigate(['instructor',id])
+    this._router.navigate(['client/instructor',id])
   }
 
   changeSortGrade() {

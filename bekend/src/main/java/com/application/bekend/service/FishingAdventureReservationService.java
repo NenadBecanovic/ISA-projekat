@@ -167,6 +167,10 @@ public class FishingAdventureReservationService {
 		return false;
 	}
 
+    public void deleteAdventureReservationById(Long id){
+        this.fishingAdventureReservationsRepository.deleteById(id);
+    }
+
 	public List<AdventureReservationDTO> getAllActionsByAdventureId(Long id) {
 		List<AdventureReservation> adventureReservations = this.getAllByFishingAdventure_Id(id);
 

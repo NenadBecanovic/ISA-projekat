@@ -52,7 +52,9 @@ public class ClientReservationService {
         House house = this.houseService.getHouseById(dto.getHouseId());
         MyUser guest = this.myUserService.findUserById(dto.getGuestId());
         boolean isAvailable = this.houseReservationService.findHouseAvailability(reservationCheckDTO, dto.getHouseId());
-        if(isAvailable){
+        boolean isPreviouslyCanceled = this.checkPreviousCancelletion(guest, reservationCheckDTO);
+        if(isAvailable && isPreviouslyCanceled){
+            this.houseReservationService.checkIfActionInside(reservationCheckDTO, dto.getHouseId());
             Date startDate = new Date(dto.getMilisStartDate());
             Date endDate = new Date(dto.getMilisEndDate());
             HouseReservation houseReservation = new HouseReservation(dto.getId(), startDate, endDate, dto.getMaxGuests(),
@@ -68,7 +70,22 @@ public class ClientReservationService {
             sendEmailClient(guest, house.getName(), "", "");
         }
 
-        return isAvailable;
+        return isAvailable && isPreviouslyCanceled;
+    }
+
+    private boolean checkPreviousCancelletion(MyUser guest, ReservationCheckDTO reservationCheckDTO) {
+        List<HouseReservation> guestReservations = this.houseReservationService.getHouseReservationsByGuestId(guest.getId());
+
+        for(HouseReservation h: guestReservations){
+            Long startDateMilis = h.getStartDate().getTime();
+            Long endDateMilis = h.getEndDate().getTime();
+            if(h.getCancelled()){
+                if(startDateMilis.equals(reservationCheckDTO.getStartMilis()) && endDateMilis.equals(reservationCheckDTO.getEndMilis())){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Transactional
@@ -77,7 +94,9 @@ public class ClientReservationService {
         Boat boat = this.boatservice.getBoatById(dto.getBoatId());
         MyUser guest = this.myUserService.findUserById(dto.getGuestId());
         boolean isAvailable = this.boatReservationService.findBoatAvailability(reservationCheckDTO, boat.getId());
-        if(isAvailable){
+        boolean isPreviouslyCanceled = this.checkPreviousCancelletionBoat(guest, reservationCheckDTO);
+        if(isAvailable && isPreviouslyCanceled){
+            this.boatReservationService.checkIfActionInside(reservationCheckDTO, boat.getId());
             Date startDate = new Date(dto.getMilisStartDate());
             Date endDate = new Date(dto.getMilisEndDate());
             BoatReservation boatReservation = new BoatReservation(dto.getId(), startDate, endDate, dto.getMaxGuests(),
@@ -91,7 +110,24 @@ public class ClientReservationService {
             addAdditionalServices(dto, boatReservation);
             sendEmailClient(guest, "", boat.getName(), "");
         }
-        return isAvailable;
+        return isAvailable && isPreviouslyCanceled;
+    }
+
+
+
+    private boolean checkPreviousCancelletionBoat(MyUser guest, ReservationCheckDTO reservationCheckDTO) {
+        List<BoatReservation> guestReservations = this.boatReservationService.getBoatReservationsByGuestId(guest.getId());
+
+        for(BoatReservation h: guestReservations){
+            Long startDateMilis = h.getStartDate().getTime();
+            Long endDateMilis = h.getEndDate().getTime();
+            if(h.getCancelled()){
+                if(startDateMilis.equals(reservationCheckDTO.getStartMilis()) && endDateMilis.equals(reservationCheckDTO.getEndMilis())){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public boolean addAdventureReservationClient(AdventureReservationDTO dto){
@@ -99,10 +135,12 @@ public class ClientReservationService {
         FishingAdventure fishingAdventure = this.fishingAdventureService.getFishingAdventureById(dto.getAdventureId());
         MyUser guest = this.myUserService.findUserById(dto.getGuestId());
         boolean isAvailable =  this.fishingInstructorService.findInstructorAvailability(reservationCheckDTO, dto.getId());
-        if(isAvailable){
+        boolean isPreviouslyCanceled = this.checkPreviousCancelletionAdventure(guest, reservationCheckDTO);
+        if(isAvailable && isPreviouslyCanceled){
+            this.fishingInstructorService.checkIfActionInside(reservationCheckDTO, dto.getId());
             Date startDate = new Date(dto.getMilisStartDate());
             Date endDate = new Date(dto.getMilisEndDate());
-            AdventureReservation adventureReservation = new AdventureReservation(dto.getId(), startDate, endDate, dto.getMaxGuests(), dto.getPrice(), dto.getIsAvailable(), fishingAdventure);
+            AdventureReservation adventureReservation = new AdventureReservation(startDate, endDate, dto.getMaxGuests(), dto.getPrice(), dto.getIsAvailable(), fishingAdventure);
             adventureReservation.setAvailabilityPeriod(dto.getAvailabilityPeriod());
             adventureReservation.setAction(dto.getIsAction());
             adventureReservation.setGuest(guest);
@@ -112,7 +150,22 @@ public class ClientReservationService {
             addAdditionalServices(dto, adventureReservation);
             sendEmailClient(guest,fishingAdventure.getName());
         }
-        return isAvailable;
+        return isAvailable && isPreviouslyCanceled;
+    }
+
+    private boolean checkPreviousCancelletionAdventure(MyUser guest, ReservationCheckDTO reservationCheckDTO) {
+        List<AdventureReservation> guestReservations = this.fishingAdventureReservationService.getAdventureReservationsByGuestId(guest.getId());
+
+        for(AdventureReservation h: guestReservations){
+            Long startDateMilis = h.getStartDate().getTime();
+            Long endDateMilis = h.getEndDate().getTime();
+            if(h.getCancelled()){
+                if(startDateMilis.equals(reservationCheckDTO.getStartMilis()) && endDateMilis.equals(reservationCheckDTO.getEndMilis())){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
 

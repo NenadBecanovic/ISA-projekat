@@ -15,6 +15,8 @@ import {HouseService} from "../../../service/house.service";
 import {ClientReservationService} from "../../../service/client-reservation-service";
 import {MyUser} from "../../../model/my-user";
 import {Address} from "../../../model/address";
+import {AdventureService} from "../../../service/adventure.service";
+import {AdventureProfileService} from "../../../service/adventure-profile.service";
 
 @Component({
   selector: 'app-create-reservation-instructor',
@@ -34,19 +36,23 @@ export class CreateReservationInstructorComponent implements OnInit {
   isDisabled: boolean = false;
   dateString: string = ''
   startDate: string = ''
+  maxGuest: number = 0;
+  min: number = 0;
   address: Address = new Address(0, '', '', '', 0, 0, 0);
   selectedUser: MyUser = new MyUser(0,'','','','','','', this.address,'','');
 
   constructor(@Inject(MAT_DIALOG_DATA) public dataDialog: any,private _route: ActivatedRoute, private _houseReservationService: HouseReservationService,
               private _alertService: AlertService, private _router: Router, private _additionalServicesService: AdditionalServicesService,
               private _myUserService: MyUserService, public datepipe: DatePipe,   public dialogRef: MatDialogRef<CreateReservationInstructorComponent>,private _authentificationService: AuthentificationService,
-              private _houseService: HouseService, private _clientResrvationService: ClientReservationService){
+              private _houseService: HouseService, private _clientResrvationService: ClientReservationService, private _adventureService:  AdventureProfileService){
 
   }
 
   ngOnInit() {
-    this.adventureId = this.dataDialog.houseId;
-    this.instructorId = this.dataDialog.instrctorId;
+    this.adventureId = this.dataDialog.adventureId;
+    this.instructorId = this.dataDialog.instructorId;
+    console.log(this.adventureId);
+    console.log(this.instructorId)
     this.dateString = new Date().toISOString().slice(0, 16);
     this.startDate = new Date().toISOString().slice(0, 16);
     this.loadData();
@@ -59,12 +65,19 @@ export class CreateReservationInstructorComponent implements OnInit {
     })
   }
 
+
+
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  loadData() { // ucitavanje iz baze
-    this._additionalServicesService.getAllByFishingAdventureId(this.adventure.id).subscribe(
+  loadData() {
+    this._adventureService.getFishingAdventureById(this.adventureId).subscribe((adventure:FishingAdventure) => {
+     this.adventure = adventure;
+    })
+
+    // ucitavanje iz baze
+    this._additionalServicesService.getAllByFishingAdventureId(this.adventureId).subscribe(
       (additionalServices: AdditionalService[]) => {
         this.additionalServices = additionalServices
       }
@@ -72,11 +85,17 @@ export class CreateReservationInstructorComponent implements OnInit {
   }
 
   makeReservation() {
-    this.adventureReservation.adventureId = this.adventure.id;
+    if(!this.checkValidtity()){
+      return;
+    }
+    console.log()
+    this.adventureReservation.adventureId = this.adventureId;
     this.adventureReservation.isAction = false;
     this.adventureReservation.isAvailable = false;
     this.adventureReservation.availabilityPeriod = false;
-
+    this.adventureReservation.maxGuests = this.maxGuest;
+    this.adventureReservation.id = this.instructorId;
+    this.adventureReservation.guestId = this.selectedUser.id;
     var startDate = Date.parse(this.dateString)
     this.date =  new Date(startDate)
     var actionStart  = Number(this.date)
@@ -88,17 +107,19 @@ export class CreateReservationInstructorComponent implements OnInit {
 
     var price = this.adventure.pricePerHour * this.durationHours + (this.adventure.pricePerHour / 60) * this.durationMinutes;
     this.adventureReservation.price = price;
+    var servicesPrice = 0;
     for (let a of this.additionalServices)
     {
       if (a.checked == true)
       {
+        servicesPrice = servicesPrice + a.price
         this.reservationAdditionalServices.push(a)
       }
     }
 
     this.adventureReservation.additionalServices = this.reservationAdditionalServices
     this.adventureReservation.price = price
-
+    price = price + servicesPrice
     if (confirm("Da li ste sigurni da zelite da reservisete avanturu. Cena je " + price.toString() + " dinara" )) {
       this._clientResrvationService.saveAdventureReservation(this.adventureReservation).subscribe((bool: boolean)=>{
         if(bool){
@@ -110,5 +131,29 @@ export class CreateReservationInstructorComponent implements OnInit {
         this._alertService.danger("Doslo je do greske pokusajte opet");
       }))
     }
+  }
+
+  checkValidtity() {
+    console.log(this.durationMinutes, this.durationHours, this.maxGuest)
+    if(this.durationHours < 0 || this.durationMinutes < 0 ||this.maxGuest < 0){
+      this._alertService.danger("Unesite pozitivne vrednosti")
+      return false;
+    }
+
+    if(this.durationHours == 0 && this.durationMinutes == 0){
+      this._alertService.danger("Unesite trajanje")
+      return false;
+    }
+
+    if(this.maxGuest > this.adventure.capacity){
+      this._alertService.danger("Broj ljudi manji od " + this.adventure.capacity)
+      return false;
+    }
+    if(this.maxGuest < 1){
+      this._alertService.danger("Broj ljudi veci od 0")
+      return false;
+    }
+
+    return true;
   }
 }

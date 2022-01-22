@@ -29,6 +29,11 @@ import {
   MakeReservationDialogComponent
 } from "../../fishing-instructor-profile/make-reservation-dialog/make-reservation-dialog.component";
 import {MyUserService} from "../../service/my-user.service";
+import {CreateReservationHouseComponent} from "../dialog/create-reservation-house/create-reservation-house.component";
+import {
+  CreateReservationInstructorComponent
+} from "../dialog/create-reservation-instructor/create-reservation-instructor.component";
+import {Subscription} from "../../model/subscription";
 
 @Component({
   selector: 'app-client-instructor',
@@ -48,10 +53,13 @@ export class ClientInstructorComponent implements OnInit {
   user: MyUser = new MyUser(0,"","","","","","",this.address, "", "");
   filterTerm!: string;
   id: number = 0;
+  isSubscribed: Boolean = true;
+  subscription: Subscription = new Subscription(0,this.user,this.user)
+  owner: MyUser = new MyUser(0,"","","","","","",this.address, "", "");
 
   constructor(public dialog: MatDialog, private _adventureService: AdventureProfileService, private _router: Router, private _adventureReservationService: AdventureReservationService,
               private _authentificationService: AuthentificationService, private alertService: AlertService, private _feedbackService: FeedbackService, private  _myUserService: MyUserService,
-              private _route: ActivatedRoute) {
+              private _route: ActivatedRoute, private _alertService: AlertService, private _userService: MyUserService) {
 
   }
 
@@ -63,6 +71,7 @@ export class ClientInstructorComponent implements OnInit {
         this.user = user;
         this._myUserService.getUserById(this.id).subscribe(   // subscribe - da bismo dobili odgovor beka
           (user: MyUser) => {
+            this.owner = user;
             this.instructor.id = user.id;
             this.instructor.firstName = user.firstName;
             this.instructor.lastName = user.lastName;
@@ -86,53 +95,16 @@ export class ClientInstructorComponent implements OnInit {
   }
 
   goToAdventure(id: number){
-    this._router.navigate(['/adventure-profile/'+id]);
+    this._router.navigate(['client/instructor/adventure/'+id]);
   }
 
-  addAdventure(){
-    const dialogRef = this.dialog.open(AddAdventureDialogComponent, {
-      width: '800px',
-      data: {},
-      backdropClass: 'dialog-background'
-    });
-    dialogRef.componentInstance.newFishingAdventure.instructorId = this.instructor.id;
-    dialogRef.afterClosed().subscribe(result => {
-      window.location.reload();
-    });
-  }
 
-  showCalendarDialog(){
-    const dialogRef = this.dialog.open(CalendarDialogComponent, {
-      width: '1500px',
-      data: {},
-    });
-    dialogRef.componentInstance.allReservations = this.allReservations;
-    dialogRef.componentInstance.allActions = this.allActions;
-    dialogRef.componentInstance.allAvaibilityPeriods = this.allAvaibilityPeriods;
-    dialogRef.afterClosed().subscribe(result => {
 
-    });
-  }
 
-  defineAvaibilityDialog(){
-    const dialogRef = this.dialog.open(DefineAvaibilityPeriodComponent, {
-      width: '650px',
-      data: {},
-    });
-    dialogRef.componentInstance.instructorId = this.instructor.id;
-    dialogRef.afterClosed().subscribe(result => {
-    });
-  }
 
-  getCurrentGuest(): number{
-    var currentDateAndTime = Number(new Date());
-    for(let reservation of this.allReservations){
-      if(Number(reservation.startDate) < currentDateAndTime && Number(reservation.endDate) > currentDateAndTime){
-        return reservation.guestId;
-      }
-    }
-    return 3;
-  }
+
+
+
 
   loadData() { // ucitavanje iz baze
     this._adventureService.getFishingAdventuresByInstructor(this.instructor.id).subscribe(
@@ -166,61 +138,50 @@ export class ClientInstructorComponent implements OnInit {
     )
   }
 
-  openProfileDialog() {
-    const dialogRef = this.dialog.open(ClientProfileComponent, {
-      width: '600px',
-      data: {},
-    });
 
-    dialogRef.afterClosed().subscribe(result => {
-      window.location.reload();
-    });
-  }
 
-  editPersonalDescription() {
-    const dialogRef = this.dialog.open(EditPersonalDescriptionDialogComponent, {
-      width: '600px',
-      height: '450px',
-      data: {},
-    });
-    dialogRef.componentInstance.instructorId = this.instructor.id;
-    dialogRef.componentInstance.personalDescription = this.instructor.personalDescription;
-    dialogRef.afterClosed().subscribe(result => {
-      window.location.reload();
-    });
-  }
 
-  deleteProfileDialog() {
-    const dialogRef = this.dialog.open(DeleteAccountComponent,{
-      width: '400px',
-      data: {},
-    });
 
-    dialogRef.afterClosed().subscribe(result => {
-      window.location.reload();
-    });
-  }
 
   makeReservation(adventure: FishingAdventure) {
-    var currentGuest = this.getCurrentGuest();
-    if(currentGuest != 0 && currentGuest != null){
-      const dialogRef = this.dialog.open(MakeReservationDialogComponent,{
-        width: '600px',
-        data: {},
-      });
-      dialogRef.componentInstance.adventureReservation.guestId = currentGuest;
-      dialogRef.componentInstance.adventure = adventure;
-      dialogRef.componentInstance.instructorId = this.instructor.id;
-      dialogRef.componentInstance.loadData();
-      dialogRef.afterClosed().subscribe(result => {
-        window.location.reload();
-      });
-    }
-    this.alertService.danger('Nema trenutnog gosta za novu rezervaciju!');
+
+    const dialogRef = this.dialog.open(CreateReservationInstructorComponent,{
+      width: '600px',
+      data: {
+        adventureId: adventure.id,
+        instructorId: this.id
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
 
   }
 
   // instructorChart(id: number) {
   //   this._router.navigate(['/instructor-chart', id])
   // }
+  subsrcibe() {
+    this._myUserService.checkIfUserIsSubscribes(this.user.id, this.instructor.id).subscribe(
+      (isSubscribed: Boolean) => {
+        this.isSubscribed = isSubscribed
+        if(this.isSubscribed){
+          this._alertService.info("Vec ste preplaceni");
+        }else{
+          if(confirm("Da li sigurne zelite da se pretplatite")) {
+
+            this.subscription.owner = this.owner;
+            this.subscription.subscribedUser = this.user;
+            this._myUserService.saveSubscription(this.subscription).subscribe(
+              (sub: Subscription) => {
+                this.subscription = sub;
+                this._alertService.success("Uspjesno ste preplaceni");
+              }
+            )
+          }
+        }
+      }
+    )
+  }
 }
