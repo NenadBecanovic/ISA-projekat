@@ -38,6 +38,7 @@
 </ul>
 
 Pre pokretanja aplikacije, potrebno je kreirati bazu podataka: isaProjectDb
+Ukoliko baca grešku za mape, potrebno je instalirati: npm i @types/googlemaps@3.39.13 --save-dev
 
 Tehnologija za bekend:
 Sprint Boot
