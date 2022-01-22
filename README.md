@@ -59,5 +59,5 @@ CircleCI
 Platforma za deploy aplikacije:
 Heroku
 
-Heširanje lozinki:
-Lozinke za sve korisnike su njihovu username-ovi.
+<br>
+Skripte se nalaze u folderu skripte. Skripte su iste. Jednu izbranu skriptu potrebno je staviti u resources folder u bekend aplikaciji i pokrenuti sa create naredbom u application.properties.
