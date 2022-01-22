@@ -110,7 +110,7 @@ public class HouseControllerTest {
     public void testUpdateHouse() throws Exception {
         // dobavljena vikendica
         House house = new House();
-        house.setId(6L);        // id postojece kuce koja se moze izmeniti
+        house.setId(1L);        // id postojece kuce koja se moze izmeniti
         house.setName(new_name);
         house.setPromoDescription(new_promoDescription);
         house.setGrade(new_grade);
@@ -136,6 +136,6 @@ public class HouseControllerTest {
     @Transactional
     @Rollback(true)
     public void testDeleteHouse() throws Exception {
-        this.mockMvc.perform(delete(URL_PREFIX + "/delete/" + 2L)).andExpect(status().isOk());
+        this.mockMvc.perform(delete(URL_PREFIX + "/delete/" + 1L)).andExpect(status().isOk());
     }
 }

@@ -58,7 +58,7 @@ public class BoatControllerTest {
         mockMvc.perform(get(URL_PREFIX + "/getBoatById/" + BoatConstants.integration_id)).andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$.id").value(BoatConstants.integration_id.intValue()))
-                .andExpect(jsonPath("$.name").value("Kruzer na Mlavi"));
+                .andExpect(jsonPath("$.name").value("Kruzer na Dunavu"));
 //                .andExpect(jsonPath("$.grade").value(0))
 //                .andExpect(jsonPath("$.pricePerDay").value(4000));
     }
@@ -100,7 +100,7 @@ public class BoatControllerTest {
     public void testUpdateBoat() throws Exception {
         // dobavljen brod
         BoatDTO boat = new BoatDTO();
-        boat.setId(13L);
+        boat.setId(1L);
         boat.setName(new_name_boat);
         boat.setPromoDescription(new_promoDescription);
         boat.setGrade(new_grade);
