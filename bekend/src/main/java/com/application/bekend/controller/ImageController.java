@@ -8,6 +8,7 @@ import com.application.bekend.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -71,24 +72,28 @@ public class ImageController {
     }
     
     @PostMapping("/adventureImageUpload/{id}")
+    @PreAuthorize("hasRole('ROLE_INSTRUCTOR')")
     public ResponseEntity uploadAdventureImage(@PathVariable("id") Long id,@RequestBody String image) throws IOException {
     	this.imageService.uploadAdventureImage(image,id);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/uploadHouseImage/{id}")
+    @PreAuthorize("hasRole('ROLE_HOUSE_OWNER')")
     public ResponseEntity uploadHouseImage(@PathVariable("id") Long id,@RequestBody String image) throws IOException {
         this.imageService.uploadHouseImage(image,id);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/uploadBoatImage/{id}")
+    @PreAuthorize("hasRole('ROLE_BOAT_OWNER')")
     public ResponseEntity uploadBoatImage(@PathVariable("id") Long id,@RequestBody String image) throws IOException {
         this.imageService.uploadBoatImage(image,id);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-  
+
     @DeleteMapping("/deleteImage/{id}")
+    @PreAuthorize("hasRole('ROLE_HOUSE_OWNER') or hasRole('ROLE_BOAT_OWNER') or hasRole('ROLE_INSTRUCTOR')")
     public ResponseEntity deleteImage(@PathVariable("id") Long id) throws IOException {
     	this.imageService.deleteImage(id);
         return new ResponseEntity<>(HttpStatus.OK);

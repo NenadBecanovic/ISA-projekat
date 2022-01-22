@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.*;
 
@@ -177,6 +178,7 @@ public class HouseReservationController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ROLE_HOUSE_OWNER')")
     @Transactional
     public ResponseEntity<HouseReservation> save(@RequestBody HouseReservationDTO dto) throws MessagingException {
        boolean response = this.houseReservationLogicService.save(dto);
@@ -193,6 +195,7 @@ public class HouseReservationController {
     // kod brisanja:
     // mora biti Transactional metoda + EnableTransactionManagement klasa
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_HOUSE_OWNER')")
     @Transactional
     public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
         HouseReservation houseReservation = this.houseReservationService.getHouseReservationById(id);   // dobavimo rezervaciju iz baze
