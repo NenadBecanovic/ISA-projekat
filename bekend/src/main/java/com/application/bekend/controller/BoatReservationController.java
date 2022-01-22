@@ -267,21 +267,6 @@ public class BoatReservationController {
         }
         return new ResponseEntity<>(boatReservationDTOS, HttpStatus.OK);
     }
-    
-    private MyUser checkUserCategory(MyUser user) {
-        List<UserCategory> allCategories = this.userCategoryService.findAll();
-        int min = 0;
-        Long id = (long) 0;
-        for(UserCategory category: allCategories) {
-            if(category.getPoints() >= min && user.getPoints() >= category.getPoints()) {
-                min = category.getPoints();
-                id = category.getId();
-            }
-        }
-        UserCategory cat = this.userCategoryService.getCategoryById(id);
-        user.setCategory(cat);
-        return this.myUserService.save(user);
-    }
 
     @GetMapping("/getCompanyProfit/{startDate}/{endDate}")
     @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
