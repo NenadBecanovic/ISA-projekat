@@ -99,9 +99,9 @@ export class ClientInstructorsComponent implements OnInit {
     this.instructorSurname = 0;
     this.instructorName = 0;
     if(this.instructorGrade === 1){
-      this.instructors = _.sortBy(this.instructors, 'grade',);
+      this.instructors = _.sortBy(this.instructors, 'avarageGrade',);
     }else if(this.instructorGrade ===2){
-      this.instructors = _.sortBy(this.instructors, 'grade',).reverse();
+      this.instructors = _.sortBy(this.instructors, 'avarageGrade',).reverse();
     }
   }
 
@@ -117,15 +117,15 @@ export class ClientInstructorsComponent implements OnInit {
 
   filterGrade() {
     if(this.instructorFilterGrade == 5){
-      this.instructors = this.instructorsFilter.filter(s => s.grade == 5 )
+      this.instructors = this.instructorsFilter.filter(s => s.avarageGrade == 5 )
     }else if(this.instructorFilterGrade == 4) {
-      this.instructors = this.instructorsFilter.filter(s => s.grade >= 4 && s.grade < 5)
+      this.instructors = this.instructorsFilter.filter(s => s.avarageGrade >= 4 && s.avarageGrade < 5)
     }else if(this.instructorFilterGrade == 3) {
-      this.instructors = this.instructorsFilter.filter(s => s.grade >= 3 && s.grade < 4)
+      this.instructors = this.instructorsFilter.filter(s => s.avarageGrade >= 3 && s.avarageGrade < 4)
     }else if(this.instructorFilterGrade == 2) {
-      this.instructors = this.instructorsFilter.filter(s => s.grade >= 2 && s.grade < 3)
+      this.instructors = this.instructorsFilter.filter(s => s.avarageGrade >= 2 && s.avarageGrade < 3)
     }else if(this.instructorFilterGrade == 1) {
-      this.instructors = this.instructorsFilter.filter(s => s.grade >= 1 && s.grade < 2)
+      this.instructors = this.instructorsFilter.filter(s => s.avarageGrade >= 1 && s.avarageGrade < 2)
     }else if(this.instructorFilterGrade == 0) {
       this.instructors = this.instructorsFilter.filter(s => s.firstName.includes(''))
     }

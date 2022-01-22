@@ -17,6 +17,7 @@ public class MyUserDTO {
     private String personalDescription;
     private UserCategoryDTO userCategory;
     private boolean isFirstLogin;
+    private double avarageGrade;
 
     public MyUserDTO(String firstName, String lastName, String email, String password, String username, String authority, AddressDTO addressDTO, String phoneNumber, String reasonForRegistration) {
         this.firstName = firstName;
@@ -165,4 +166,12 @@ public class MyUserDTO {
 	public void setIsFirstLogin(boolean isFirstLogin) {
 		this.isFirstLogin = isFirstLogin;
 	}
+
+    public double getAvarageGrade() {
+        return avarageGrade;
+    }
+
+    public void setAvarageGrade(double avarageGrade) {
+        this.avarageGrade = avarageGrade;
+    }
 }

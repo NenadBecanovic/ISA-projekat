@@ -8,6 +8,8 @@ import com.application.bekend.service.ClientReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,7 @@ import javax.transaction.Transactional;
 
 @RestController
 @RequestMapping("api/user/reservation")
+@EnableTransactionManagement
 public class ClientReservationController {
 
     private final ClientReservationService clientReservationService;
@@ -25,7 +28,7 @@ public class ClientReservationController {
         this.clientReservationService = clientReservationService;
     }
 
-
+    @PreAuthorize("hasRole('ROLE_HOUSE_OWNER')")
     @PostMapping("/house")
     @Transactional
     public ResponseEntity<Boolean> addHouseReservationClient(@RequestBody HouseReservationDTO dto) {
@@ -34,6 +37,7 @@ public class ClientReservationController {
         return new ResponseEntity<>(success,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_HOUSE_OWNER')")
     @PostMapping("/boat")
     @Transactional
     public ResponseEntity<Boolean> addBoatReservationClient(@RequestBody BoatReservationDTO dto){
@@ -42,7 +46,7 @@ public class ClientReservationController {
         return new ResponseEntity<>(success, HttpStatus.OK);
     }
 
-
+    @PreAuthorize("hasRole('ROLE_HOUSE_OWNER')")
     @PostMapping("/adventure")
     public ResponseEntity<Boolean> addAdventureReservationClient(@RequestBody AdventureReservationDTO dto){
 
@@ -50,6 +54,7 @@ public class ClientReservationController {
         return new ResponseEntity<>(success, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_HOUSE_OWNER')")
     @PostMapping("/action/house")
     @Transactional
     public ResponseEntity<Boolean> addHouseActionClient(@RequestBody ActionDTO dto) {
@@ -58,6 +63,7 @@ public class ClientReservationController {
         return new ResponseEntity<>(success,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_HOUSE_OWNER')")
     @PostMapping("/action/boat")
     @Transactional
     public ResponseEntity<Boolean> addBoatActionClient(@RequestBody ActionDTO dto){
@@ -66,8 +72,9 @@ public class ClientReservationController {
         return new ResponseEntity<>(success, HttpStatus.OK);
     }
 
-
+    @PreAuthorize("hasRole('ROLE_HOUSE_OWNER')")
     @PostMapping("action/adventure")
+    @Transactional
     public ResponseEntity<Boolean> addAdventureActionClient(@RequestBody ActionDTO dto){
 
         Boolean success = this.clientReservationService.addAdventureActionClient(dto);

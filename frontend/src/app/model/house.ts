@@ -16,10 +16,11 @@ export class House {
   services: AdditionalService[];
   cancalletionFree: boolean;
   cancalletionFee: number;
-  grade: number;
+  ava: number;
   images: Image[] = new Array();
   ownerId: number;
   numberOfReviews: number = 0;
+  avarageGrade: number = 0;
 
   constructor(id: number, name: String, addressDTO: Address, promoDescription: String, behaviourRules: String, pricePerDay: number,
               cancalletionFree: boolean, cancalletionFee: number, rooms: Room[], additionalServices: AdditionalService[], grade: number, ownerId: number) {
@@ -33,7 +34,7 @@ export class House {
     this.services = additionalServices;
     this.cancalletionFree = cancalletionFree;
     this.cancalletionFee = cancalletionFee;
-    this.grade = grade;
+    this.ava = grade;
     this.ownerId = ownerId;
   }
 }

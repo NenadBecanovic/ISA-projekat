@@ -125,6 +125,8 @@ export class ClientBoatComponent implements OnInit {
       this._myUserService.saveSubscription(this.subscription).subscribe(
         (sub: Subscription) => {
           this.subscription = sub;
+          this.isLoaded = false;
+          this.isSlideLoaded = false;
           this.loadData(this.id)
         }
       )
@@ -163,10 +165,15 @@ export class ClientBoatComponent implements OnInit {
     if (confirm("Da li ste sigurni da zelite da rezervisete akciju. Usteda je " + course.savings + " dinara" )) {
       this._clientResrvationService.editBoatAction(this.action).subscribe((bool: boolean)=>{
         if(bool){
+          this.isLoaded = false;
+          this.isSlideLoaded = false;
           this._alertService.success("Rezervacija je uspjesna, pogledajte mejl");
-
+          this.loadData(this.id)
         }else{
+          this.isLoaded = false;
+          this.isSlideLoaded = false;
           this._alertService.warning("Rezervacija je vec zauzeta");
+          this.loadData(this.id)
         }
       }, (error => {
         this._alertService.danger("Doslo je do greske pokusajte opet");
