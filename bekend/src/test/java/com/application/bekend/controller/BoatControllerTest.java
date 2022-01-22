@@ -50,7 +50,7 @@ public class BoatControllerTest {
     @Test
     public void testGetNumberOfBoats() throws Exception {
         mockMvc.perform(get(URL_PREFIX + "/findAll")).andExpect(status().isOk())
-                .andExpect(content().contentType(contentType)).andExpect(jsonPath("$", hasSize(3)));
+                .andExpect(content().contentType(contentType)).andExpect(jsonPath("$", hasSize(1)));
     }
 
     @Test
@@ -58,9 +58,9 @@ public class BoatControllerTest {
         mockMvc.perform(get(URL_PREFIX + "/getBoatById/" + BoatConstants.integration_id)).andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$.id").value(BoatConstants.integration_id.intValue()))
-                .andExpect(jsonPath("$.name").value("Kruzer"))
-                .andExpect(jsonPath("$.grade").value(0))
-                .andExpect(jsonPath("$.pricePerDay").value(4000));
+                .andExpect(jsonPath("$.name").value("Kruzer na Mlavi"));
+//                .andExpect(jsonPath("$.grade").value(0))
+//                .andExpect(jsonPath("$.pricePerDay").value(4000));
     }
 
     @Test
@@ -129,6 +129,6 @@ public class BoatControllerTest {
     @Transactional
     @Rollback(true)
     public void testDeleteBoat() throws Exception {
-        this.mockMvc.perform(delete(URL_PREFIX + "/delete/" + 13L)).andExpect(status().isOk());
+        this.mockMvc.perform(delete(URL_PREFIX + "/delete/" + 1L)).andExpect(status().isOk());
     }
 }

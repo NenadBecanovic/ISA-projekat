@@ -37,6 +37,6 @@ public class BoatConstants {
     public static final boolean new_isCancalletionFree = false;
     public static final int new_cancalletionFee = 2;
 
-    public static final Long integration_id = 13L;
+    public static final Long integration_id = 1L;
 
 }

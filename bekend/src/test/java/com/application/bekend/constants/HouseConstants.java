@@ -23,5 +23,5 @@ public class HouseConstants {
     public static final boolean new_isCancalletionFree = false;
     public static final int new_cancalletionFee = 3;
 
-    public static final Long integration_id = 5L;
+    public static final Long integration_id = 1L;
 }
