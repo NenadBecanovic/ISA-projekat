@@ -21,7 +21,7 @@ public class BoatConstants {
 
     public static final String new_name_boat = "Jedrilica na Savi";
     public static final String new_type = "jedrilica";
-    public static final String new_fishingEquipment = "Udice i stapovi";
+    public static final String new_fishingEquipment = "stapovi";
 
     public static final Long new_id = 5L;
     public static final float new_length = 100;

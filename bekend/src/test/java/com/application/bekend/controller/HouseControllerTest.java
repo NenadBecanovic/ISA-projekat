@@ -60,7 +60,7 @@ public class HouseControllerTest {
     @Test
     public void testGetNumberOfHouses() throws Exception {
         mockMvc.perform(get(URL_PREFIX + "/findAll")).andExpect(status().isOk())
-                .andExpect(content().contentType(contentType)).andExpect(jsonPath("$", hasSize(4)));
+                .andExpect(content().contentType(contentType)).andExpect(jsonPath("$", hasSize(5)));
 //        		.andExpect(jsonPath("$.[*].id").value(hasItem(4)));
     }
 
@@ -111,19 +111,19 @@ public class HouseControllerTest {
         // dobavljena vikendica
         House house = new House();
         house.setId(1L);        // id postojece kuce koja se moze izmeniti
-        house.setName(new_name);
-        house.setPromoDescription(new_promoDescription);
-        house.setGrade(new_grade);
-        house.setNumberOfReviews(new_numberOfReviews);
-        house.setBehaviourRules(new_behaviourRules);
-        house.setPricePerDay(new_pricePerDay);
-        house.setCancalletionFee(new_cancalletionFee);
-        house.setCancalletionFree(new_isCancalletionFree);
+        house.setName("Vikendica na Kopaoniku");
+        house.setPromoDescription("Odlicna vikendica");
+        house.setGrade(0);
+        house.setNumberOfReviews(0);
+        house.setBehaviourRules("Nema pusenja");
+        house.setPricePerDay(2000);
+        house.setCancalletionFee(2);
+        house.setCancalletionFree(false);
         house.setCourses(new HashSet<>());
         house.setServices(new HashSet<>());
         house.setRooms(new HashSet<>());
         house.setImages(new HashSet<>());
-        house.setAddress(new Address(28L, "Balzakova", "Novi Sad", "Srbija", 0f,0f,21000));
+        house.setAddress(new Address(4L, "Dusana Baranina", "Kopaonik", "Srbija", 0f,0f,76300));
         house.setAppeals(new HashSet<>());
         house.setFeedbacks(new HashSet<>());
 

@@ -50,7 +50,7 @@ public class BoatControllerTest {
     @Test
     public void testGetNumberOfBoats() throws Exception {
         mockMvc.perform(get(URL_PREFIX + "/findAll")).andExpect(status().isOk())
-                .andExpect(content().contentType(contentType)).andExpect(jsonPath("$", hasSize(1)));
+                .andExpect(content().contentType(contentType)).andExpect(jsonPath("$", hasSize(3)));
     }
 
     @Test
@@ -101,24 +101,24 @@ public class BoatControllerTest {
         // dobavljen brod
         BoatDTO boat = new BoatDTO();
         boat.setId(1L);
-        boat.setName(new_name_boat);
-        boat.setPromoDescription(new_promoDescription);
-        boat.setGrade(new_grade);
-        boat.setBehaviourRules(new_behaviourRules);
-        boat.setPricePerDay(new_pricePerDay);
-        boat.setCancalletionFee(new_cancalletionFee);
-        boat.setCancalletionFree(new_isCancalletionFree);
+        boat.setName("Kruzer na Dunavu");
+        boat.setPromoDescription("Odlican brod");
+        boat.setGrade(0);
+        boat.setBehaviourRules("Nema alkohla na brodu");
+        boat.setPricePerDay(400);
+        boat.setCancalletionFee(2);
+        boat.setCancalletionFree(false);
         boat.setFishingEquipment(new_fishingEquipment);
-        boat.setType(new_type);
-        boat.setLength(new_length);
-        boat.setEngineNumber(new_engineNumber);
-        boat.setEnginePower(new_enginePower);
-        boat.setCapacity(new_capacity);
-        boat.setMaxSpeed(new_maxSpeed);
+        boat.setType("Kruzer");
+        boat.setLength(100);
+        boat.setEngineNumber(45645);
+        boat.setEnginePower(100);
+        boat.setCapacity(10);
+        boat.setMaxSpeed(20);
         boat.setServices(new HashSet<>());
         boat.setImages(new HashSet<>());
-        boat.setNavigationEquipmentDTO(new NavigationEquipmentDTO(13L, true, true, true, true));
-        boat.setAddress(new AddressDTO(23L, "Balzakova", "Novi Sad", "Srbija", 0f,0f,21000));
+        boat.setNavigationEquipmentDTO(new NavigationEquipmentDTO(1L, true, true, false, false));
+        boat.setAddress(new AddressDTO(7L, "Dok 16", "Beograd", "Srbija", 0f,0f,76300));
 
         String json = TestUtil.json(boat);
         String newURL = URL_PREFIX + "/edit/" + integration_id;
