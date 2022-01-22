@@ -3,6 +3,7 @@ import {Observable} from "rxjs";
 import {Address} from "../../model/address";
 import {MyUser} from "../../model/my-user";
 import {HttpClient} from "@angular/common/http";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class AuthentificationService {
 
   constructor(private _http:HttpClient) { }
 
-  private readonly userPath = 'http://localhost:8080/api/user';
+  private readonly userPath = environment.backend_api + 'api/user';
 
   isLoggedIn(): boolean {
     return this.getToken() !== '';
