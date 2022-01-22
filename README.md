@@ -28,12 +28,14 @@
 
 
 ## Instalacije
-IntelliJ ili Eclipse
-Maven
-JDK 11 (ili 1.8)
-PosgreSQL (pgAdmin)
-Angular CLI 13.1.3
-Node JS 16.13
+<ul>
+  <li>IntelliJ ili Eclipse</li>
+  <li>Maven</li>
+  <li>JDK 11 (ili 1.8)</li>
+  <li>PosgreSQL (pgAdmin)</li>
+  <li>Angular CLI 13.1.3</li>
+  <li>Node JS 16.13</li>
+</ul>
 
 Pre pokretanja aplikacije, potrebno je kreirati bazu podataka: isaProjectDb
 
