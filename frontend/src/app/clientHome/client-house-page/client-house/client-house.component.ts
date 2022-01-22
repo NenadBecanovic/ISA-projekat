@@ -130,7 +130,6 @@ export class ClientHouseComponent implements OnInit {
   subscribe() {
 
     if(confirm("Da li sigurne zelite da se pretplatite")) {
-
       this.subscription.owner = this.user;
       this.subscription.subscribedUser = this.currentUser
       this._myUserService.saveSubscription(this.subscription).subscribe(
