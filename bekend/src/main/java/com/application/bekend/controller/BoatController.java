@@ -54,6 +54,7 @@ public class BoatController {
         NavigationEquipment navigationEquipment = this.navigationEquipmentService.getNavigationEquipmentByBoatId(id);
         NavigationEquipmentDTO navigationEquipmentDTO = new NavigationEquipmentDTO();
 
+
         if(navigationEquipment != null){
             navigationEquipmentDTO = new NavigationEquipmentDTO(navigationEquipment.getId(), navigationEquipment.isFishFinder(),
                     navigationEquipment.isRadar(), navigationEquipment.isVhfradio(), navigationEquipment.isGps());
@@ -62,6 +63,13 @@ public class BoatController {
         BoatDTO dto = new BoatDTO(boat.getId(), boat.getName(), boat.getType(), boat.getLength(), boat.getEngineNumber(), boat.getEnginePower(), boat.getMaxSpeed(),
                 boat.getPromoDescription(), boat.getCapacity(), boat.getBehaviourRules(), boat.getFishingEquipment(), boat.getPricePerDay(), boat.isCancalletionFree(),
                 boat.getCancalletionFee(), addressDTO, navigationEquipmentDTO);
+
+        if(boat.getNumberOfReviews() == 0){
+            dto.setAvarageGrade(0);
+        }else{
+            dto.setAvarageGrade(boat.getGrade() / boat.getNumberOfReviews());
+        }
+
         dto.setOwnerId(boat.getOwner().getId());
         dto.setGrade(boat.getGrade());
         dto.setNumberOfReviews(boat.getNumberOfReviews());
@@ -152,6 +160,11 @@ public class BoatController {
 
         for(Boat boat: boats){
             BoatDTO dto = modelMapper.map(boat, BoatDTO.class);
+            if(boat.getNumberOfReviews() == 0){
+                dto.setAvarageGrade(0);
+            }else{
+                dto.setAvarageGrade(boat.getGrade() / boat.getNumberOfReviews());
+            }
             boatDTOS.add(dto);
         }
         return new ResponseEntity<>(boatDTOS, HttpStatus.OK);
@@ -169,6 +182,11 @@ public class BoatController {
 
     private void addBoatDto(List<BoatDTO> boatDTOS, Boat boat) {
         BoatDTO dto = modelMapper.map(boat, BoatDTO.class);
+        if(boat.getNumberOfReviews() == 0){
+            dto.setAvarageGrade(0);
+        }else{
+            dto.setAvarageGrade(boat.getGrade() / boat.getNumberOfReviews());
+        }
         boatDTOS.add(dto);
     }
 
@@ -343,6 +361,12 @@ public class BoatController {
             ImageDTO imageDTO = modelMapper.map(i, ImageDTO.class);
             dtoSet.add(imageDTO);
         }
+        if(boat.getNumberOfReviews() == 0){
+            dto.setAvarageGrade(0);
+        }else{
+            dto.setAvarageGrade(boat.getGrade() / boat.getNumberOfReviews());
+        }
+
         dto.setImages(dtoSet);
         boatDTOS.add(dto);
     }

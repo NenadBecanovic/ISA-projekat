@@ -136,6 +136,8 @@ export class ClientHouseComponent implements OnInit {
       this._myUserService.saveSubscription(this.subscription).subscribe(
         (sub: Subscription) => {
           this.subscription = sub;
+          this.isLoaded = false;
+          this.isSlideLoaded = false;
           this.loadData(this.id)
         }
       )
@@ -177,6 +179,8 @@ export class ClientHouseComponent implements OnInit {
         console.log(bool)
         if(bool){
           this._alertService.success("Rezervacija je uspjesna, pogledajte mejl");
+          this.isLoaded = false;
+          this.isSlideLoaded = false;
           this.loadData(this.id)
         }else{
           this._alertService.warning("Rezervacija je vec zauzeta");

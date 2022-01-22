@@ -24,6 +24,7 @@ public class BoatDTO {
     private Set<AdditionalServicesDTO> services;
     private Long ownerId;
     private int numberOfReviews;
+    private double avarageGrade;
 
     public BoatDTO(Long id, String name, String type, float length, int engineNumber, float enginePower, float maxSpeed,
                    String promoDescription, int capacity, String behaviourRules, String fishingEquipment, float pricePerDay,
@@ -234,5 +235,13 @@ public class BoatDTO {
 
     public void setNumberOfReviews(int numberOfReviews) {
         this.numberOfReviews = numberOfReviews;
+    }
+
+    public double getAvarageGrade() {
+        return avarageGrade;
+    }
+
+    public void setAvarageGrade(double avarageGrade) {
+        this.avarageGrade = avarageGrade;
     }
 }

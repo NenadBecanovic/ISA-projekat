@@ -85,7 +85,7 @@
 
           <ng-container matColumnDef="Ocena">
             <th mat-header-cell *matHeaderCellDef> Ocena </th>
-            <td mat-cell *matCellDef="let element"> <mat-label style="color: red" *ngIf="element.grade == 0"> Bez ocene </mat-label> <mat-label style="color: orange" *ngIf="element.grade > 0">{{element.grade}}</mat-label> </td>
+            <td mat-cell *matCellDef="let element"> <mat-label style="color: red" *ngIf="element.avarageGrade == 0"> Bez ocene </mat-label> <mat-label style="color: orange" *ngIf="element.avarageGrade > 0">{{element.avarageGrade}}</mat-label> </td>
 
           </ng-container>
 

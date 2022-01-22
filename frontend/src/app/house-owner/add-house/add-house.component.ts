@@ -56,7 +56,7 @@ export class AddHouseComponent implements OnInit {
         if (this.house.cancalletionFee > 100) {
           this._alertService.warning('Uslovi otkazivanja su u vrednostima 0-100');
         } else {
-          this.house.grade = 0;
+          this.house.ava = 0;
           this.house.ownerId = this.user.id;
 
           this._houseService.save(this.house).subscribe(   // subscribe - da bismo dobili odgovor beka

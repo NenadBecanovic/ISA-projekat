@@ -61,9 +61,9 @@ export class HomeInstructorComponent implements OnInit {
 
   changeSortGrade() {
     if(this.instructorGrade === 1){
-      this.instructors = _.sortBy(this.instructors, 'grade',);
+      this.instructors = _.sortBy(this.instructors, 'avarageGrade',);
     }else if(this.instructorGrade ===2){
-      this.instructors = _.sortBy(this.instructors, 'grade',).reverse();
+      this.instructors = _.sortBy(this.instructors, 'avarageGrade',).reverse();
     }
   }
 

@@ -1,6 +1,5 @@
 package com.application.bekend.DTO;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class HouseDTO {
@@ -20,6 +19,7 @@ public class HouseDTO {
     private Set<ImageDTO> images;
     private Long ownerId;
     private int numberOfReviews;
+    private double avarageGrade;
 
     public HouseDTO(Long id, String name, AddressDTO addressDTO, String promoDescription, String behaviourRules, float pricePerDay,
                     boolean isCancalletionFree, int cancalletionFee) {
@@ -160,5 +160,13 @@ public class HouseDTO {
 
     public void setNumberOfReviews(int numberOfReviews) {
         this.numberOfReviews = numberOfReviews;
+    }
+
+    public double getAvarageGrade() {
+        return avarageGrade;
+    }
+
+    public void setAvarageGrade(double avarageGrade) {
+        this.avarageGrade = avarageGrade;
     }
 }
