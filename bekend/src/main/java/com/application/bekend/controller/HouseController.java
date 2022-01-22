@@ -52,6 +52,12 @@ public class HouseController {
         dto.setOwnerId(house.getOwner().getId());
         dto.setNumberOfReviews(house.getNumberOfReviews());
         dto.setGrade(house.getGrade());
+        if(house.getNumberOfReviews() == 0){
+            dto.setAvarageGrade(0);
+        }else{
+            dto.setAvarageGrade(house.getGrade() / house.getNumberOfReviews());
+        }
+
 
         // TODO: ispraviti
 //        Set<ImageDTO> dtoSet = new HashSet<>();
@@ -90,6 +96,11 @@ public class HouseController {
 
     private void addHouseDto(List<HouseDTO> houseDTOS, House house) {
         HouseDTO dto = modelMapper.map(house, HouseDTO.class);
+        if(house.getNumberOfReviews() == 0){
+            dto.setAvarageGrade(0);
+        }else{
+            dto.setAvarageGrade(house.getGrade() / house.getNumberOfReviews());
+        }
         houseDTOS.add(dto);
     }
 
@@ -203,6 +214,11 @@ public class HouseController {
             HouseDTO houseDTO = new HouseDTO(h.getId(), h.getName(), addressDTO, h.getPromoDescription(), h.getBehaviourRules(), h.getPricePerDay(),
                     h.isCancalletionFree(), h.getCancalletionFee(), roomDTOS, additionalServicesDTOS);
             houseDTO.setOwnerId(h.getOwner().getId());
+            if(h.getNumberOfReviews() == 0){
+                houseDTO.setAvarageGrade(0);
+            }else{
+                houseDTO.setAvarageGrade(h.getGrade() / h.getNumberOfReviews());
+            }
             housesDtos.add(houseDTO);
         }
 
@@ -334,6 +350,11 @@ public class HouseController {
         for(Image i: house.getImages()){
             ImageDTO imageDTO = modelMapper.map(i, ImageDTO.class);
             dtoSet.add(imageDTO);
+        }
+        if(house.getNumberOfReviews() == 0){
+            dto.setAvarageGrade(0);
+        }else{
+            dto.setAvarageGrade(house.getGrade() / house.getNumberOfReviews());
         }
         dto.setImages(dtoSet);
         houseDTOS.add(dto);

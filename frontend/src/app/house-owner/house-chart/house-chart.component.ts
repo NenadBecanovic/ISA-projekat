@@ -153,7 +153,7 @@ export class HouseChartComponent implements OnInit {
 
         console.log(this.house)
         if (this.house.numberOfReviews != 0 && this.house.numberOfReviews != null) {
-          this.averageGrade = this.house.grade / this.house.numberOfReviews;
+          this.averageGrade = this.house.ava / this.house.numberOfReviews;
         } else {
           this.averageGrade = 0
         }

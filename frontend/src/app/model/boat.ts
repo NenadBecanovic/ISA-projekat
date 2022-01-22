@@ -22,11 +22,11 @@ export class Boat {
   cancalletionFree: boolean;
   cancalletionFee: number;
   fishingEquipment: String;
-  grade: number;
   images: Image[] = new Array();
   // courses: Array<BoatReservation>;
   ownerId: number;
   numberOfReviews: number = 0;
+  avarageGrade: number = 0;
 
   constructor(id: number, name: String, promoDescription: String, behaviourRules: String, pricePerDay: number, capacity: number,  type: String,
               length: number, engineNumber: number, enginePower: number, maxSpeed: number, cancalletionFree: boolean, cancalletionFee: number,
@@ -46,7 +46,7 @@ export class Boat {
     this.cancalletionFree = cancalletionFree;
     this.cancalletionFee = cancalletionFee;
     this.fishingEquipment = fishingEquipment;
-    this.grade = grade
+    this.avarageGrade = grade
     this.navigationEquipmentDTO = navigationEquipment;
     this.services = services;
     this.ownerId = ownerId;

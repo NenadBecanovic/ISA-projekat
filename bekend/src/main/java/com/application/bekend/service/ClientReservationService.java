@@ -132,6 +132,7 @@ public class ClientReservationService {
         return true;
     }
 
+    @Transactional
     public boolean addAdventureReservationClient(AdventureReservationDTO dto){
         ReservationCheckDTO reservationCheckDTO = getReservationCheckDTO(dto);
         FishingAdventure fishingAdventure = this.fishingAdventureService.getFishingAdventureById(dto.getAdventureId());
@@ -179,6 +180,7 @@ public class ClientReservationService {
         }
     }
 
+
     private void addAdditionalServices(BoatReservationDTO dto, BoatReservation houseReservation) {
         for(AdditionalServicesDTO add : dto.getAdditionalServices()){
             AdditionalServices additionalServices = this.additionalServicesService.getAdditionalServicesById(add.getId());
@@ -186,6 +188,7 @@ public class ClientReservationService {
             this.additionalServicesService.save(additionalServices);
         }
     }
+
 
     private void addAdditionalServices(AdventureReservationDTO dto, AdventureReservation adventureReservation) {
         for(AdditionalServicesDTO add : dto.getAdditionalServices()){
@@ -252,7 +255,7 @@ public class ClientReservationService {
         }
     }
 
-
+    @Transactional
     public Boolean addHouseActionClient(ActionDTO dto) {
         MyUser guest = this.myUserService.findUserById(dto.getUserId());
         HouseReservation houseReservation = this.houseReservationService.getHouseReservationById(dto.getEntityId());
@@ -268,6 +271,7 @@ public class ClientReservationService {
         return true;
     }
 
+    @Transactional
     public Boolean addBoatActionClient(ActionDTO dto) {
         MyUser guest = this.myUserService.findUserById(dto.getUserId());
         BoatReservation boatReservation = this.boatReservationService.getBoatReservationById(dto.getEntityId());
@@ -283,6 +287,7 @@ public class ClientReservationService {
         return true;
     }
 
+    @Transactional
     public Boolean addAdventureActionClient(ActionDTO dto) {
         MyUser guest = this.myUserService.findUserById(dto.getUserId());
         AdventureReservation adventureReservation = this.fishingAdventureReservationService.getFishingAdventureReservationById(dto.getEntityId());

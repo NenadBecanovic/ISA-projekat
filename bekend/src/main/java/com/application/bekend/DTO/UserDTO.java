@@ -14,6 +14,7 @@ public class UserDTO {
     private int penalties;
     private String personalDescription;
     private double grade;
+    private double avarageGrade;
 
     public UserDTO(Long id, String firstName, String lastName, String email, String username, String authority, AddressDTO addressDTO, String phoneNumber, String reasonForRegistration, int penalties, String personalDescription) {
         this.id = id;
@@ -126,5 +127,13 @@ public class UserDTO {
 
     public void setGrade(double grade) {
         this.grade = grade;
+    }
+
+    public double getAvarageGrade() {
+        return avarageGrade;
+    }
+
+    public void setAvarageGrade(double avarageGrade) {
+        this.avarageGrade = avarageGrade;
     }
 }

@@ -83,7 +83,7 @@ export class InstructorReservationHistoryComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-
+      this.loadData()
     });
   }
   createAppealOwner(id: number, ownerId: number) {
@@ -102,7 +102,7 @@ export class InstructorReservationHistoryComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-
+      this.loadData()
     });
   }
 

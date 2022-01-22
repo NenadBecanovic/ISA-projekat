@@ -84,7 +84,7 @@ export class BoatReservationHistoryComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-
+      this.loadData()
     });
   }
 
@@ -103,7 +103,7 @@ export class BoatReservationHistoryComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-
+      this.loadData()
     });
   }
 
@@ -123,7 +123,7 @@ export class BoatReservationHistoryComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-
+      this.loadData()
     });
   }
 
@@ -143,7 +143,7 @@ export class BoatReservationHistoryComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-
+      this.loadData()
     });
   }
 }

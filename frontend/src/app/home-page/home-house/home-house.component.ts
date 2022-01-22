@@ -47,9 +47,9 @@ export class HomeHouseComponent {
 
   changeSortGrade() {
     if(this.houseGrade === 1){
-      this.houses = _.sortBy(this.houses, 'grade',);
+      this.houses = _.sortBy(this.houses, 'avarageGrade',);
     }else if(this.houseGrade ===2){
-      this.houses = _.sortBy(this.houses, 'grade',).reverse();
+      this.houses = _.sortBy(this.houses, 'avarageGrade',).reverse();
     }
   }
 
@@ -89,19 +89,20 @@ export class HomeHouseComponent {
   filterGrade() {
 
     if(this.houseFilterGrade == 5){
-      this.houses = this.housesFilter.filter(s => s.grade == 5 )
+      this.houses = this.housesFilter.filter(s => s.avarageGrade == 5 )
     }else if(this.houseFilterGrade == 4) {
-      this.houses = this.housesFilter.filter(s => s.grade >= 4 && s.grade < 5)
+      this.houses = this.housesFilter.filter(s => s.avarageGrade >= 4 && s.avarageGrade < 5)
     }else if(this.houseFilterGrade == 3) {
-      this.houses = this.housesFilter.filter(s => s.grade >= 3 && s.grade < 4)
+      this.houses = this.housesFilter.filter(s => s.avarageGrade >= 3 && s.avarageGrade < 4)
     }else if(this.houseFilterGrade == 2) {
-      this.houses = this.housesFilter.filter(s => s.grade >= 2 && s.grade < 3)
+      this.houses = this.housesFilter.filter(s => s.avarageGrade >= 2 && s.avarageGrade < 3)
     }else if(this.houseFilterGrade == 1) {
-      this.houses = this.housesFilter.filter(s => s.grade >= 1 && s.grade < 2)
+      this.houses = this.housesFilter.filter(s => s.avarageGrade >= 1 && s.avarageGrade < 2)
     }else if(this.houseFilterGrade == 0) {
       this.loadData()
     }
 
+    }
 
-  }
+
 }

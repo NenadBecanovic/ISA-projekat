@@ -33,6 +33,7 @@ public class FeedbackController {
 	}
 	
 	 @PostMapping("/saveFeedback")
+	 @PreAuthorize("hasRole('ROLE_HOUSE_OWNER')")
 	 public ResponseEntity<FeedbackDTO> saveFeedbackEntity(@RequestBody FeedbackDTO dto){
 		 if(dto.getHasHouse()){
 			 this.feedbackService.saveFeedbackHouse(dto);

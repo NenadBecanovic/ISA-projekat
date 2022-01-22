@@ -60,7 +60,7 @@ export class AddBoatComponent implements OnInit {
           this._alertService.warning('Uslovi otkazivanja su u vrednostima 0-100');
         }
         else {
-          this.boat.grade = 0;
+          this.boat.avarageGrade = 0;
           this.boat.ownerId = this.user.id;
 
           this._boatService.save(this.boat).subscribe(

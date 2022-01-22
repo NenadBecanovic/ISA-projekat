@@ -32,6 +32,7 @@ export class BoatComponent implements OnInit {
   isLoaded: boolean = false;
   freeCancelation: boolean = false;
 
+
   constructor(private _boatService: BoatService, private _additionalServices: AdditionalServicesService, private _imageService: ImageService,
               private _boatReservationService: BoatReservationService, private _route: ActivatedRoute) {
   }

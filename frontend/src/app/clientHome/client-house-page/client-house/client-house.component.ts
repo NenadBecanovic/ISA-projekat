@@ -130,12 +130,13 @@ export class ClientHouseComponent implements OnInit {
   subscribe() {
 
     if(confirm("Da li sigurne zelite da se pretplatite")) {
-
       this.subscription.owner = this.user;
       this.subscription.subscribedUser = this.currentUser
       this._myUserService.saveSubscription(this.subscription).subscribe(
         (sub: Subscription) => {
           this.subscription = sub;
+          this.isLoaded = false;
+          this.isSlideLoaded = false;
           this.loadData(this.id)
         }
       )
@@ -177,6 +178,8 @@ export class ClientHouseComponent implements OnInit {
         console.log(bool)
         if(bool){
           this._alertService.success("Rezervacija je uspjesna, pogledajte mejl");
+          this.isLoaded = false;
+          this.isSlideLoaded = false;
           this.loadData(this.id)
         }else{
           this._alertService.warning("Rezervacija je vec zauzeta");

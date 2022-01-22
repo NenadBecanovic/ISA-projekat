@@ -55,15 +55,15 @@ export class HomeBoatComponent implements OnInit {
 
   filterGrade() {
     if(this.boatFilterGrade == 5){
-      this.boats = this.boatsFilter.filter(s => s.grade == 5 )
+      this.boats = this.boatsFilter.filter(s => s.avarageGrade == 5 )
     }else if(this.boatFilterGrade == 4) {
-      this.boats = this.boatsFilter.filter(s => s.grade >= 4 && s.grade < 5)
+      this.boats = this.boatsFilter.filter(s => s.avarageGrade >= 4 && s.avarageGrade < 5)
     }else if(this.boatFilterGrade == 3) {
-      this.boats = this.boatsFilter.filter(s => s.grade >= 3 && s.grade < 4)
+      this.boats = this.boatsFilter.filter(s => s.avarageGrade >= 3 && s.avarageGrade < 4)
     }else if(this.boatFilterGrade == 2) {
-      this.boats = this.boatsFilter.filter(s => s.grade >= 2 && s.grade < 3)
+      this.boats = this.boatsFilter.filter(s => s.avarageGrade >= 2 && s.avarageGrade < 3)
     }else if(this.boatFilterGrade == 1) {
-      this.boats = this.boatsFilter.filter(s => s.grade >= 1 && s.grade < 2)
+      this.boats = this.boatsFilter.filter(s => s.avarageGrade >= 1 && s.avarageGrade < 2)
     }else if(this.boatFilterGrade == 0) {
       this.loadData()
     }
@@ -79,9 +79,9 @@ export class HomeBoatComponent implements OnInit {
 
   changeSortGrade() {
     if(this.boatGrade === 1){
-      this.boats = _.sortBy(this.boats, 'grade',);
+      this.boats = _.sortBy(this.boats, 'avarageGrade',);
     }else if(this.boatGrade ===2){
-      this.boats = _.sortBy(this.boats, 'grade',).reverse();
+      this.boats = _.sortBy(this.boats, 'avarageGrade',).reverse();
     }
   }
 

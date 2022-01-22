@@ -81,7 +81,7 @@ export class HouseReservationHistoryComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-
+      this.loadData()
     });
   }
 
@@ -100,7 +100,7 @@ export class HouseReservationHistoryComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-
+      this.loadData()
     });
   }
 
@@ -120,7 +120,7 @@ export class HouseReservationHistoryComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-
+      this.loadData()
     });
   }
 
@@ -140,7 +140,7 @@ export class HouseReservationHistoryComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-
+      this.loadData()
     });
   }
 }

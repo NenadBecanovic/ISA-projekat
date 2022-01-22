@@ -51,6 +51,11 @@ public class MyUserController {
 
         dto.setAuthority(myUser.getAuthority().getName());
         dto.setAddressDTO(addressDTO);
+        if(myUser.getNumberOfReviews() == 0){
+            dto.setAvarageGrade(0);
+        }else{
+            dto.setAvarageGrade(myUser.getGrade()/myUser.getNumberOfReviews());
+        }
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
@@ -80,6 +85,7 @@ public class MyUserController {
                     user.getAddress().getLongitude(), user.getAddress().getLatitude(), user.getAddress().getPostalCode());
 
             MyUserDTO dto = new MyUserDTO(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getUsername(), addressDTO, user.getPhoneNumber());
+
             dto.setId(user.getId());
             myUserDTOS.add(dto);
         }
@@ -128,6 +134,7 @@ public class MyUserController {
     }
 
     @PostMapping("/saveSubscription")
+    @PreAuthorize("hasRole('ROLE_HOUSE_OWNER')")
     public ResponseEntity<SubscriptionDTO> updateUser(@RequestBody SubscriptionDTO dto){
         MyUser user = modelMapper.map(dto.getSubscribedUser(), MyUser.class);
         MyUser owner = modelMapper.map(dto.getOwner(), MyUser.class);
@@ -182,6 +189,7 @@ public class MyUserController {
     }
 
     @DeleteMapping("/deleteSubscriptionById/{id}")
+    @PreAuthorize("hasRole('ROLE_HOUSE_OWNER')")
     public ResponseEntity<Boolean> deleteSubscriptionById(@PathVariable("id") Long id){
         this.myUserService.deleteSubscriptionById(id);
         return new ResponseEntity<>(true, HttpStatus.OK);
@@ -198,6 +206,7 @@ public class MyUserController {
 
 
     @PostMapping("/cancelReservation")
+    @PreAuthorize("hasRole('ROLE_HOUSE_OWNER')")
     public ResponseEntity<ReservationCancelDTO> cancelReservation(@RequestBody ReservationCancelDTO dto){
         this.cancelReservationService.cancelReservation(dto);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -284,6 +293,11 @@ public class MyUserController {
             UserDTO userInfoDTO = modelMapper.map(m, UserDTO.class);
             AddressDTO addressDTO = modelMapper.map(m.getAddress(), AddressDTO.class);
             UserCategoryDTO userCategoryDTO = modelMapper.map(m.getCategory(), UserCategoryDTO.class);
+            if(m.getNumberOfReviews() == 0){
+                userInfoDTO.setAvarageGrade(0);
+            }else{
+                userInfoDTO.setAvarageGrade(m.getGrade()/m.getNumberOfReviews());
+            }
             userInfoDTO.setAddressDTO(addressDTO);
             userInfoDTOS.add(userInfoDTO);
         }

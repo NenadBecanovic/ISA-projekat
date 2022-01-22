@@ -152,7 +152,7 @@ export class BoatChartComponent implements OnInit {
         this.boat = boat
 
         if (this.boat.numberOfReviews != 0 && this.boat.numberOfReviews != null) {
-          this.averageGrade = this.boat.grade / this.boat.numberOfReviews;
+          this.averageGrade = this.boat.avarageGrade / this.boat.numberOfReviews;
         } else {
           this.averageGrade = 0
         }

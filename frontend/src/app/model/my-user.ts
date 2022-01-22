@@ -16,7 +16,7 @@ export class MyUser {
   passwordChange: boolean = false;
   penalties: number = 0;
   personalDescription: String = '';
-  grade: number = 0;
+  avarageGrade: number = 0;
   userCategory: UserCategory = new UserCategory();
   isFirstLogin: boolean = false;
 

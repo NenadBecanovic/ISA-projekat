@@ -38,6 +38,7 @@ public class AppealController {
     }
 	
 	@PostMapping("/saveAppeal")
+	@PreAuthorize("hasRole('ROLE_HOUSE_OWNER')")
 	public ResponseEntity<AppealDTO> saveAppealEntity(@RequestBody AppealDTO dto) {
 
 		if (dto.isHasHouse()) {
