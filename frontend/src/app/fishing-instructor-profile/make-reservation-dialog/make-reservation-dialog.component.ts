@@ -53,7 +53,7 @@ export class MakeReservationDialogComponent implements OnInit {
   }
 
   makeReservation() {
-    if(this.adventureReservation.startDate === '' || this.durationHours == 0 || this.durationMinutes == 0){
+    if(this.adventureReservation.startDate === '' || this.durationHours == 0 && this.durationMinutes == 0){
       alert('Odaberite datum!')
     }else{
       this.adventureReservation.adventureId = this.adventure.id;

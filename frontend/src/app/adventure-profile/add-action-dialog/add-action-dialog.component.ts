@@ -33,7 +33,7 @@ export class AddFishingAdventureActionDialogComponent implements OnInit {
   }
 
   addAction() {
-    if(this.adventureAction.startDate === '' || this.durationHours == 0 || this.durationMinutes == 0){
+    if(this.adventureAction.startDate === '' || this.durationHours == 0 && this.durationMinutes == 0){
       alert('Odaberite datum!')
     }else{
       this.adventureAction.adventureId = this.adventure.id;
