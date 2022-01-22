@@ -68,3 +68,6 @@ INSERT INTO public.my_user(
     email, first_name, grade, is_activated, is_deleted, is_first_login, last_name, number_of_reviews, password, penalties, personal_description, phone_number, points, reason_for_registration, username, address_id, authority_id, category_id)
 VALUES ('nenadbecanovic99@gmail.com', 'Aaa', 0, true, false, false, 'Becanovic', 0, '$2a$10$hDhLiG.KPOQE84R.50d6iufgSeeYJ1IVsWYHJ0IrEpjtPSg6FgtTK', 0, '', 0642581473, 0, '', 'instructor', 3, 4, 1);
 
+INSERT INTO public.house(
+    behaviour_rules, cancalletion_fee, grade, is_cancalletion_free, name, price_per_day, promo_description, version, address_id, owner_id)
+VALUES ('Nema pusenja', 2000, 0, false, 'Vikendica na Kopaoniku', 2000, 'Odlicna vikendica', 1, 2, 2);
