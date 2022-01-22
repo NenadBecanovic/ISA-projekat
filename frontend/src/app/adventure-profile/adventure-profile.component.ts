@@ -20,6 +20,7 @@ import { MyUserService } from '../service/my-user.service';
 import { DeleteImageDialogComponent } from './delete-image-dialog/delete-image-dialog.component';
 import { FeedbackInfo } from '../model/feedback-info';
 import { FeedbackService } from '../service/feedback.service';
+import { AlertService } from 'ngx-alerts';
 
 @Component({
   selector: 'app-adventure-profile',
@@ -41,7 +42,7 @@ export class AdventureProfileComponent implements OnInit {
   currentImageId: number = 0;
 
   constructor(public dialog: MatDialog, private _route: ActivatedRoute, private _adventureService: AdventureProfileService, private _additionalServices: AdditionalServicesService, private _imageService: ImageService, private _router: Router,
-    private _adventureReservationService: AdventureReservationService, private _myUserService: MyUserService, private _feedbackService: FeedbackService) {
+    private _adventureReservationService: AdventureReservationService, private _myUserService: MyUserService, private _feedbackService: FeedbackService, private _alertService: AlertService) {
    }
 
   ngOnInit() {
@@ -69,8 +70,8 @@ export class AdventureProfileComponent implements OnInit {
 
   editAdventureDialog(){
     const dialogRef = this.dialog.open(EditAdventureProfileDialogComponent, {
-      width: '800px',
-      height: '570px',
+      width: '1000px',
+      height: '590px',
       data: {},
     });
     dialogRef.componentInstance.adventure = this.fishingAdventure;
@@ -175,14 +176,16 @@ export class AdventureProfileComponent implements OnInit {
     });
     dialogRef.componentInstance.id = id;
     dialogRef.afterClosed().subscribe(result => {
-      window.location.reload();
+      //window.location.reload();
+      this.loadData();
     });
   }
 
   deleteAction(id: number){
     this._adventureReservationService.delete(id).subscribe(
       (deleted: Boolean) => {
-        window.location.reload();
+        //window.location.reload();
+        this.loadData();
       }
     )
   }
@@ -193,7 +196,7 @@ export class AdventureProfileComponent implements OnInit {
         this._router.navigate(['/fishing-instructor/'+this.instructor.id]);
       },
       (error) => {
-        alert('Ne moze se obrisati avantura jer postoje rezervacije za nju!');
+        this._alertService.warning('Ne može se obrisati avantura jer postoje rezervacije za nju!');
       }
     )
   }

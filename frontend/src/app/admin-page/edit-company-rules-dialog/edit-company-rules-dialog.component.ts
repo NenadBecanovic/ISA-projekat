@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { AlertService } from 'ngx-alerts';
 import { Company } from 'src/app/model/company';
 import { UserCategory } from 'src/app/model/user-category';
 import { CompanyService } from 'src/app/service/company.service';
@@ -18,7 +19,7 @@ export class EditCompanyRulesDialogComponent implements OnInit {
     this.loadData()
   }
 
-  constructor(public dialogRef: MatDialogRef<EditCompanyRulesDialogComponent>, private _companyService: CompanyService) {
+  constructor(public dialogRef: MatDialogRef<EditCompanyRulesDialogComponent>, private _companyService: CompanyService, private _alertService: AlertService) {
   }
 
 
@@ -37,7 +38,8 @@ export class EditCompanyRulesDialogComponent implements OnInit {
   deleteCategory(id: number) {
     this._companyService.delete(id).subscribe(   // OBAVEZNO SE MORA SUBSCRIBE-OVATI !!!
       (boolean:boolean) =>{
-        this.reloadServices()
+        this.reloadServices();
+        this._alertService.info("Kategorija je obrisana!");
       }
     )
   }
@@ -45,7 +47,8 @@ export class EditCompanyRulesDialogComponent implements OnInit {
   editCategory(category: UserCategory) {
     this._companyService.edit(category).subscribe(   // OBAVEZNO SE MORA SUBSCRIBE-OVATI !!!
       (boolean:boolean) =>{
-        this.reloadServices()
+        this.reloadServices();
+        this._alertService.info("Kategorija je izmenjena!");
       }
     )
   }
@@ -66,9 +69,10 @@ export class EditCompanyRulesDialogComponent implements OnInit {
           this.userCategory.name = '';
           this.userCategory.points = 0;
           this.userCategory.discountPercentage = 0;
+          this._alertService.success("Uspešno dodata kategorija!");
         },
         (error) => {
-          //this._alertService.danger('Doslo je do greske');
+          this._alertService.danger('Došlo je do greške!');
         },
       )
     }

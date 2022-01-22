@@ -57,7 +57,8 @@ public class ClientReservationService {
             this.houseReservationService.checkIfActionInside(reservationCheckDTO, dto.getHouseId());
             Date startDate = new Date(dto.getMilisStartDate());
             Date endDate = new Date(dto.getMilisEndDate());
-            HouseReservation houseReservation = new HouseReservation(dto.getId(), startDate, endDate, dto.getMaxGuests(), dto.getPrice(), dto.isAvailable(), house);
+            HouseReservation houseReservation = new HouseReservation(dto.getId(), startDate, endDate, dto.getMaxGuests(),
+                    dto.getPrice(), dto.isAvailable(), house);
             houseReservation.setAvailabilityPeriod(dto.isAvailabilityPeriod());
             houseReservation.setAction(dto.isAction());
             houseReservation.setHouse(house);
@@ -71,6 +72,8 @@ public class ClientReservationService {
 
         return isAvailable && isPreviouslyCanceled;
     }
+
+
 
     private boolean checkPreviousCancelletion(MyUser guest, ReservationCheckDTO reservationCheckDTO) {
         List<HouseReservation> guestReservations = this.houseReservationService.getHouseReservationsByGuestId(guest.getId());
@@ -87,6 +90,7 @@ public class ClientReservationService {
         return true;
     }
 
+    @Transactional
     public boolean addBoatReservationClient(BoatReservationDTO dto){
         ReservationCheckDTO reservationCheckDTO = getReservationCheckDTO(dto);
         Boat boat = this.boatservice.getBoatById(dto.getBoatId());
@@ -97,7 +101,8 @@ public class ClientReservationService {
             this.boatReservationService.checkIfActionInside(reservationCheckDTO, boat.getId());
             Date startDate = new Date(dto.getMilisStartDate());
             Date endDate = new Date(dto.getMilisEndDate());
-            BoatReservation boatReservation = new BoatReservation(dto.getId(), startDate, endDate, dto.getMaxGuests(), dto.getPrice(), dto.isAvailable(), boat);
+            BoatReservation boatReservation = new BoatReservation(dto.getId(), startDate, endDate, dto.getMaxGuests(),
+                    dto.getPrice(), dto.isAvailable(), boat);
             boatReservation.setAvailabilityPeriod(dto.isAvailabilityPeriod());
             boatReservation.setAction(dto.isAction());
             boatReservation.setGuest(guest);

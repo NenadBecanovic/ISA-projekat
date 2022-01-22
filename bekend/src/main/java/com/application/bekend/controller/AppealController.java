@@ -79,6 +79,7 @@ public class AppealController {
 	}
 
 	@PutMapping("/sendAppealResponse/{id}")
+	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
 	public ResponseEntity<Boolean> sendAppealResponse(@PathVariable("id") Long id,
 			@RequestBody ReportAppealAnswerDTO answerDTO) throws MessagingException {
 		boolean isAnswered = this.appealService.sendAppealResponse(id, answerDTO);

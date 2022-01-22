@@ -6,6 +6,7 @@ import {Report} from "../model/report";
 import {Room} from "../model/room";
 import { ReportInfo } from '../model/report-info';
 import { ReportAppealAnswer } from '../model/report-appeal-answer';
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class ReportService {
 
   constructor(private _http: HttpClient) { }
 
-  private readonly userPath = 'http://localhost:8080/api/report';
+  private readonly userPath = environment.backend_api + 'api/report';
 
   public save(report: Report): Observable<Report> {
     return this._http.post<Report>(`${this.userPath}/add`, report)

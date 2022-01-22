@@ -7,6 +7,7 @@ import com.application.bekend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.*;
 import javax.transaction.Transactional;
@@ -49,6 +50,8 @@ public class HouseController {
         HouseDTO dto = new HouseDTO(house.getId(), house.getName(), addressDTO, house.getPromoDescription(), house.getBehaviourRules(),
                 house.getPricePerDay(), house.isCancalletionFree(), house.getCancalletionFee());
         dto.setOwnerId(house.getOwner().getId());
+        dto.setNumberOfReviews(house.getNumberOfReviews());
+        dto.setGrade(house.getGrade());
 
         // TODO: ispraviti
 //        Set<ImageDTO> dtoSet = new HashSet<>();
@@ -112,6 +115,7 @@ public class HouseController {
     }
 
     @PutMapping("/edit/{id}")
+    @PreAuthorize("hasRole('ROLE_HOUSE_OWNER')")
     public ResponseEntity<HouseDTO> edit(@RequestBody HouseDTO dto) {
         House house = this.houseService.getHouseById(dto.getId());
 
@@ -206,6 +210,7 @@ public class HouseController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_HOUSE_OWNER')")
     @Transactional
     public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
         House house = this.houseService.getHouseById(id);
@@ -285,6 +290,7 @@ public class HouseController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ROLE_HOUSE_OWNER')")
     public ResponseEntity<House> add(@RequestBody HouseDTO dto) {
         Address address = new Address(dto.getAddress().getId(), dto.getAddress().getStreet(), dto.getAddress().getCity(), dto.getAddress().getState(),
                 dto.getAddress().getLongitude(), dto.getAddress().getLatitude(), dto.getAddress().getPostalCode());

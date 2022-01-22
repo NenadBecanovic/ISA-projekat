@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -115,6 +116,7 @@ public class AdditionalServicesContoller {
         return new ResponseEntity<>(additionalServicesDTOS, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_HOUSE_OWNER') or hasRole('ROLE_BOAT_OWNER') or hasRole('ROLE_INSTRUCTOR')")
     @DeleteMapping("/delete/{id}")
     @Transactional
     public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
@@ -144,6 +146,7 @@ public class AdditionalServicesContoller {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ROLE_HOUSE_OWNER') or hasRole('ROLE_BOAT_OWNER') or hasRole('ROLE_INSTRUCTOR')")
     public ResponseEntity<AdditionalServices> save(@RequestBody AdditionalServicesDTO dto) {
         AdditionalServices additionalServices = new AdditionalServices(dto.getId(), dto.getName(), dto.getPrice(), new HashSet<>(), new HashSet<>(), new HashSet<>());
         House house = this.houseService.getHouseById(dto.getHouseId());

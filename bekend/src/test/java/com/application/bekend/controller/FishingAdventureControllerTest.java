@@ -9,6 +9,7 @@ import static com.application.bekend.constants.HouseConstants.new_numberOfReview
 import static com.application.bekend.constants.HouseConstants.new_promoDescription;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.HashSet;
@@ -26,6 +27,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.application.bekend.DTO.AdditionalServicesDTO;
 import com.application.bekend.DTO.AddressDTO;
 import com.application.bekend.DTO.FishingAdventureDTO;
 import com.application.bekend.constants.FishingAdventureConstants;
@@ -77,11 +79,23 @@ public class FishingAdventureControllerTest {
     public void testGetFishingAdventure() throws Exception {
         mockMvc.perform(get(URL_PREFIX + "/getFishingAdventureById/" + 1L)).andExpect(status().isOk());
     }
-    /*
+    
     @Test
     @Transactional
     @Rollback(true)
-    public void testDeleteFishingAdventure() throws Exception {
-        this.mockMvc.perform(delete(URL_PREFIX + "/delete/" + 1L)).andExpect(status().isOk());
-    }*/
+    public void testAddAdditionalService() throws Exception {
+        AdditionalServicesDTO additionalService = new AdditionalServicesDTO();
+        additionalService.setId(1L);
+        additionalService.setAdventureId(1L);
+        additionalService.setName("Stapovi");
+        additionalService.setPrice(3000);
+        String json = TestUtil.json(additionalService);
+        String newURL = URL_PREFIX + "/addAdditionalService";
+        this.mockMvc.perform(post(newURL).contentType(contentType).content(json)).andExpect(status().isCreated());
+    }
+    
+    @Test
+    public void testGetFishingAdventureInstructor() throws Exception {
+        mockMvc.perform(get(URL_PREFIX + "/getFishingAdventureInstructor/" + 1L)).andExpect(status().isOk());
+    }
 }

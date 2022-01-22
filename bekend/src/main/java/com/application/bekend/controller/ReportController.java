@@ -7,6 +7,7 @@ import com.application.bekend.model.*;
 import com.application.bekend.service.ReportService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,7 @@ public class ReportController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ROLE_HOUSE_OWNER') or hasRole('ROLE_BOAT_OWNER') or hasRole('ROLE_INSTRUCTOR')")
     public ResponseEntity<Report> add(@RequestBody ReportDTO dto) {
         this.reportService.addReport(dto);
 
@@ -55,12 +57,14 @@ public class ReportController {
     }
     
     @GetMapping("/getAllReports")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     public ResponseEntity<List<ReportInfoDTO>> getAllReports() {
         List<ReportInfoDTO> allReports = this.reportService.getAllReports();
         return new ResponseEntity<>(allReports, HttpStatus.OK);
     }
     
     @PutMapping("/sendReportResponse/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     public ResponseEntity<Boolean> sendReportResponse(@PathVariable("id") Long id, @RequestBody ReportAppealAnswerDTO answerDTO) throws MessagingException{
     	boolean isAnswered = this.reportService.sendReportResponse(id, answerDTO);
         return new ResponseEntity<>(isAnswered, HttpStatus.OK);

@@ -10,6 +10,7 @@ import com.application.bekend.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,6 +48,7 @@ public class RoomController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ROLE_HOUSE_OWNER')")
     public ResponseEntity<Room> save(@RequestBody RoomDTO dto) {
         Room room = new Room(dto.getNumberOfBeds());
         House house = this.houseService.getHouseById(dto.getHouseId());
@@ -68,6 +70,7 @@ public class RoomController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_HOUSE_OWNER')")
     @Transactional
     public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
         Room room = this.roomService.getRoomById(id);

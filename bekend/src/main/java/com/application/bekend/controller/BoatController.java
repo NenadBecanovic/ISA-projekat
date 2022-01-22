@@ -9,6 +9,7 @@ import com.application.bekend.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.*;
 
@@ -63,6 +64,7 @@ public class BoatController {
                 boat.getCancalletionFee(), addressDTO, navigationEquipmentDTO);
         dto.setOwnerId(boat.getOwner().getId());
         dto.setGrade(boat.getGrade());
+        dto.setNumberOfReviews(boat.getNumberOfReviews());
 
         Set<ImageDTO> dtoSet = new HashSet<>();
         for(Image i: boat.getImages()){
@@ -75,6 +77,7 @@ public class BoatController {
     }
 
     @PutMapping("/edit/{id}")
+    @PreAuthorize("hasRole('ROLE_BOAT_OWNER')")
     public ResponseEntity<BoatDTO> edit(@RequestBody BoatDTO dto) {
         Boat boat = this.boatService.getBoatById(dto.getId());
 
@@ -202,6 +205,7 @@ public class BoatController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ROLE_BOAT_OWNER')")
     @Transactional
     public ResponseEntity<Boat> add(@RequestBody BoatDTO dto) {
         Address address = new Address(dto.getAddress().getId(), dto.getAddress().getStreet(), dto.getAddress().getCity(), dto.getAddress().getState(),
@@ -242,6 +246,7 @@ public class BoatController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_BOAT_OWNER')")
     @Transactional
     public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
         Boat boat = this.boatService.getBoatById(id);

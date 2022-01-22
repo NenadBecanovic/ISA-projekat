@@ -62,6 +62,7 @@ export class BoatChartComponent implements OnInit {
   seventhDayIncome: number = 0;
   companyPercentage: number = 0;
   userCategory: UserCategory = new UserCategory();
+  averageGrade: number = 0;
 
   constructor(private _boatReservationService: BoatReservationService, private _router: Router, private _route: ActivatedRoute,
               private _boatService: BoatService, private _authenticationService: AuthentificationService, private _companyService: CompanyService) { }
@@ -149,6 +150,12 @@ export class BoatChartComponent implements OnInit {
     this._boatService.getBoatById(this.boat.id).subscribe(
       (boat: Boat) =>{
         this.boat = boat
+
+        if (this.boat.numberOfReviews != 0 && this.boat.numberOfReviews != null) {
+          this.averageGrade = this.boat.grade / this.boat.numberOfReviews;
+        } else {
+          this.averageGrade = 0
+        }
       }
     )
 

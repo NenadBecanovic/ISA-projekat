@@ -6,6 +6,7 @@ import {HouseReservation} from "../model/house-reservation";
 import {BoatReservation} from "../model/boat-reservation";
 import {AdventureReservation} from "../model/adventure-reservation";
 import {ActionDTO} from "../model/action-dto";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ import {ActionDTO} from "../model/action-dto";
 export class ClientReservationService {
   constructor(private _http:HttpClient) { }
 
-  private readonly userPath = 'http://localhost:8080/api/user/reservation';
+  private readonly userPath = environment.backend_api + 'api/user/reservation';
 
   public saveHouseReservation(houseReservation: HouseReservation): Observable<boolean>{
     return this._http.post<boolean>(`${this.userPath}/house`,houseReservation)

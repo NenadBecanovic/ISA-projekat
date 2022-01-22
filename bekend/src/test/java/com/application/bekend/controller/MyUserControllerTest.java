@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.transaction.Transactional;
-
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -47,14 +46,11 @@ public class MyUserControllerTest {
 
 
     @Test
-    public void testGetHouseReservationByHouseId() throws Exception {
+    public void findAllSubscriptionsByUserId() throws Exception {
         mockMvc.perform(get(URL_PREFIX + "/findAllSubscriptionsByUserId/" + MyUserConstants.myUserId.intValue())).andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
                 .andExpect(content().contentType(contentType)).andExpect(jsonPath("$", hasSize(1)));
 
     }
-
-
-
 
 }

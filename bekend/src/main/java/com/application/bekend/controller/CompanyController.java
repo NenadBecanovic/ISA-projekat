@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,6 +54,7 @@ public class CompanyController {
 	}
 
 	@PostMapping("/addCategory")
+	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
 	public ResponseEntity<Boolean> addCategory(@RequestBody UserCategoryDTO dto) {
 		boolean isSaved = this.companyService.addCategory(dto);
 
@@ -61,6 +63,7 @@ public class CompanyController {
 
 	@DeleteMapping("/delete/{id}")
 	@Transactional
+	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
 	public ResponseEntity<Boolean> deleteCategory(@PathVariable("id") Long id) {
 		boolean isDeleted = this.companyService.deleteCategory(id);
 
@@ -68,6 +71,7 @@ public class CompanyController {
 	}
 
 	@PutMapping("/edit/{id}")
+	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
 	public ResponseEntity<Boolean> editCategory(@PathVariable("id") Long id, @RequestBody UserCategoryDTO dto) {
 		boolean isDeleted = this.companyService.editCategory(id, dto);
 
@@ -75,6 +79,7 @@ public class CompanyController {
 	}
 
 	@PutMapping("/saveChanges/{id}")
+	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
 	public ResponseEntity<Boolean> saveChanges(@PathVariable("id") Long id, @RequestBody CompanyDTO dto) {
 		boolean isSaved = this.companyService.saveChanges(id, dto);
 

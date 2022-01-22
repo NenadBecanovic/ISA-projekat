@@ -36,35 +36,38 @@ export class CompanyProfitDialogComponent implements OnInit {
     var endingDate = Date.parse(this.timePeriod.endDate)   // parsiranje datuma pocetka u milisekunde
     var endDate =  new Date(endingDate)
 
-    this.timePeriod.startDate = Date.parse(date.toString()).toString()
-    this.timePeriod.endDate = Date.parse(endDate.toString()).toString()
-    this._adventureReservationService.calculatePeriodProfit(this.timePeriod).subscribe(   // subscribe - da bismo dobili odgovor beka
-      (profit: number) => {
-        this.profit = this.profit + profit;
-      },
-      (error) => {
-        this._alertService.warning("Došlo je do greške!")
-      },
-    )
+    if(startDate > endingDate){
+      this._alertService.info('Datum kraja ospega mora biti nakon datuma početka!')
+    } else{
+      this.timePeriod.startDate = Date.parse(date.toString()).toString()
+      this.timePeriod.endDate = Date.parse(endDate.toString()).toString()
+      this._adventureReservationService.calculatePeriodProfit(this.timePeriod).subscribe(   // subscribe - da bismo dobili odgovor beka
+        (profit: number) => {
+          this.profit = this.profit + profit;
+        },
+        (error) => {
+          this._alertService.warning("Došlo je do greške!")
+        },
+      )
 
-    this._boatReservationService.calculatePeriodProfit(this.timePeriod).subscribe(   // subscribe - da bismo dobili odgovor beka
-      (profit: number) => {
-        this.profit = this.profit + profit;
-      },
-      (error) => {
-        this._alertService.warning("Došlo je do greške!")
-      },
-    )
+      this._boatReservationService.calculatePeriodProfit(this.timePeriod).subscribe(   // subscribe - da bismo dobili odgovor beka
+        (profit: number) => {
+          this.profit = this.profit + profit;
+        },
+        (error) => {
+          this._alertService.warning("Došlo je do greške!")
+        },
+      )
 
-    this._houseReservationService.calculatePeriodProfit(this.timePeriod).subscribe(   // subscribe - da bismo dobili odgovor beka
-      (profit: number) => {
-        this.profit = this.profit + profit;
-      },
-      (error) => {
-        this._alertService.warning("Došlo je do greške!")
-      },
-    )
-    this.showProfit = true;
+      this._houseReservationService.calculatePeriodProfit(this.timePeriod).subscribe(   // subscribe - da bismo dobili odgovor beka
+        (profit: number) => {
+          this.profit = this.profit + profit;
+        },
+        (error) => {
+          this._alertService.warning("Došlo je do greške!")
+        },
+      )
+      this.showProfit = true;
+    }
   }
-
 }

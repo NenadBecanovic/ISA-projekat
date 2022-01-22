@@ -19,6 +19,7 @@ export class House {
   grade: number;
   images: Image[] = new Array();
   ownerId: number;
+  numberOfReviews: number = 0;
 
   constructor(id: number, name: String, addressDTO: Address, promoDescription: String, behaviourRules: String, pricePerDay: number,
               cancalletionFree: boolean, cancalletionFee: number, rooms: Room[], additionalServices: AdditionalService[], grade: number, ownerId: number) {

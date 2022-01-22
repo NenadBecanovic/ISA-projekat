@@ -110,7 +110,7 @@ export class FishingInstructorProfileComponent implements OnInit {
         return reservation.guestId;
       }
     }
-    return 3;
+    return 0;
   }
 
   loadData() { // ucitavanje iz baze
@@ -194,9 +194,9 @@ export class FishingInstructorProfileComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         window.location.reload();
       });
-    }
+    } else{
       this.alertService.danger('Nema trenutnog gosta za novu rezervaciju!');
-    
+    }
   }
 
   // instructorChart(id: number) {

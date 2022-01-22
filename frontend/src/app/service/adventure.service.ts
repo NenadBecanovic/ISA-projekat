@@ -5,6 +5,7 @@ import {Boat} from "../model/boat";
 import {Adventure} from "../model/adventure";
 import {HouseHomeSlide} from "../model/house-home-slide";
 import {AdventureHomeSlide} from "../model/adventure-home-slide";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class AdventureService {
 
   constructor(private _http:HttpClient) { }
 
-  private readonly userPath = 'http://localhost:8080/api/adventure';
+  private readonly userPath = environment.backend_api + 'api/adventure';
 
   public findAll(): Observable<Adventure[]>{
     return this._http.get<Adventure[]>(`${this.userPath}/findAll`)

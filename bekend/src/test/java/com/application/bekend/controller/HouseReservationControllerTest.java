@@ -36,7 +36,7 @@ public class HouseReservationControllerTest {
     }
 
     @Test
-    public void testGetHouseReservationByUserId() throws Exception {
+    public void testGetHouseReservationByHouseId() throws Exception {
         mockMvc.perform(get(URL_PREFIX + "/getHouseReservationByUserId/" +ReservationContstants.guestid.intValue())).andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
                 .andExpect(content().contentType(contentType)).andExpect(jsonPath("$", hasSize(2)));

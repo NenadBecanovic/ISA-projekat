@@ -23,31 +23,17 @@ export class AddFishingAdventureActionDialogComponent implements OnInit {
   durationHours: number = 0;
   durationMinutes: number = 0;
   date: Date = new Date();
+  startDate: string = '';
 
   constructor(public dialogRef: MatDialogRef<AddFishingAdventureActionDialogComponent>, private _adventureService: AdventureProfileService, private _adventureReservationService: AdventureReservationService,
               private _alertService: AlertService) { }
 
   ngOnInit() {
-    var today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth()+1; //January is 0 so need to add 1 to make it 1!
-    var yyyy = today.getFullYear();
-    var d = '';
-    var m = '';
-    if(dd<10){
-      d='0'+dd
-    } 
-    if(mm<10){
-      m='0'+mm
-    } 
-
-    var day = yyyy+'-'+m+'-'+d;
-    //@ts-ignore
-    document.getElementById("datefield").setAttribute("min", day);
+    this.startDate = new Date().toISOString().slice(0, 16);
   }
 
   addAction() {
-    if(this.adventureAction.startDate === '' || this.durationHours == 0 || this.durationMinutes == 0){
+    if(this.adventureAction.startDate === '' || this.durationHours == 0 && this.durationMinutes == 0){
       alert('Odaberite datum!')
     }else{
       this.adventureAction.adventureId = this.adventure.id;

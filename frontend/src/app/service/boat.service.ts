@@ -5,6 +5,7 @@ import {House} from "../model/house";
 import {Boat} from "../model/boat";
 import {BoatHomeSlide} from "../model/boat-home-slide";
 import {ReservationCheck} from "../model/reservation-check";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class BoatService {
 
   constructor(private _http:HttpClient) { }
 
-  private readonly userPath = 'http://localhost:8080/api/boat';
+  private readonly userPath = environment.backend_api + 'api/boat';
 
   public getBoatById(id: number): Observable<Boat>{
     return this._http.get<Boat>(`${this.userPath}/getBoatById/`+id)
@@ -41,5 +42,9 @@ export class BoatService {
 
   public findAllAvailableBoats(request: ReservationCheck): Observable<Boat[]>{
     return this._http.post<Boat[]>(`${this.userPath}/findAllAvailableBoats`, request)
+  }
+
+  public deleteAllBoatsByOwner(id: number): Observable <boolean> {
+    return this._http.delete<boolean>(`${this.userPath}/deleteAllBoatsByOwner/` + id)
   }
 }

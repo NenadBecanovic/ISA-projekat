@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Room} from "../model/room";
 import {AdditionalService} from "../model/additional-service";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class RoomService {
 
   constructor(private _http:HttpClient) { }
 
-  private readonly userPath = 'http://localhost:8080/api/room';
+  private readonly userPath = environment.backend_api + 'api/room';
 
   public getAllByHouseId(id: number): Observable<Room[]>{
     return this._http.get<Room[]>(`${this.userPath}/getAllByHouseId/`+id)
