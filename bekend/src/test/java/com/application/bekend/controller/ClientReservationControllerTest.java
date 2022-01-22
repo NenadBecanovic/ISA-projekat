@@ -116,7 +116,7 @@ public class ClientReservationControllerTest {
         String json = TestUtil.json(adventureReservationDTO);
         String newURL = URL_PREFIX + "/adventure";
         this.mockMvc.perform(post(newURL).contentType(contentType).content(json)).andExpect(status().isOk())
-                .andExpect(content().string("false"));
+                .andExpect(content().string("true"));
     }
 
     @Test
@@ -143,7 +143,7 @@ public class ClientReservationControllerTest {
         String json = TestUtil.json(actionDTO);
         String newURL = URL_PREFIX + "/action/boat";
         this.mockMvc.perform(post(newURL).contentType(contentType).content(json)).andExpect(status().isOk())
-                .andExpect(content().string("false"));
+                .andExpect(content().string("true"));
     }
 
 
@@ -157,7 +157,7 @@ public class ClientReservationControllerTest {
         String json = TestUtil.json(actionDTO);
         String newURL = URL_PREFIX + "/action/adventure";
         this.mockMvc.perform(post(newURL).contentType(contentType).content(json)).andExpect(status().isOk())
-                .andExpect(content().string("false"));
+                .andExpect(content().string("true"));
     }
 
 }
