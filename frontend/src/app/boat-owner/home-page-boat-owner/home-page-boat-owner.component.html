@@ -39,12 +39,7 @@
                       <label style="font-size: 1.2vw; margin-left: 5px;font-family: Poppins;"> {{ boat.address.street}}, {{ boat.address.city}}, {{ boat.address.state}} </label>
                     </div>
                   </div>
-                  <div style="display:inline;" >
-                    <div style="float: left; width: 100%;">
-                      <mat-icon style="color: orange;">star</mat-icon>
-                      <label style="font-size: 1.0vw; font-weight: 500; color: orange; margin-left: 5px;font-family: Poppins"> {{ boat.avarageGrade }} </label>
-                    </div>
-                  </div>
+
                   <div style="float: right;">
                     <button mat-raised-button (click)="showBoat(boat.id)" class="show-btn">Prikazi</button>
                   </div>
