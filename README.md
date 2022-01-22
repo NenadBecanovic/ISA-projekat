@@ -26,7 +26,7 @@
   </tbody>
 </table>
 
-<br>
+
 ## Instalacije
 IntelliJ ili Eclipse
 Maven
