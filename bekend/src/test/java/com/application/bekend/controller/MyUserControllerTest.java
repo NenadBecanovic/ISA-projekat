@@ -49,7 +49,7 @@ public class MyUserControllerTest {
     public void findAllSubscriptionsByUserId() throws Exception {
         mockMvc.perform(get(URL_PREFIX + "/findAllSubscriptionsByUserId/" + MyUserConstants.myUserId.intValue())).andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
-                .andExpect(content().contentType(contentType)).andExpect(jsonPath("$", hasSize(1)));
+                .andExpect(content().contentType(contentType)).andExpect(jsonPath("$", hasSize(0)));
 
     }
 
