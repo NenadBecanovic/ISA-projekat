@@ -1,8 +1,30 @@
 # ISA-projekat
-## Tim 17
-Student 1 Vladimir Jovanovic RA128-2018
-Student 2 Teodora Maruna RA117-2018
-Student 3 Nenad Becanovic RA126-2018
+
+<h2>Tim 17</h2>
+<table>
+  <thead>
+    <th></th>
+    <th>Student</th>
+    <th>Broj indeksa</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Student 1</td>
+      <td>Vladimir Jovanovic</td>
+      <td>RA128-2018</td>
+    </tr>
+    <tr>
+      <td>Student 2</td>
+      <td>Teodora Maruna</td>
+      <td>RA117-2018</td>
+    </tr>
+    <tr>
+      <td>Student 3</td>
+      <td>Nenad Becanovic</td>
+      <td>RA126-2018</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Instalacije
 IntelliJ ili Eclipse
