@@ -38,7 +38,7 @@
   <li>Node JS 16.13</li>
 </ul>
 
-Pre pokretanja aplikacije, potrebno je kreirati bazu podataka: isaProjectDb
+Pre pokretanja aplikacije, potrebno je kreirati bazu podataka: isaProjectDb <br>
 Ukoliko baca grešku za mape, potrebno je instalirati: npm i @types/googlemaps@3.39.13 --save-dev
 
 Tehnologija za bekend:
