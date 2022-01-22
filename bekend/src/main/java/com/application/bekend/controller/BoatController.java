@@ -63,6 +63,7 @@ public class BoatController {
                 boat.getCancalletionFee(), addressDTO, navigationEquipmentDTO);
         dto.setOwnerId(boat.getOwner().getId());
         dto.setGrade(boat.getGrade());
+        dto.setNumberOfReviews(boat.getNumberOfReviews());
 
         Set<ImageDTO> dtoSet = new HashSet<>();
         for(Image i: boat.getImages()){

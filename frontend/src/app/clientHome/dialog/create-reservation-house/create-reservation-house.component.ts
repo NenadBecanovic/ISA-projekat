@@ -118,6 +118,7 @@ export class CreateReservationHouseComponent implements OnInit {
     price = price + this.duration*this.house.pricePerDay
     var companyProfit = price * this.companyPercentage * 0.01;
     price = price - (companyProfit * this.selectedUser.userCategory.discountPercentage * 0.01);
+    //console.log("uslo je")
 
     if (confirm("Da li ste sigurni da zelite da reservisete vikendicu. Cena je " + price.toString() + " dinara" )) {
      this._clientResrvationService.saveHouseReservation(this.houseReservation).subscribe((bool: boolean)=>{

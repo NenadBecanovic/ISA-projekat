@@ -10,6 +10,11 @@ public class Boat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Version
+    @Column(nullable = false)
+    private Integer version;
+
     private String name;
     private String type;
     private float length;
@@ -289,5 +294,18 @@ public class Boat {
 	public void setNumberOfReviews(int numberOfReviews) {
 		this.numberOfReviews = numberOfReviews;
 	}
-    
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
+    public void removeBoatReservation(BoatReservation boatReservation)
+    {
+        this.courses.remove(boatReservation);
+    }
+
 }
