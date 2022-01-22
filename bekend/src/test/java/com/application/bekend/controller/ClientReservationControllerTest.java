@@ -38,7 +38,7 @@ public class ClientReservationControllerTest {
     public void testGetHouseReservationByHouseId() throws Exception {
         mockMvc.perform(get(URL_PREFIX + "/house/" + ReservationContstants.guestid.intValue())).andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
-                .andExpect(content().string("true");
+                .andExpect(content().string("true"));
 
     }
 }
