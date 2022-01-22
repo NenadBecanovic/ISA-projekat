@@ -195,6 +195,7 @@ public class ClientReservationService {
         ReservationCheckDTO reservationCheckDTO = new ReservationCheckDTO();
         reservationCheckDTO.setEndMilis(dto.getMilisEndDate());
         reservationCheckDTO.setStartMilis(dto.getMilisStartDate());
+        reservationCheckDTO.setMaxGuest(dto.getMaxGuests());
         return reservationCheckDTO;
     }
 
@@ -202,6 +203,7 @@ public class ClientReservationService {
         ReservationCheckDTO reservationCheckDTO = new ReservationCheckDTO();
         reservationCheckDTO.setEndMilis(dto.getMilisEndDate());
         reservationCheckDTO.setStartMilis(dto.getMilisStartDate());
+        reservationCheckDTO.setMaxGuest(dto.getMaxGuests());
         return reservationCheckDTO;
     }
 
@@ -209,6 +211,7 @@ public class ClientReservationService {
         ReservationCheckDTO reservationCheckDTO = new ReservationCheckDTO();
         reservationCheckDTO.setEndMilis(dto.getMilisEndDate());
         reservationCheckDTO.setStartMilis(dto.getMilisStartDate());
+        reservationCheckDTO.setMaxGuest(dto.getMaxGuests());
         return reservationCheckDTO;
     }
 

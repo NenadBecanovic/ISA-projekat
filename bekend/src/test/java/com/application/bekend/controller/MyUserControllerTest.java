@@ -1,5 +1,6 @@
 package com.application.bekend.controller;
 
+import com.application.bekend.DTO.ActionDTO;
 import com.application.bekend.DTO.ReservationCancelDTO;
 import com.application.bekend.constants.MyUserConstants;
 import com.application.bekend.constants.ReservationContstants;
@@ -17,6 +18,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.context.WebApplicationContext;
+
+import javax.transaction.Transactional;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -43,18 +46,15 @@ public class MyUserControllerTest {
     }
 
 
-//    public ResponseEntity<ReservationCancelDTO> cancelReservation(@RequestBody ReservationCancelDTO dto){
-//        this.cancelReservationService.cancelReservation(dto);
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
-
     @Test
     public void testGetHouseReservationByHouseId() throws Exception {
-
         mockMvc.perform(get(URL_PREFIX + "/findAllSubscriptionsByUserId/" + MyUserConstants.myUserId.intValue())).andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
                 .andExpect(content().contentType(contentType)).andExpect(jsonPath("$", hasSize(1)));
 
     }
+
+
+
 
 }

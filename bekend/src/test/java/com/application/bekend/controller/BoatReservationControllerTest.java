@@ -15,12 +15,12 @@ import org.springframework.web.context.WebApplicationContext;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class HouseReservationControllerTest {
-    private static final String URL_PREFIX = "/api/houseReservations";
+public class BoatReservationControllerTest {
+
+    private static final String URL_PREFIX = "/api/boatReservations";
 
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype());
@@ -36,10 +36,11 @@ public class HouseReservationControllerTest {
     }
 
     @Test
-    public void testGetHouseReservationByUserId() throws Exception {
-        mockMvc.perform(get(URL_PREFIX + "/getHouseReservationByUserId/" +ReservationContstants.guestid.intValue())).andExpect(status().isOk())
+    public void testGetBoatReservationByGuestId() throws Exception {
+        mockMvc.perform(get(URL_PREFIX + "/getBoatReservationsByGuestId/" + ReservationContstants.guestid.intValue())).andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
-                .andExpect(content().contentType(contentType)).andExpect(jsonPath("$", hasSize(2)));
+                .andExpect(content().contentType(contentType)).andExpect(jsonPath("$", hasSize(0)));
 
     }
+
 }
