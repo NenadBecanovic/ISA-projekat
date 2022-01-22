@@ -10,6 +10,11 @@ public class House {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Version
+    @Column(nullable = false)
+    private Integer version;
+
     private String name;
     @Column(name = "grade", nullable = true)
     private double grade;
@@ -211,5 +216,12 @@ public class House {
 	public void setNumberOfReviews(int numberOfReviews) {
 		this.numberOfReviews = numberOfReviews;
 	}
-    
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
 }

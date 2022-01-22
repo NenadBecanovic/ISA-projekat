@@ -4,11 +4,15 @@ import com.application.bekend.DTO.*;
 import com.application.bekend.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
 import javax.mail.MessagingException;
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 
 @Service
+@EnableTransactionManagement
 public class ClientReservationService {
 
     private final BoatReservationService boatReservationService;
@@ -42,7 +46,7 @@ public class ClientReservationService {
         this.companyService = companyService;
     }
 
-
+    @Transactional
     public boolean addHouseReservationClient(HouseReservationDTO dto)  {
         ReservationCheckDTO reservationCheckDTO = getReservationCheckDTO(dto);
         House house = this.houseService.getHouseById(dto.getHouseId());
@@ -51,7 +55,8 @@ public class ClientReservationService {
         if(isAvailable){
             Date startDate = new Date(dto.getMilisStartDate());
             Date endDate = new Date(dto.getMilisEndDate());
-            HouseReservation houseReservation = new HouseReservation(dto.getId(), startDate, endDate, dto.getMaxGuests(), dto.getPrice(), dto.isAvailable(), house);
+            HouseReservation houseReservation = new HouseReservation(dto.getId(), startDate, endDate, dto.getMaxGuests(),
+                    dto.getPrice(), dto.isAvailable(), house);
             houseReservation.setAvailabilityPeriod(dto.isAvailabilityPeriod());
             houseReservation.setAction(dto.isAction());
             houseReservation.setHouse(house);
@@ -66,6 +71,7 @@ public class ClientReservationService {
         return isAvailable;
     }
 
+    @Transactional
     public boolean addBoatReservationClient(BoatReservationDTO dto){
         ReservationCheckDTO reservationCheckDTO = getReservationCheckDTO(dto);
         Boat boat = this.boatservice.getBoatById(dto.getBoatId());
@@ -74,7 +80,8 @@ public class ClientReservationService {
         if(isAvailable){
             Date startDate = new Date(dto.getMilisStartDate());
             Date endDate = new Date(dto.getMilisEndDate());
-            BoatReservation boatReservation = new BoatReservation(dto.getId(), startDate, endDate, dto.getMaxGuests(), dto.getPrice(), dto.isAvailable(), boat);
+            BoatReservation boatReservation = new BoatReservation(dto.getId(), startDate, endDate, dto.getMaxGuests(),
+                    dto.getPrice(), dto.isAvailable(), boat);
             boatReservation.setAvailabilityPeriod(dto.isAvailabilityPeriod());
             boatReservation.setAction(dto.isAction());
             boatReservation.setGuest(guest);
