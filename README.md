@@ -1,10 +1,10 @@
-#ISA-projekat
-#Tim 17
+# ISA-projekat
+## Tim 17
 Student 1 Vladimir Jovanovic RA128-2018
 Student 2 Teodora Maruna RA117-2018
 Student 3 Nenad Becanovic RA126-2018
 
-#Instalacije
+### Instalacije
 IntelliJ ili Eclipse
 Maven
 JDK 11 (ili 1.8)
