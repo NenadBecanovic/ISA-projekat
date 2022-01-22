@@ -9,6 +9,8 @@ import {MyUser} from "../../model/my-user";
 import {MyUserService} from "../../service/my-user.service";
 import {Address} from "../../model/address";
 import {DatePipe} from "@angular/common";
+import {RoomService} from "../../service/room.service";
+import {Room} from "../../model/room";
 
 @Component({
   selector: 'app-create-reservation-for-client',
@@ -30,10 +32,12 @@ export class CreateReservationForClientComponent implements OnInit {
   selectedUser: MyUser = new MyUser(0,'','','','','','', this.address,'','');
   startDate: string = '';
   min: number = 0;
+  capacity: number = 0;
+  rooms: Room[] = new Array();
 
   constructor(private _route: ActivatedRoute, private _houseReservationService: HouseReservationService,
               private _alertService: AlertService, private _router: Router, private _additionalServicesService: AdditionalServicesService,
-              private _myUserService: MyUserService, public datepipe: DatePipe) { }
+              private _myUserService: MyUserService, public datepipe: DatePipe, private _roomService: RoomService) { }
 
   ngOnInit(): void {
     // @ts-ignore
@@ -43,6 +47,17 @@ export class CreateReservationForClientComponent implements OnInit {
   }
 
   loadData(){
+    this._roomService.getAllByHouseId(this.houseId).subscribe(
+      (rooms: Room[]) => {
+        this.rooms = rooms
+        console.log(rooms)
+
+        for(let r of rooms){
+          this.capacity = this.capacity + r.numberOfBeds;
+        }
+      }
+    )
+
     this._additionalServicesService.getAllByHouseId(this.houseId).subscribe(
       (additionalServices: AdditionalService[]) => {
         this.additionalServices = additionalServices
@@ -91,39 +106,52 @@ export class CreateReservationForClientComponent implements OnInit {
 
   addAction() {
     if (this.duration > 0 && this.houseReservation.maxGuests > 0 && this.houseReservation.price > 0 && this.houseReservation.startDate != '' && this.selectedUser.id != 0) {
-      this.houseReservation.houseId = this.houseId;
-      this.houseReservation.action = false;
-      this.houseReservation.availabilityPeriod = false;
-      this.houseReservation.available = false;
-      this.houseReservation.availabilityPeriod = false;
-      this.houseReservation.guestId = this.selectedUser.id;
-      this.houseReservation.cancelled = false;
 
-      var startDate = Date.parse(this.houseReservation.startDate)
-      this.date = new Date(startDate)
-
-      var actionStart = Number(this.date)  // parsiranje datuma pocetka u milisekunde
-      var actionEnd = actionStart + this.duration * 86400000
-
-      this.houseReservation.startDate = actionStart.toString()
-      this.houseReservation.endDate = actionEnd.toString()
-
-      for (let a of this.additionalServices) {
-        if (a.checked == true) {
-          this.additionalServicesFinal.push(a)
+      if(this.houseReservation.maxGuests > this.capacity)
+      {
+        if (this.capacity == 0)
+        {
+          this._alertService.danger('Potrebno je dodati sobe u vikendicu');
+        }
+        else {
+          this._alertService.danger('Maksimalni broj gostiju moze biti ' + this.capacity);
         }
       }
+      else {
+        this.houseReservation.houseId = this.houseId;
+        this.houseReservation.action = false;
+        this.houseReservation.availabilityPeriod = false;
+        this.houseReservation.available = false;
+        this.houseReservation.availabilityPeriod = false;
+        this.houseReservation.guestId = this.selectedUser.id;
+        this.houseReservation.cancelled = false;
 
-      this.houseReservation.additionalServices = this.additionalServicesFinal
+        var startDate = Date.parse(this.houseReservation.startDate)
+        this.date = new Date(startDate)
 
-      this._houseReservationService.save(this.houseReservation).subscribe(
-        (houseReservation: HouseReservation) => {
-          this._router.navigate(['house-profile-for-house-owner/', this.houseId])
-        },
-        (error) => {
-          this._alertService.danger('Doslo je do greske');
+        var actionStart = Number(this.date)  // parsiranje datuma pocetka u milisekunde
+        var actionEnd = actionStart + this.duration * 86400000
+
+        this.houseReservation.startDate = actionStart.toString()
+        this.houseReservation.endDate = actionEnd.toString()
+
+        for (let a of this.additionalServices) {
+          if (a.checked == true) {
+            this.additionalServicesFinal.push(a)
+          }
         }
-      )
+
+        this.houseReservation.additionalServices = this.additionalServicesFinal
+
+        this._houseReservationService.save(this.houseReservation).subscribe(
+          (houseReservation: HouseReservation) => {
+            this._router.navigate(['house-profile-for-house-owner/', this.houseId])
+          },
+          (error) => {
+            this._alertService.danger('Doslo je do greske');
+          }
+        )
+      }
     } else {
 
       if(this.selectedUser.id == 0)
