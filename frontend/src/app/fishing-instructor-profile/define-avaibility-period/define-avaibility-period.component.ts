@@ -21,28 +21,12 @@ export class DefineAvaibilityPeriodComponent implements OnInit {
   date: Date = new Date();
   endDate: Date = new Date();
   instructorId: number = 0;
+  startDate: string = '';
 
   constructor(public dialogRef: MatDialogRef<DefineAvaibilityPeriodComponent>, private _adventureService: AdventureProfileService, private _alertService: AlertService) { }
 
   ngOnInit() {
-    var today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth()+1; //January is 0 so need to add 1 to make it 1!
-    var yyyy = today.getFullYear();
-    var d = '';
-    var m = '';
-    if(dd<10){
-      d='0'+dd
-    } 
-    if(mm<10){
-      m='0'+mm
-    } 
-
-    var day = yyyy+'-'+m+'-'+d;
-    //@ts-ignore
-    document.getElementsByName("startDate").setAttribute("min", day);
-    //@ts-ignore
-    document.getElementByName("endDate").setAttribute("min", day);
+    this.startDate = new Date().toISOString().slice(0, 16);
   }
 
   onNoClick(): void {
@@ -51,9 +35,9 @@ export class DefineAvaibilityPeriodComponent implements OnInit {
 
   addPeriod() {
     if(this.adventureAvaibilityReservation.startDate === '' || this.adventureAvaibilityReservation.endDate === ''){
-      alert('Odaberite datume')
+      this._alertService.warning('Odaberite datume!')
     }else if(Date.parse(this.adventureAvaibilityReservation.startDate) >= Date.parse(this.adventureAvaibilityReservation.endDate)){
-      alert('Zavrsetak mora biti nakon pocetka!')
+      this._alertService.warning('Krajnji datum mora biti nakon početnog!')
     }else{
       this.adventureAvaibilityReservation.availabilityPeriod = true;
       this.adventureAvaibilityReservation.isAvailable = false;

@@ -57,12 +57,14 @@ public class ReportController {
     }
     
     @GetMapping("/getAllReports")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     public ResponseEntity<List<ReportInfoDTO>> getAllReports() {
         List<ReportInfoDTO> allReports = this.reportService.getAllReports();
         return new ResponseEntity<>(allReports, HttpStatus.OK);
     }
     
     @PutMapping("/sendReportResponse/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     public ResponseEntity<Boolean> sendReportResponse(@PathVariable("id") Long id, @RequestBody ReportAppealAnswerDTO answerDTO) throws MessagingException{
     	boolean isAnswered = this.reportService.sendReportResponse(id, answerDTO);
         return new ResponseEntity<>(isAnswered, HttpStatus.OK);

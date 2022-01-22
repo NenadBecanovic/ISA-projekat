@@ -50,7 +50,7 @@ public class FeedbackController {
 	 }
 	 
 	 @GetMapping("/getAllFeedbacks")
-	 @PreAuthorize("hasRole('ROLE_ADMIN')")
+	 @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
 	 public ResponseEntity<List<FeedbackInfoDTO>> getAll(){
 		 List<FeedbackInfoDTO> allFeedbacks = this.feedbackService.getAll();
 		 return new ResponseEntity<>(allFeedbacks, HttpStatus.OK);
@@ -58,6 +58,7 @@ public class FeedbackController {
 	 
 	 @DeleteMapping("/delete/{id}")
 	 @Transactional
+	 @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
 	 public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
 	     boolean isDeleted = this.feedbackService.delete(id);   
 		 
@@ -66,6 +67,7 @@ public class FeedbackController {
 	 
 	 @DeleteMapping("/approve/{id}")
 	 @Transactional
+	 @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
 	 public ResponseEntity<Boolean> approve(@PathVariable("id") Long id, @RequestBody FeedbackInfoDTO feedbackInfo) throws MessagingException {
 	     boolean approved = this.feedbackService.approve(feedbackInfo);   
 		 

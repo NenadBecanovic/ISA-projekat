@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.mail.MessagingException;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +24,7 @@ import com.application.bekend.DTO.AdventureReservationDTO;
 import com.application.bekend.DTO.FishingAdventureDTO;
 import com.application.bekend.DTO.FishingAdventureInstructorInfoDTO;
 import com.application.bekend.DTO.NewFishingAdventureDTO;
+import com.application.bekend.model.AdditionalServices;
 import com.application.bekend.service.FishingAdventureService;
 
 @RestController
@@ -50,12 +53,14 @@ public class FishingAdventureController {
     }
     
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ROLE_INSTRUCTOR')")
     public ResponseEntity<Long> save(@RequestBody NewFishingAdventureDTO newFishingAdventure) throws IOException {
         Long adventureId = this.fishingAdventureService.saveAdventure(newFishingAdventure);
         return new ResponseEntity<>(adventureId,HttpStatus.CREATED);
     }
     
     @PutMapping("/edit/{id}")
+    @PreAuthorize("hasRole('ROLE_INSTRUCTOR')")
     public ResponseEntity<FishingAdventureDTO> edit(@RequestBody FishingAdventureDTO fishingAdventureDTO) {
         boolean isEdited = this.fishingAdventureService.edit(fishingAdventureDTO);
         
@@ -81,6 +86,7 @@ public class FishingAdventureController {
     }
     
     @PostMapping("/addAdditionalService")
+    @PreAuthorize("hasRole('ROLE_INSTRUCTOR')")
     public ResponseEntity saveAdditionalService(@RequestBody AdditionalServicesDTO dto) {
         this.fishingAdventureService.saveAdditionalService(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -114,4 +120,27 @@ public class FishingAdventureController {
 
         return new ResponseEntity<>(allActions, HttpStatus.OK);
     }
+    
+    @DeleteMapping("/deleteAdditionalService/{id}/{adventureId}")
+    @Transactional
+    @PreAuthorize("hasRole('ROLE_INSTRUCTOR')")
+    public ResponseEntity<Boolean> deleteAdditionalService(@PathVariable("id") Long id, @PathVariable("adventureId") Long adventureId) {
+        boolean isDeleted = this.fishingAdventureService.deleteAdditionalService(id, adventureId);
+
+        if(!isDeleted) {
+        	return new ResponseEntity<>(isDeleted, HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>(isDeleted, HttpStatus.OK);
+    }
+ /*   
+    @DeleteMapping("/deleteAllAdventuresByInstructor/{id}")
+    @Transactional
+    public ResponseEntity<Boolean> deleteAllAdventuresByInstructor(@PathVariable("id") Long id) {
+        boolean isDeleted = this.fishingAdventureService.deleteAllAdventuresByInstructor(id);
+
+        if(!isDeleted) {
+        	return new ResponseEntity<>(isDeleted, HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>(isDeleted, HttpStatus.OK);
+    }*/
 }

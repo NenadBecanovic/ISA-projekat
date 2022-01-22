@@ -58,14 +58,18 @@ export class AdventureReservationsDialogComponent implements OnInit {
 
   addReport(reservation: AdventureReservation){
     this.report.adventureReservationId = reservation.id;
-    this._reportService.save(this.report).subscribe(
-      (report: Report) => {
-        this.onLoad();
-      },
-      (error) => {
-        this._alertService.danger('Doslo je do greske');
-      }
-    )
+    if(this.report.comment == ''){
+      this._alertService.warning('Komentar nije unet!');
+    } else{
+      this._reportService.save(this.report).subscribe(
+        (report: Report) => {
+          this.onLoad();
+        },
+        (error) => {
+          this._alertService.danger('Doslo je do greske');
+        }
+      )
+    }
   }
 
   visitUserProfile(guestId: number){

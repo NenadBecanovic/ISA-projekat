@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.mail.MessagingException;
+import javax.transaction.Transactional;
 
 import com.application.bekend.DTO.AdditionalServicesDTO;
 import com.application.bekend.DTO.AddressDTO;
@@ -28,6 +29,7 @@ import com.application.bekend.model.AdventureReservation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -42,6 +44,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @Service
+@Transactional
 public class FishingAdventureService {
 
     private final FishingAdventureRepository fishingAdventureRepository;
@@ -161,6 +164,8 @@ public class FishingAdventureService {
         						new HashSet<>(),newFishingAdventure.getBehaviourRules(), newFishingAdventure.getPricePerHour(),new HashSet<>(),newFishingAdventure.isCancellationFree(),
         						newFishingAdventure.getCancellationFee(), new HashSet<>());
         fishingAdventure.setDeleted(false);
+        fishingAdventure.setGrade(0);
+        fishingAdventure.setNumberOfReviews(0);
         MyUser instructor = this.myUserService.findUserById(newFishingAdventure.getInstructorId());
         fishingAdventure.setInstructor(instructor);
         fishingAdventure = this.save(fishingAdventure);
@@ -230,4 +235,36 @@ public class FishingAdventureService {
         additionalServices.setFishingAdventures(adventures);
         this.additionalServicesService.save(additionalServices);
     }
+	
+    public boolean deleteAdditionalService(@PathVariable("id") Long id, @PathVariable("adventureId") Long adventureId) {
+        List<AdventureReservation> allReservations = this.fishingAdventureReservationService.getAllByFishingAdventure_Id(adventureId);
+
+        for(AdventureReservation reservation: allReservations) {
+        	if(!reservation.isAvailabilityPeriod() && !reservation.getCancelled() && !reservation.isAvailable()) {
+                Long endDate = reservation.getEndDate().getTime();
+                Long today = new Date().getTime();
+
+                if (endDate < today)
+                {
+                    continue;
+                }
+	        	for(AdditionalServices service: reservation.getAdditionalServices()) {
+	        		if(service.getId().equals(id)) { 
+	        			return false;
+	        		}
+	        	}
+        	}
+        }
+        AdditionalServices service = this.additionalServicesService.getAdditionalServicesById(id);
+        service.setFishingAdventures(null);
+        service.setAdventureReservationsServices(null);
+        this.additionalServicesService.save(service);
+        this.additionalServicesService.deleteById(id);
+        return true;
+    }
+
+	public boolean deleteAllAdventuresByInstructor(Long id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

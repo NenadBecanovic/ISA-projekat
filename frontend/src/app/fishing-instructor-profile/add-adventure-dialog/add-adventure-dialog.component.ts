@@ -69,22 +69,42 @@ export class AddAdventureDialogComponent implements OnInit {
   }
 
   save(){
-    this._adventureService.save(this.newFishingAdventure).subscribe(   // subscribe - da bismo dobili odgovor beka
-      (id: number) => {
-        this._imageService.uploadImage(this.newFishingAdventure.image, id).subscribe(   // subscribe - da bismo dobili odgovor beka
-          () => {
-            this.dialogRef.close();
-          },
-          (error) => {
-            this._alertService.danger('Doslo je do greske');
-          },
-        )
-      },
-      (error) => {
-        this._alertService.danger('Doslo je do greske');
-      },
-    )
+    if (this.newFishingAdventure.name != '' && this.newFishingAdventure.promoDescription != '' && this.newFishingAdventure.address.street != '' && this.newFishingAdventure.address.city != '' &&
+      this.newFishingAdventure.address.state != '' && this.newFishingAdventure.address.postalCode >= 0 && this.newFishingAdventure.pricePerHour > 0 && this.newFishingAdventure.behaviourRules != '' &&
+      this.newFishingAdventure.address.longitude >= 0 && this.newFishingAdventure.address.latitude >= 0 &&
+      this.newFishingAdventure.capacity > 0 &&  this.newFishingAdventure.fishingEquipment != '') {
 
-    
+      if (!this.newFishingAdventure.isCancellationFree && this.newFishingAdventure.cancellationFee == 0)
+      {
+        this._alertService.warning('Unesite % nadoknade u slucaju otkazivanja');
+      }
+      else
+      {
+        if(this.newFishingAdventure.cancellationFee > 100)
+        {
+          this._alertService.warning('Uslovi otkazivanja su u vrednostima 0-100');
+        }
+        else {
+          this._adventureService.save(this.newFishingAdventure).subscribe(   // subscribe - da bismo dobili odgovor beka
+            (id: number) => {
+              this._imageService.uploadImage(this.newFishingAdventure.image, id).subscribe(   // subscribe - da bismo dobili odgovor beka
+                () => {
+                  this.dialogRef.close();
+                },
+                (error) => {
+                  this._alertService.danger('Doslo je do greske');
+                },
+              )
+            },
+            (error) => {
+              this._alertService.danger('Doslo je do greske');
+            },
+          )
+        }
+      }
+    }
+    else {
+      this._alertService.warning('Niste ispravno popunili sva polja!');
+    }  
   }
 }

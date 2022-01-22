@@ -25,6 +25,7 @@ export class MakeReservationDialogComponent implements OnInit {
   date: Date = new Date();
   instructorId!: number;
   isDisabled: boolean = false;
+  startDate: string = '';
 
   constructor(public dialogRef: MatDialogRef<MakeReservationDialogComponent>, private _adventureService: AdventureProfileService, private _additionalServicesService: AdditionalServicesService,
           private _alertService: AlertService) { 
@@ -32,24 +33,9 @@ export class MakeReservationDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    var today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth()+1; //January is 0 so need to add 1 to make it 1!
-    var yyyy = today.getFullYear();
-    var d = '';
-    var m = '';
-    if(dd<10){
-      d='0'+dd
-    } 
-    if(mm<10){
-      m='0'+mm
-    } 
-
-    var day = yyyy+'-'+m+'-'+d;
-    //@ts-ignore
-    document.getElementById("datefield").setAttribute("min", day);
+    this.startDate = new Date().toISOString().slice(0, 16);
     if(this.adventureReservation.guestId == 0){
-      alert("Trenutno nema korisnika za kog se moze napraviti rezervacija!")
+      this._alertService.warning("Trenutno nema korisnika za kog se moze napraviti rezervacija!")
       this.isDisabled = true;
     }
   }
@@ -67,7 +53,7 @@ export class MakeReservationDialogComponent implements OnInit {
   }
 
   makeReservation() {
-    if(this.adventureReservation.startDate === '' || this.durationHours == 0 || this.durationMinutes == 0){
+    if(this.adventureReservation.startDate === '' || this.durationHours == 0 && this.durationMinutes == 0){
       alert('Odaberite datum!')
     }else{
       this.adventureReservation.adventureId = this.adventure.id;

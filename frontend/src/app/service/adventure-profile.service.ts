@@ -55,4 +55,12 @@ export class AdventureProfileService {
   public getFishingAdventureInstructor(id: number): Observable<FishingAdventureInstructorDTO>{
     return this._http.get<FishingAdventureInstructorDTO>(`${this.userPath}/getFishingAdventureInstructor/`+id)
   }
+
+  public deleteAdditionalService(id: number, adventureId: number): Observable<boolean> {
+    return this._http.delete<boolean>(`${this.userPath}/deleteAdditionalService/`+id+'/'+adventureId)
+  }
+
+  public deleteAllAdventuresByInstructor(id: number): Observable<Boolean> {
+    return this._http.delete<Boolean>(`${this.userPath}/deleteAllAdventuresByInstructor/`+id)
+  }
 }

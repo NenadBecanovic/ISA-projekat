@@ -301,6 +301,7 @@ public class HouseReservationController {
     }
 
     @GetMapping("/getCompanyProfit/{startDate}/{endDate}")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     public ResponseEntity<Double> getCompanyInfo(@PathVariable("startDate") String startDate, @PathVariable("endDate") String endDate){
     	List<HouseReservation> houseReservations = this.houseReservationService.findAll();
 		CompanyDTO company = this.companyService.getCompanyInfo((long) 1);

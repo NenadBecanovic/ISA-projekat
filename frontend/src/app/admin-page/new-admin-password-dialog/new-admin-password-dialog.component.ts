@@ -37,17 +37,18 @@ export class NewAdminPasswordDialogComponent implements OnInit {
           this.admin.password = this.newPassword
           this._myUserService.updateUser(this.admin).subscribe(   // subscribe - da bismo dobili odgovor beka
             (user: MyUser) => {
-              this.alertService.success('Uspjesno izmijenjen nalog');
+              this.alertService.success('Uspešno izmenjena lozinka');
+              this.dialogRef.close();
             },
             (error) => {
-              this.alertService.danger('Greska prilikom promijene');
+              this.alertService.danger('Greska prilikom promene');
             },
           )
         }else{
           this.alertService.danger('Unesite ponovo staru lozinku');
         }
       }else{
-        this.alertService.danger('Provjerite novu lozinku');
+        this.alertService.danger('Proverite novu lozinku');
       }
 
   }

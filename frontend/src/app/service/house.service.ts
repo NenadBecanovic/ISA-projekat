@@ -49,4 +49,7 @@ export class HouseService {
     return this._http.post<House[]>(`${this.userPath}/findAllAvailableHouses`, request)
   }
 
+  public deleteAllHousesByOwner(id: number): Observable <boolean> {
+    return this._http.delete<boolean>(`${this.userPath}/deleteAllHousesByOwner/` + id)
+  }
 }
