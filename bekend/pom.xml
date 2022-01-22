@@ -11,10 +11,13 @@
     <groupId>com.application</groupId>
     <artifactId>bekend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+
     <name>bekend</name>
     <description>bekend</description>
     <properties>
         <java.version>1.8</java.version>
+        <sonar.organization>isa-tim17</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
     <dependencies>
         <dependency>
