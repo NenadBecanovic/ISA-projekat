@@ -62,6 +62,7 @@ export class HouseChartComponent implements OnInit {
   seventhDayIncome: number = 0;
   companyPercentage: number = 0;
   userCategory: UserCategory = new UserCategory();
+  averageGrade: number = 0;
 
   constructor(private _houseReservationService: HouseReservationService, private _router: Router, private _route: ActivatedRoute,
               private _houseService: HouseService, private _authenticationService: AuthentificationService, private _companyService: CompanyService) { }
@@ -149,6 +150,13 @@ export class HouseChartComponent implements OnInit {
     this._houseService.getHouseById(this.house.id).subscribe(
       (house: House) =>{
         this.house = house
+
+        console.log(this.house)
+        if (this.house.numberOfReviews != 0 && this.house.numberOfReviews != null) {
+          this.averageGrade = this.house.grade / this.house.numberOfReviews;
+        } else {
+          this.averageGrade = 0
+        }
       }
     )
 

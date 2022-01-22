@@ -19,6 +19,7 @@ public class HouseDTO {
     private double grade;
     private Set<ImageDTO> images;
     private Long ownerId;
+    private int numberOfReviews;
 
     public HouseDTO(Long id, String name, AddressDTO addressDTO, String promoDescription, String behaviourRules, float pricePerDay,
                     boolean isCancalletionFree, int cancalletionFee) {
@@ -151,5 +152,13 @@ public class HouseDTO {
 
     public void setOwnerId(Long ownerId) {
         this.ownerId = ownerId;
+    }
+
+    public int getNumberOfReviews() {
+        return numberOfReviews;
+    }
+
+    public void setNumberOfReviews(int numberOfReviews) {
+        this.numberOfReviews = numberOfReviews;
     }
 }
