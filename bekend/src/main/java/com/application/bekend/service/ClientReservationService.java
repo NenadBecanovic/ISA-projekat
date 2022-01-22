@@ -73,6 +73,8 @@ public class ClientReservationService {
         return isAvailable && isPreviouslyCanceled;
     }
 
+
+
     private boolean checkPreviousCancelletion(MyUser guest, ReservationCheckDTO reservationCheckDTO) {
         List<HouseReservation> guestReservations = this.houseReservationService.getHouseReservationsByGuestId(guest.getId());
 
@@ -198,6 +200,7 @@ public class ClientReservationService {
         ReservationCheckDTO reservationCheckDTO = new ReservationCheckDTO();
         reservationCheckDTO.setEndMilis(dto.getMilisEndDate());
         reservationCheckDTO.setStartMilis(dto.getMilisStartDate());
+        reservationCheckDTO.setMaxGuest(dto.getMaxGuests());
         return reservationCheckDTO;
     }
 
@@ -205,6 +208,7 @@ public class ClientReservationService {
         ReservationCheckDTO reservationCheckDTO = new ReservationCheckDTO();
         reservationCheckDTO.setEndMilis(dto.getMilisEndDate());
         reservationCheckDTO.setStartMilis(dto.getMilisStartDate());
+        reservationCheckDTO.setMaxGuest(dto.getMaxGuests());
         return reservationCheckDTO;
     }
 
@@ -212,6 +216,7 @@ public class ClientReservationService {
         ReservationCheckDTO reservationCheckDTO = new ReservationCheckDTO();
         reservationCheckDTO.setEndMilis(dto.getMilisEndDate());
         reservationCheckDTO.setStartMilis(dto.getMilisStartDate());
+        reservationCheckDTO.setMaxGuest(dto.getMaxGuests());
         return reservationCheckDTO;
     }
 

@@ -50,6 +50,8 @@ public class AppealController {
 			this.appealService.saveAppealBoatOwner(dto);
 		} else if (dto.isHasInstructor()) {
 			this.appealService.saveAppealInstructor(dto);
+		}else{
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
 		return new ResponseEntity<>(dto, HttpStatus.OK);
