@@ -75,7 +75,7 @@ const routes: Routes = [
       {path: 'houseReservation', component: HouseReservationHistoryComponent}, {path: 'boatReservation', component: BoatReservationHistoryComponent}, {path: 'futureReservations', component: FutureReservationComponent},
       {path: 'instructorReservation', component: InstructorReservationHistoryComponent}]},
   { path:'house-profile-for-house-owner/:id', component: HouseProfileForHouseOwnerComponent,canActivate: [AuthGuardGuard],data: {role: 'ROLE_HOUSE_OWNER'}},
-  {path: 'instructorReservation', component: InstructorReservationHistoryComponent}, {path: 'instructor/:id', component: ClientInstructorComponent},  {path: 'instructor/adventure/:id', component: ClientAdventureComponent}]},
+  {path: 'instructorReservation', component: InstructorReservationHistoryComponent}, {path: 'instructor/:id', component: ClientInstructorComponent},  {path: 'instructor/adventure/:id', component: ClientAdventureComponent},
   { path:'', component: HomePageComponent, children: [{path: '', component: HomeDashboardComponent}]},
   {path: 'adventure-profile/:id', component: AdventureProfileComponent, canActivate: [AuthGuardGuard],data: {role: 'ROLE_INSTRUCTOR'}},
   {path: 'fishing-instructor', component: FishingInstructorProfileComponent, canActivate: [AuthGuardGuard],data: {role: 'ROLE_INSTRUCTOR'}},
