@@ -6,6 +6,7 @@ import com.application.bekend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.*;
 
@@ -388,6 +389,7 @@ public class BoatReservationController {
     }
 
     @GetMapping("/getCompanyProfit/{startDate}/{endDate}")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     public ResponseEntity<Double> getCompanyInfo(@PathVariable("startDate") String startDate, @PathVariable("endDate") String endDate){
     	List<BoatReservation> boatReservations = this.boatReservationService.findAll();
 		CompanyDTO company = this.companyService.getCompanyInfo((long) 1);
