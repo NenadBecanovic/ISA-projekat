@@ -26,7 +26,7 @@
   </tbody>
 </table>
 
-### Instalacije
+## Instalacije
 IntelliJ ili Eclipse
 Maven
 JDK 11 (ili 1.8)
@@ -34,7 +34,7 @@ PosgreSQL (pgAdmin)
 Angular CLI 13.1.3
 Node JS 16.13
 
-Pre pokretanja aplikacije, potrebno je kreirati bazu podataka: isaProjectDb
+Pre pokretanja aplikacije, potrebno je kreirati bazu podataka: <br> isaProjectDb
 
 Tehnologija za bekend:
 Sprint Boot
