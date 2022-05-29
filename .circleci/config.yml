@@ -34,7 +34,7 @@ jobs:
           command: mvn test
       - run:
           name: Analyze on SonarCloud
-          command: mvn verify sonar:sonar -Dsonar.projectKey=TeodoraMaruna_ISA-projekat
+          command: mvn verify sonar:sonar -Dsonar.projectKey=NenadBecanovic_ISA-projekat
   prepare-for-deploy:
     docker:
         - image: cimg/openjdk:11.0
