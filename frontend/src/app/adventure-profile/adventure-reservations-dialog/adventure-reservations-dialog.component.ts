@@ -40,7 +40,7 @@ export class AdventureReservationsDialogComponent implements OnInit {
         var today = Number(new Date());
         for (let reservation of allReservations)
         {
-          if(Number(reservation.endDate) < today){
+          if(Number(reservation.endDate) > today){
             reservation.hasReport = true;
           }
           if (reservation.isAvailable == false && reservation.availabilityPeriod == false)
