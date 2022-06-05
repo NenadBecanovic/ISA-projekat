@@ -1,5 +1,6 @@
 package com.application.bekend.repository;
 
+import com.application.bekend.model.BoatReservation;
 import com.application.bekend.model.HouseReservation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,4 +20,6 @@ public interface HouseReservationRepository extends JpaRepository<HouseReservati
     void deleteById(Long id);
 
     List<HouseReservation> getHouseReservationsByGuestId(Long id);
+    
+    List<HouseReservation> getHouseReservationByHouseOwnerId(Long id);
 }

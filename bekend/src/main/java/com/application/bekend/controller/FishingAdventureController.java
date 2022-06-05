@@ -132,8 +132,9 @@ public class FishingAdventureController {
         }
         return new ResponseEntity<>(isDeleted, HttpStatus.OK);
     }
- /*   
+ 
     @DeleteMapping("/deleteAllAdventuresByInstructor/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @Transactional
     public ResponseEntity<Boolean> deleteAllAdventuresByInstructor(@PathVariable("id") Long id) {
         boolean isDeleted = this.fishingAdventureService.deleteAllAdventuresByInstructor(id);
@@ -142,5 +143,5 @@ public class FishingAdventureController {
         	return new ResponseEntity<>(isDeleted, HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>(isDeleted, HttpStatus.OK);
-    }*/
+    }
 }

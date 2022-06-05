@@ -49,6 +49,11 @@ public class AuthentificationController {
     public ResponseEntity<UserTokenStateDTO> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest){
 
         MyUser loggedInUser = this.myUserService.findUserByEmailorUsername(authenticationRequest.getEmail(), "");
+        
+        if(loggedInUser.isDeleted()) {
+        	return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        
         try {
             Authentication authentication = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(loggedInUser.getUsername(),

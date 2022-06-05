@@ -11,5 +11,7 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
 
     Report getByBoatReservation_Id(Long id);
     
+    Report getByAdventureReservation_Id(Long id);
+    
     Report findReportById(Long id);
 }

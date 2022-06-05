@@ -63,4 +63,4 @@ Heroku
 Skripte se nalaze u folderu skripte. Skripte su iste. Jednu izbranu skriptu potrebno je staviti u resources folder u bekend aplikaciji i pokrenuti sa create naredbom u application.properties.
 
 <br>
-Lozinke za sve korisnike su ili dovla ili adidas.
+Lozinka za sve korisnike je sifra123.

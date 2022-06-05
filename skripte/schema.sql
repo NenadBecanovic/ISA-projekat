@@ -66,29 +66,29 @@ VALUES (5, 5, 3);
 
 INSERT INTO public.my_user(
     email, first_name, grade, is_activated, is_deleted, is_first_login, last_name, number_of_reviews, password, penalties, personal_description, phone_number, points, reason_for_registration, username, address_id, authority_id, category_id)
-VALUES ('jovanovicvladimir099@gmail', 'Vladimir', 0, true, false, false, 'Jovanović', 0, '$2a$12$kVtJTeqlsm.MDQta4U/B0eJGf.tCrCINpiwni1.Z7HBRC3wcw8G/G', 0, '', 0642581473, 0, '', 'dovla', 1, 1, 1);
+VALUES ('jovanovicvladimir099@gmail', 'Vladimir', 0, true, false, false, 'Jovanović', 0, '$2a$10$gKk075epwlKGzXU9uaBBcO8bI8h4dU3GukcJsxfRCpqty.zUW3eJS', 0, '', 0642581473, 0, '', 'dovla', 1, 1, 1);
 INSERT INTO public.my_user(
     email, first_name, grade, is_activated, is_deleted, is_first_login, last_name, number_of_reviews, password, penalties, personal_description, phone_number, points, reason_for_registration, username, address_id, authority_id, category_id)
-VALUES ('teodora.maruna@gmail.com', 'Teodora', 0, true, false, false, 'Maruna', 0, '$2a$12$kVtJTeqlsm.MDQta4U/B0eJGf.tCrCINpiwni1.Z7HBRC3wcw8G/G', 0, '', 0642581473, 0, '', 'dovla1', 2, 2, 1);
+VALUES ('teodora.maruna@gmail.com', 'Teodora', 0, true, false, false, 'Maruna', 0, '$2a$10$gKk075epwlKGzXU9uaBBcO8bI8h4dU3GukcJsxfRCpqty.zUW3eJS', 0, '', 0642581473, 0, '', 'dovla1', 2, 2, 1);
 INSERT INTO public.my_user(
     email, first_name, grade, is_activated, is_deleted, is_first_login, last_name, number_of_reviews, password, penalties, personal_description, phone_number, points, reason_for_registration, username, address_id, authority_id, category_id)
-VALUES ('isa2021mail@gmail.com', 'Janko', 0, true, false, false, 'Janković', 0, '$2a$10$hDhLiG.KPOQE84R.50d6iufgSeeYJ1IVsWYHJ0IrEpjtPSg6FgtTK', 0, '', 0642581473, 0, '', 'janko', 3, 1, 1);
+VALUES ('isa2021mail@gmail.com', 'Janko', 0, true, false, false, 'Janković', 0, '$2a$10$gKk075epwlKGzXU9uaBBcO8bI8h4dU3GukcJsxfRCpqty.zUW3eJS', 0, '', 0642581473, 0, '', 'janko', 3, 1, 1);
 INSERT INTO public.my_user(
     email, first_name, grade, is_activated, is_deleted, is_first_login, last_name, number_of_reviews, password, penalties, personal_description, phone_number, points, reason_for_registration, username, address_id, authority_id, category_id)
-VALUES ('marko6@gmail.com', 'Marko', 0, true, false, false, 'Marković', 0, '$2a$10$hDhLiG.KPOQE84R.50d6iufgSeeYJ1IVsWYHJ0IrEpjtPSg6FgtTK', 0, '', 0642581473, 0, '', 'marko', 6, 5, 1);
+VALUES ('marko6@gmail.com', 'Marko', 0, true, false, false, 'Marković', 0, '$2a$10$gKk075epwlKGzXU9uaBBcO8bI8h4dU3GukcJsxfRCpqty.zUW3eJS', 0, '', 0642581473, 0, '', 'marko', 6, 5, 1);
 INSERT INTO public.my_user(
     email, first_name, grade, is_activated, is_deleted, is_first_login, last_name, number_of_reviews, password, penalties, personal_description, phone_number, points, reason_for_registration, username, address_id, authority_id, category_id)
-VALUES ('nenadbecanovic99@gmail.com', 'Nenad', 15, true, false, false, 'Bečanović', 3, '$2a$10$hDhLiG.KPOQE84R.50d6iufgSeeYJ1IVsWYHJ0IrEpjtPSg6FgtTK', 0, '', 0642581473, 0, '', 'nenad', 5, 4, 1);
+VALUES ('nenadbecanovic99@gmail.com', 'Nenad', 15, true, false, false, 'Bečanović', 3, '$2a$10$gKk075epwlKGzXU9uaBBcO8bI8h4dU3GukcJsxfRCpqty.zUW3eJS', 0, '', 0642581473, 0, '', 'nenad', 5, 4, 1);
 INSERT INTO public.my_user(
     email, first_name, grade, is_activated, is_deleted, is_first_login, last_name, number_of_reviews, password, penalties, personal_description, phone_number, points, reason_for_registration, username, address_id, authority_id, category_id)
-VALUES ('mika@gmail.com', 'Mika', 0, true, false, false, 'Mikić', 0, '$2a$10$hDhLiG.KPOQE84R.50d6iufgSeeYJ1IVsWYHJ0IrEpjtPSg6FgtTK', 0, '', 0642581473, 0, '', 'mika', 4, 2, 1);
+VALUES ('mika@gmail.com', 'Mika', 0, true, false, false, 'Mikić', 0, '$2a$10$gKk075epwlKGzXU9uaBBcO8bI8h4dU3GukcJsxfRCpqty.zUW3eJS', 0, '', 0642581473, 0, '', 'mika', 4, 2, 1);
 INSERT INTO public.my_user(
     email, first_name, grade, is_activated, is_deleted, is_first_login, last_name, number_of_reviews, password, penalties, personal_description, phone_number, points, reason_for_registration, username, address_id, authority_id, category_id)
-VALUES ('jovan@gmail.com', 'Jovan', 18, true, false, false, 'Pavlović', 4, '$2a$10$hDhLiG.KPOQE84R.50d6iufgSeeYJ1IVsWYHJ0IrEpjtPSg6FgtTK', 0, 'Ja mnogo volim da se družim sa ljudima i da ih vodim na pecanje!!! Dodjite da se super provedemo i upecamo nešto dobro', 0642581473, 0, '', 'jovan', 1, 4, 1);
+VALUES ('jovan@gmail.com', 'Jovan', 18, true, false, false, 'Pavlović', 4, '$2a$10$gKk075epwlKGzXU9uaBBcO8bI8h4dU3GukcJsxfRCpqty.zUW3eJS', 0, 'Ja mnogo volim da se družim sa ljudima i da ih vodim na pecanje!!! Dodjite da se super provedemo i upecamo nešto dobro', 0642581473, 0, '', 'jovan', 1, 4, 1);
 
 INSERT INTO public.my_user(
     email, first_name, grade, is_activated, is_deleted, is_first_login, last_name, number_of_reviews, password, penalties, personal_description, phone_number, points, reason_for_registration, username, address_id, authority_id, category_id)
-VALUES ('branko@gmail.com', 'Branko', 64, true, false, false, 'Branković', 15, '$2a$10$hDhLiG.KPOQE84R.50d6iufgSeeYJ1IVsWYHJ0IrEpjtPSg6FgtTK', 0, '', 0642581473, 0, '', 'branko', 2, 3, 1);
+VALUES ('branko@gmail.com', 'Branko', 64, true, false, false, 'Branković', 15, '$2a$10$gKk075epwlKGzXU9uaBBcO8bI8h4dU3GukcJsxfRCpqty.zUW3eJS', 0, '', 0642581473, 0, '', 'branko', 2, 3, 1);
 
 
 INSERT INTO public.house(

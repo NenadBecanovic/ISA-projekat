@@ -3,6 +3,7 @@ package com.application.bekend.service;
 import com.application.bekend.DTO.HouseReservationDTO;
 import com.application.bekend.DTO.ReservationCheckDTO;
 import com.application.bekend.model.AdditionalServices;
+import com.application.bekend.model.BoatReservation;
 import com.application.bekend.model.House;
 import com.application.bekend.model.HouseReservation;
 import com.application.bekend.model.Room;
@@ -183,6 +184,8 @@ public class HouseReservationService {
     public List<HouseReservation> findAll(){
     	return this.houseReservationsRepository.findAll();
     }
+    
+    public List<HouseReservation> getHouseReservationByHouseOwnerId(Long id) { return this.houseReservationsRepository.getHouseReservationByHouseOwnerId(id); }
 
 
 }

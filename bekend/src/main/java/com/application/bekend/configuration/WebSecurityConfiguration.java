@@ -48,19 +48,19 @@ public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/**/*.html",
                 "/**/*.css", "/**/*.js");
-
+        web.ignoring().antMatchers(HttpMethod.OPTIONS);
        // web.ignoring().antMatchers(HttpMethod.POST, "/api/houseReservations/**");
        // web.ignoring().antMatchers(HttpMethod.DELETE, "/api/houseReservations/**");
         web.ignoring().antMatchers(HttpMethod.POST, "/api/identity/**");
         web.ignoring().antMatchers(HttpMethod.GET, "/api/user/**");
         web.ignoring().antMatchers(HttpMethod.GET, "/api/house/**");
        // web.ignoring().antMatchers(HttpMethod.PUT, "/api/house/**");
-       // web.ignoring().antMatchers(HttpMethod.DELETE, "/api/house/**");
+        web.ignoring().antMatchers(HttpMethod.DELETE, "/api/house/**");
         //web.ignoring().antMatchers(HttpMethod.POST, "/api/house/**");
         web.ignoring().antMatchers(HttpMethod.GET, "/api/boat/**");
         //web.ignoring().antMatchers(HttpMethod.PUT, "/api/boat/**");
         //web.ignoring().antMatchers(HttpMethod.POST, "/api/boat/**");
-        //web.ignoring().antMatchers(HttpMethod.DELETE, "/api/boat/**");
+        web.ignoring().antMatchers(HttpMethod.DELETE, "/api/boat/**");
         web.ignoring().antMatchers(HttpMethod.GET, "/api/address/**");
         web.ignoring().antMatchers(HttpMethod.GET, "/api/image/**");
         //web.ignoring().antMatchers(HttpMethod.POST, "/api/image/**");
@@ -85,6 +85,7 @@ public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(HttpMethod.POST, "/api/fishingAdventureReservations/**");
         web.ignoring().antMatchers(HttpMethod.DELETE, "/api/fishingAdventureReservations/**");
         web.ignoring().antMatchers(HttpMethod.PUT, "/api/fishingAdventure/**");
+        web.ignoring().antMatchers(HttpMethod.DELETE, "/api/fishingAdventure/**");
         web.ignoring().antMatchers(HttpMethod.GET, "/api/company/**");
         web.ignoring().antMatchers(HttpMethod.POST, "/api/company/**");
         web.ignoring().antMatchers(HttpMethod.DELETE, "/api/company/**");

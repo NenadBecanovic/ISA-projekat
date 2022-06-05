@@ -54,4 +54,8 @@ public class BoatService {
     public Boat getBoatByName(String name){
         return this.boatRepository.getBoatByName(name);
     }
+    
+    public List<Boat> getAllByOwnerId(Long id){
+    	return this.boatRepository.getBoatByOwnerId(id);
+    }
 }

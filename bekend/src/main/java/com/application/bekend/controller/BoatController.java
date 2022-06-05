@@ -264,7 +264,7 @@ public class BoatController {
     }
 
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasRole('ROLE_BOAT_OWNER')")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @Transactional
     public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
         Boat boat = this.boatService.getBoatById(id);
@@ -371,5 +371,83 @@ public class BoatController {
         boatDTOS.add(dto);
     }
 
+    @DeleteMapping("/deleteAllBoatsByOwner/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
+    @Transactional
+    public ResponseEntity<Boolean> deleteAllBoatsByOwner(@PathVariable("id") Long id) {
+        List<Boat> allBoats = this.boatService.getAllByOwnerId(id);
 
+        for(Boat boat : allBoats) {
+
+            // ako postoji rezervacija u brodu, ona se ne moze izmeniti
+            for (BoatReservation h: boat.getCourses()) {
+                Long endDate = h.getEndDate().getTime();
+                Calendar date = Calendar.getInstance();
+                long millisecondsDate = date.getTimeInMillis();
+
+                if (h.isAvailable() == false && h.isAvailabilityPeriod() == false && endDate >= millisecondsDate) {
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
+            }
+
+            boat.setAddress(null);
+            boat.setOwner(null);
+            this.boatService.save(boat);
+            for (Image i: boat.getImages()) {
+                Image image = this.imageService.getImageById(i.getId());
+                image.setBoat(null);
+                this.imageService.delete(image.getId());
+            }
+            boat.setImages(null);
+            this.boatService.save(boat);
+
+            // rezervacije
+            for (BoatReservation h: boat.getCourses()) {
+                BoatReservation boatReservation = this.boatReservationService.getBoatReservationById(h.getId());
+
+                Report report = this.reportService.getReportByBoatReservationId(h.getId());
+                if(report != null) {
+                    this.reportService.delete(report.getId());
+                }
+
+                Set<AdditionalServices> additionalServices =  boatReservation.getAdditionalServices();
+                for(AdditionalServices a: additionalServices){
+                    a.getBoatReservationsServices().remove(boatReservation);
+                    this.additionalServicesService.save(a);
+                }
+
+                boatReservation.setGuest(null);
+                boatReservation.setBoat(null);
+                boatReservation = this.boatReservationService.save(boatReservation);
+
+                this.boatReservationService.delete(boatReservation.getId());
+            }
+
+            boat.setCourses(null);
+            this.boatService.save(boat);
+
+            // dodatne usluge
+            for (AdditionalServices a: boat.getServices()) {
+                AdditionalServices additionalServices = this.additionalServicesService.getAdditionalServicesById(a.getId());
+                additionalServices.setHouses(null);
+                additionalServices.setHouseReservationsServices(null);
+                additionalServices.setBoats(null);
+                additionalServices.setBoatReservationsServices(null);
+
+                this.additionalServicesService.deleteById(a.getId());
+            }
+            boat.setServices(null);
+            boat = this.boatService.save(boat);
+
+            NavigationEquipment navigationEquipment = this.navigationEquipmentService.getNavigationEquipmentByBoatId(id);
+            if(navigationEquipment != null) {
+            	navigationEquipment.setBoat(null);
+                this.navigationEquipmentService.delete(navigationEquipment.getId());
+            }
+           
+            this.boatService.delete(boat.getId());
+        }
+        
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
 }

@@ -1,6 +1,7 @@
 package com.application.bekend.service;
 
 import com.application.bekend.DTO.ReservationCheckDTO;
+import com.application.bekend.model.Boat;
 import com.application.bekend.model.House;
 import com.application.bekend.repository.HouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,5 +60,9 @@ public class HouseService {
 
     public House getHouseByName(String name){
         return this.houseRepository.getHouseByName(name);
+    }
+    
+    public List<House> getAllByOwnerId(Long id){
+    	return this.houseRepository.getHouseByOwnerId(id);
     }
 }

@@ -133,6 +133,8 @@ public class ReportService {
 	
 	public Report getReportByBoatReservationId(Long id) { return this.reportRepository.getByBoatReservation_Id(id);}
 	
+	public Report getReportByAdventureReservationId(Long id) { return this.reportRepository.getByAdventureReservation_Id(id);}
+	
     public ReportDTO getReportDTOByHouseReservationId(Long id) {
         Report report = this.reportRepository.getByHouseReservation_Id(id);
 

@@ -30,21 +30,17 @@ public class MyUserService implements UserDetailsService {
     private final AddresService addresService;
     private final RequestForAccountDeletingService requestForAccountDeletingService;
     private final SubscriptionService subscriptionService;
-    private final HouseReservationService houseReservationService;
-    private final BoatReservationService boatReservationService;
+   
     private final EmailService emailService;
     private PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }       // za enkodovanje lozinke
 
     @Autowired
-    public MyUserService(AddresService addresService, RequestForAccountDeletingService requestForAccountDeletingService, SubscriptionService subscriptionService, HouseReservationService houseReservationService,
-                         BoatReservationService boatReservationService, EmailService emailService) {
+    public MyUserService(AddresService addresService, RequestForAccountDeletingService requestForAccountDeletingService, SubscriptionService subscriptionService, EmailService emailService) {
         this.addresService = addresService;
         this.requestForAccountDeletingService = requestForAccountDeletingService;
         this.subscriptionService = subscriptionService;
-        this.houseReservationService = houseReservationService;
-        this.boatReservationService = boatReservationService;
         this.emailService = emailService;
     }
 
@@ -145,8 +141,7 @@ public class MyUserService implements UserDetailsService {
     	return this.myUserRepository.findAll();
     }
     
-    public boolean deleteUser(Long id) {
-    	MyUser user = this.findUserById(id);
+    public boolean deleteUser(MyUser user) {
     	user.setDeleted(true);
     	this.save(user);
     	return true;

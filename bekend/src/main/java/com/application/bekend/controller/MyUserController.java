@@ -27,19 +27,25 @@ public class MyUserController {
 
     private final MyUserService myUserService;
     private final ModelMapper modelMapper;
-    private final HouseService houseService;
-    private final AppealService appealService;
     private final CancelReservationService cancelReservationService;
     private final FishingInstructorService fishingInstructorService;
+    private final HouseReservationService houseReservationService;
+    private final BoatReservationService boatReservationService;
+    private final FishingAdventureReservationService fishingAdventureRservationService;
+    private final RequestForAccountDeletingService requestForAccountDeletingService;
 
     @Autowired
-    public MyUserController(MyUserService myUserService, ModelMapper modelMapper, HouseService houseService, AppealService appealService, CancelReservationService cancelReservationService, FishingInstructorService fishingInstructorService) {
+    public MyUserController(MyUserService myUserService, ModelMapper modelMapper, CancelReservationService cancelReservationService, FishingInstructorService fishingInstructorService,HouseReservationService houseReservationService,
+            BoatReservationService boatReservationService, FishingAdventureReservationService fishingAdventureReservationService,
+            RequestForAccountDeletingService requestForAccountDeletingService) {
         this.myUserService = myUserService;
         this.modelMapper = modelMapper;
-        this.houseService = houseService;
-        this.appealService = appealService;
         this.cancelReservationService = cancelReservationService;
         this.fishingInstructorService = fishingInstructorService;
+        this.houseReservationService = houseReservationService;
+        this.boatReservationService = boatReservationService;
+        this.fishingAdventureRservationService = fishingAdventureReservationService;
+        this.requestForAccountDeletingService = requestForAccountDeletingService;
     }
 
     @GetMapping("/findUserByEmail/{email}")
@@ -228,12 +234,59 @@ public class MyUserController {
     
     @PutMapping("/delete")
     public ResponseEntity<Boolean> deleteUser(@RequestBody Long id) {
-    	boolean isDeleted = this.myUserService.deleteUser(id);
+    	MyUser user = this.myUserService.findUserById(id);
+    	if(!user.getAuthority().getName().equals("ROLE_USER")) {
+    		if (!(this.fishingAdventureRservationService.getAdventureReservationsByInstructorId(id).size() == 0)) {
+    			return new ResponseEntity<>(false, HttpStatus.FORBIDDEN);
+    		}
+    		if (!(this.boatReservationService.getBoatReservationByBoatOwnerId(id).size() == 0)) {
+    			return new ResponseEntity<>(false, HttpStatus.FORBIDDEN);
+    		}
+    		if (!(this.houseReservationService.getHouseReservationByHouseOwnerId(id).size() == 0)) {
+    			return new ResponseEntity<>(false, HttpStatus.FORBIDDEN);
+    		}
+    	} else if(user.getAuthority().getName().equals("ROLE_USER")) {
+    		if (!(this.fishingAdventureRservationService.getAdventureReservationsByGuestId(id).size() == 0)) {
+    			return new ResponseEntity<>(false, HttpStatus.FORBIDDEN);
+    		}
+    		if (!(this.boatReservationService.getBoatReservationsByGuestId(id).size() == 0)) {
+    			return new ResponseEntity<>(false, HttpStatus.FORBIDDEN);
+    		}
+    		if (!(this.houseReservationService.getHouseReservationsByGuestId(id).size() == 0)) {
+    			return new ResponseEntity<>(false, HttpStatus.FORBIDDEN);
+    		}
+    	}
+    	
+    	boolean isDeleted = this.myUserService.deleteUser(user);
         return new ResponseEntity<>(isDeleted, HttpStatus.OK);
     }
     
     @PutMapping("/deleteUserWithRequest/{id}")
     public ResponseEntity<Boolean> deleteUserWithRequest(@PathVariable("id") Long id, @RequestBody AdminAnswerDTO adminAnswer) throws MessagingException{
+    	RequestForAccountDeleting request = this.requestForAccountDeletingService.findById(id);
+    	MyUser user = this.myUserService.findUserById(request.getUser().getId());
+    	if(!user.getAuthority().getName().equals("ROLE_USER")) {
+    		if (!(this.fishingAdventureRservationService.getAdventureReservationsByInstructorId(id).size() == 0)) {
+    			return new ResponseEntity<>(false, HttpStatus.FORBIDDEN);
+    		}
+    		if (!(this.boatReservationService.getBoatReservationByBoatOwnerId(id).size() == 0)) {
+    			return new ResponseEntity<>(false, HttpStatus.FORBIDDEN);
+    		}
+    		if (!(this.houseReservationService.getHouseReservationByHouseOwnerId(id).size() == 0)) {
+    			return new ResponseEntity<>(false, HttpStatus.FORBIDDEN);
+    		}
+    	} else if(user.getAuthority().getName().equals("ROLE_USER")) {
+    		if (!(this.fishingAdventureRservationService.getAdventureReservationsByGuestId(id).size() == 0)) {
+    			return new ResponseEntity<>(false, HttpStatus.FORBIDDEN);
+    		}
+    		if (!(this.boatReservationService.getBoatReservationsByGuestId(id).size() == 0)) {
+    			return new ResponseEntity<>(false, HttpStatus.FORBIDDEN);
+    		}
+    		if (!(this.houseReservationService.getHouseReservationsByGuestId(id).size() == 0)) {
+    			return new ResponseEntity<>(false, HttpStatus.FORBIDDEN);
+    		}
+    	}
+    	
     	boolean isDeleted = this.myUserService.deleteUserWithRequest(id, adminAnswer.getClientResponse());
         return new ResponseEntity<>(isDeleted, HttpStatus.OK);
     }

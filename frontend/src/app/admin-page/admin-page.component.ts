@@ -180,26 +180,34 @@ export class AdminPageComponent implements OnInit {
           (user: MyUser) => {
             if(user.authority == 'ROLE_INSTRUCTOR'){
               this._adventureService.deleteAllAdventuresByInstructor(user.id).subscribe(
+                (ok: Boolean) => {
+                  window.location.reload();
+                },
                 (error) => {
-                  this._alertService.danger('Neuspešno brisanje avantura!')
-                }
-              )
-            } else if(user.authority == 'ROLE_BOAT_OWNER'){
-              this._houseService.deleteAllHousesByOwner(user.id).subscribe(
-                (error) => {
-                  this._alertService.danger('Neuspešno brisanje kuća!')
+                  this._alertService.danger('Neuspesno obrisane avanture korisnika!')
                 }
               )
             } else if(user.authority == 'ROLE_HOUSE_OWNER'){
-              this._boatService.deleteAllBoatsByOwner(user.id).subscribe(
+              this._houseService.deleteAllHousesByOwner(user.id).subscribe(
+                (ok: Boolean) => {
+                  window.location.reload();
+                },
                 (error) => {
-                  this._alertService.danger('Neuspešno brisanje brodova!')
+                  this._alertService.danger('Neuspesno obrisane kuce korisnika!')
+                }
+              )
+            } else if(user.authority == 'ROLE_BOAT_OWNER'){
+              this._boatService.deleteAllBoatsByOwner(user.id).subscribe(
+                (ok: Boolean) => {
+                  window.location.reload();
+                },
+                (error) => {
+                  this._alertService.danger('Neuspesno obrisani brodovi korisnika!')
                 }
               )
             }
           }
         )
-        this._router.navigate([]);
       },
       (error) => {
         this._alertService.danger('Neuspešno brisanje korisnika!')

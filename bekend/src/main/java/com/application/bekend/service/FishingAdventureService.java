@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -36,8 +37,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.application.bekend.model.FishingAdventure;
 import com.application.bekend.repository.FishingAdventureRepository;
 import com.application.bekend.model.House;
+import com.application.bekend.model.HouseReservation;
 import com.application.bekend.model.Image;
 import com.application.bekend.model.MyUser;
+import com.application.bekend.model.Report;
+import com.application.bekend.model.Room;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -53,16 +57,21 @@ public class FishingAdventureService {
     private final AdditionalServicesService additionalServicesService;
     private final ModelMapper modelMapper;
     private final MyUserService myUserService;
+    private final ReportService reportService;
+    private final ImageService imageService;
 
     @Autowired
     public FishingAdventureService(FishingAdventureRepository fishingAdventureRepository, AddresService addressService, AdditionalServicesService additionalServicesService,
-    		FishingAdventureReservationService fishingAdventureReservationService, ModelMapper modelMapper, MyUserService myUserService) {
+    		FishingAdventureReservationService fishingAdventureReservationService, ModelMapper modelMapper, MyUserService myUserService,
+    		ReportService reportService, ImageService imageService) {
         this.fishingAdventureRepository = fishingAdventureRepository;
         this.addressService = addressService;
         this.additionalServicesService = additionalServicesService;
         this.fishingAdventureReservationService = fishingAdventureReservationService; 
         this.modelMapper = modelMapper;
         this.myUserService = myUserService;
+        this.reportService = reportService;
+        this.imageService = imageService;
     }
 
     public FishingAdventure getFishingAdventureById(Long id){ return fishingAdventureRepository.getFishingAdventureById(id); }
@@ -79,11 +88,77 @@ public class FishingAdventureService {
     	return new FishingAdventureInstructorInfoDTO(instructor.getId(), instructor.getFirstName(), instructor.getLastName(),instructor.getPhoneNumber(),instructor.getEmail(),instructor.getPersonalDescription());
     }
 
-	public void delete(Long id) {
+	public boolean delete(Long id) {
 		// TODO Auto-generated method stub
 		FishingAdventure fishingAdventure = this.getFishingAdventureById(id);
-		fishingAdventure.setDeleted(true);
-		this.save(fishingAdventure);
+
+        // ako postoji rezervacija u vikendici, ona se ne moze obrisati
+        for (AdventureReservation r: fishingAdventure.getAdventureReservations()) {
+            Long endDate = r.getEndDate().getTime();
+            Calendar date = Calendar.getInstance();
+            long millisecondsDate = date.getTimeInMillis();
+
+            if (!r.isAvailable() && !r.isAvailabilityPeriod() && endDate >= millisecondsDate) {
+                return false;
+            }
+        }
+
+        fishingAdventure.setAddress(null);
+        fishingAdventure.setInstructor(null);
+        this.save(fishingAdventure);
+
+        for (Image i: fishingAdventure.getImages()) {
+            Image image = this.imageService.getImageById(i.getId());
+            image.setFishingAdventure(null);
+            this.imageService.delete(image.getId());
+        }
+
+        fishingAdventure.setImages(null);
+        this.save(fishingAdventure);
+
+        // rezervacije
+        for (AdventureReservation r: fishingAdventure.getAdventureReservations()) {
+            AdventureReservation adventureReservation = this.fishingAdventureReservationService.getFishingAdventureReservationById(r.getId());
+
+            Report report = this.reportService.getReportByAdventureReservationId(r.getId());
+            if(report != null) {
+                this.reportService.delete(report.getId());
+            }
+
+            Set<AdditionalServices> additionalServices =  adventureReservation.getAdditionalServices();
+            for(AdditionalServices a: additionalServices){
+                a.getHouseReservationsServices().remove(adventureReservation);
+                this.additionalServicesService.save(a);
+            }
+
+            adventureReservation.setGuest(null);
+            adventureReservation.setFishingAdventure(null);
+            adventureReservation = this.fishingAdventureReservationService.save(adventureReservation);
+
+            this.fishingAdventureReservationService.delete(adventureReservation.getId());
+        }
+
+        fishingAdventure.setAdventureReservations(null);
+        this.save(fishingAdventure);
+
+        // dodatne usluge
+        for (AdditionalServices a: fishingAdventure.getServices()) {
+            AdditionalServices additionalServices = this.additionalServicesService.getAdditionalServicesById(a.getId());
+            additionalServices.setHouses(null);
+            additionalServices.setHouseReservationsServices(null);
+            additionalServices.setBoats(null);
+            additionalServices.setBoatReservationsServices(null);
+            this.additionalServicesService.deleteById(a.getId());
+        }
+
+        fishingAdventure.setServices(null);
+        fishingAdventure = this.save(fishingAdventure);
+        this.fishingAdventureRepository.deleteById(fishingAdventure.getId());
+
+        return true;
+		
+		//fishingAdventure.setDeleted(true);
+		//this.save(fishingAdventure);
 	}
 	
 	public boolean saveReservation(AdventureReservationDTO adventureReservationDTO) throws MessagingException {
@@ -222,8 +297,8 @@ public class FishingAdventureService {
         if(!this.fishingAdventureReservationService.canAdventureBeChanged(id)) {
         	return false;
         }
-        this.delete(id);
-        return true;
+        
+        return this.delete(id);
     }
 	
 	public void saveAdditionalService(AdditionalServicesDTO dto) {
@@ -265,6 +340,14 @@ public class FishingAdventureService {
 
 	public boolean deleteAllAdventuresByInstructor(Long id) {
 		// TODO Auto-generated method stub
-		return false;
+		List<FishingAdventure> allAdventures = this.getFishingAdventuresByInstructor(id);
+		
+		for(FishingAdventure a : allAdventures) {
+			if(!this.delete(a.getId())) {
+				return false;
+			}
+		}
+		
+		return true;
 	}
 }
