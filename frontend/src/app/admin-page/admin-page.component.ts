@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { AlertService } from 'ngx-alerts';
 import { AuthentificationService } from '../auth/authentification/authentification.service';
 import { ClientProfileComponent } from '../clientHome/dialog/client-profile/client-profile.component';
@@ -52,7 +53,7 @@ export class AdminPageComponent implements OnInit {
 
   constructor(public dialog: MatDialog, private _myUserService: MyUserService, private _reportService: ReportService, private _feedbackService: FeedbackService, 
     private _authentificationService: AuthentificationService, private _appealService: AppealService, private _alertService: AlertService, private _adventureService: AdventureProfileService,
-          private _houseService: HouseService, private _boatService: BoatService) { }
+          private _houseService: HouseService, private _boatService: BoatService, private _router: Router) { }
 
   ngOnInit() {
     this.loadData();
@@ -83,6 +84,14 @@ export class AdminPageComponent implements OnInit {
   }
 
   loadData() { // ucitavanje iz baze
+    this.reviewedReports = [];
+    this.notReviewedReports = [];
+    this.approvedFeedbacks = [];
+    this.notApprovedFeedbacks = [];
+    this.answeredAppeals = [];
+    this.unansweredAppeals = [];
+    this.answeredDeleteRequests = [];
+    this.unansweredDeleteRequests = [];
     this._authentificationService.getUserByEmail().subscribe(
       (user: MyUser) => {
         this.admin = user;
@@ -190,7 +199,7 @@ export class AdminPageComponent implements OnInit {
             }
           }
         )
-        this.loadData();
+        this._router.navigate([]);
       },
       (error) => {
         this._alertService.danger('Neuspešno brisanje korisnika!')
@@ -206,7 +215,7 @@ export class AdminPageComponent implements OnInit {
     });
     dialogRef.componentInstance.userId = id;
     dialogRef.afterClosed().subscribe(result => {
-      this.loadData();
+      this._router.navigate([]);
     });
   }
 
@@ -220,7 +229,7 @@ export class AdminPageComponent implements OnInit {
     dialogRef.componentInstance.answer.guestId = guestId;
     dialogRef.componentInstance.appealId = appealId;
     dialogRef.afterClosed().subscribe(result => {
-      this.loadData();
+      this._router.navigate([]);
     });
   }
 
@@ -241,7 +250,7 @@ export class AdminPageComponent implements OnInit {
   deleteFeedback(id: number){
     this._feedbackService.delete(id).subscribe(
       (ok: Boolean) => {
-        this.loadData();
+        this._router.navigate([]);
       },
       (error) => {
         this._alertService.danger('Neuspešno brisanje komentara!')
@@ -252,7 +261,7 @@ export class AdminPageComponent implements OnInit {
   approveFeedback(feedback: FeedbackInfo){
     this._feedbackService.approveFeedback(feedback).subscribe(
       (ok: Boolean) => {
-        this.loadData();
+        this._router.navigate([]);
       },
       (error) => {
         this._alertService.danger("Došlo je do greške pri odobravanju!")
@@ -263,7 +272,7 @@ export class AdminPageComponent implements OnInit {
   activateNewUser(id: number){
     this._myUserService.activateNewUser(id).subscribe(
       (ok: Boolean) => {
-        this.loadData();
+        this._router.navigate([]);
       },
       (error) => {
         this._alertService.danger("Došlo je do greške pri aktiviranju korisnika!")

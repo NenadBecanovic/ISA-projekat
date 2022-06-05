@@ -343,6 +343,7 @@ public class FishingAdventureReservationService {
 	            adventureReservationDTO.setAvailabilityPeriod(a.isAvailabilityPeriod());
 	            adventureReservationDTO.setIsAction(a.isAction());
                 adventureReservationDTO.setCancelled(a.getCancelled());
+                adventureReservationDTO.setHasReport(a.isHasReport());
 	            if (a.getGuest() != null) {
 	            	adventureReservationDTO.setGuestId(a.getGuest().getId());
 	            	MyUser user = this.myUserService.findUserById(a.getGuest().getId());

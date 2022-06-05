@@ -51,10 +51,6 @@ export class AdventureProfileComponent implements OnInit {
     this.loadData();
   }
 
-  showMap(){
-    alert("MAPA");
-  }
-
   addActionDialog(){
     const dialogRef = this.dialog.open(AddFishingAdventureActionDialogComponent, {
       width: '500px',
@@ -111,7 +107,7 @@ export class AdventureProfileComponent implements OnInit {
         this.fishingAdventure = fishingAdventure
         this.address = this.fishingAdventure.address;
 
-        this._adventureService.getFishingAdventureInstructor(this.fishingAdventure.instructorId).subscribe(
+        this._adventureService.getFishingAdventureInstructor(this.fishingAdventure.id).subscribe(
           (instructor: FishingAdventureInstructorDTO) => {
             this.instructor = instructor
           }
@@ -184,8 +180,8 @@ export class AdventureProfileComponent implements OnInit {
   deleteAction(id: number){
     this._adventureReservationService.delete(id).subscribe(
       (deleted: Boolean) => {
-        //window.location.reload();
-        this.loadData();
+        window.location.reload();
+        //this.loadData();
       }
     )
   }
@@ -193,7 +189,7 @@ export class AdventureProfileComponent implements OnInit {
   deleteAdventure(){
     this._adventureService.delete(this.adventureId).subscribe(
       (deleted: Boolean) => {
-        this._router.navigate(['/fishing-instructor/'+this.instructor.id]);
+        this._router.navigate(['/fishing-instructor']);
       },
       (error) => {
         this._alertService.warning('Ne može se obrisati avantura jer postoje rezervacije za nju!');
